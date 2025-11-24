@@ -25,33 +25,39 @@ jobs:
       checks: write
 
     steps:
+      # 1️⃣ Checkout Main Project
       - name: Checkout Main Repository
         uses: actions/checkout@v6
 
+      # 2️⃣ Checkout Workflow Repository
       - name: Checkout Workflow Repository
         uses: actions/checkout@v6
         with:
-          repository: AhmedHassan1/Full-Test-Case   # <== عدّل اسم الحساب إذا لزم
-          path: workflow-project
+          repository: teamtester60-code/Full-Test-Case
+          path: FirstProjectFERP   # اسم المجلد داخل الـ runner
 
+      # 3️⃣ Setup Java
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # 4️⃣ Setup Maven
       - name: Setup Maven
         uses: stCarolas/setup-maven@v5
         with:
           maven-version: 3.9.9
 
+      # 5️⃣ Run Tests
       - name: Run Workflow Automation
-        working-directory: workflow-project
+        working-directory: FirstProjectFERP
         continue-on-error: false
         run: mvn -Dtest="${TARGET}" -DexecutionType="LocalHeadless" -DbrowserType="${{ matrix.browser }}" clean test
 
+      # 6️⃣ Upload Test Results
       - name: Upload Test Results
         uses: actions/upload-artifact@v5
         with:
           name: ${{ matrix.browser }}_${{ matrix.os }}_Report
-          path: "C:\Users\pc\IdeaProjects\FirstProjectFERP\test-output\reports/*.html"
+          path: FirstProjectFERP/test-output/reports/*.html
