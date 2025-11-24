@@ -53,7 +53,7 @@ jobs:
       - name: Run Workflow Automation
         working-directory: FirstProjectFERP
         continue-on-error: false
-        run: mvn -Dtest="${TARGET}" -DexecutionType="LocalHeadless" -DbrowserType="${{ matrix.browser }}" clean test
+        run: mvn clean test -Dsurefire.failIfNoSpecifiedTests=false -DbrowserType="${{ matrix.browser }}"
 
       # 6️⃣ Upload Test Results
       - name: Upload Test Results
