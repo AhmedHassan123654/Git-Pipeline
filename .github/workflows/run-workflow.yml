@@ -1,0 +1,57 @@
+name: Run Workflow Automation
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+env:
+  TARGET: "com.ferpfirstcode.tests.**"
+
+jobs:
+  workflow-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        browser: [Chrome, Edge]
+
+    permissions:
+      checks: write
+
+    steps:
+      - name: Checkout Main Repository
+        uses: actions/checkout@v6
+
+      - name: Checkout Workflow Repository
+        uses: actions/checkout@v6
+        with:
+          repository: AhmedHassan1/Full-Test-Case   # <== عدّل اسم الحساب إذا لزم
+          path: workflow-project
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.9
+
+      - name: Run Workflow Automation
+        working-directory: workflow-project
+        continue-on-error: false
+        run: mvn -Dtest="${TARGET}" -DexecutionType="LocalHeadless" -DbrowserType="${{ matrix.browser }}" clean test
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v5
+        with:
+          name: ${{ matrix.browser }}_${{ matrix.os }}_Report
+          path: "C:\Users\pc\IdeaProjects\FirstProjectFERP\test-output\reports/*.html"
