@@ -59,13 +59,13 @@ jobs:
             # 7️⃣ تشغيل Frontend (Angular)
       - name: Run Frontend
         run: |
-              cd POS-19-10-2025/POS-Front-19-10-2025
-              npm install
-              echo "تشغيل Frontend على http://0.0.0.0:4200"
-              nohup npx ng serve --host 0.0.0.0 --port 4200 > frontend.log 2>&1 &
-          
-          
-
+          cd POS-19-10-2025/POS-Front-19-10-2025
+          npm install --legacy-peer-deps
+          nohup npx ng serve --host 0.0.0.0 --port 4200 > frontend.log 2>&1 &
+      
+      
+      
+      
 
       # 6️⃣ تحميل مشروع B (Regression Tests)
       - name: Checkout Project B
