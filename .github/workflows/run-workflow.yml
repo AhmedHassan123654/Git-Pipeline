@@ -1,39 +1,42 @@
 name: E2E Regression Test
 
-# يشغل هذا الـ workflow عند أي push على main
 on:
   push:
     branches:
-      - main
+      - main  # عند أي push على فرع main
 
 jobs:
   regression-tests:
     runs-on: ubuntu-latest
 
     steps:
-      # خطوة للحصول على الكود من المستودع
+      # 1️⃣ Checkout مشروعك (A)
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      # تثبيت الأدوات الأساسية
+      # 2️⃣ تثبيت أدوات النظام الأساسية
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb google-chrome-stable
+          sudo apt-get install -y wget unzip curl xvfb git
 
-      # تثبيت ChromeDriver مطابق للنسخة الحالية من Chrome
-      - name: Install ChromeDriver
+      # 3️⃣ تثبيت Chrome نسخة ثابتة (114)
+      - name: Install Google Chrome 114
         run: |
-          CHROME_MAJOR=$(google-chrome --version | grep -oP '\d+' | head -1)
-          echo "Chrome major version: $CHROME_MAJOR"
-          LATEST_DRIVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR")
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb
+          sudo apt install -y ./google-chrome-stable_114.0.5735.198-1_amd64.deb
+
+      # 4️⃣ تثبيت ChromeDriver المطابق
+      - name: Install ChromeDriver 114
+        run: |
+          CHROME_VERSION=114
+          LATEST_DRIVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
           echo "ChromeDriver version: $LATEST_DRIVER"
           wget -q "https://chromedriver.storage.googleapis.com/$LATEST_DRIVER/chromedriver_linux64.zip" -O chromedriver.zip
           unzip chromedriver.zip -d /usr/local/bin/
           chmod +x /usr/local/bin/chromedriver
 
-
-# تثبيت Maven
+      # 5️⃣ تثبيت Maven و Java
       - name: Set up Maven
         uses: actions/setup-java@v5
         with:
@@ -41,11 +44,11 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      # تشغيل اختبارات Regression
+      # 6️⃣ تشغيل اختبارات Regression
       - name: Run Regression Tests
         run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
 
-      # حفظ تقارير الاختبارات
+      # 7️⃣ رفع تقارير الاختبارات
       - name: Upload test reports
         uses: actions/upload-artifact@v5
         with:
