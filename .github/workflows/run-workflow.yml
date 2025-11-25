@@ -3,23 +3,33 @@ name: E2E Regression Test
 on:
   push:
     branches:
-      - main
+      - main   # تشغيل الاختبارات عند أي push على مشروع A (الأساسي)
 
 jobs:
   regression-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+
+      # 1️⃣ سحب كود مشروع A
+      - name: Checkout project A
         uses: actions/checkout@v4
 
-      # تثبيت Chrome LTS 128
+      # 2️⃣ تثبيت الأدوات الأساسية
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip curl xvfb git
+
+      # 3️⃣ تثبيت Chrome 128 (نسخة LTS مستقرة لجميع السيرفرات)
       - name: Install Chrome 128 LTS
         run: |
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_128.0.6613.137-1_amd64.deb
-          sudo apt install -y ./google-chrome-stable_128.0.6613.137-1_amd64.deb
+          wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chrome-linux64.zip
+          unzip chrome-linux64.zip
+          sudo mv chrome-linux64 /usr/local/share/chrome-128
+          sudo ln -s /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
 
-      # تثبيت ChromeDriver 128 المتوافق
+      # 4️⃣ تثبيت ChromeDriver 128 المتوافق
       - name: Install ChromeDriver 128
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
@@ -27,21 +37,29 @@ jobs:
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-      # تثبيت Java/Maven
-      - name: Set up Java & Maven
-        uses: actions/setup-java@v4
+      # 5️⃣ تثبيت Java + Maven
+      - name: Set up Maven
+        uses: actions/setup-java@v5
         with:
-          distribution: "temurin"
-          java-version: "17"
-          cache: "maven"
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
 
-      # تشغيل الاختبارات
-      - name: Run Regression Tests
+      # 6️⃣ تحميل مشروع B (Regression Tests)
+      - name: Checkout Project B
+        run: |
+          git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
+          cd projectB
+          git checkout main
+
+      # 7️⃣ تشغيل الاختبارات
+      - name: Run Regression Tests (project B)
+        working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
 
-      # رفع تقارير الاختبارات
+      # 8️⃣ رفع التقرير كأرتيفاكت
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
-          path: test-output/reports/**/*.html
+          path: projectB/test-output/reports/**/*.html
