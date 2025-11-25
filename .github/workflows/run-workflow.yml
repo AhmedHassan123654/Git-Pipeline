@@ -27,15 +27,18 @@ jobs:
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chrome-linux64.zip
           unzip chrome-linux64.zip
           sudo mv chrome-linux64 /usr/local/share/chrome-128
+          sudo rm -f /usr/bin/google-chrome
           sudo ln -s /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
 
-      # 4️⃣ تثبيت ChromeDriver 128 المتوافق
+
+
+# 4️⃣ تثبيت ChromeDriver 128 المتوافق
       - name: Install ChromeDriver 128
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
+            sudo chmod +x /usr/local/bin/chromedriver
 
       # 5️⃣ تثبيت Java + Maven
       - name: Set up Maven
