@@ -50,15 +50,31 @@ jobs:
 
       - name: Build & Run Backend
         run: |
-              cd POS-BackPublish
-              mvn clean install
-              start cmd /k "mvn spring-boot:run"
-
+            echo "🔍 Listing project files..."
+            ls -R
+            
+            if [ -d "POS-19-10-2025/POS-BackPublish" ]; then
+            cd POS-19-10-2025/POS-BackPublish
+            mvn clean install
+            echo "🚀 Starting Backend..."
+            nohup mvn spring-boot:run > backend.log 2>&1 &
+            else
+            echo "❌ Backend folder not found!"
+            exit 1
+            fi
+            
+            # 7️⃣ تشغيل الفرونت إند Angular
       - name: Build & Run Frontend
         run: |
-          cd POS-Front-19-10-2025
-          npm install
-          start cmd /k "ng serve --host 0.0.0.0 --port 4200"
+                if [ -d "POS-19-10-2025/POS-Front-19-10-2025" ]; then
+                  cd POS-19-10-2025/POS-Front-19-10-2025
+                  npm install
+                  echo "🚀 Starting Angular frontend..."
+                  nohup npx ng serve --host 0.0.0.0 --port 4200 > frontend.log 2>&1 &
+                else
+                  echo "❌ Frontend folder not found!"
+                  exit 1
+                fi
 
       # 6️⃣ تحميل مشروع B (Regression Tests)
       - name: Checkout Project B
