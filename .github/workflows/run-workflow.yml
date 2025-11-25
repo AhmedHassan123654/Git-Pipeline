@@ -1,68 +1,59 @@
-name: E2E Regression Test
+name: E2E Regression Test on Windows
 
 on:
   push:
     branches:
-      - main   # تشغيل الاختبارات عند أي push على مشروع A (الأساسي)
+      - main
 
 jobs:
   regression-tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest   # هنا نستخدم Windows runner
 
     steps:
+      # 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
-      # 1️⃣ سحب كود مشروع A
-      - name: Checkout project A
-        uses: actions/checkout@v4
-
-      # 2️⃣ تثبيت الأدوات الأساسية
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git
-
-      # 3️⃣ تثبيت Chrome 128 (نسخة LTS مستقرة لجميع السيرفرات)
-      - name: Install Chrome 128 LTS
-        run: |
-          wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chrome-linux64.zip
-          unzip chrome-linux64.zip
-          sudo mv chrome-linux64 /usr/local/share/chrome-128
-          sudo rm -f /usr/bin/google-chrome
-          sudo ln -s /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
-
-
-
-# 4️⃣ تثبيت ChromeDriver 128 المتوافق
-      - name: Install ChromeDriver 128
-        run: |
-          wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
-          unzip chromedriver-linux64.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-            sudo chmod +x /usr/local/bin/chromedriver
-
-      # 5️⃣ تثبيت Java + Maven
-      - name: Set up Maven
+      # 2. Setup Java (لـ Maven / Spring Boot)
+      - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
 
-      # 6️⃣ تحميل مشروع B (Regression Tests)
-      - name: Checkout Project B
+      # 3. Install Chrome
+      - name: Install Chrome
         run: |
-          git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
-          cd projectB
-          git checkout main
+          choco install googlechrome -y
 
-      # 7️⃣ تشغيل الاختبارات
-      - name: Run Regression Tests (project B)
-        working-directory: projectB
-        run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
+      # 4. Install ChromeDriver
+      - name: Install ChromeDriver
+        run: |
+          $chromeVersion = (Get-Item "C:\Program Files\Google\Chrome\Application\chrome.exe").VersionInfo.ProductVersion.Split(".")[0]
+          Write-Host "Chrome major version: $chromeVersion"
+          $latestDriver = Invoke-RestMethod "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$chromeVersion"
+          Write-Host "ChromeDriver version: $latestDriver"
+          Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/$latestDriver/chromedriver_win32.zip" -OutFile "chromedriver.zip"
+          Expand-Archive chromedriver.zip -DestinationPath "C:\chromedriver"
+          setx PATH "$env:PATH;C:\chromedriver"
 
-      # 8️⃣ رفع التقرير كأرتيفاكت
-      - name: Upload test reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: projectB/test-output/reports/**/*.html
+      # 5. Run Backend (Spring Boot)
+      - name: Build & Run Backend
+        run: |
+          cd POS-BackPublish
+          mvn clean install
+          start cmd /k "mvn spring-boot:run"
+
+      # 6. Run Frontend (Angular)
+      - name: Build & Run Frontend
+        run: |
+          cd POS-Front-19-10-2025
+          npm install
+          start cmd /k "ng serve --host 0.0.0.0 --port 4200"
+
+      # 7. Run Selenium Tests
+      - name: Run Regression Tests
+        run: |
+          cd POS-BackPublish
+          mvn test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
