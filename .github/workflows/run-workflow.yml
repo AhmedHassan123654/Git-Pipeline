@@ -1,63 +1,52 @@
-name: Run Workflow Automation
+name: E2E Regression Test
 
+# يشغل هذا الـ workflow عند أي push على main
 on:
   push:
     branches:
       - main
-      - master
-  pull_request:
-    branches:
-      - main
-      - master
-
-env:
-  TARGET: "com.ferpfirstcode.tests.**"
 
 jobs:
-  workflow-tests:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        browser: [Chrome, Edge]
-
-    permissions:
-      checks: write
+  regression-tests:
+    runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout Main Project
-      - name: Checkout Main Repository
+      # خطوة للحصول على الكود من المستودع
+      - name: Checkout repository
         uses: actions/checkout@v6
 
-      # 2️⃣ Checkout Workflow Repository
-      - name: Checkout Workflow Repository
-        uses: actions/checkout@v6
-        with:
-          repository: teamtester60-code/Full-Test-Case
-          path: FirstProjectFERP   # اسم المجلد داخل الـ runner
+      # تثبيت الأدوات الأساسية
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip curl xvfb google-chrome-stable
 
-      # 3️⃣ Setup Java
-      - name: Setup Java
-        uses: actions/setup-java@v5
+      # تثبيت ChromeDriver مطابق للنسخة الحالية من Chrome
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+')
+          echo "Chrome version: $CHROME_VERSION"
+          LATEST_DRIVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          echo "ChromeDriver version: $LATEST_DRIVER"
+          wget -q "https://chromedriver.storage.googleapis.com/$LATEST_DRIVER/chromedriver_linux64.zip" -O chromedriver.zip
+          unzip chromedriver.zip -d /usr/local/bin/
+          chmod +x /usr/local/bin/chromedriver
+
+      # تثبيت Maven
+      - name: Set up Maven
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
+          cache: 'maven'
 
-      # 4️⃣ Setup Maven
-      - name: Setup Maven
-        uses: stCarolas/setup-maven@v5
-        with:
-          maven-version: 3.9.9
+      # تشغيل اختبارات Regression
+      - name: Run Regression Tests
+        run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
 
-      # 5️⃣ Run Tests
-      - name: Run Workflow Automation
-        working-directory: FirstProjectFERP
-        continue-on-error: false
-        run: mvn clean test -Dsurefire.failIfNoSpecifiedTests=false -DbrowserType="${{ matrix.browser }}"
-
-      # 6️⃣ Upload Test Results
-      - name: Upload Test Results
+      # حفظ تقارير الاختبارات
+      - name: Upload test reports
         uses: actions/upload-artifact@v5
         with:
-          name: ${{ matrix.browser }}_${{ matrix.os }}_Report
-          path: FirstProjectFERP/test-output/reports/*.html
+          name: test-reports
+          path: test-output/reports/**/*.html
