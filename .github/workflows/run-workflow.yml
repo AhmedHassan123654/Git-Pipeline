@@ -3,54 +3,45 @@ name: E2E Regression Test
 on:
   push:
     branches:
-      - main  # عند أي push على فرع main
+      - main
 
 jobs:
   regression-tests:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout مشروعك (A)
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      # 2️⃣ تثبيت أدوات النظام الأساسية
-      - name: Install dependencies
+      # تثبيت Chrome LTS 128
+      - name: Install Chrome 128 LTS
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_128.0.6613.137-1_amd64.deb
+          sudo apt install -y ./google-chrome-stable_128.0.6613.137-1_amd64.deb
 
-      # 3️⃣ تثبيت Chrome نسخة ثابتة (114)
-      - name: Install Google Chrome 114
+      # تثبيت ChromeDriver 128 المتوافق
+      - name: Install ChromeDriver 128
         run: |
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb
-          sudo apt install -y ./google-chrome-stable_114.0.5735.198-1_amd64.deb
+          wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
 
-      # 4️⃣ تثبيت ChromeDriver المطابق
-      - name: Install ChromeDriver 114
-        run: |
-          CHROME_VERSION=114
-          LATEST_DRIVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-          echo "ChromeDriver version: $LATEST_DRIVER"
-          wget -q "https://chromedriver.storage.googleapis.com/$LATEST_DRIVER/chromedriver_linux64.zip" -O chromedriver.zip
-          unzip chromedriver.zip -d /usr/local/bin/
-          chmod +x /usr/local/bin/chromedriver
-
-      # 5️⃣ تثبيت Maven و Java
-      - name: Set up Maven
-        uses: actions/setup-java@v5
+      # تثبيت Java/Maven
+      - name: Set up Java & Maven
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+          distribution: "temurin"
+          java-version: "17"
+          cache: "maven"
 
-      # 6️⃣ تشغيل اختبارات Regression
+      # تشغيل الاختبارات
       - name: Run Regression Tests
         run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
 
-      # 7️⃣ رفع تقارير الاختبارات
+      # رفع تقارير الاختبارات
       - name: Upload test reports
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: test-reports
           path: test-output/reports/**/*.html
