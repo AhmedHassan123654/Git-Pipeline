@@ -53,38 +53,30 @@ jobs:
       - name: Run Backend
         run: |
           cd POS-19-10-2025/POS-BackPublish
-          echo "تشغيل Backend على http://localhost:56740"
+          echo "Running Backend on http://0.0.0.0:56740"
           nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
-
-      - name: Wait for Backend
-        run: |
-          echo "انتظار Backend على بورت 56740..."
           for i in {1..60}; do
             if nc -z localhost 56740; then
-              echo "Backend جاهز!"
-              break
-              fi
-              sleep 2
-              done
-          
-          
-
-      - name: Run Frontend
-        run: |
-          cd POS-19-10-2025/POS-Front-19-10-2025
-          npm install --legacy-peer-deps
-          nohup npx ng serve --host 0.0.0.0 --port 4200 > frontend.log 2>&1 &
-
-      - name: Wait for Frontend
-        run: |
-          echo "انتظار Frontend على http://localhost:4200 ..."
-          for i in {1..60}; do
-            if nc -z localhost 4200; then
-              echo "Frontend جاهز!"
+              echo "Backend ready!"
               break
             fi
             sleep 2
           done
+
+      - name: Run Frontend
+        run: |
+          cd POS-19-10-2025/POS-Front-19-10-2025
+          npm install
+          nohup npm start > frontend.log 2>&1 &
+          for i in {1..60}; do
+            if curl -s http://localhost:4200/login >/dev/null; then
+              echo "Frontend ready!"
+              break
+            fi
+            sleep 2
+          done
+      
+      
       
       
       
