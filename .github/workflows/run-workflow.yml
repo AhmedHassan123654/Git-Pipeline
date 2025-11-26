@@ -68,15 +68,20 @@ jobs:
           # حذف الملفات القديمة لضمان تثبيت نظيف
           rm -rf node_modules package-lock.json
 
-          # تعديل ملف package.json لإزالة الحزمة المسببة للمشكلة
+          # إزالة الحزم القديمة وغير المتوافقة
+          npm uninstall ngx-loading-bar
           sed -i '/@material-extended\/mde/d' package.json
 
-          # تثبيت الإصدارات الصحيحة التي عثرنا عليها
+          # تثبيت الإصدارات الصحيحة والمتوافقة مع Angular 12
           npm install @coreui/angular@2.12.0 --save-exact
           npm install @auth0/angular-jwt@5.0.2 --save-exact
 
-          # تثبيت كل شيء مع تجاهل التعارضات المتبقية
-          npm install --legacy-peer-deps
+          # تثبيت البديل الحديث لـ ngx-loading-bar بالإصدار المتوافق
+          npm install @ngx-loading-bar/core@5.1.2 --save-exact
+          npm install @ngx-loading-bar/router@5.1.2 --save-exact
+
+          # تثبيت كل شيء مع تجاهل أي تعارضات طفيفة متبقية
+          npm install --force
 
           nohup npm start > frontend.log 2>&1 &
           for i in {1..60}; do
