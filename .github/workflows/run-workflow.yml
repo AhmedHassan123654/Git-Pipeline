@@ -95,7 +95,7 @@ jobs:
 
       # 🔟 رفع التقرير كأرتيفاكت
       - name: Upload test reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-reports
           path: projectB/test-output/reports/**/*.html
