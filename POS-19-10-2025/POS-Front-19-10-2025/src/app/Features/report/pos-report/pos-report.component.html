@@ -1,0 +1,3430 @@
+``<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />
+      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<tabset class="Tabset">
+  <tab #TabA="tab" heading="Main">
+    <div class="col-md-12">
+      <div class="ms-panel">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="form-row pt-3">
+              <div class="col-md-4 mb-3">
+                <div class="row pr-xs-0">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Shared.branch" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="far fa-building" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-combobox
+                          name="BranchDocumentId"
+                          [(ngModel)]="responseobj.BranchDocumentId"
+                          [dataSource]="BranchList"
+                          [fields]="BrancheFlds"
+                          placeholder="Branch Name"
+                          class="form-control borderRadius"
+                          id="BranchDocument_id"></ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center justify-content-start">
+                  <div class="col-md-4">
+                    <label> {{ "Shared.fromdata" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          class="form-control"
+                          format="dd/MM/yyyy"
+                          name="date"
+                          #date="ngModel"
+                          [(ngModel)]="responseobj.FromDate"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.todata" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          class="form-control"
+                          format="dd/MM/yyyy"
+                          name="date2"
+                          #date2="ngModel"
+                          [(ngModel)]="responseobj.ToDate"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center justify-content-start">
+                  <div class="col-md-4">
+                    <label> {{ "Shared.FromTime" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          class="form-control borderRadius"
+                          class="form-control"
+                          type="time"
+                          id="FromTime"
+                          name="FromTime"
+                          #FromTime="ngModel"
+                          [(ngModel)]="responseobj.FromTime" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.ToTime" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          class="form-control borderRadius"
+                          class="form-control"
+                          type="time"
+                          id="ToTime"
+                          name="ToTime"
+                          #ToTime="ngModel"
+                          [(ngModel)]="responseobj.ToTime" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "permission.User" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="UsersList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.UsersList"
+                          [dataSource]="UserList"
+                          [fields]="UserFlds"
+                          placeholder="Users"
+                          id="users_list"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Order.OrderType" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="OrderTypeList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.OrderTypeList"
+                          [dataSource]="OrderTypeList"
+                          [fields]="OrderTypeFlds"
+                          placeholder="Order Types"
+                          id="order_type_list"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label>
+                      {{ "pointofsale.pointofsales" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          class="form-control borderRadius"
+                          name="PointOfSaleList"
+                          [(ngModel)]="responseobj.PointOfSaleList"
+                          [dataSource]="POSList"
+                          [fields]="POSFlds"
+                          placeholder="Points Of Sales"
+                          id="pos_list"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.PaymentType" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="PaymentTypeList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.PaymentTypeList"
+                          [dataSource]="PaymentTypeList"
+                          [fields]="PaymentTypeFlds"
+                          placeholder="Payment Types"
+                          id="Payment_Type_List"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.Tables" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="TableDocumentIdList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.TableDocumentIdList"
+                          [dataSource]="TableList"
+                          [fields]="TableFlds"
+                          placeholder="Tables"
+                          id="Table_Document_Id_List"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "permission.Halls" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-combobox
+                          name="HallDocumentIdList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.HallDocumentId"
+                          [dataSource]="HallList"
+                          [fields]="TableFlds"
+                          placeholder="Halls"
+                          id="Hall_Document_Id_List"></ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="printflag === 33" class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "CustomerOrder.ReceivedDate" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          class="form-control"
+                          format="dd/MM/yyyy"
+                          name="ReceivedDate"
+                          #ReceivedDate="ngModel"
+                          [(ngModel)]="responseobj.ReceivedDate"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3"> 
+                <div *ngFor="let section of sections" >
+                  <div *ngIf="section.printflag === printflag && isGrantedReport(section.permission)">
+                    <div class="row align-items-center">
+                      <div class="col-md-3 justify-content-start align-items-center">
+                        <label>{{ section.label | translate }}</label>
+                      </div>
+                      <div class="col-md-5 m-0 pl-2 pr-0">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fas fa-file" aria-hidden="true"></i>
+                          </div>
+                          <div class="input-group">
+                            <!-- Reusable Template for Multiselect or Combobox based on Component Type -->
+                            <ng-container *ngTemplateOutlet="sectionTemplate; context: { $implicit: section }"></ng-container>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2" *ngIf="section.actionMethod">
+                        <button
+                          (click)="this[section.actionMethod]()"
+                          type="button"
+                          class="btn btn-outline-danger btnNav">
+                          {{ "Shared.Show" | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <ng-template #sectionTemplate let-section>
+                <ng-container [ngSwitch]="section.component">
+                  <ejs-multiselect
+                    *ngSwitchCase="'multiselect'"
+                    [name]="section.modelBinding"
+                    class="form-control borderRadius"
+                    [(ngModel)]="responseobj[section.modelBinding]"
+                    [dataSource]="this[section.dataSource]"
+                    [fields]="TableFlds"
+                    [allowFiltering]="true"
+                    [placeholder]="section.placeholder | translate"
+                    id="{{ section.modelBinding }}">
+                  </ejs-multiselect>
+                  <ejs-combobox
+                    *ngSwitchCase="'combobox'"
+                    [name]="section.modelBinding"
+                    class="form-control borderRadius"
+                    [(ngModel)]="responseobj[section.modelBinding]"
+                    (filtering)="filterCustomers($event, section.additionalFiltering)"
+                    [allowFiltering]="true"
+                    [autofill]="true"
+                    [dataSource]="this[section.dataSource]"
+                    [fields]="TableFlds"
+                    [placeholder]="section.placeholder | translate"
+                    id="{{ section.modelBinding }}">
+                  </ejs-combobox>
+                </ng-container>
+              </ng-template>
+            </div>
+            <div class="form-row">
+              <div class="col-md-12">
+                <h5 *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false">
+                  {{ "Shared.ReportTypes" | translate }} :
+                </h5>
+              </div>
+              <!--tabs & print-->
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-10">
+                    <ul class="nav nav-pills bg-white mb-3" id="pills-tab" role="tablist">
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewInvoices')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link active reportTypeBtn"
+                          id="pills-home-tab"
+                          data-toggle="pill"
+                          href="#pills-home"
+                          role="tab"
+                          aria-controls="pills-home"
+                          aria-selected="true">
+                          <button class="btn btnEdit m-1" (click)="GetDataReportOrders()">
+                            {{ "Layout.Orders" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewMeals')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile1"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetProductDataReport()" class="btn btnEdit m-1">
+                            {{ "Printer.Product" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false  && isGrantedReport('CanViewMealGroups')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile2"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetProductGroupDataReport()" class="btn btnEdit m-1">
+                            {{ "Printer.ProductGroup" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false  && isGrantedReport('CanViewDate')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile3"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetDateDataReport()" class="btn btnEdit m-1">
+                            {{ "Reports.Date" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewInvoiceType')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile4"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetOrderTypeDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.ordertype" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewPayType')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile5"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetOrderPayTypeDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.PaymentType" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewUser')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile8"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetUserDataReport()" class="btn btnEdit m-1">
+                            {{ "permission.User" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewTypesOfMeals')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile9"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetProductTypeDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.producttype" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewCustomer')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile10"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetCustomerDataReport()" class="btn btnEdit m-1">
+                            {{ "manageorder.Customer" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewTaxReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile12"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetTaxDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.TaxReport" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewSalesReturnReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile13"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetReturnOrderReport()" class="btn btnEdit m-1">
+                            {{ "Shared.returnorderReport" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewDeletedInvoices')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile14"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetDeletedOrders()" class="btn btnEdit m-1">
+                            {{ "Shared.DeletedOrders" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewCanceledOrders')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile21"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetCanceledProductsReport()" class="btn btnEdit m-1">
+                            {{ "Shared.CancelledOrders" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewTotal')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile15"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetTotalsReport()" class="btn btnEdit m-1">
+                            {{ "Printer.Totals" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewTermCustomerReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile16"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetCreditDataReport()" class="btn btnEdit m-1">
+                            {{ "Printer.CreditReport" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewNetSalesReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile17"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetNetSalseReport()" class="btn btnEdit m-1">
+                            {{ "Printer.NetSalesReport" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewReportEmployeeRequests')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile18"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetEmpsReport()" class="btn btnEdit m-1">
+                            {{ "Printer.EmpsOrders" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewSideDishes')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile19"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetProductsubItemDataReport()" class="btn btnEdit m-1">
+                            {{ "Printer.SideDiesh" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewMealComponents')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile20"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetProductItemsDataReport()" class="btn btnEdit m-1">
+                            {{ "Printer.MealIngredients" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewTransferOrders')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile22"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetTransferdOrders()" class="btn btnEdit m-1">
+                            {{ "Reports.TransferdOrders" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewDiscountedInvoices')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile23"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetDiscountedOrdersReport()" class="btn btnEdit m-1">
+                            {{ "Reports.DiscountedOrders" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewAdditionalExpenses')"
+                       class="nav-item" role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile24"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetExtraExpensesReport()" class="btn btnEdit m-1">
+                            {{ "Screens.ExtraExpenses" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewPosTotalSales')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile25"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="getPosDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.Pos" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="_ExtraExpensesService.openExtraExpenses.getValue() === false && isGrantedReport('CanViewTermCustomerReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile26"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetOnlineCompaniesReport()" class="btn btnEdit m-1">
+                            {{ "Shared.OnlineCompany" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewDailyStockReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile27"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetDailyStockDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.dailystock" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewCaptainReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile28"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="getCaptainDataReport()" class="btn btnEdit m-1">
+                            {{ "manageorder.Captain" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewWaiterReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile29"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="getWaiterDataReport()" class="btn btnEdit m-1">
+                            {{ "manageorder.Waiter" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewCustomerOrdersReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile40"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="getCustomerOrdersDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.customerorderlist" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewTipsReport')"
+                        class="nav-item" role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile34"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="getTipsDataReport()" class="btn btnEdit m-1">
+                            {{ "Shared.Tips" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewProductMovementsReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile35"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetProductMovementsDataReport()" class="btn btnEdit m-1">
+                            {{ "Reports.ProductMovements" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewInsuranceReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile38"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetInsuranceDataReport()" class="btn btnEdit m-1">
+                            {{ "Reports.Insurance" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li *ngIf="isGrantedReport('CanViewEmployeeFeedingReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile41"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetEmployeeFeedingReport()" class="btn btnEdit m-1">
+                            {{ "Shared.feedemployees" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                        <li *ngIf="isGrantedReport('CanViewCustomerComplaintReport')"
+                        class="nav-item"
+                        role="presentation">
+                        <a
+                          class="nav-link reportTypeBtn"
+                          id="pills-profile-tab"
+                          data-toggle="pill"
+                          href="#pills-profile42"
+                          role="tab"
+                          aria-controls="pills-profile"
+                          aria-selected="false">
+                          <button (click)="GetCustomerComplaintReport()" class="btn btnEdit m-1">
+                            {{ "Shared.customercomplaint" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-2" *ngIf="showprint">
+                    <div class="d-flex ml-auto" style="justify-content: flex-end">
+                      <button
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#modal-1"
+                        class="btn btn-outline-danger btnNav">
+                        <i class="fa fa-print pr-1"></i>
+                        {{ "pagetransactions.Print" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <!--content-->
+              <div class="col-md-12">
+                <div class="tab-content" id="pills-tabContent">
+                  <div
+                    class="tab-pane fade show active"
+                    id="pills-home"
+                    role="tabpanel"
+                    aria-labelledby="pills-home-tab">
+                    <div class="col-lg-12" *ngIf="showReport && Orders">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Order
+                            id="Order"
+                            [dataSource]="Orders"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickOrders($event)">
+                            <e-columns>
+                             
+                              <e-column
+                                field="SerialNumber"
+                                headerText="{{ 'Reports.SerialNumber' | translate }}"></e-column>
+                              <e-column field="CloseTime" headerText="{{ 'Shared.CloseTime' | translate }}"></e-column>
+                              <e-column field="Closedate" headerText="{{ 'Shared.Closedate' | translate }}"></e-column>
+                              <e-column
+                                field="OrderNumber"
+                                headerText="{{ 'delivery.orderNumber' | translate }}"></e-column>
+                              <e-column
+                                field="ClosingUserName"
+                                headerText="{{ 'permission.Name' | translate }}"></e-column>
+                              <e-column
+                                field="OrderTypeName"
+                                headerText="{{ 'permission.OrderTypes' | translate }}"></e-column>
+                              <e-column field="NetTotal" headerText="{{ 'Order.Net Total' | translate }}"></e-column>
+                              <e-column
+                                field="AllOrderPaymentNames"
+                                headerText="{{ 'Shared.PaymentType' | translate }}"></e-column>
+                              <e-column
+                                field="DiscountAmount"
+                                headerText="{{ 'Shared.DiscountAmount' | translate }}"></e-column>
+                              <e-column *ngIf="!settings || !settings.AllowMultiTaxOnPrduct"
+                                field="TotalTaxAmount"
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"></e-column>
+                              <e-column *ngIf="settings && settings.AllowMultiTaxOnPrduct" 
+                                field="TotalVatTax" width="100"
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"></e-column>
+                              <e-column *ngIf="settings && settings.AllowMultiTaxOnPrduct" 
+                                field="TotalExtraTaxes" width="100"
+                                headerText="{{ 'Shared.ExtraTax' | translate }}"></e-column>
+                              <e-column
+                                field="ServiceChargeValue"
+                                headerText="{{ 'Shared.servicecharge' | translate }}"></e-column>
+                              <e-column
+                                field="DeliveryPrice"
+                                headerText="{{ 'Shared.DeliveryPrice' | translate }}"></e-column>
+                              <e-column field="SubTotal" headerText="{{ 'delivery.Subtotal' | translate }}"></e-column>
+                              <e-column
+                                field="TableName"
+                                headerText="{{ 'delivery.TableName' | translate }}"></e-column>
+                              <e-column
+                                field="TotalInsuranceAmount"
+                                headerText="{{ 'Reports.OrderTotalInsuranceAmount' | translate }}"></e-column>
+                              <e-column
+                                field="TotalReturnInsuranceAmount"
+                                headerText="{{ 'Reports.ReturnInsurance' | translate }}"></e-column>
+                              <e-column
+                                field="Paid"
+                                headerText="{{ 'Shared.paid' | translate }}"
+                                editType="booleanedit"
+                                type="boolean"
+                                [allowFiltering]="true"
+                                [allowSorting]="true">
+                                <ng-template #template let-data>
+                                  <div>
+                                    <input type="checkbox" disabled name="Paid" id="Paid" [checked]="data.Paid" />
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                              <e-column
+                                field="CustomerName"
+                                headerText="{{ 'returninsurance.CustomerName' | translate }}"></e-column>
+                              <e-column
+                                field="EmployeeName"
+                                headerText="{{ 'delivery.EmployeeName' | translate }}"></e-column>
+                              <e-column headerText="{{ 'delivery.Actions' | translate }}">
+                                <ng-template #template let-data>
+                                  <div class="d-flex justify-content-start align-items-start">
+                                    <button type="button" (click)="PrintOrder(data)" class="btn btn-info btnFit m-0">
+                                      {{ "Shared.Show" | translate }}
+                                    </button>
+                                    &nbsp;
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile1" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="px-2 report-hint">
+                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                        <input
+                          type="checkbox"
+                          name="ProductWithoutSideDish1"
+                          #ProductWithoutSideDish1="ngModel"
+                          (change)="onWithoutSideDishChange($event)"
+                          [(ngModel)]="responseobj.ProductWithoutSideDish"
+                          class="form-control borderRadius" />
+                        <i class="ms-checkbox-check"></i>
+                      </label>
+                      <label class="px-1">{{ "Shared.ProductWithoutSideDish" | translate }}</label>
+                    </div>
+                    <div class="col-lg-12" *ngIf="Products">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <div class="report-hint px-2" role="note" style="font-weight: 600; font-size: 18px;">
+                            {{ "Reports.showssalesonlyreturnnotincluded" | translate }}
+                          </div>
+                          <ejs-grid
+                            #Product
+                            id="Product"
+                            [dataSource]="Products"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickproducts($event)">
+                            <e-columns>
+                              <e-column
+                                *ngIf="!responseobj.MergeNameAndForeignName"
+                                field="ProductName"
+                                headerText="{{ 'Shared.productName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                *ngIf="responseobj.MergeNameAndForeignName == true"
+                                field="ProductNameAndForeignName"
+                                headerText="{{ 'Shared.ProductNameAndForeignName' | translate }}"
+                                textAlign="center"></e-column>
+                              <!--   <e-column field='UnitProductPrice' headerText='Unit Price' textAlign='left'></e-column> -->
+                              <e-column
+                                field="ProductQuantity"
+                                headerText="{{ 'stock.Quantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <ng-template #returnedHeader>
+                                <span class="returned-col-header">{{ 'Shared.ReturnedQuantity' | translate }}</span>
+                              </ng-template>
+                              <e-column
+                                field="ProductPrice"
+                                format='N2'
+                                headerText="{{ 'Reports.ProductPrice' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="DiscountAmount"
+                                format='N2'
+                                headerText="{{ 'Shared.Discount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TaxAmount"
+                                format='N2'
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ServiceChargeValue"
+                                format='N2'
+                                headerText="{{ 'Shared.servicecharge' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetTotal"
+                                format='N2'
+                                headerText="{{ 'Order.Net Total' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ReturnedQuantity"
+                                [customAttributes]="{ class: 'returned-col' }"
+                                [headerTemplate]="returnedHeader"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile2" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <!--tabs two-->
+                          <ul class="nav nav-pills bg-white mb-3" id="pills2-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <a
+                                class="nav-link reportTypeBtn"
+                                id="pills-profile-tab"
+                                data-toggle="pill"
+                                href="#pills-profile30"
+                                role="tab"
+                                aria-controls="pills-profile"
+                                aria-selected="false">
+                                <button class="btn btnEdit m-1" (click)="EditPrintFlagProduct()">
+                                  {{ "Shared.Totalpermeal" | translate }}
+                                </button>
+                              </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <a
+                                class="nav-link reportTypeBtn"
+                                id="pills-profile-tab"
+                                data-toggle="pill"
+                                href="#pills-profile31"
+                                role="tab"
+                                aria-controls="pills-profile"
+                                aria-selected="false">
+                                <button class="btn btnEdit m-1" (click)="EditPrintFlagOrders()">
+                                  {{ "Shared.Detailaccordingtotheorder" | translate }}
+                                </button>
+                              </a>
+                            </li>
+                          </ul>
+                          <!--content two-->
+                          <div class="tab-content" id="pills-tabContent2">
+                            <div
+                              class="tab-pane fade"
+                              id="pills-profile30"
+                              role="tabpanel"
+                              aria-labelledby="pills-profile-tab">
+                              <div class="col-lg-12" *ngIf="ProductGroups">
+                                <div class="ms-card">
+                                  <div class="ms-card-body">
+                                    <ejs-grid
+                                      #ProductGroupChild
+                                      id="ProductGroupChild"
+                                      [dataSource]="ProductGroups"
+                                      [allowPaging]="true"
+                                      [pageSettings]="pageSettings"
+                                      [allowSorting]="true"
+                                      [allowFiltering]="true"
+                                      [filterSettings]="filterOptions"
+                                      [toolbar]="toolbarOptions"
+                                      [childGrid]="child"
+                                      [allowGrouping]="true"
+                                      [allowPdfExport]="true"
+                                      [allowExcelExport]="true"
+                                      (toolbarClick)="toolbarClickproductGroupsChild($event)">
+                                      <e-columns>
+                                        <e-column
+                                          field="ProductGroupName"
+                                          headerText="{{ 'Shared.productgroup' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="ProductPrice"
+                                          headerText="{{ 'Shared.ProductPrice' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="ProductQuantity"
+                                          headerText="{{ 'stock.Quantity' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="TaxAmount"
+                                          headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="DiscountAmount"
+                                          headerText="{{ 'Shared.Discount' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="ServiceChargeValue"
+                                          headerText="{{ 'Reports.servicecharge' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="NetTotal"
+                                          headerText="{{ 'ReturnOrder.Net Amount' | translate }}"
+                                          textAlign="left"></e-column>
+                                      </e-columns>
+                                    </ejs-grid>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              class="tab-pane fade"
+                              id="pills-profile31"
+                              role="tabpanel"
+                              aria-labelledby="pills-profile-tab">
+                              <div class="col-lg-12" *ngIf="ProductGroups">
+                                <div class="ms-card">
+                                  <div class="ms-card-body">
+                                    <ejs-grid
+                                      #ProductGroupChild1
+                                      id="ProductGroupChild1"
+                                      [dataSource]="ProductGroups"
+                                      [allowPaging]="true"
+                                      [pageSettings]="pageSettings"
+                                      [allowSorting]="true"
+                                      [allowFiltering]="true"
+                                      [filterSettings]="filterOptions"
+                                      [toolbar]="toolbarOptions"
+                                      [childGrid]="child1"
+                                      [allowGrouping]="true"
+                                      [allowPdfExport]="true"
+                                      [allowExcelExport]="true"
+                                      (toolbarClick)="toolbarClickproductGroupsChild1($event)">
+                                      <e-columns>
+                                        <e-column
+                                          field="ProductGroupName"
+                                          headerText="{{ 'Shared.productgroup' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="ProductPrice"
+                                          headerText="{{ 'Shared.ProductPrice' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="ProductQuantity"
+                                          headerText="{{ 'stock.Quantity' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="TaxAmount"
+                                          headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="DiscountAmount"
+                                          headerText="{{ 'Shared.Discount' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="ServiceChargeValue"
+                                          headerText="{{ 'Reports.servicecharge' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="NetTotal"
+                                          headerText="{{ 'ReturnOrder.Net Amount' | translate }}"
+                                          textAlign="left"></e-column>
+                                      </e-columns>
+                                    </ejs-grid>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile3" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="DateData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Date
+                            id="Date"
+                            [dataSource]="DateData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickDate($event)">
+                            <e-columns>
+                              <e-column field="Closedate" headerText="{{ 'Reports.CloseDate' | translate }}" textAlign="center"></e-column>
+
+                              <e-column
+                                field="Count"
+                                headerText="{{ 'Shared.count' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetTotal"
+                                headerText="{{ 'ReturnOrder.Net Amount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="DiscountAmount"
+                                headerText="{{ 'Shared.Discount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TotalTaxAmount"
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ServiceChargeValue"
+                                headerText="{{ 'Reports.servicecharge' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile4" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="OrderTypes">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #OrderType
+                            id="OrderType"
+                            [dataSource]="OrderTypes"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickOrderType($event)">
+                            <e-columns>
+                              <e-column
+                                *ngIf="!responseobj.MergeNameAndForeignName"
+                                field="OrderTypeName"
+                                headerText="{{ 'permission.OrderTypes' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                *ngIf="responseobj.MergeNameAndForeignName == true"
+                                field="OrderTypeNameAndForeignName"
+                                headerText="{{ 'Shared.ProductNameAndForeignName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="Count"
+                                headerText="{{ 'Shared.count' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetTotal"
+                                headerText="{{ 'Order.Net Total' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="DiscountAmount"
+                                headerText="{{ 'Shared.Discount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TotalTaxAmount"
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ServiceChargeValue"
+                                headerText="{{ 'Shared.servicecharge' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile5" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="OrderPayTypes">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #OrderPayType
+                            id="OrderPayType"
+                            [dataSource]="OrderPayTypes"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickOrderPayType($event)">
+                            <e-columns>
+                              <e-column
+                                *ngIf="!responseobj.MergeNameAndForeignName"
+                                field="PayTypeName"
+                                headerText="{{ 'Order.Payment' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                *ngIf="responseobj.MergeNameAndForeignName == true"
+                                field="PayTypeNameAndForeignName"
+                                headerText="{{ 'Shared.ProductNameAndForeignName' | translate }}"
+                                textAlign="center"></e-column>
+                              <!-- <e-column field='Count' headerText="{{'Shared.count'|translate}}"   textAlign='left'></e-column>
+
+                                        تم حذف عدد الفواتير بسبب الفواتير التي يوجد بها اكثر من نوع دفع
+                                        -->
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile6" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="Halls">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Hall
+                            id="Hall"
+                            [dataSource]="Halls"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [childGrid]="childGrid"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickHall($event)">
+                            <e-columns>
+                              <e-column
+                                field="Name"
+                                headerText="{{ 'Order.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="ForeignName"
+                                headerText="{{ 'pointofsale.ForeignName' | translate }}"
+                                textAlign="center"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile8" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="Users">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #User
+                            id="User"
+                            [dataSource]="Users"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickUser($event)">
+                            <e-columns>
+                              <e-column
+                                field="ClosingUserName"
+                                headerText="{{ 'Order.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="OrdersCount"
+                                headerText="{{ 'Shared.count' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetTotal"
+                                headerText="{{ 'ReturnOrder.Net Amount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="DiscountAmount"
+                                headerText="{{ 'Shared.Discount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TotalTaxAmount"
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ServiceChargeValue"
+                                headerText="{{ 'Reports.servicecharge' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile9" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="ProductTypes">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #ProductType
+                            id="ProductType"
+                            [dataSource]="ProductTypes"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickProductType($event)">
+                            <e-columns>
+                              <e-column
+                                *ngIf="!responseobj.MergeNameAndForeignName"
+                                field="ProductTypeName"
+                                headerText="{{ 'Shared.producttype' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                *ngIf="responseobj.MergeNameAndForeignName == true"
+                                field="ProductTypeNameAndForeignName"
+                                headerText="{{ 'Shared.ProductNameAndForeignName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="Quantity"
+                                headerText="{{ 'Shared.count' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ProductPrice"
+                                format='N2'
+                                headerText="{{ 'Shared.ProductPrice' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="DiscountAmount"
+                                format='N2'
+                                headerText="{{ 'Shared.Discount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TaxAmount"
+                                format='N2'
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ServiceChargeValue"
+                                format='N2'
+                                headerText="{{ 'Reports.servicecharge' | translate }}"
+                                textAlign="left"></e-column>
+
+                              <e-column
+                                field="NetTotal"
+                                format='N2'
+                                headerText="{{ 'ReturnOrder.Net Amount' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile10" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="Customers">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Customer
+                            id="Customer"
+                            [dataSource]="Customers"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [childGrid]="childCustomer"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickCustomer($event)">
+                            <e-columns>
+                              <e-column
+                                field="Name"
+                                headerText="{{ 'Order.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="ForiegnName"
+                                headerText="{{ 'pointofsale.ForeignName' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Phone"
+                                headerText="{{ 'Reports.Telephone' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Count"
+                                headerText="{{ 'Shared.count' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="GainedPoints"
+                                headerText="{{ 'Reports.GainedPoints' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="RedeemedPoints"
+                                headerText="{{ 'Reports.Redeem' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ValidPoints"
+                                headerText="{{ 'Reports.ValidPoints' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile11" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="TotalNetSales">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #NetSales
+                            id="NetSales"
+                            [dataSource]="TotalNetSales"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickNetSales($event)">
+                            <e-columns>
+                              <e-column
+                                field="Name"
+                                headerText="{{ 'Order.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="GroupName"
+                                headerText="{{ 'permission.Group' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Quantity"
+                                headerText="{{ 'stock.Quantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ReturnQuantity"
+                                headerText="{{ 'Shared.ReturnedQuantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetQuantity"
+                                headerText="{{ 'Shared.NetQuantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Price"
+                                headerText="{{ 'Shared.ProductPrice' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Total"
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile12" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="Taxes">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Tax
+                            id="Tax"
+                            [dataSource]="Taxes"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickTax($event)">
+                            <e-columns>
+                              <e-column
+                                field="Name"
+                                headerText="{{ 'permission.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="OrderTaxValue"
+                                headerText="{{ 'permission.OrderTaxValue' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="Returntaxvalue"
+                                headerText="{{ 'permission.Returntaxvalue' | translate }}"
+                                textAlign="center"></e-column>
+
+                              <e-column
+                                field="Total"
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile13" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="ReturnOrders">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #ReturnOrder
+                            id="ReturnOrder"
+                            [dataSource]="ReturnOrders"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickReturnOrders($event)">
+                            <e-columns>
+                              <e-column
+                                field="ReturnOrderNumber"
+                                headerText="{{ 'Shared.returnordernumber' | translate }}"></e-column>
+                              <e-column
+                                field="Returntime"
+                                headerText="{{ 'Shared.ReturnTime' | translate }}"></e-column>
+                              <e-column
+                                field="Returndate"
+                                headerText="{{ 'Shared.ReturnDate' | translate }}"></e-column>
+                              <e-column
+                                field="Creationdate"
+                                headerText="{{ 'Shared.CreationTime' | translate }}"></e-column>
+                              <e-column field="CashierName" headerText="{{ 'Shared.Cashier' | translate }}"></e-column>
+                              <e-column
+                                field="AllOrderPaymentNames"
+                                headerText="{{ 'Order.Payment' | translate }}"></e-column>
+                              <e-column
+                                field="TotalDiscountAmount"
+                                headerText="{{ 'Shared.Discount' | translate }}"></e-column>
+                              <e-column
+                                field="TotalTaxAmount"
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"></e-column>
+                              <e-column
+                                field="ServiceChargeValue"
+                                headerText="{{ 'Reports.servicecharge' | translate }}"></e-column>
+                              <e-column
+                                field="DeliveryPrice"
+                                headerText="{{ 'Shared.DeliveryPrice' | translate }}"></e-column>
+                              <e-column field="SubTotal" headerText="{{ 'delivery.Subtotal' | translate }}"></e-column>
+                              <e-column
+                                field="CustomerName"
+                                headerText="{{ 'returninsurance.CustomerName' | translate }}"></e-column>
+
+                              <e-column
+                                field="OrderDateTime"
+                                headerText="{{ 'Shared.OrderCloseTime' | translate }}"></e-column>
+                              <e-column
+                                field="OrderDate"
+                                headerText="{{ 'Shared.OrderClosedate' | translate }}"></e-column>
+                              <e-column
+                                field="OrderNumber"
+                                headerText="{{ 'ReturnOrder.OrderNumber' | translate }}"></e-column>
+                              <e-column headerText="{{ 'delivery.Actions' | translate }}">
+                                <ng-template #template let-data>
+                                  <div class="d-flex justify-content-start align-items-start">
+                                    <button
+                                      type="button"
+                                      (click)="PrintReturnOrder(data)"
+                                      class="btn btn-info btnFit m-0">
+                                      {{ "Shared.Show" | translate }}
+                                    </button>
+                                    &nbsp;
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile14" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="col-lg-12" *ngIf="DeletedOrders">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #DeletedOrder
+                            id="DeletedOrder"
+                            [dataSource]="DeletedOrders"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickDeletedOrders($event)">
+                            <e-columns>
+                              <e-column
+                                field="SerialNumber"
+                                headerText="{{ 'Reports.SerialNumber' | translate }}"></e-column>
+                              <e-column
+                                field="OrderNumber"
+                                headerText="{{ 'delivery.orderNumber' | translate }}"></e-column>
+                              <e-column field="SubTotal" headerText="{{ 'delivery.Subtotal' | translate }}"></e-column>
+                              <e-column
+                                field="Creationtime"
+                                headerText="{{ 'Shared.Creationtime' | translate }}"></e-column>
+                              <e-column
+                                field="Creationdate"
+                                headerText="{{ 'Shared.Creationdate' | translate }}"></e-column>
+                              <e-column
+                                field="CreatorUserName"
+                                headerText="{{ 'Shared.CreatorUserName' | translate }}"></e-column>
+                              <e-column
+                                field="Modificationtime"
+                                headerText="{{ 'Shared.Deletedtime' | translate }}"></e-column>
+                              <e-column
+                                field="Modificationdate"
+                                headerText="{{ 'Shared.Deletedate' | translate }}"></e-column>
+                              <e-column
+                                field="ModificationUserName"
+                                headerText="{{ 'Shared.DeletedUserName' | translate }}"></e-column>
+                              <e-column headerText="{{ 'delivery.Actions' | translate }}">
+                                <ng-template #template let-data>
+                                  <div class="d-flex justify-content-start align-items-start">
+                                    <button
+                                      type="button"
+                                      (click)="ShowOrderDetails(data)"
+                                      class="btn btn-info btnFit m-0">
+                                      {{ "Shared.ShowDetails" | translate }}
+                                    </button>
+                                    &nbsp;
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile15" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <div class="col-lg-12" *ngIf="TotalsData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Totals
+                            id="Totals"
+                            [dataSource]="TotalsData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickTotals($event)">
+                            <e-columns>
+                              <e-column
+                                field="OrderSubTotal"
+                                headerText="{{ 'Shared.OrderSubTotal' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column field="TotalQty" headerText="{{ 'Reports.TotalQty' | translate }}"></e-column>
+                              <e-column
+                                field="ReturnOrderSubTotal"
+                                headerText="{{ 'Shared.ReturnOrderSubTotal' | translate }}"></e-column>
+                              <e-column
+                                field="ReturnOrderQty"
+                                headerText="{{ 'Reports.ReturnQuantity' | translate }}"></e-column>
+                              <e-column
+                                field="CancelledProducts"
+                                headerText="{{ 'Shared.CancelledProducts' | translate }}"></e-column>
+                              <e-column
+                                field="DeletedOrders"
+                                headerText="{{ 'Shared.DeletedOrders' | translate }}"></e-column>
+                              <e-column field="Total" headerText="{{ 'Reports.Total' | translate }}"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile16" role="tabpanel" aria-labelledby="pills-home-tab">
+                    <!-- <input type="checkbox" name="ShowCredit" #ShowCredit="ngModel"[(ngModel)]="responseobj.ShowCredit" class="form-control borderRadius" (change)="fieldsChange($event)"> -->
+                    <div class="px-2">
+                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                        <input
+                          type="checkbox"
+                          name="ShowCredit"
+                          #ShowCredit="ngModel"
+                          (change)="fieldsChange($event)"
+                          [(ngModel)]="responseobj.ShowCredit"
+                          class="form-control borderRadius" />
+                        <i class="ms-checkbox-check"></i>
+                      </label>
+                      <label class="px-1">{{ "Shared.ViewCustomerDebits" | translate }}</label>
+                    </div>
+                    <div class="col-lg-12" *ngIf="CreditDataCustomer">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Credit
+                            id="Credit"
+                            [dataSource]="CreditDataCustomer"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickDataCustomer($event)">
+                            <e-columns>
+                              <e-column
+                                field="Name"
+                                headerText="{{ 'Order.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="ForiegnName"
+                                headerText="{{ 'pointofsale.ForeignName' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Phone"
+                                headerText="{{ 'Reports.Telephone' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Count"
+                                headerText="{{ 'Shared.countOrders' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TotalCustomerCash"
+                                headerText="{{ 'Shared.CashCustomer' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TotalCustomerVisa"
+                                headerText="{{ 'Shared.VisaCustomer' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="TotalCustomerCreit"
+                                headerText="{{ 'Shared.CreditCustomer' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="CashreceiptAmounts"
+                                headerText="{{ 'Shared.CashreceiptAmounts' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Remainder"
+                                headerText="{{ 'Shared.Remainder' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column>
+                                <ng-template #template let-data>
+                                  <div>
+                                    <button
+                                      type="button"
+                                      class="btn btn-success m-0"
+                                      (click)="PrintCustomerCreditReport(data)">
+                                      {{ "Shared.Details" | translate }}
+                                    </button>
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile17" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="UserNetSales">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #UserNetSale
+                            id="UserNetSale"
+                            [dataSource]="UserNetSales"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true">
+                            <e-columns>
+                              <e-column
+                                field="UserName"
+                                headerText="{{ 'Order.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="OrderSubTotal"
+                                headerText="{{ 'Shared.OrderSubTotal' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ReturnOrderSubTotal"
+                                headerText="{{ 'Shared.ReturnOrderSubTotal' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="CashReceiptAmount"
+                                headerText="{{ 'Shared.CashReceiptAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ExtraExpenseAmount"
+                                headerText="{{ 'Shared.ExtraExpenseAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Total"
+                                headerText="{{ 'Shared.Total' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile18" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="Emps">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #EmpsGrid
+                            id="EmpsGrid"
+                            [dataSource]="Emps"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true">
+                            <e-columns>
+                              <e-column
+                                field="EmployeeName"
+                                headerText="{{ 'delivery.EmployeeName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                format='N2'
+                                headerText="{{ 'delivery.Subtotal' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="DiscountAmount"
+                                format='N2'
+                                headerText="{{ 'Shared.DiscountAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetTotal"
+                                format='N2'
+                                headerText="{{ 'Order.Net Total' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column textAlign="center" headerText="{{ 'delivery.Actions' | translate }}">
+                                <ng-template #template let-data>
+                                  <button type="button" (click)="PrintOrder(data)" class="btn btn-info btnFit m-0">
+                                    {{ "Shared.Show" | translate }}
+                                  </button>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile19" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="ProductsubItem">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #ProductsubItemGrid
+                            id="ProductsubItemGrid"
+                            [dataSource]="ProductsubItem"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true">
+                            <e-columns>
+                              <e-column
+                                field="ProductName"
+                                headerText="{{ 'Shared.productName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="ProductPrice"
+                                headerText="{{ 'Reports.ProductPrice' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ProductQuantity"
+                                headerText="{{ 'stock.Quantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                  field="DiscountAmount"
+                                  headerText="{{ 'Shared.DiscountAmount' | translate }}"
+                                  textAlign="left"></e-column>
+                              <e-column
+                                field="TaxAmount"
+                                headerText="{{ 'Shared.TaxAmount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetTotal"
+                                headerText="{{ 'Order.Net Total' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-profile20" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="ProductItems">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #ProductItemsGrid
+                            id="ProductItemsGrid"
+                            [dataSource]="ProductItems"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true">
+                            <e-columns>
+                              <e-column
+                                field="ItemName"
+                                headerText="{{ 'Shared.ItemName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="UnitName"
+                                headerText="{{ 'Shared.UnitName' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ItemUnitQuantity"
+                                headerText="{{ 'stock.Quantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="StockName"
+                                headerText="{{ 'Shared.StockName' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile21" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="CanceledProducts">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #CanceledProduct
+                            id="CanceledProduct"
+                            [dataSource]="CanceledProducts"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickCanceledProducts($event)">
+                            <e-columns>
+                              <!--   <e-column field='Creationtime' headerText="{{'Shared.Creationtime' | translate }}" ></e-column>
+                                          <e-column field='Creationdate' headerText="{{'Shared.Creationdate' | translate }}"  ></e-column> -->
+                              <e-column
+                                field="Canceledtime"
+                                headerText="{{ 'Shared.Canceledtime' | translate }}"></e-column>
+                              <e-column
+                                field="Canceleddate"
+                                headerText="{{ 'Shared.Canceleddate' | translate }}"></e-column>
+                              <e-column
+                                field="OrderNumber"
+                                headerText="{{ 'delivery.orderNumber' | translate }}"></e-column>
+                              <e-column
+                                field="CreatorUserName"
+                                headerText="{{ 'Shared.CreatorUserName' | translate }}"></e-column>
+                              <e-column
+                                field="ProductName"
+                                headerText="{{ 'Shared.productName' | translate }}"></e-column>
+                              <e-column
+                                field="ProductQuantity"
+                                headerText="{{ 'Reports.ProductQuantity' | translate }}"></e-column>
+                              <e-column
+                                field="ProductPrice"
+                                headerText="{{ 'Shared.ProductPrice' | translate }}"></e-column>
+                              <e-column
+                                field="ModificationUserName"
+                                headerText="{{ 'Shared.CancelledUserName' | translate }}"></e-column>
+                              <e-column
+                                field="CancellationReason"
+                                headerText="{{ 'Shared.CancellationReason' | translate }}"></e-column>
+                              <e-column
+                                field="CustomerName"
+                                headerText="{{ 'returninsurance.CustomerName' | translate }}"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile22" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="TransferdDetails">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #TransferdDetail
+                            id="TransferdDetail"
+                            [dataSource]="TransferdMaster"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [childGrid]="TransferdChild"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickTransferdDetails($event)">
+                            <e-columns>
+                              <!-- <e-column
+                              width="200"
+                              field="UUID"
+                              headerText="{{ 'Shared.UUID' | translate }}"></e-column> -->
+                              <e-column
+                              width="200"
+                              field="ProductName"
+                              headerText="{{ 'Shared.productName' | translate }}"></e-column>
+                              <!-- <e-column
+                              field="Creationdate"
+                              headerText="{{ 'Reports.TransferdDate' | translate }}"></e-column>
+                              <e-column
+                              field="Creationtime"
+                              headerText="{{ 'Reports.TransferTime' | translate }}"></e-column>
+                              <e-column
+                                field="OrderNumber"
+                                headerText="{{ 'Reports.OrderNumber' | translate }}"></e-column>
+                              <e-column
+                                field="OldOrderNumber"
+                                headerText="{{ 'Reports.OldOrderNumber' | translate }}"></e-column>
+                              <e-column field="FromTable" headerText="{{ 'Reports.FromTable' | translate }}"></e-column>
+                              <e-column field="ToTable" headerText="{{ 'Reports.ToTable' | translate }}"></e-column>
+                              <e-column
+                                field="ProductQuantity"
+                                headerText="{{ 'Reports.ProductQuantity' | translate }}"></e-column>
+                              <e-column
+                                field="ProductPrice"
+                                headerText="{{ 'Reports.ProductPrice' | translate }}"></e-column> -->
+                              <e-column
+                                field="TransferdCount"
+                                headerText="{{ 'Reports.TransferdCount' | translate }}"></e-column>
+                              <!-- <e-column
+                                field="CreatorUserName"
+                                headerText="{{ 'Reports.TransferdBy' | translate }}"></e-column> -->
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane fade" id="pills-profile23" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="DiscountedOrders">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #DiscountedOrder
+                            id="DiscountedOrder"
+                            [dataSource]="DiscountedOrders"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickDiscountedOrders($event)">
+                            <e-columns>
+                              <e-column
+                                field="SerialNumber"
+                                headerText="{{ 'Reports.SerialNumber' | translate }}"></e-column>
+                              <e-column
+                                field="OrderNumber"
+                                headerText="{{ 'delivery.orderNumber' | translate }}"></e-column>
+                              <e-column field="SubTotal" headerText="{{ 'delivery.Subtotal' | translate }}"></e-column>
+
+                              <e-column
+                                field="CreatorUserName"
+                                headerText="{{ 'Shared.CreatorUserName' | translate }}"></e-column>
+                              <e-column
+                                field="Creationdate"
+                                headerText="{{ 'Shared.Creationdate' | translate }}"></e-column>
+                              <e-column
+                                field="TotalDiscountAmount"
+                                headerText="{{ 'Reports.DiscountAmount' | translate }}"></e-column>
+                              <e-column
+                                field="ModificationUserName"
+                                headerText="{{ 'Reports.DiscountedUserName' | translate }}"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--extra expenses-->
+                  <div class="tab-pane fade" id="pills-profile24" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="ExtraExpenses">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #ExtraExpense
+                            id="ExtraExpense"
+                            [dataSource]="ExtraExpenses"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickExtraExpenses($event)">
+                            <e-columns>
+                              <e-column
+                                field="Description"
+                                headerText="{{ 'Reports.Description' | translate }}"></e-column>
+                              <e-column field="Amount" headerText="{{ 'CashReceipt.lblamount' | translate }}"></e-column>
+                              <e-column
+                                field="CashierName"
+                                headerText="{{ 'Shared.CreatorUserName' | translate }}"></e-column>
+                              <e-column
+                                field="Recipient"
+                                headerText="{{ 'Reports.Recipient' | translate }}"></e-column>
+                              <e-column field="CreationTime" headerText="{{ 'Shared.CreationTime' | translate }}"></e-column>
+                              <e-column field="Date" headerText="{{ 'CashReceipt.Date' | translate }}"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--POS-->
+                  <div class="tab-pane fade" id="pills-profile25" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="PointOfSalesData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #POS
+                            id="POS"
+                            [dataSource]="PointOfSalesData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickPos($event)">
+                            <e-columns>
+                              <e-column
+                                field="PosName"
+                                headerText="{{ 'Shared.Pos' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'Shared.OrderSubTotal' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--OnlineCompanies-->
+                  <div class="tab-pane fade" id="pills-profile26" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="OnlineCompaniesData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #OnlineCompanies
+                            id="OnlineCompanies"
+                            [dataSource]="OnlineCompaniesData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickDataCustomer($event)">
+                            <e-columns>
+                              <e-column
+                                field="Name"
+                                headerText="{{ 'Order.Name' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="Phone"
+                                headerText="{{ 'Reports.Telephone' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="Count"
+                                headerText="{{ 'Shared.countOrders' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column>
+                                <ng-template #template let-data>
+                                  <div>
+                                    <button
+                                      type="button"
+                                      class="btn btn-success m-0"
+                                      (click)="PrintOnlineCompanyDetailsReport(data)">
+                                      {{ "Shared.Details" | translate }}
+                                    </button>
+                                  </div>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--DailyStock-->
+                  <div class="tab-pane fade" id="pills-profile27" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="DailyStockData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #POS
+                            id="DailyStock"
+                            [dataSource]="DailyStockData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickPos($event)">
+                            <e-columns>
+                              <e-column
+                                field="ProductName"
+                                headerText="{{ 'Reports.productName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="CurrentQuantity"
+                                headerText="{{ 'Reports.CurrentQuantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="SalesQuantity"
+                                headerText="{{ 'Reports.SalesQuantity' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Captain-->
+                  <!-- <div class="tab-pane fade" id="pills-profile28" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="CaptainsData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Captain
+                            id="Captain"
+                            [dataSource]="CaptainsData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickPos($event)">
+                            <e-columns>
+                              <e-column
+                                field="CaptainName"
+                                headerText="{{ 'ReturnOrder.CaptainName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="Count"
+                                headerText="{{ 'delivery.OrdersCount' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'Reports.Total' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="tab-pane fade" id="pills-profile28" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <!--tabs two-->
+                          <ul class="nav nav-pills bg-white mb-3" id="pills3-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <a
+                                class="nav-link reportTypeBtn"
+                                id="pills-profile-tab"
+                                data-toggle="pill"
+                                href="#pills-profile36"
+                                role="tab"
+                                aria-controls="pills-profile"
+                                aria-selected="false">
+                                <button class="btn btnEdit m-1" (click)="editPrintFlag(36)">
+                                  {{ "PosSettings.Detailed" | translate }}
+                                </button>
+                              </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <a
+                                class="nav-link reportTypeBtn"
+                                id="pills-profile-tab"
+                                data-toggle="pill"
+                                href="#pills-profile37"
+                                role="tab"
+                                aria-controls="pills-profile"
+                                aria-selected="false">
+                                <button class="btn btnEdit m-1" (click)="editPrintFlag(28)">
+                                  {{ "PosSettings.Bundled" | translate }}
+                                </button>
+                              </a>
+                            </li>
+                          </ul>
+                          <!--content two-->
+                          <div class="tab-content" id="pills-tabContent3">
+                            <div class="tab-pane fade" id="pills-profile36" role="tabpanel" aria-labelledby="pills-profile-tab">
+                              <div class="col-lg-12" *ngIf="CaptainsData">
+                                <div class="ms-card">
+                                  <div class="ms-card-body">
+                                    <ejs-grid
+                                      #CaptainGrid1
+                                      id="CaptainGrid1"
+                                      [dataSource]="CaptainsData"
+                                      [allowPaging]="true"
+                                      [pageSettings]="pageSettings"
+                                      [allowSorting]="true"
+                                      [allowFiltering]="true"
+                                      [filterSettings]="filterOptions"
+                                      [toolbar]="toolbarOptions"
+                                      [childGrid]="captainChildGrid"
+                                      [allowGrouping]="true"
+                                      [allowPdfExport]="true"
+                                      [allowExcelExport]="true"
+                                      (toolbarClick)="toolbarClickCaptainGrid1($event)">
+                                      <e-columns>
+                                        <e-column
+                                          field="CaptainName"
+                                          headerText="{{ 'ReturnOrder.CaptainName' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="Count"
+                                          headerText="{{ 'delivery.OrdersCount' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="SubTotal"
+                                          headerText="{{ 'Reports.Total' | translate }}"
+                                          textAlign="left"></e-column>
+                                      </e-columns>
+                                    </ejs-grid>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-profile37" role="tabpanel" aria-labelledby="pills-profile-tab">
+                              <div class="col-lg-12" *ngIf="CaptainsData">
+                                <div class="ms-card">
+                                  <div class="ms-card-body">
+                                    <ejs-grid
+                                      #Captain
+                                      id="Captain"
+                                      [dataSource]="CaptainsData"
+                                      [allowPaging]="true"
+                                      [pageSettings]="pageSettings"
+                                      [allowSorting]="true"
+                                      [allowFiltering]="true"
+                                      [filterSettings]="filterOptions"
+                                      [toolbar]="toolbarOptions"
+                                      [allowGrouping]="true"
+                                      [allowPdfExport]="true"
+                                      [allowExcelExport]="true"
+                                      (toolbarClick)="toolbarClickCaptain($event)">
+                                      <e-columns>
+                                        <e-column
+                                          field="CaptainName"
+                                          headerText="{{ 'ReturnOrder.CaptainName' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="Count"
+                                          headerText="{{ 'delivery.OrdersCount' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="SubTotal"
+                                          headerText="{{ 'Reports.Total' | translate }}"
+                                          textAlign="left"></e-column>
+                                      </e-columns>
+                                    </ejs-grid>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Waiter-->
+                  <div class="tab-pane fade" id="pills-profile29" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="WaitersData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Waiter
+                            id="Waiter"
+                            [dataSource]="WaitersData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickPos($event)">
+                            <e-columns>
+                              <e-column
+                                field="WaiterName"
+                                headerText="{{ 'manageorder.Waiter' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="Count"
+                                headerText="{{ 'delivery.OrdersCount' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="SubTotal"
+                                headerText="{{ 'Reports.Total' | translate }}"
+                                textAlign="center"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Customer Orders-->
+                  <div class="tab-pane fade" id="pills-profile40" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <!--tabs two-->
+                          <ul class="nav nav-pills bg-white mb-3" id="pills4-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <a
+                                class="nav-link reportTypeBtn"
+                                id="pills-profile-tab"
+                                data-toggle="pill"
+                                href="#pills-profile33"
+                                role="tab"
+                                aria-controls="pills-profile"
+                                aria-selected="false">
+                                <button class="btn btnEdit m-1" (click)="editPrintFlag(33)">
+                                  {{ "PosSettings.Detailed" | translate }}
+                                </button>
+                              </a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <a
+                                class="nav-link reportTypeBtn"
+                                id="pills-profile-tab"
+                                data-toggle="pill"
+                                href="#pills-profile39"
+                                role="tab"
+                                aria-controls="pills-profile"
+                                aria-selected="false">
+                                <button class="btn btnEdit m-1" (click)="editPrintFlag(39)">
+                                  {{ "PosSettings.Bundled" | translate }}
+                                </button>
+                              </a>
+                            </li>
+                          </ul>
+                          <!--content two-->
+                          <div class="tab-content" id="pills-tabContent4">
+                            <div class="tab-pane fade" id="pills-profile39" role="tabpanel" aria-labelledby="pills-profile-tab">
+                              <div class="col-lg-12" *ngIf="customerOrdersByDateList">
+                                <div class="ms-card">
+                                  <div class="ms-card-body">
+                                    <ejs-grid
+                                      #CustomerOrders1
+                                      id="CustomerOrders1"
+                                      [dataSource]="customerOrdersByDateList"
+                                      [allowPaging]="true"
+                                      [pageSettings]="pageSettings"
+                                      [allowSorting]="true"
+                                      [allowFiltering]="true"
+                                      [filterSettings]="filterOptions"
+                                      [toolbar]="toolbarOptions"
+                                      [childGrid]="CustomerOrders1ChildGrid"
+                                      [allowGrouping]="true"
+                                      [allowPdfExport]="true"
+                                      [allowExcelExport]="true"
+                                      (toolbarClick)="toolbarClickCustomerOrders1($event)">
+                                      <e-columns>
+                                        <e-column
+                                          field="ReceivedDate"
+                                          headerText="{{ 'Reports.ReceivedDate' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="Count"
+                                          headerText="{{ 'Reports.Count' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="SubTotal"
+                                          headerText="{{ 'Reports.Total' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="PayedAmount"
+                                          headerText="{{ 'manageorder.Pay Amount' | translate }}"
+                                          textAlign="left"></e-column>
+                                        <e-column
+                                          field="RemainingAmount"
+                                          headerText="{{ 'Shared.RemainingPrice' | translate }}"
+                                          textAlign="left"></e-column>
+                                      </e-columns>
+                                    </ejs-grid>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-profile33" role="tabpanel" aria-labelledby="pills-profile-tab">
+                              <div class="col-lg-12" *ngIf="CustomerOrdersData">
+                                <div class="ms-card">
+                                  <div class="ms-card-body">
+                                    <ejs-grid
+                                      #CustomerOrders
+                                      id="CustomerOrders"
+                                      [dataSource]="CustomerOrdersData"
+                                      [allowPaging]="true"
+                                      [pageSettings]="pageSettings"
+                                      [allowSorting]="true"
+                                      [allowFiltering]="true"
+                                      [filterSettings]="filterOptions"
+                                      [toolbar]="toolbarOptions"
+                                      [allowGrouping]="true"
+                                      [allowPdfExport]="true"
+                                      [allowExcelExport]="true"
+                                      (toolbarClick)="toolbarClickPos($event)">
+                                      <e-columns>
+                                        <!-- <e-column
+                                          field="DocumentId" [hide]="true"
+                                          headerText="{{ 'Shared.DocumentId' | translate }}"></e-column> -->
+                                        <e-column
+                                          field="CreationTime"
+                                          headerText="{{ 'Shared.CreationTime' | translate }}"></e-column>
+                                        <e-column
+                                          field="ReceivedDate"
+                                          headerText="{{ 'CustomerOrder.ReceivedDate' | translate }}"></e-column>
+                                        <e-column
+                                          field="CustomerName"
+                                          headerText="{{ 'Reports.CustomerName' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="CustomerPhone"
+                                          headerText="{{ 'Shared.customerPhone' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="SubTotal"
+                                          headerText="{{ 'ReturnOrder.SubTotal' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="PayedAmount"
+                                          headerText="{{ 'manageorder.Pay Amount' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="RemainingAmount"
+                                          headerText="{{ 'Shared.RemainingPrice' | translate }}"
+                                          textAlign="center"></e-column>
+                                        <e-column
+                                          field="Processed"
+                                          headerText="{{ 'Reports.Processed' | translate }}"
+                                          editType="booleanedit"
+                                          type="boolean"
+                                          [allowFiltering]="true"
+                                          [allowSorting]="true">
+                                          <ng-template #template let-data>
+                                            <div>
+                                              <input type="checkbox" disabled name="Processed" id="Processed" [checked]="data.Processed" />
+                                            </div>
+                                          </ng-template>
+                                        </e-column>
+                                        <e-column>
+                                            <ng-template #template let-data>
+                                              <div>
+                                                <button
+                                                type="button"
+                                                class="btn btn-success m-0"
+                                                (click)="PrintCustomerOrdersDetailsReport(data)">
+                                                {{ "pagetransactions.Print" | translate }}
+                                              </button>
+                                            </div>
+                                          </ng-template>
+                                        </e-column>
+                                      </e-columns>
+                                    </ejs-grid>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Tips-->
+                  <div class="tab-pane fade" id="pills-profile34" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="TipsData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Tips
+                            id="Tips"
+                            [dataSource]="TipsData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickTips($event)">
+                            <e-columns>
+                              <e-column field="CloseDate" headerText="{{ 'Reports.CloseDate' | translate }}" textAlign="center"></e-column>
+
+                              <e-column field="OrderNumber" headerText="{{ 'Reports.OrderNumber' | translate }}" textAlign="left"></e-column>
+                              <e-column field="ClosingUserName" headerText="{{ 'permission.Name' | translate }}"></e-column>
+
+                              <e-column field="Tips" headerText="{{ 'Tips' | translate }}" textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--ProductMovements-->
+                  <div class="tab-pane fade" id="pills-profile35" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="px-2 report-hint">
+                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                        <input
+                          type="checkbox"
+                          name="ProductWithoutSideDish1"
+                          #ProductWithoutSideDish1="ngModel"
+                          (change)="onWithoutSideDishChange($event)"
+                          [(ngModel)]="responseobj.ProductWithoutSideDish"
+                          class="form-control borderRadius" />
+                        <i class="ms-checkbox-check"></i>
+                      </label>
+                      <label class="px-1">{{ "Shared.ProductWithoutSideDish" | translate }}</label>
+                    </div>
+                    <div class="col-lg-12" *ngIf="ProductMovements">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #ProductMovement
+                            id="ProductMovement"
+                            [dataSource]="ProductMovements"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickproducts($event)">
+                            <e-columns>
+                              <e-column
+                                *ngIf="!responseobj.MergeNameAndForeignName"
+                                field="ProductName"
+                                headerText="{{ 'Shared.productName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                *ngIf="responseobj.MergeNameAndForeignName == true"
+                                field="ProductNameAndForeignName"
+                                headerText="{{ 'Shared.ProductNameAndForeignName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="ProductQuantity"
+                                headerText="{{ 'Shared.ProductQuantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="ReturnedQuantity"
+                                headerText="{{ 'Shared.ReturnedQuantity' | translate }}"
+                                textAlign="left"></e-column>
+                              <e-column
+                                field="NetQuantity"
+                                headerText="{{ 'Shared.NetQuantity' | translate }}"
+                                textAlign="left"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--InsuranceData-->
+                  <div class="tab-pane fade" id="pills-profile38" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="InsuranceData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #Waiter
+                            id="Waiter"
+                            [dataSource]="InsuranceData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickPos($event)">
+                            <e-columns>
+                              <e-column
+                              field="CreationTime"
+                              headerText="{{ 'Shared.CreationTime' | translate }}"></e-column>
+                              <e-column
+                                width="100"
+                                field="SerialNumber"
+                                headerText="{{ 'Reports.insuranceNum' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                width="100"
+                                field="OrderNumber"
+                                headerText="{{ 'Reports.OrderNumber' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="CustomerName"
+                                headerText="{{ 'delivery.CustomerName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="CustomerPhone"
+                                headerText="{{ 'delivery.Telephone' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                width="230"
+                                field="Details"
+                                headerText="{{ 'delivery.details' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="PayTypeName"
+                                headerText="{{ 'Reports.PayType' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="Amount"
+                                headerText="{{ 'Reports.InsuranceAmount' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                field="ReturnAmount"
+                                headerText="{{ 'CashReceipt.ReturnAmount' | translate }}"
+                                textAlign="center"></e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--EmployeeFeedData-->
+                  <div class="tab-pane fade" id="pills-profile41" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="EmployeeFeedingData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #EmployeeName
+                            id="EmployeeName"
+                            [dataSource]="EmployeeFeedingData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickPos($event)">
+                            <e-columns>
+                              <e-column field="DocumentId" [visible]="false"></e-column>
+                              <e-column
+                                field="OrderNumber"
+                                headerText="{{ 'Reports.OrderNumber' | translate }}"></e-column>
+                              <e-column
+                              field="EmployeeName"
+                              headerText="{{ 'delivery.EmployeeName' | translate }}"></e-column>
+                              <e-column
+                                field="ProductName"
+                                headerText="{{ 'Shared.productName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                width="100"
+                                field="CashierName"
+                                headerText="{{ 'Reports.CashierName' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                  field="SubTotal"
+                                  headerText="{{ 'delivery.Subtotal' | translate }}"
+                                  textAlign="center"></e-column>
+                              <e-column
+                                width="100"
+                                field="CloseTime"
+                                headerText="{{ 'Shared.CloseTime' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column
+                                width="100"
+                                field="CloseDate"
+                                headerText="{{ 'Shared.Closedate' | translate }}"
+                                textAlign="center"></e-column>
+                              <e-column  textAlign="Center" width="100">
+                                <ng-template #template let-data>
+                                  <button type="button" class="btn btn-info btnFit m-0" (click)="PrintOrder(data)">
+                                    {{ 'Shared.Show' | translate }}
+                                  </button>
+                                </ng-template>
+                              </e-column>
+                            </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    <!--CustomerComplaintData-->
+                  <div class="tab-pane fade" id="pills-profile42" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="col-lg-12" *ngIf="CustomerComplaintData">
+                      <div class="ms-card">
+                        <div class="ms-card-body">
+                          <ejs-grid
+                            #CustomerName
+                            id="CustomerName"
+                            [dataSource]="CustomerComplaintData"
+                            [allowPaging]="true"
+                            [pageSettings]="pageSettings"
+                            [allowSorting]="true"
+                            [allowFiltering]="true"
+                            [filterSettings]="filterOptions"
+                            [toolbar]="toolbarOptions"
+                            [allowGrouping]="true"
+                            [allowPdfExport]="true"
+                            [allowExcelExport]="true"
+                            (toolbarClick)="toolbarClickPos($event)">
+                          <e-columns>
+                            <e-column field="DocumentId" [visible]="false"></e-column>
+                            <e-column
+                              field="Complaint"
+                              headerText="{{ 'Shared.complaint' | translate }}">
+                            </e-column>
+                            <e-column
+                              field="OrderNumber"
+                              headerText="{{ 'ReturnOrder.OrderNumber' | translate }}">
+                            </e-column>
+                            <e-column
+                              field="CloseDate"
+                              headerText="{{ 'Reports.CloseDate' | translate }}">
+                            </e-column>
+                            <e-column
+                              field="CustomerName"
+                              headerText="{{ 'delivery.CustomerName' | translate }}">
+                            </e-column>
+                             <e-column
+                              field="CustomerPhone"
+                              headerText="{{ 'Shared.customerPhone' | translate }}">
+                            </e-column>
+                            <e-column
+                              field="CreationTime"
+                              headerText="{{ 'CashReceipt.Date' | translate }}"
+                              textAlign="Center">
+                            </e-column>
+                          </e-columns>
+                          </ejs-grid>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tab>
+  <tab
+    *ngFor="let tabz of tabs"
+    [heading]="tabz.title"
+    [active]="tabz.active"
+    (selectTab)="selectTab(tabz)"
+    (deselect)="tabz.active = false"
+    [disabled]="tabz.disabled"
+    [removable]="tabz.removable"
+    (removed)="removeTabHandler(tabz)"
+    [customClass]="tabz.customClass">
+  </tab>
+</tabset>
+
+<div [hidden]="TabA.active" id="container"></div>
+
+<!-- print modal -->
+<div class="modal fade" id="modal-1" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+      c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+      S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+      c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+      S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+      c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+      H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+      c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+        M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+      H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> {{ "setting.PrinterSettings" | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form #frmPrint="ngForm" (ngSubmit)="Print()">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-10 py-2">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                  <span class="required-asterisk" style="font-size: 22px; font-weight: bold"> * </span>
+                  <label for="language" style="margin-left: 6px">
+                    <h6 class="m-0">{{ "Layout.Language" | translate }}</h6>
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <ejs-combobox
+                    name="LanguageId"
+                    #LanguageId="ngModel"
+                    [(ngModel)]="printDetailobj.LanguageId"
+                    id="language_id"
+                    [dataSource]="languages"
+                    [autofill]="true"
+                    [allowFiltering]="true"
+                    required
+                    placeholder="Select Language"
+                    [fields]="fields"
+                    [(value)]="combovalLanguage">
+                  </ejs-combobox>
+                </div>
+                <div
+                  class="alert text-danger"
+                  *ngIf="(!LanguageId.valid && LanguageId.touched) || (frmPrint.submitted && LanguageId.invalid)">
+                  <div class="alert-danger" *ngIf="LanguageId.errors.required">
+                    {{ "Shared.LanguageisRequired" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <button type="submit" class="btn btn-primary shadow-none mt-0 btnEdit">
+              {{ "Shared.Ok" | translate }}
+            </button>
+            <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">
+              {{ "Shared.Close" | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Model -->
+
+<div class="modal fade" id="modal-5" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+      c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+      S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+      c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+      S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+      c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+      H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+      c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+        M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+      H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> {{ "Shared.products" | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <ejs-grid #detailgrid id="detailgrid" [dataSource]="OrderDetails" [allowSelection]="false">
+          <e-columns>
+            <e-column field="ProductName" headerText="Product Name"></e-column>
+            <e-column field="ProductPrice" headerText="Product Price"></e-column>
+            <e-column field="ProductQuantity" headerText="Product Quantity"></e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,9 @@
 {
   "Shared": {
+    "Get":"Get",
+    "Take":"Take",
+    "ProductWithoutSideDish":"Product Without Side Dish",
+    "Unassigned":"Unassigned",
     "MyPoints":"My Points",
     "Default":"Default",
     "SubNumber":"Sub-number",
@@ -1227,6 +1231,7 @@
     "validslctprinter": "Yazıcıyı seçmelisiniz"
   },
   "products": {
+    "GroupMealName":"Group Product Name",
     "AsGroupMeal":"As Group Product",
     "IncludedProducts":"Included Products",
     "Mandatory":"Mandatory",
@@ -1271,6 +1276,7 @@
     "SearchWithOrderNumber": "Search With Order Number"
   },
   "Reports": {
+    "showssalesonlyreturnnotincluded": "Note: These values are calculated based on the quantity of sales only.",
     "Redeem":"Redeem",
     "FinalSummary":"Final Summary",
     "returnTime":"Return Time",
@@ -1551,6 +1557,7 @@
     "UsersGroups": "Kullanıcı Grupları"
   },
   "setting": {
+    "CannotUpdateAfterAssignDriver":"Cannot Update Order After Assign Driver",
     "DonotUsePOSInIncomingUser":"Does not depend on the point of sale in opening the shift.",
     "DefaultOrderPreparationTimeInMinutes":"Default Order Preparation Time In Minutes",
     "AllowAdminAccessPOSTransactons":"Allow Admin User Access POS Order",
@@ -1736,5 +1743,12 @@
     "mustAssignDriver": "Bu sipariş restoran teslimatı olduğundan bu siparişe bir kurye atamalısınız.",
     "CancelReason": "İptal Nedeni",
     "RestaurantStatus": "Restoran Durumu"
-  }
+  },
+  "Admin":"Admin",
+  "Employee":"Employee",
+  "Cashier":"Cashier",
+  "Driver":"Driver",
+  "Waiter":"Waiter",
+  "Chief":"Chief",
+  "Captain":"Captain"
 }

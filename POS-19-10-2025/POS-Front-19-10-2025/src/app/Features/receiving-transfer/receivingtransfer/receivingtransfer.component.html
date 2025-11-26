@@ -1,0 +1,352 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="receivingtransferform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (quickEvents)="quickEvents($event)"
+    (returnobjEvent)="returnobjEvent($event)"
+    (afterPag)="afterPag($event)"
+    (clearobjEvent)="clearobject()"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"
+    [request]="request">
+    <!--[hideEditDelete]="itemtransferrequest.Sent" [showedit]="CheckEdit()"-->
+  </app-pagetransactions>
+  <div class="container-fluid" style="max-width: 100%; padding-right: 15px; padding-left: 15px">
+    <div class="container-fluid mt-3">
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            type="button"
+            data-toggle="modal"
+            data-target="#transfersModal"
+            class="btn bg-maingreen m-0 has-icon"
+            (click)="showServerTransfers()"
+            [disabled]="flagQueryM || disable">
+            <i class="fas fa-paper-plane fs-16 px-1"></i>
+            {{ "stock.show-transfers" | translate }}
+          </button>
+          <!-- <button type="button"   class="btn bg-maingreen m-0 has-icon"
+          (click)="autoInsertReceivingTransfer()" >
+          <i class="fas fa-arrow-left fs-16 px-1"></i>استلام تلقائي
+        </button> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="transfersModal" tabindex="-1" role="dialog" aria-labelledby="transfersModal">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header borderb">
+            <h6 class="digram"><i class="fas fa-arrow-left fs-16 px-1"></i>{{ "stock.Transfers" | translate }}</h6>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <perfect-scrollbar class="col-md-12 p-1 ManageScrollTablePay">
+              <div class="table-responsive">
+                <table class="table table-bordered tabledriver thead-primary text-center">
+                  <thead class="text-center bg-maingreen">
+                    <tr>
+                      <th scope="col">
+                        {{ "stock.DocumentNumber" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "stock.DocumentDate" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "stock.TransferStock" | translate }}
+                      </th>
+                      <th scope="col">{{ "stock.Description" | translate }}</th>
+                      <th scope="col">{{ "Shared.Select" | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let transfer of transfers; let i = index">
+                      <td scope="row">{{ transfer.DocumentId }}</td>
+                      <td>{{ transfer.DocumentDate | date : "dd/MM/yyyy" }}</td>
+                      <td>
+                        {{ transfer.Stock != null ? transfer.Stock.Name : "" }}
+                      </td>
+                      <td>
+                        {{ transfer.Description }}
+                      </td>
+                      <td class="text-center">
+                        <label class="mt-checkbox">
+                          <input
+                            type="checkbox"
+                            name="checktransafer{{ i }}"
+                            [(ngModel)]="transfer.Checked"
+                            (click)="onTransferChange(transfer, i)" />
+                          <span></span>
+                        </label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </perfect-scrollbar>
+          </div>
+
+          <div class="modal-footer p-1">
+            <button type="button" class="btn btn-danger mt-0 btnEdit" data-dismiss="modal">
+              {{ "Shared.Close" | translate }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-success mt-0 btnEdit"
+              data-dismiss="modal"
+              (click)="fillReceivingTransfer()"
+              [disabled]="!transferSelected">
+              {{ "Shared.Show" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid mt-3">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="master">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group form-input">
+                    <label class="lable"> {{ "stock.DocumentNumber" | translate }}</label>
+                    <input type="text" [value]="responseobj.DocumentNumber" class="form-control" readonly />
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <label class="lable"> {{ "stock.DocumentDate" | translate }}</label>
+                  <ejs-datepicker
+                    class="pAsolute absolutePosition"
+                    format="MM/dd/yyyy"
+                    name="date"
+                    #date="ngModel"
+                    [(ngModel)]="responseobj.DocumentDate"
+                    [disabled]="inputdisable || responseobj.Sent"
+                    [ngClass]="{
+                      'is-invalid': frmRef.submitted && date.invalid
+                    }"
+                    class="form-control borderRadius Prelative"
+                    id="date"
+                    placeholder="mm/dd/yyyy"
+                    required>
+                  </ejs-datepicker>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group form-input">
+                    <label class="lable"> {{ "stock.TransferNumber" | translate }}</label>
+                    <input type="text" [value]="responseobj.TransferDocumentId" class="form-control" readonly />
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <label class="lable"> {{ "stock.TransferStock" | translate }}</label>
+                  <!-- <select name="ss" disabled class="form-control" required [(ngModel)]="responseobj.FromStockId" option
+                [value]="">
+      
+                <option *ngFor="let stock of stocks; " [ngValue]="stock.Id">{{stock.Name}}
+                </option>
+              </select> -->
+                  <ejs-combobox
+                    name="FromtockId"
+                    #FromtockId="ngModel"
+                    [(ngModel)]="responseobj.FromStockDocId"
+                    [allowFiltering]="true"
+                    [autofill]="true"
+                    [dataSource]="StockList"
+                    placeholder="{{ 'stock.Select TransferStock' | translate }}"
+                    [fields]="StockFlds"
+                    class="form-control borderRadius"
+                    id="stock_id"
+                    readonly
+                    [required]="isRequired"></ejs-combobox>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group form-input">
+                    <label class="lable">{{ "stock.Reference" | translate }}</label>
+                    <input
+                      name="reference"
+                      class="form-control"
+                      [disabled]="inputdisable || responseobj.Sent"
+                      placeholder="{{ 'stock.Reference' | translate }}"
+                      [(ngModel)]="responseobj.Reference" />
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label class="lable">{{ "stock.Description" | translate }}</label>
+                    <input
+                      name="description"
+                      class="form-control"
+                      [disabled]="inputdisable || responseobj.Sent"
+                      placeholder="{{ 'stock.Description' | translate }}"
+                      [(ngModel)]="responseobj.Description" />
+
+                    <div class="invalid-feedback"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- <div class="col-6">
+              <ng-container>
+
+                <ejs-grid #grid [dataSource]='responseobj' (rowSelected)='rowSelected($event)'
+                  [selectionSettings]='selectionOption' height='400.2px'>
+                  <e-columns>
+                    <e-column field='TransferID' headerText='رقم التحويل' textAlign='Right' width=80></e-column>
+                    <e-column field='TransferDate' headerText='تاريخ التحويل' textAlign='Right' width=85 format='C2'>
+                    </e-column>
+                    <e-column field='StoreRequest' headerText='المخزن المحول منه' textAlign='Right' width=120></e-column>
+                    <e-column field='TransferDesc' headerText='الوصف' textAlign='Right' width=100></e-column>
+                  </e-columns>
+                </ejs-grid>
+
+              </ng-container>
+
+            </div> -->
+
+        <div class="col-12">
+          <!-- List Details -->
+
+          <div _ngcontent-yjh-c1 class="ms-panel ms-panel-fh2 ms-panel-order Prelative panelDetails">
+            <div class="">
+              <div class="table-responsive">
+                <table class="table table-bordered text-dark table-striped">
+                  <thead>
+                    <tr>
+                      <th style="text-align: center !important">
+                        {{ "stock.Item" | translate }}
+                      </th>
+                      <th scope="col">{{ "stock.Unit" | translate }}</th>
+                      <th>{{ "stock.TransferQuantity" | translate }}</th>
+                      <th scope="col">
+                        {{ "stock.ReceiptQuantity" | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let detail of responseobj.ReceivingTransferDetails; let i = index">
+                      <td>
+                        <div class="input-group editInputGroup">
+                          <select
+                            name="itemselect{{ i }}"
+                            id="{{ i }}"
+                            class="form-control qty"
+                            required
+                            disabled
+                            readonly
+                            [(ngModel)]="detail.ItemId">
+                            <option *ngFor="let item of items" [value]="item.Id" class="form-control qty">
+                              {{ item.Name }}
+                            </option>
+                          </select>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <div class="input-group editInputGroup">
+                            <div class="input-group">
+                              <select
+                                name="unitselect{{ i }}"
+                                id="{{ i }}"
+                                class="form-control"
+                                required
+                                (change)="setSizeFromMainUnit(detail)"
+                                [(ngModel)]="detail.UnitId"
+                                disabled
+                                readonly>
+                                <option *ngFor="let unit of gtSelectedUnits(detail)" [value]="unit.Id">
+                                  {{ unit.Name }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="desc">
+                        <div class="desc">
+                          <input
+                            name="qty{{ i }}"
+                            type="number"
+                            class="form-control borderRadius qty"
+                            disabled
+                            readonly
+                            [(ngModel)]="detail.TransferQuantity" />
+                        </div>
+                      </td>
+                      <td class="desc">
+                        <div class="desc">
+                          <input
+                            class="form-control borderRadius"
+                            type="number"
+                            [disabled]="inputdisable || responseobj.Sent"
+                            id="ReceiptQuantity{{ i }}"
+                            name="ReceiptQuantity{{ i }}"
+                            #ReceiptQuantity="ngModel"
+                            [(ngModel)]="detail.ReceiptQuantity"
+                            (change)="getReceiptQuantity(detail)"
+                            required
+                            [ngClass]="{
+                              'alert-danger': frmRef.submitted && ReceiptQuantity.invalid
+                            }" />
+
+                          <div
+                            *ngIf="
+                              (frmRef.submitted && ReceiptQuantity?.invalid) ||
+                              (ReceiptQuantity?.invalid && ReceiptQuantity?.touched)
+                            ">
+                            <div class="alert alert-danger stockValidationError">
+                              {{ "Shared.required" | translate }}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- <ejs-grid #grid id='Grid' [dataSource]='itemtransferrequest.ItemTransferRequestDetails' [allowPaging]='true'
+                  [pageSettings]='pageSettings' rowHeight='38' [allowSorting]='true' [allowFiltering]='true'
+                  [filterSettings]='filterOptions' [toolbar]='toolbarOptions' [allowGrouping]='true' [allowPdfExport]='true'
+                  [allowExcelExport]='true' [editSettings]='editOptions' height='299.2px'>
+                  <e-columns>
+                  
+                    <e-column field='ItemId' headerText='الصنف' textAlign='Right' width=120></e-column>
+                    <e-column field='UnitId' headerText='وحدة الصنف' editType='dropdownedit' [edit]='ddParams'
+                      textAlign='Right' width=110 format='C2'></e-column>
+                    <e-column field='Quantity' headerText='الكمية' editType='numericedit' [edit]='numericParams'
+                      textAlign='Right' width=120></e-column>
+                    <e-column input type="text" formControlName="itemDescription" class="form-control" headerText='وصف الصنف'
+                      field='Description' textAlign='Right' width=100></e-column>
+                    <e-column headerText='الوحدات' field='UnitId2' textAlign='Right' width=100 editType='dropdownedit'
+                      [edit]='unitParams'>
+
+                    </e-column>
+                    <e-column field='Actions' headerText='العمليات' [commands]='commands' textAlign='center' width=100>
+                    </e-column>
+                  </e-columns>
+                </ejs-grid> -->
+          </div>
+          <!-- end left Details   -->
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

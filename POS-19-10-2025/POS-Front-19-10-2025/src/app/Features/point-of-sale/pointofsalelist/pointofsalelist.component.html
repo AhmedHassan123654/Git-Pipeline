@@ -1,0 +1,50 @@
+<!-- Body Content Wrapper -->
+
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        (rowSelected)="onRowSelected($event)"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions">
+        <e-columns>
+          <e-column field="Name" headerText="{{ 'Shared.Name' | translate }}" textAlign="center"></e-column>
+          <e-column field="FName" headerText="{{ 'Shared.ForeignName' | translate }}" textAlign="center"></e-column>
+          <e-column field="DeviceName" headerText="{{ 'Shared.deviceName' | translate }}" textAlign="center"></e-column>
+          <e-column field="PrinterName" headerText="{{ 'Shared.printer' | translate }}" textAlign="center"></e-column>
+          <e-column field="BranchName" headerText="{{ 'Shared.branch' | translate }}" textAlign="center"></e-column>
+          <e-column
+            field="PricingClassName"
+            headerText="{{ 'Shared.pricingclasses' | translate }}"
+            textAlign="center"></e-column>
+          <!-- <e-column field='OrderTypeName' headerText='Order Type Name' textAlign='center'></e-column> -->
+          <e-column
+            field="IsSync"
+            headerText="{{ 'Shared.IsSync' | translate }}"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <ng-template #template let-data>
+              <div>
+                <input type="checkbox" disabled name="IsSync" id="IsSync" [checked]="data.IsSync" />
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

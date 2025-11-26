@@ -1,0 +1,441 @@
+.image-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // gap: 5rem;
+  // margin: 6% 0;
+}
+
+/* suggestions-carousel */
+.suggestions-carousel {
+  position: absolute;
+  z-index: 9;
+  bottom: 9px;
+  padding-inline-end: 12px;
+  border-radius: 6px;
+  .title {
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  .carousel-caption {
+    width: 88%;
+    background-image: linear-gradient(to top, rgb(158 150 150 / 0%), #c3c3c3);
+    color: #000;
+    font-weight: 600;
+  }
+  .carousel-item{
+    width: 28.3333%;
+    img{
+      max-width: 88%;
+      border-bottom-right-radius: 8px;
+      border-bottom-left-radius: 8px;
+      height: 151px;
+    }
+  }
+  .carousel-control-next,
+  .carousel-control-prev{
+    display: none !important;
+  }
+
+}
+
+.carousel-caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem !important;
+  border: none;
+  top: 0;
+  
+}
+
+
+.slide-container {
+  display: inline-block !important;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.slideshow-container{
+  .carousel-item {
+    // margin: 0 0.5rem 0 0 !important;
+    width: 100%;
+    height: 100vh !important;
+    
+  
+    .product-icon {
+      font-size: 1.5rem;
+      text-align: right;
+    }
+    .product-name {
+      font-size: 1.25rem;
+      text-align: right;
+    }
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-align: right;
+    }
+  
+    // img {
+    //   border-radius: 0.5rem !important;
+    //   border: none;
+    //   display: block;
+  
+    // }
+  
+    .btn {
+      min-width: 30px !important;
+      min-height: 26px !important;
+      display: inline-block;
+    }
+  
+    &:nth-child(3n + 0) {
+      margin: 0 !important;
+    }
+  }
+  /* END suggestions-carousel */
+}
+
+.product-picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 999;
+
+  img {
+    border-radius: 1rem;
+    // object-fit: contain;
+    // max-width: 80%;
+    // max-height: 80%;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.customer {
+  background: transparent;
+}
+.view-order {
+  padding: 20px;
+  width: 100%;
+  background: #3a6ea5;
+  min-height: 100vh;
+  max-height: 100vh;
+  .order-title {
+    display: flex;
+    justify-content: center;
+    font-size: 46px;
+    color: #fff;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+}
+.table-1 {
+  min-height: 59vh;
+  max-height: 59vh;
+  display: block;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  background: #4f8dca;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 6px 23px #ebebeb59;
+}
+
+.table-1 thead tr {
+  font-size: 30px;
+  color: #cbfffd;
+}
+.table-1 tbody td {
+  font-size: 21px;
+  font-weight: 700;
+  .side-dish {
+    color: #fff;
+    font-size: 20px;
+  }
+  .desc {
+    font-size: 20px;
+  }
+}
+.table-2 {
+  margin-top: 40px;
+}
+.table-2 .td-value {
+  text-align: end;
+}
+.tax-text {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 500;
+}
+.table-2 h5 {
+  color: #f0ff0f;
+  font-size: 35px;
+  font-weight: bold;
+}
+.slideshow-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 99.9vh;
+  //margin-bottom: 42px;
+  .carousel.slide{
+    height: 97vh !important ;
+  }
+  .slide{
+    height: 100%;
+    // img{
+    //   width: 300px;
+    // }
+  }
+}
+.carousel-picture{
+  height: 100vh;
+}
+.imgsource {
+  height: 100%;
+  width: 100%;
+  // object-fit: contain;
+}
+.mySlides {
+  // display: none;
+  width: 200px;
+  height: 200px;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.logo-version {
+  // background-image: url("../../../../assets/images/volkswagen-new-logo.jpg");
+  height: 100vh;
+  width: 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  .total-cost {
+    padding: 12px;
+    background: red;
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+  }
+  .view-order {
+    background: transparent;
+    padding: 10px;
+    min-height: 90vh;
+    max-height: 90vh;
+
+    .content {
+      border: 5px solid #fff;
+      padding: 8px;
+      .table-1 {
+        background-color: #dddddd82;
+        color: #000;
+        border-radius: 0px;
+        thead {
+          text-align: center;
+          tr {
+            color: red;
+          }
+        }
+        tbody {
+          text-align: center;
+          td {
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+}
+
+.logo-content {
+  display: flex;
+  padding: 12px;
+  position: absolute;
+  z-index: 9;
+}
+
+.logo-content .logo-spinner {
+  display: inline-block;
+  position: relative;
+  width: 70px;
+  height: 70px;
+  background: #ec6126;
+  border-radius: 4px;
+}
+.logo-content .name {
+  display: flex;
+  align-items: center;
+  // margin-inline-end: 28px;
+}
+.logo-content .name span {
+  font-size: 60px;
+  color: #fff;
+  font-weight: bolder;
+  letter-spacing: 5px;
+}
+.logo-content .logo-spinner div {
+  position: absolute;
+  // width: 25px;
+  // height: 25px;
+  border-radius: 50%;
+  background: #fff;
+  animation: logo-spinner 1.2s linear infinite;
+}
+.logo-content .logo-spinner div{
+  width: calc((75px / 3) - 3 * 3px);
+  height: calc((75px / 3) - 3 * 3px);
+}
+.logo-content .logo-spinner div:nth-child(1) {
+  top: 5px;
+  left: 5px;
+  animation-delay: 0s;
+}
+.logo-content .logo-spinner div:nth-child(2) {
+  top: 5px;
+  left: 28px;
+  animation-delay: -0.4s;
+}
+.logo-content .logo-spinner div:nth-child(3) {
+  top: 5px;
+  left: 51px;
+  animation-delay: -0.8s;
+}
+.logo-content .logo-spinner div:nth-child(4) {
+  top: 28px;
+  left: 5px;
+  animation-delay: -0.4s;
+}
+.logo-content .logo-spinner div:nth-child(5) {
+  top: 28px;
+  left: 28px;
+  animation-delay: -0.8s;
+}
+.logo-content .logo-spinner div:nth-child(6) {
+  top: 49px;
+  left: 5px;
+  animation-delay: -1.2s;
+}
+
+@keyframes logo-spinner {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+// .slideshow-container {
+//   .carousel-item {
+//     margin: 0 0.5rem 0 0 !important;
+//     width: 100%;
+//     height: 100%;
+  
+//     .product-icon {
+//       font-size: 1.5rem;
+//       text-align: right;
+//     }
+//     .product-name {
+//       font-size: 1.25rem;
+//       text-align: right;
+//     }
+//     .product-price {
+//       font-size: 1.25rem;
+//       font-weight: bold;
+//       text-align: right;
+//     }
+  
+//     // img {
+//     //   border-radius: 0.5rem !important;
+//     //   border: none;
+//     //   display: block;
+//     //   width: 100%;
+//     //   height: 100% !important;
+//     //   object-fit: cover !important;
+//     // }
+  
+//     .btn {
+//       min-width: 30px !important;
+//       min-height: 26px !important;
+//       display: inline-block;
+//     }
+  
+//     &:nth-child(3n + 0) {
+//       margin: 0 !important;
+//     }
+//   }
+// }
+.carousel-indicators,
+.carousel-control-next, .carousel-control-prev{
+  display: none !important; 
+}
+.carousel-indicators{
+  display: none !important;
+}

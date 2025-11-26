@@ -1,0 +1,146 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />
+      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png" class="" alt="spinner img" srcset="" width="150px" height="100px" />
+      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
+</div>
+
+<app-breadcrumbs></app-breadcrumbs>
+<form name="volumeform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel rounded">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <!--1-->
+
+                      <div class="form-row pt-3">
+                        <!--Select Customer-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "Shared.Name" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <input
+                                    type="text"
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    id="name_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="isRequired" />
+
+                                  <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "customer.ForeignName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <img src="assets/images/amount (2).png" alt="" srcset="" />
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    type="text"
+                                    name="ForeignName"
+                                    #ForeignName="ngModel"
+                                    [(ngModel)]="responseobj.ForeignName"
+                                    id="foreignName_id"
+                                    class="form-control borderRadius"
+                                    disabled />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--order Date-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "customer.GlobalCode" | translate }}</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group positionEdit">
+                                <input
+                                  type="text"
+                                  name="GlobalCode"
+                                  #GlobalCode="ngModel"
+                                  [(ngModel)]="responseobj.GlobalCode"
+                                  id="globalCode_id"
+                                  class="form-control borderRadius"
+                                  disabled
+                                  [required]="isRequired" />
+
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && GlobalCode.invalid) ||
+                                    (GlobalCode.invalid && GlobalCode.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="GlobalCode.errors.required">
+                                    Global Code Is required
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

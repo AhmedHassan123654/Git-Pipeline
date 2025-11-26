@@ -1,5 +1,12 @@
 {
   "Shared": {
+    "Get":"Get",
+    "Take":"Take",
+    "SomeSelected":"Some Selected",
+    "AllSelected":"All Selected",
+    "NoneSelected":"None Selected",
+    "ProductWithoutSideDish":"Product Without Side Dish",
+    "Unassigned":"Unassigned",
     "MyPoints":"My Points",
     "Default":"Default",
     "PrintType":"Print Type",
@@ -728,11 +735,14 @@
     "OnlineCompany":"OnlineCompany",
     "branchOrderTypes":"Branch Order Types (Online Order)",
     "ImmediatePrint":"Immediate Print",
-    "PrintSeparateInsuranceReport":"Print Separate Insurance Report"
-
-
+    "PrintSeparateInsuranceReport":"Print Separate Insurance Report",
+    "dailyinventory":"Daily Inventory",
+    "dailyinventorylist":"Daily Inventory List",
+    "customercomplaint": "Customer Complaints",
+    "complaint": "Complaint"
   },
   "products": {
+    "GroupMealName":"Group Product Name",
     "AsGroupMeal":"As Group Product",
     "IncludedProducts":"Included Products",
     "Mandatory":"Mandatory",
@@ -1235,6 +1245,7 @@
 
   },
   "setting": {
+    "CannotUpdateAfterAssignDriver":"Cannot Update Order After Assign Driver",
     "DonotUsePOSInIncomingUser":"Does not depend on the point of sale in opening the shift.",
     "DefaultOrderPreparationTimeInMinutes":"Default Order Preparation Time In Minutes",
     "AllowAdminAccessPOSTransactons":"Allow Admin User Access POS Order",
@@ -1804,6 +1815,7 @@
     "CanViewPosTotalSales" : " Can View Pos Total Sales"
   },
   "Reports": {
+    "showssalesonlyreturnnotincluded": "Note: These values are calculated based on the quantity of sales only.",
     "employeeFeedingReport": "Employee Feeding Report",
     "Redeem":"Redeem",
     "ValidPoints":"Valid points and not expired",
@@ -2179,8 +2191,9 @@
     "productQuantityReport":"Product Quantity Report",
     "VerifiedByUserName":"Verified By User Name:",
     "dailystockReport":"Daily Stock Report",
-    "InsuranceCreatorUserName":"Insurance Creator User Name"
-
+    "InsuranceCreatorUserName":"Insurance Creator User Name",
+    "customercomplaintReport":"Customer Complaint Report",
+    "complaint":"Complaint"
   },
   "tax": {
     "DefaultForProduct":"Default For Products",
@@ -2342,6 +2355,7 @@
     "CancelReason": "Cancel Reason",
     "RestaurantStatus": "Restaurant Status"
   },
+  "Admin":"Admin",
   "Employee":"Employee",
   "Cashier":"Cashier",
   "Driver":"Driver",

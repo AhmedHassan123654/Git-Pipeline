@@ -1,0 +1,1457 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<div style="height: 100vh ;line-height: 1 !important;" class="payment">
+  <div class="row">
+    <!-- payment and total section -->
+    <div class="col-md-9 col-sm-12 ms-panel-body py-1 clearfix">
+      <div class="row ms-panel ms-panel-fh py-3 msPanelE content">
+        <div class="col-4">
+          <div class="d-flex justify-content-start">
+            <button
+              style="font-size: 16px; font-weight: 600"
+              type="button"
+              class="btn bg-maingreen my-0"
+              (click)="backProduct('backDone')">
+              <i class="fas fa-long-arrow-alt-left px-2"></i>
+              {{ "Shared.Back" | translate }}
+            </button>
+          </div>
+        </div>
+        <div class="col-6 pl-4">
+          <div class="total-box">
+            <div class="row">
+                <div class="col-4 text-right">{{totalForAllPay(_orderobj) | currency : " " : "symbol" : fraction : priceLang}}</div>
+                <div class="col-8 text-right bold">{{ "Order.Total Payable" | translate }}</div>
+            </div>
+            <div class="row">
+                <div class="col-4 text-right">
+                  {{ (totalForAllPay(_orderobj) + _orderobj?.RemainigAmount)| currency : " " : "symbol" : fraction : priceLang }}
+                </div>
+                <div class="col-8 text-right bold">{{ "manageorder.Pay Amount" | translate }}</div>
+            </div>
+            <div class="row">
+                <div class="col-4 text-right">{{ _orderobj?.RemainigAmount | currency : " " : "symbol" : fraction : priceLang }}</div>
+                <div class="col-8 text-right bold">{{ "Shared.RemainingPrice" | translate }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-1">
+          <button type="button" class="btn bg-maingreen " (click)="openTipsModel()">
+            <img class="pull-right" style="cursor: pointer; width: 40px; height: 30px"
+              src="assets/images/money.png" alt="" />
+            <span class="fs-5 cairo-font px-1">{{ "Tips" | translate }} </span>
+          </button>
+        </div>
+
+        <!-- <div class="col-4">
+          <div class="d-flex">
+            <div class="d-flex">
+              <span class="paid-num">
+                {{
+                  _orderobj?.SubTotal + _orderobj?.DeliveryPersonDeliveryPrice + _orderobj?.TotalInsuranceAmount
+                    | currency : " " : "symbol" : fraction : priceLang
+                }}
+              </span>
+              <span class="paid-title">{{ "ReturnOrder.requiredNum" | translate }}</span>
+            </div>
+          </div>
+          <div class="total-info d-flex justify-content-center">
+            <div class="row">
+              <div class="col-12 d-flex justify-content-evenly">
+                <span class="total-title">{{ "Shared.RemainingPrice" | translate }}</span>
+                <span class="total-price">
+                  {{ _orderobj?.RemainigAmount | currency : " " : "symbol" : fraction : priceLang }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- details of paid package -->
+        <!-- payment types -->
+        <div class="col-12">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-12 mb-2">
+                    <!-- InvoiceSummary btn -->
+                    <button data-toggle="modal" data-target="#modal-paymentVoucher" class="btn btn-primary w-100 mt-0">
+                      <i class="fas fa-receipt px-2"></i>
+                      <span>{{ "Shared.ShowReceipt" | translate }}</span>
+                      <i class="fas fa-eye px-2"></i>
+                    </button>
+                  </div>
+                  <div class="col-12 mt-1">
+                    <table class="table table-bordered mb-0">
+                      <thead class="bg-tabel text-center">
+                        <tr>
+                          <th scope="col">{{ "Shared.Price" | translate }}</th>
+                          <th scope="col">
+                            {{ "Shared.invoicesummary" | translate }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center editTd">
+                        <tr>
+                          <td class="">
+                            {{ _orderobj?.NetTotal | currency : " " : "symbol" : fraction : priceLang }}
+                          </td>
+                          <th scope="row">{{ "PosSettings.Order Cost" | translate }}</th>
+                        </tr>
+                        <tr>
+                          <td class="">{{ _orderobj?.ServiceChargeValue | currency : " " : "symbol" : fraction : priceLang }}</td>
+                          <th scope="row">{{ "Shared.Services" | translate }}</th>
+                        </tr>
+                        <tr>
+                          <td class="">{{ _orderobj?.TotalTaxAmount | currency : " " : "symbol" : fraction : priceLang }}</td>
+                          <th scope="row">{{ "Shared.TaxAmount" | translate }}</th>
+                        </tr>
+                        <tr>
+                          <td class="">{{ (_orderobj?.DeliveryNetPrice ? _orderobj?.DeliveryNetPrice: _orderobj?.DeliveryPrice )| currency : " " : "symbol" : fraction : priceLang }}</td>
+                          <th scope="row">{{ "Shared.DeliveryPrice" | translate }}</th>
+                        </tr>
+                       <tr>
+                          <td class="">{{ _orderobj?.DeliveryPersonDeliveryPrice | currency : " " : "symbol" : fraction : priceLang }}</td>
+                          <th scope="row">{{ "Shared.RegionPersonDeliveryPrice" | translate }}</th>
+                        </tr>
+                        <tr *ngIf="_orderobj?.TotalInsuranceAmount">
+                          <td class="">{{ _orderobj?.TotalInsuranceAmount | currency : " " : "symbol" : fraction : priceLang }}</td>
+                          <th scope="row">{{ "Shared.InsuranceAmount" | translate }}</th>
+                        </tr>
+                        <tr>
+                          <td class="">
+                            {{
+                              _orderobj?.DiscountAmount + _orderobj?.DetailsDiscount
+                                | currency : " " : "symbol" : fraction : priceLang
+                            }}
+                          </td>
+                          <th scope="row">{{ "Order.Total Discount" | translate }}</th>
+                        </tr>
+                        <tr *ngIf="_orderobj?.MinimumChargeDifferance">
+                          <td class="">{{ _orderobj?.MinimumChargeDifferance | currency : " " : "symbol" : fraction : priceLang }}</td>
+                          <th scope="row">{{ "kds.Minimumchargedifferance" | translate }}</th>
+                        </tr>
+                        <tr *ngIf="_orderobj?.minChargeTaxValue">
+                          <td class="">{{ _orderobj?.minChargeTaxValue | currency : " " : "symbol" : fraction : priceLang }}</td>
+                          <th scope="row">{{ "Reports.minChargeTaxValue" | translate }}</th>
+                        </tr>
+                        <tr>
+                          <td class=""> {{ totalForAllPay(_orderobj) | currency : " " : "symbol" : fraction : priceLang }} </td>
+                          <th scope="row">{{ "Reports.GrandTotal" | translate }}</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- note input -->
+                  <div class="col-md-12 mt-1 d-flex align-items-center">
+                    <div style="flex: 1 1 auto; min-width: 0;">
+                      <textarea
+                        class="form-control notes-text"
+                        name="NoteForOrder"
+                        #NoteForOrder="ngModel"
+                        style="height: 3.5rem;"
+                        [(ngModel)]="_orderobj.NoteForOrder"
+                        placeholder="{{ 'kds.Note' | translate }}"
+                        id="noteText" autocapitalize="on"
+                        autocomplete="noteText"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-primary mt-0 ms-2 p-0" (click)="openExtraNotesModal()" style="height: 3.5rem; width: 4rem; min-width: 4rem;">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+
+                  <!-- Extra Notes Modal -->
+                  <div class="modal fade" id="extraNotesModal" tabindex="-1" role="dialog" aria-labelledby="extraNotesModalLabel">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="extraNotesModalLabel">{{ 'Order.ExtraNotes' | translate }}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label>{{ 'Order.ExtraNote1' | translate }}</label>
+                            <input type="text" class="form-control" [(ngModel)]="_orderobj.ExtraNote1" />
+                          </div>
+                          <div class="form-group mt-3">
+                            <label>{{ 'Order.ExtraNote2' | translate }}</label>
+                            <input type="text" class="form-control" [(ngModel)]="_orderobj.ExtraNote2" />
+                          </div>
+                          <div class="form-group mt-3">
+                            <label>{{ 'Order.ExtraNote3' | translate }}</label>
+                            <input type="text" class="form-control" [(ngModel)]="_orderobj.ExtraNote3" />
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">{{ 'Shared.Save' | translate }}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 mt-1">
+                    <table class="table table-bordered mb-0">
+                      <tbody>
+                          <tr>
+                              <td>{{ orderToPrint?.OrderNumber }}</td>
+                              <th>{{ "Reports.OrderNumber" | translate }}</th>
+                          </tr>
+                          <tr>
+                              <td>{{ orderToPrint?.CreationTime | date : "dd-MM-yyyy h:mm" }}</td>
+                              <th>{{ "ExtraExpenses.Date" | translate }}</th>
+                          </tr>
+                          <tr>
+                              <td>{{ orderToPrint?.CashierName }}</td>
+                              <th>{{ "Shared.UserName" | translate }}</th>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-8">
+                <!-- payment ways -->
+                <nav class="px-0 navbar-expand-md bg-transparent ms-btn-display pb-2">
+                  <button
+                    class="navbar-toggler ms-btn-icon btn-pill btn-info p-1 m-2"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContentt3"
+                    aria-controls="navbarSupportedContentt3"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fa fa-angle-down"></i>
+                  </button>
+                  <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContentt3">
+                    <ul class="flex-wrap flex-nowrap-sm mb-0 d-flex flex-column-sm">
+                      <ng-container *ngFor="let OL of orderPayTypelist; let i = index">
+                        <li *ngIf="OL.PayType !== 70" class="nav-item">
+                          <a
+                            *ngIf="OL.Name !== 'free'"
+                            type="button"
+                            class="btn btn-outline-info btnNav fs-16"
+                            (click)="orderPayTypeClicked(OL)"
+                            [ngClass]="{
+                              active: OL.Id == _orderobj.OrderPayTypeId
+                            }">
+                            {{ getTypeName(OL) }}
+                          </a>
+                        </li>
+                      </ng-container>
+                      <li *ngFor="let OL of turkyPaymentSystems; let i = index" class="nav-item">
+                        <a type="button" class="btn btn-outline-info btnNav" (click)="openPaymentSystemPopUp(OL)">
+                          {{ getName(OL) }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+                <!-- Payment and discount table  -->
+                <div class="row">
+                  <perfect-scrollbar class="col-md-12 d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <div *ngIf="_orderobj?.CustomerDocumentId" class="row">
+                        <div class="col-12">
+                          <label>{{ "returninsurance.CustomerName" | translate }} : </label>
+                          <span class="px-1">{{ _orderobj?.CustomerName }}</span>
+                        </div>
+                        <div *ngIf="_orderobj?.OtelPrimoRoomNo" class="col-12 m-0 ml-3">
+                          <label class="px-1">{{ "manageorder.Room" | translate }}: </label>
+                          <span>{{ _orderobj?.OtelPrimoRoomNo }} </span>
+                          <span class="remove px-3" (click)="removeRoomOtelPrimoAfterSelect()">remove</span>
+                        </div>
+                      </div>
+                      <div *ngIf="_orderobj?.EmployeeId || _orderobj?.EmployeeDocumentId" class="form-group row">
+                        <label for="exampleSubtotal"
+                          ><h4 style="font-weight: 900" class="m-0 ml-3">
+                            {{ "delivery.EmployeeName" | translate }} :
+                          </h4>
+                        </label>
+                        <h4 class="m-0 ml-3">{{ _orderobj?.EmployeeName }}</h4>
+                      </div>
+                    </div>
+                  </perfect-scrollbar>
+                  <div class="col-md-12 mt-1 table-content">
+                    <table class="table table-bordered mb-0">
+                      <thead class="bg-tabel text-center">
+                        <tr>
+                          <th scope="col">{{ "Shared.PaymentType" | translate }}</th>
+                          <th scope="col">{{ "Shared.Price" | translate }}</th>
+                          <th scope="col">
+                            {{ "manageorder.Pay Amount" | translate }}
+                          </th>
+                          <th scope="col">{{ "delivery.Actions" | translate }}</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-center editTd">
+                        <tr *ngFor="let orderPayment of _orderobj?.OrderPayments; let i = index">
+                          <th scope="row" class="col-2">{{ orderPayment?.PayTypeName }}</th>
+                          <td class="col-4">
+                            <input *ngIf="_orderobj?.OrderPayments?.length != i+1"
+                              value="{{ orderPayment?.Amount | currency : ' ' : 'symbol' : fraction : priceLang }}"
+                              class="form-control btn-count text-center"
+                              id="Amount{{ i }}"
+                              #Amount
+                              readonly />
+                              
+                              <button *ngIf="_orderobj?.OrderPayments?.length == i+1" (click)="setFullPayment(i, orderPayment)"
+                                class="btn btn-primary form-control btn-count text-center" [disabled]="orderPayment.PayType == 70">
+                               {{ orderPayment?.Amount | currency : ' ' : 'symbol' : fraction : priceLang }}</button>
+                          </td>
+                          <td class="col-4">
+                            <input
+                              [disabled]="orderPayment.ReservationPayment || orderPayment.PayType === 70"
+                              [(ngModel)]="orderPayment.PayAmount" 
+                              [numbersOnly]="orderPayment.PayAmount" [allowDecimals]="true"
+                              class="form-control btn-count text-center"
+                              appPricePipe
+                              [fraction]="fraction"
+                              id="PayAmount{{ i }}"
+                              #PayAmount
+                              (input)="onInputChangeNum($event); changePaymentAmount(i, orderPayment)"
+                              (focus)="onInputFocusNumPay($event, i)"
+                              (keyup.enter)="closeOrder()" />
+                          </td>
+                          <td class="col-2">
+                            <i
+                              class="fas fa-comment cursorPointer pl-1 pr-2"
+                              (click)="addPaymentNote(i)"></i>
+                            <i
+                              class="fas fa-trash c-red cursorPointer"
+                              (click)="!orderPayment?.ReservationPayment ? DeletePayment(orderPayment, i) : null"></i>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- vouchers and payments 4 btns -->
+        <div class="col-md-12">
+          <div class="d-flex justify-content-between btn-actions">
+            <!--printer btn-->
+            <button
+              class="btn btn-primary d-flex justify-content-center"
+              (click)="printOrder(_orderobj, true)"
+              [disabled]="disablePrint">
+              <svg
+                fill="#fff"
+                width="20px"
+                height="20.5px"
+                version="1.1"
+                id="Layer_1"
+                x="0px"
+                y="0px"
+                viewBox="0 0 512 512"
+                style="enable-background: new 0 0 512 512"
+                xml:space="preserve">
+                <g>
+                  <g>
+                    <path
+                      d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+                c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+                  </g>
+                </g>
+                <g>
+                  <g>
+                    <path
+                      d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+                S354.987,409.6,349.867,409.6z" />
+                  </g>
+                </g>
+                <g>
+                  <g>
+                    <path
+                      d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+                c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+                  </g>
+                </g>
+                <g>
+                  <g>
+                    <path
+                      d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+                S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+                c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+                  </g>
+                </g>
+                <g>
+                  <g>
+                    <path
+                      d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+                H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+                  </g>
+                </g>
+                <g>
+                  <g>
+                    <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+                  </g>
+                </g>
+                <g>
+                  <g>
+                    <path
+                      d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+                c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+                  M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+                H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+                  </g>
+                </g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+              </svg>
+              <span class="px-2">{{ "pagetransactions.Print" | translate }}</span>
+            </button>
+
+            <!-- close without print btn -->
+            <button
+              *ngIf="
+                _orderobj?.OrderType?.Value != 2 &&
+                validationList['CanCloseWithoutPrint'] &&
+                _orderobj?.settings &&
+                _orderobj?.settings?.PrintReceiptInClosing
+              "
+              type="button"
+              id="CloseWithoutPrint"
+              class="btn btn-primary"
+              (click)="closeOrder(true)">
+              <span>{{ "Shared.CloseWithoutPrint" | translate }}</span>
+              <i class="fas fa-ban px-2"></i>
+            </button>
+
+            <!-- close Order btn -->
+            <button
+              *ngIf="_orderobj?.OrderType?.Value != 2"
+              type="button"
+              class="btn btn-success"
+              (click)="closeOrder()">
+              <span>{{ "Shared.closeOrder" | translate }}</span>
+              <i class="fas fa-times px-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- categories , keyboard section -->
+    <div class="col-md-3 col-sm-12 ms-panel-body py-1 clearfix">
+      <div class="container-fluid">
+        <div class="row ms-panel ms-panel-fh msPanelE">
+          <div class="col-md-12 d-flex align-items-center">
+            <div class="row justify-content-center">
+              <ng-container *ngIf="_orderobj?.WaiterDocumentId || _orderobj?.CaptainDocumentId">
+                <div class="col" *ngIf="_orderobj?.WaiterDocumentId">
+                  <button type="button" class="btn bg-maingreen w-100 mt-0"
+                    (click)="openEmployeeModel(true, 'CanEditTheWaiterInOrder')">
+                    <span class="cairo-font px-1">{{ "Shared.changeWaiter" | translate }}</span>
+                  </button>
+                </div>
+                <div class="col" *ngIf="_orderobj?.CaptainDocumentId">
+                  <button type="button" class="btn bg-maingreen w-100 mt-0"
+                    (click)="openEmployeeModel(false, 'CanEditTheCaptainInOrder')">
+                    <span class="cairo-font px-1">{{ "Shared.changeCaptain" | translate }}</span>
+                  </button>
+                </div>
+              </ng-container>
+
+              <div class="col-12">
+                <!-- GetAllRoomsOccupies btn to show OtelPrimoRoomsOccupiedModel modal-->
+                <button
+                  *ngIf="settingobj.LinkWithHotel"
+                  (click)="openOtelPrimo()"
+                  type="button"
+                  class="btn btn-success w-100 mb-1">
+                  <svg
+                    fill="#fff"
+                    id="Capa_1"
+                    enable-background="new 0 0 512 512"
+                    height="22"
+                    viewBox="0 0 512 512"
+                    width="22"
+                    xmlns="http://www.w3.org/2000/svg"></svg>
+                  <span class="cairo-font px-1">{{ "manageorder.RoomsOccupied" | translate }}</span>
+                </button>
+              </div>
+
+              <div class="col-12">
+                <!-- Employee btn to show Employee modal-->
+                <button (click)="openEmployeeModel()" type="button" class="btn bg-maingreen w-100 mb-1">
+                  <svg
+                    fill="#fff"
+                    id="Capa_1"
+                    enable-background="new 0 0 512 512"
+                    height="22"
+                    viewBox="0 0 512 512"
+                    width="22"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                      <g>
+                        <path
+                          d="m421.458 314.202c-15.295-6.81-39.862-12.957-73.005-18.277-1.937-.784-3.948-1.428-6.037-1.879l-23.356-5.037c-.89-1.31-1.372-2.85-1.372-4.476v-40.583c17.274-15.903 28.475-36.888 30.993-57.801h3.611c13.131 0 23.815-10.683 23.815-23.814v-18.08c0-7.281-3.281-14.014-8.793-18.483-.001-4.436-.003-12.749-.005-25.824-.001-4.142-3.359-7.499-7.501-7.498s-7.499 3.359-7.498 7.5c.002 10.195.003 17.5.004 22.328-4.414-.096-5.903.267-8.306-.469-.018-.006-.035-.011-.053-.016-4.475-1.4-7.481-5.492-7.481-10.19v-34.678c0-13.78-11.211-24.991-24.991-24.991h-2.04c-19.381 0-24.892 9.058-52.579 9.058-27.421 0-33.354-9.058-52.579-9.058h-3.767c-13.78 0-24.991 11.211-24.991 24.991v34.678c0 4.684-2.994 8.772-7.448 10.18-.018.006-.036.012-.055.017-2.423.75-3.938.381-8.339.478v-48.063c0-32.652 26.564-59.216 59.216-59.216h74.179c29.372 0 54.586 21.9 58.649 50.941.574 4.101 4.361 6.956 8.466 6.388 4.102-.574 6.962-4.365 6.388-8.466-5.093-36.407-36.693-63.862-73.502-63.862h-74.179c-40.923 0-74.215 33.292-74.215 74.215v51.559c-5.511 4.468-8.792 11.201-8.792 18.482v18.08c0 13.132 10.683 23.814 23.814 23.814h3.536c2.361 23.077 13.441 44.566 31.067 59.874v38.511c0 1.627-.482 3.166-1.372 4.476l-23.357 5.037c-2.089.451-4.1 1.095-6.037 1.879-33.142 5.32-57.71 11.467-73.005 18.277-29.895 13.31-49.212 43.056-49.212 75.781v22.171c0 4.142 3.358 7.499 7.499 7.499s7.499-3.357 7.499-7.499v-22.171c0-26.807 15.824-51.175 40.314-62.079 10.458-4.656 26.588-9.165 47.301-13.26-1.174 2.56-2.077 5.273-2.645 8.114l-5.388 26.928c-2.432 12.16 6.005 23.85 18.314 25.368 4.366.538 6.164 5.914 2.942 8.96l-4.568 4.319c-9.178 8.679-8.546 23.154-.283 30.732l84.494 77.936h-105.866v-32.048c0-4.142-3.358-7.499-7.499-7.499-4.142 0-7.499 3.357-7.499 7.499v32.048h-45.303c-7.892 0-14.313-6.42-14.313-14.312v-35.371c0-4.142-3.358-7.499-7.499-7.499s-7.499 3.357-7.499 7.499v35.371c0 16.16 13.149 29.309 29.311 29.309h370.717c16.162 0 29.312-13.149 29.312-29.311v-92.705c0-32.726-19.317-62.471-49.212-75.782zm-82.204-5.494c8.47 1.827 15.042 8.497 16.742 16.994l5.387 26.928c.723 3.61-1.764 7.085-5.442 7.539-16.979 2.093-23.826 23.006-11.411 34.743l4.567 4.319c2.557 2.419 2.648 6.423.263 8.954l-75.442 69.587 41.58-112.058c.017-.047.034-.094.051-.142 6.713-19.265 9.45-39.892 8.051-60.24zm-83.337-36.975h.083s.056 0 .083 0c21.53-.24 35.246-6.963 46.606-15.329v28.13c0 3.382.764 6.701 2.174 9.723l-48.863 37.989-48.863-37.989c1.41-3.022 2.174-6.341 2.174-9.723v-26.837c11.785 7.841 26.157 13.807 46.606 14.036zm-9.344 107.773-9.329-19.895 18.756-9.466 18.756 9.466-9.329 19.895zm35.937 31.992-4.494-23.512 10.136-21.615 9.352 4.72zm20.12-54.62-32.669-16.487 38.87-30.22c.642 15.772-1.449 31.652-6.201 46.707zm-60.591-16.487-32.669 16.487c-4.753-15.055-6.843-30.935-6.201-46.708zm-18.191 25.98 10.136 21.615-4.494 23.512-14.994-40.407zm24.161 28.134h15.983l8.44 44.156-16.432 44.282-16.431-44.282zm109.656-257.228c2.149 1.654 3.442 4.205 3.442 6.978v18.08c0 4.861-3.955 8.816-8.816 8.816h-3.074l.026-33.873h8.422zm-206.772 25.058v-18.08c0-2.773 1.294-5.326 3.444-6.979l8.449.001.002 33.873h-3.079c-4.861 0-8.816-3.954-8.816-8.815zm26.895 16.231-.003-44.782c7.792-4.518 12.74-12.852 12.74-22.18v-34.679c0-5.51 4.483-9.992 9.992-9.992h3.767c14.597 0 23.782 9.058 52.579 9.058 28.896 0 37.647-9.058 52.579-9.058h2.04c5.51 0 9.992 4.482 9.992 9.992v34.678c0 9.348 4.961 17.687 12.773 22.199l-.035 44.762c-.457 20.088-11.264 41.148-28.917 56.349-13.967 12.025-25.002 21.528-49.295 21.82-22.434-.27-36.553-8.854-51.611-21.82-16.422-14.139-26.115-34.672-26.601-56.347zm-14.885 220.665 4.568-4.319c12.427-11.749 5.547-32.653-11.411-34.743-3.644-.45-6.172-3.897-5.443-7.539l5.388-26.928c1.7-8.496 8.272-15.167 16.741-16.994l15.656-3.376c-1.399 20.348 1.338 40.975 8.051 60.24.017.048.034.095.051.142l41.58 112.058-75.442-69.587c-2.381-2.526-2.299-6.531.261-8.954zm292.769 83.458c0 7.892-6.421 14.312-14.313 14.312h-45.302v-32.048c0-4.142-3.358-7.499-7.499-7.499s-7.499 3.357-7.499 7.499v32.048h-105.868l84.494-77.936c8.222-7.541 8.942-22.009-.284-30.732l-4.568-4.32c-3.196-3.021-1.458-8.417 2.943-8.959 12.308-1.518 20.747-13.207 18.313-25.368l-5.388-26.928c-.568-2.841-1.471-5.554-2.645-8.114 20.712 4.095 36.843 8.604 47.3 13.26 24.49 10.904 40.314 35.272 40.314 62.079v92.706z" />
+                      </g>
+                    </g>
+                  </svg>
+                  <span class="cairo-font px-1">{{ "manageorder.Employees" | translate }}</span>
+                </button>
+              </div>
+              <div class="col-12">
+                <!-- Customer btn to show Customer modal-->
+                <button (click)="DeliveryCustomer()" type="button" class="btn bg-maingreen cairo-font w-100 mb-1">
+                  <svg
+                    fill="#fff"
+                    version="1.1"
+                    width="22px"
+                    height="22px"
+                    x="0"
+                    y="0"
+                    viewBox="0 0 512 512"
+                    style="enable-background: new 0 0 512 512"
+                    xml:space="preserve"
+                    class="">
+                    <g>
+                      <g>
+                        <g>
+                          <path
+                            d="M162.108,420.513c-0.941-2.896-3.414-5.028-6.417-5.533l-42.782-7.18l-20.05-38.471c-1.406-2.699-4.199-4.393-7.244-4.393    c-3.045,0-5.838,1.694-7.245,4.394l-20.05,38.471l-42.782,7.18c-3.003,0.503-5.477,2.636-6.419,5.533s-0.193,6.075,1.94,8.249    l30.392,30.956l-6.392,42.908c-0.449,3.012,0.815,6.023,3.279,7.813c2.462,1.79,5.718,2.06,8.444,0.704l38.832-19.338    l38.833,19.337c1.153,0.574,2.4,0.857,3.641,0.857c1.696,0,3.381-0.527,4.803-1.561c2.464-1.79,3.728-4.802,3.279-7.813    l-6.392-42.908l30.392-30.956C162.301,426.589,163.049,423.409,162.108,420.513z M115.267,451.174    c-1.794,1.829-2.629,4.393-2.251,6.927l4.681,31.427l-28.441-14.164c-2.293-1.142-4.99-1.143-7.285,0l-28.442,14.164l4.681-31.427    c0.378-2.534-0.455-5.099-2.251-6.927L33.7,428.502l31.336-5.258c2.527-0.424,4.709-2.009,5.893-4.281l14.685-28.176    l14.685,28.176c1.184,2.272,3.366,3.857,5.893,4.281l31.334,5.258L115.267,451.174z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M332.496,420.513c-0.941-2.896-3.415-5.029-6.419-5.533l-42.783-7.18l-20.05-38.471c-1.407-2.699-4.201-4.393-7.245-4.393    c-3.045,0-5.838,1.694-7.245,4.394l-20.05,38.471l-42.782,7.18c-3.003,0.503-5.477,2.636-6.419,5.533    c-0.941,2.897-0.194,6.075,1.94,8.249l30.392,30.956l-6.392,42.908c-0.449,3.012,0.815,6.023,3.279,7.813    c2.462,1.79,5.717,2.061,8.444,0.704L256,491.805l38.832,19.337c1.153,0.574,2.4,0.857,3.641,0.857    c1.696,0,3.381-0.527,4.803-1.56c2.464-1.791,3.728-4.802,3.279-7.814l-6.391-42.908l30.392-30.956    C332.689,426.589,333.437,423.409,332.496,420.513z M285.654,451.174c-1.794,1.829-2.629,4.393-2.251,6.927l4.681,31.427    l-28.441-14.163c-1.147-0.571-2.394-0.857-3.642-0.857s-2.496,0.285-3.642,0.857l-28.441,14.163l4.681-31.427    c0.378-2.535-0.455-5.099-2.251-6.927l-22.26-22.673l31.336-5.258c2.527-0.424,4.709-2.009,5.893-4.281L256,390.785l14.685,28.176    c1.184,2.272,3.366,3.857,5.893,4.281l31.335,5.258L285.654,451.174z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M502.882,420.513c-0.941-2.897-3.415-5.029-6.419-5.533l-42.782-7.18l-20.05-38.471c-1.407-2.701-4.2-4.394-7.245-4.394    s-5.838,1.694-7.245,4.394l-20.05,38.471l-42.783,7.18c-3.003,0.503-5.477,2.636-6.419,5.533s-0.194,6.075,1.94,8.249    l30.392,30.956l-6.392,42.908c-0.449,3.012,0.815,6.023,3.279,7.813c2.462,1.79,5.717,2.06,8.444,0.704l38.833-19.338    l38.832,19.337c1.153,0.574,2.4,0.857,3.641,0.857c1.696,0,3.381-0.527,4.803-1.561c2.464-1.79,3.728-4.802,3.279-7.813    l-6.392-42.908l30.392-30.956C503.075,426.589,503.823,423.41,502.882,420.513z M456.04,451.174    c-1.795,1.829-2.629,4.393-2.251,6.927l4.681,31.427l-28.441-14.163c-2.293-1.142-4.99-1.143-7.285,0l-28.442,14.164l4.681-31.427    c0.378-2.534-0.455-5.099-2.251-6.927l-22.26-22.673l31.336-5.258c2.527-0.424,4.709-2.009,5.893-4.281l14.685-28.176    l14.685,28.176c1.184,2.272,3.366,3.857,5.893,4.281l31.334,5.258L456.04,451.174z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M387.814,0.011c-4.512,0-8.17,3.658-8.17,8.17v51.745h-16.34V8.181c0-4.512-3.658-8.17-8.17-8.17    c-4.512,0-8.17,3.658-8.17,8.17v51.745h-16.34V8.181c0-4.512-3.658-8.17-8.17-8.17s-8.17,3.658-8.17,8.17v81.702    c0,12.889,6.157,25.01,16.34,32.67v201.543c0,13.516,10.995,24.511,24.511,24.511c13.516,0,24.511-10.995,24.511-24.511V122.553    c10.183-7.66,16.34-19.781,16.34-32.67V8.181C395.984,3.669,392.326,0.011,387.814,0.011z M379.644,89.883    c0,8.716-4.698,16.849-12.262,21.226c-2.524,1.46-4.079,4.155-4.079,7.071v205.916c0,4.506-3.665,8.17-8.17,8.17    c-4.506,0-8.17-3.665-8.17-8.17V118.18c0-2.916-1.555-5.611-4.079-7.071c-7.563-4.377-12.262-12.51-12.262-21.226V76.266h49.021    V89.883z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M445.006,0c-18.02,0-32.681,14.661-32.681,32.681v128c0,18.02,14.661,32.681,32.681,32.681h16.34v130.723    c0,4.506-3.665,8.17-8.17,8.17c-4.506,0-8.17-3.665-8.17-8.17V217.872c0-4.512-3.658-8.17-8.17-8.17s-8.17,3.658-8.17,8.17    v106.213c0,13.516,10.995,24.511,24.511,24.511c13.516,0,24.511-10.995,24.511-24.511V32.681C477.686,14.661,463.026,0,445.006,0z     M461.346,177.021h-16.34c-9.01,0-16.34-7.33-16.34-16.34v-128c0-9.01,7.33-16.34,16.34-16.34c9.01,0,16.34,7.33,16.34,16.34    V177.021z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M174.299,0c-50.758,0-92.051,41.294-92.051,92.051c0,50.757,41.294,92.051,92.051,92.051    c50.757,0,92.051-41.294,92.051-92.051C266.35,41.294,225.057,0,174.299,0z M174.299,167.762    c-41.747,0-75.711-33.964-75.711-75.711s33.964-75.711,75.711-75.711s75.711,33.964,75.711,75.711    S216.046,167.762,174.299,167.762z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M195.01,101.08c-4.25-1.509-8.924,0.709-10.435,4.962c-1.543,4.338-5.672,7.252-10.276,7.252s-8.734-2.914-10.276-7.252    c-1.512-4.252-6.184-6.471-10.435-4.962c-4.252,1.512-6.473,6.183-4.962,10.435c3.854,10.838,14.17,18.119,25.673,18.119    c11.503,0,21.82-7.281,25.673-18.119C201.483,107.263,199.262,102.592,195.01,101.08z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                      <g>
+                        <g>
+                          <path
+                            d="M174.299,200.453c-31.423,0-61.116,10.178-85.872,29.433c-3.561,2.77-4.203,7.903-1.432,11.464    c2.769,3.562,7.902,4.203,11.466,1.432c21.86-17.003,48.084-25.991,75.839-25.991c65.43,0,119.153,51.091,123.376,115.472H50.919    c1.594-24.783,10.445-48.082,25.84-67.814c2.776-3.558,2.142-8.692-1.416-11.467c-3.558-2.777-8.693-2.141-11.467,1.416    c-19.337,24.785-29.559,54.537-29.559,86.036c-0.001,4.512,3.657,8.17,8.169,8.17h263.626c4.512,0,8.17-3.658,8.17-8.17    C314.282,263.25,251.486,200.453,174.299,200.453z"
+                            data-original="#000000"
+                            class="" />
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+
+                  <span class="cairo-font px-1">{{ "manageorder.Customers" | translate }}</span>
+                </button>
+              </div>
+
+              <div class="col-12">
+                <!-- discount btn to show discount modal-->
+                <button
+                  [disabled]="orderSer.free.getValue() === true || _orderobj.MinimumChargeValue"
+                  (click)="openDiscountModel()"
+                  type="button"
+                  class="btn bg-maingreen w-100 mb-1 cairo-font d-flex justify-content-center">
+                  <img
+                    class="pull-right"
+                    style="cursor: pointer; width: 40px; height: 30px"
+                    src="assets/images/discount.png"
+                    alt=""
+                    srcset="" />
+                  <span class="fs-5 cairo-font px-1">{{ "Reports.DiscountAmount" | translate }} </span>
+                </button>
+              </div>
+
+              <div class="col-12">
+                <!-- [disabled]="orderSer.isCouponAccepted.getValue() === true" -->
+                <button
+                  [ngClass]="orderSer.free.getValue() === true ? 'btn-danger' : 'bg-maingreen'"
+                  [disabled]="_orderobj.MinimumChargeValue"
+                  (click)="freeDiscountClicked()"
+                  type="button"
+                  class="btn w-100 mb-1 cairo-font d-flex justify-content-center">
+                  <span class="fs-5 cairo-font px-1 text-white font-weight-bold"
+                    >{{ "Reports.FreePayment" | translate }}
+                  </span>
+                </button>
+              </div>
+
+              <!-- mypoints modal-->
+              <div class="col-12" *ngIf="settingobj.UseMyPoints == true  && !_orderobj?.OrderType?.ForStaff && _orderobj.Customer.CustomerPoints > 0">
+                <button
+                  (click)="cashBackToaster()"
+                  type="button"
+                  class="btn bg-maingreen w-100 mb-1 cairo-font d-flex justify-content-center">
+                  <i class="fas fa-coins px-1 pt-1"></i>
+                  <span style="color: #12ff00"> ( {{ _orderobj.Customer.CustomerPoints }} ) </span>
+                  <span class="fs-5 cairo-font px-1">{{ "Shared.RedeemPoints" | translate }} </span>
+                </button>
+              </div>
+              <!-- mypoints modal-->
+
+              <!-- open Coupon input -->
+              <div class="row" *ngIf="_orderobj.OrderType?.Taxes?.length || _orderobj.settings?.UseMyCoupons == true ">
+                <div [ngClass]="_orderobj.OrderType?.Taxes?.length ? 'col-6' : 'col-12'" *ngIf="_orderobj.settings?.UseMyCoupons == true">
+                  <mat-slide-toggle class="example-margin" [(ngModel)]="couponChecked"
+                    (ngModelChange)="couponChecked === false ? clearCoupon() : null">
+                    <span *ngIf="couponChecked" class="fs-5 cairo-font px-1">{{ "Shared.Clear" | translate }} </span>
+                    <span *ngIf="!couponChecked" class="fs-5 cairo-font px-1">{{ "Shared.UseCoupon" | translate }} </span>
+                  </mat-slide-toggle>
+                </div>
+
+                <div [ngClass]="_orderobj.settings?.UseMyCoupons == true ? 'col-6' : 'col-12'" *ngIf="_orderobj.OrderType?.Taxes?.length">
+                  <mat-slide-toggle class="example-margin" [checked]="_orderobj.CancelServices"
+                  (change)="cancelService($event)">
+                    <span  class="fs-5 cairo-font px-1">{{ "Order.CancelServices" | translate }} </span>
+                  </mat-slide-toggle>
+                </div>
+              </div>
+              
+              <!-- open Coupon input -->
+              <!-- Coupon input -->
+              <div *ngIf="couponChecked" class="col-md-12 d-flex align-items-center justify-content-center">
+                <input
+                  [ngClass]="customerInvalid === true || couponInvalid === true ? 'border border-danger' : ''"
+                  class="form-control col-md-5"
+                  type="password"
+                  name="couponNumber"
+                  [(ngModel)]="couponNumber" />
+                <span class="col-md-5">
+                  <button (click)="submitCoupon()" class="btn m-0 btn-outline-info">
+                    {{ "Shared.Apply_Coupon" | translate }}
+                  </button>
+                </span>
+              </div>
+              <div
+                *ngIf="customerInvalid || couponInvalid"
+                class="col-md-12 d-flex align-items-center justify-content-start px-5 py-2">
+                <span class="text-start alert-danger px-3 py-2" *ngIf="couponInvalid">
+                  {{ "messages.CouponInvalid" | translate }} <i class="bi bi-exclamation-circle"></i>
+                </span>
+                <span class="text-start alert-danger px-3 py-2" *ngIf="customerInvalid">
+                  {{ "messages.customerInvalid" | translate }} <i class="bi bi-exclamation-circle"></i>
+                </span>
+              </div>
+              <div *ngIf="couponvalid" class="col-md-12 d-flex align-items-center justify-content-start px-5 py-2">
+                <span class="text-start alert-success px-3 py-2">
+                  {{ "messages.Couponvalid" | translate }} <i class="bi bi-check-circle"></i>
+                </span>
+              </div>
+
+              <!-- Coupon input -->
+            </div>
+          </div>
+          <!-- categoryies section -->
+          <div class="col-md-12" *ngIf="categories && categories.length > 0">
+            <div class="d-flex justify-content-between align-items-center px-3">
+              <div class="mb-1">
+                <nav class="navbar px-0 navbar-expand-lg bg-transparent ms-btn-display">
+                  <button
+                    class="navbar-toggler md-btn-icon btn-pill btn-info p-1 m-2"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContentt"
+                    aria-controls="navbarSupportedContentt"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="fa fa-angle-down"></i>
+                  </button>
+
+                  <div class="collapse navbar-collapse" id="navbarSupportedContentt">
+                    <ul class="d-flex flex-wrap justify-content-between flex-row">
+                      <li *ngFor="let category of categories; let i = index" class="nav-item mb-1">
+                        <a
+                          (click)="categoryClicked(category.Value)"
+                          type="button"
+                          class="btn btn-outline-info btnNav bold">
+                          {{ category?.Value }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+          <!-- keyboard section-->
+          <div class="col-md-12">
+            <div class="PayKeyboard simple-key"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--OtelPrimo MODAL-->
+<div
+  *ngIf="hotelCustomer"
+  class="modal fade hotel-modal"
+  id="modal-OtelPrimo"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-OtelPrimo">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <!--header-->
+      <div class="modal-header">
+        <div class="row w-100">
+          <div class="col-5 d-flex">
+            <img src="assets/images/returant.png" alt="" srcset="" />
+            <h1 class="modal-title px-1">{{ hotelCustomer.Name }}</h1>
+          </div>
+          <div class="col-6 search-section">
+            <input
+              class="form-control fs-16"
+              type="search"
+              placeholder="search for room "
+              [(ngModel)]="room"
+              (input)="searchRoom(room)"
+              autocomplete="on" />
+          </div>
+          <div class="col-1">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--body-->
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="container-fluid">
+              <div class="row">
+                <div
+                  class="col-md-2 col-sm-4 col-12"
+                  tabindex=""
+                  *ngFor="let room of returnedRoomObj; let i = index"
+                  (click)="selectRoomOtelPrimo(room, i)">
+                  <div class="room-card" [ngClass]="{ 'selected-room__info': i === selectedRoomIndex }">
+                    <div class="row h-100 d-flex align-items-center">
+                      <img src="assets/images/bed.png" alt="" srcset="" />
+                      <div class="col-md-12 room-info d-flex">
+                        <span class="num">{{ room.room_No }}</span>
+                        <span class="px-1">{{ room.person_Name }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--footer-->
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light btnEdit mt-0" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end EMPLOYEES MODAL-->
+
+<!--EMPLOYEES MODAL-->
+<div class="modal fade" id="modal-Waiter2" tabindex="-1" role="dialog" aria-labelledby="modal-Waiter2">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <!--header-->
+      <div class="modal-header" style="padding: 0.5rem 1rem 0 0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--body-->
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <div class="row d-flex pr-xs-0">
+              <div class="col-md-6 d-flex justify-content-start align-items-center label1">
+                <label *ngIf="isWaiter == true" class="restaurantName4" for="validationCustom20"
+                  >{{ "manageorder.Waiter" | translate }} :</label
+                >
+                <label *ngIf="!isWaiter" class="restaurantName4" for="validationCustom20"
+                  >{{ "manageorder.Captain" | translate }} :</label
+                >
+                <label *ngIf="isWaiter == 'General'" class="restaurantName4" for="validationCustom20"
+                  >{{ "manageorder.Employee" | translate }} :</label
+                >
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-10 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <svg
+                          version="1.1"
+                          id="Capa_1"
+                          height="20px"
+                          width="30px"
+                          x="0px"
+                          y="0px"
+                          viewBox="0 0 511.998 511.998"
+                          style="enable-background: new 0 0 511.998 511.998"
+                          xml:space="preserve">
+                          <g>
+                            <g>
+                              <path
+                                d="M315.046,361.686h-28.067c-4.142,0-7.5,3.358-7.5,7.5c0,4.143,3.358,7.5,7.5,7.5h28.067c4.142,0,7.5-3.357,7.5-7.5
+                              C322.546,365.044,319.188,361.686,315.046,361.686z" />
+                            </g>
+                          </g>
+                          <g>
+                            <g>
+                              <path
+                                d="M480.248,281.394l-40.841-15.753l-20.823-20.823c-1.337-1.337-3.06-2.061-4.82-2.174v-16.569
+                              c9.814-10.464,16.8-23.715,19.619-38.643c1.75,0.079,3.517-0.062,5.26-0.418c9.979-2.043,17.222-11.302,17.222-22.014v-5.469
+                              c0-6.197-2.513-11.885-6.605-15.952c6.623-36.02,1.168-65.374-15.846-85.021c-16.457-19.003-42.971-28.086-76.672-26.263
+                              c-31.136,1.683-51.236,16.009-57.604,21.25c-3.486,0.414-9.424,1.638-15.434,5.244c-8.33,4.998-18.259,15.497-18.259,37.13
+                              c0,18.872,3.016,34.628,5.2,43.567c-7.32,3.566-12.217,11.294-12.217,20.129v5.384c0,10.712,7.243,19.971,17.222,22.014
+                              c1.743,0.357,3.511,0.497,5.26,0.418c2.819,14.928,9.806,28.179,19.619,38.643v16.569c-1.76,0.113-3.484,0.837-4.82,2.174
+                              l-20.823,20.823l-40.841,15.753c-3.533,1.362-6.908,3.129-10.03,5.25c-3.426,2.328-4.316,6.992-1.989,10.418
+                              c1.451,2.136,3.81,3.286,6.21,3.286c1.451,0,2.917-0.421,4.208-1.297c2.177-1.479,4.532-2.711,6.999-3.663l37.903-14.62
+                              l28.98,43.471c3.592,5.389,9.35,8.846,15.795,9.484c0.717,0.071,1.434,0.106,2.146,0.106c3.731,0,7.351-0.981,10.555-2.794
+                              l-6.219,141.068c-0.183,4.138,3.024,7.641,7.163,7.823c0.112,0.005,0.224,0.007,0.336,0.007c3.99,0,7.31-3.145,7.487-7.17
+                              l5.772-130.941h15.57l5.772,130.941c0.177,4.026,3.497,7.17,7.487,7.17c0.112,0,0.224-0.002,0.336-0.007
+                              c4.138-0.182,7.345-3.685,7.163-7.823l-6.219-141.068c3.204,1.813,6.823,2.794,10.555,2.794c0.712,0,1.429-0.035,2.146-0.106
+                              c6.445-0.638,12.202-4.095,15.795-9.484l28.98-43.471l37.903,14.62c5.316,2.05,9.892,5.321,13.49,9.402l-25.931,25.931
+                              c-9.369,9.369-14.528,21.825-14.528,35.073v106.64c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5v-106.64
+                              c0-9.241,3.599-17.931,10.134-24.466l22.758-22.758c0.914,3.353,1.341,6.878,1.197,10.482l-5.809,143.078
+                              c-0.168,4.139,3.051,7.63,7.189,7.799c0.104,0.004,0.207,0.006,0.31,0.006c4.001,0,7.325-3.161,7.488-7.195l5.811-143.082
+                              C512.809,308.433,500.066,289.038,480.248,281.394z M295.592,184.339c-1.323-7.201-7.991-12.435-15.188-11.902
+                              c-0.569,0.041-1.155,0.001-1.745-0.119c-2.982-0.61-5.231-3.757-5.231-7.318v-5.386c0-3.479,2.325-6.613,5.292-7.134
+                              c2.504-0.44,4.902,0.479,6.419,2.458c1.377,1.795,3.214,3.079,5.311,3.711c3.072,0.928,6.459,0.383,9.063-1.455
+                              c4.69-3.311,8.828-7.356,12.299-12.024c2.472-3.324,1.78-8.022-1.543-10.493c-3.325-2.472-8.022-1.781-10.494,1.543
+                              c-1.731,2.328-3.687,4.441-5.84,6.311c-2.378-2.034-5.156-3.504-8.133-4.343c-1.927-7.382-5.357-23.197-5.357-42.271
+                              c0-11.487,3.541-19.558,10.524-23.988c5.449-3.457,11.216-3.595,11.212-3.596c1.917,0,3.783-0.755,5.175-2.072
+                              c0.183-0.172,18.62-17.282,50.194-18.989c28.902-1.56,51.214,5.736,64.523,21.104c13.414,15.49,17.881,39.271,13.035,69.036
+                              c-2.009-0.071-4.208,0.081-6.397,0.446l-7.046-16.922c-1.438-3.452-5.204-5.316-8.822-4.373
+                              c-0.697,0.182-69.958,17.74-98.999-18.416c-2.593-3.229-7.313-3.745-10.544-1.151c-3.229,2.594-3.745,7.314-1.15,10.544
+                              c29.656,36.922,88.5,28.89,108.088,24.973l5.449,13.085c2.343,5.625,8.337,8.697,14.245,7.304
+                              c2.425-0.571,4.742-0.584,5.612-0.412c3.033,0.604,5.32,3.629,5.32,7.039v5.47c0,3.562-2.249,6.708-5.231,7.318
+                              c-0.589,0.121-1.178,0.161-1.745,0.119c-7.196-0.524-13.864,4.7-15.188,11.903c-5.456,29.704-31.343,51.264-61.554,51.264
+                              C326.935,235.603,301.048,214.043,295.592,184.339z M328.863,316.915c-1.902,1.902-4.113,1.995-5.263,1.881
+                              c-1.149-0.113-3.3-0.639-4.792-2.877l-29.195-43.792l11.741-11.741l44.82,39.218L328.863,316.915z M350.022,326.822l0.454-10.308
+                              l6.669-6.669l6.669,6.669l0.454,10.308H350.022z M357.146,289.272l-41.617-36.415v-14.354c12.1,7.695,26.416,12.1,41.617,12.1
+                              s29.518-4.405,41.618-12.1v14.354L357.146,289.272z M395.486,315.919c-1.493,2.239-3.644,2.764-4.792,2.877
+                              c-1.151,0.114-3.362,0.021-5.264-1.882l-17.311-17.311l44.82-39.218l11.741,11.741L395.486,315.919z" />
+                            </g>
+                          </g>
+                          <g>
+                            <g>
+                              <path
+                                d="M237.845,320.699l-36.622-15.985l-20.019-20.019c-1.341-1.342-3.065-2.062-4.82-2.174v-11.799
+                              c17.109-11.243,29.629-29.124,33.652-50.431c1.97,0.088,3.959-0.101,5.919-0.564c9.597-2.271,16.562-11.468,16.562-21.868v-5.468
+                              c0-7.598-3.77-14.433-9.611-18.443c1.718-6.806,2.594-13.769,2.594-20.778c0-31.072-16.796-58.44-42.113-74.154
+                              c-0.27-25.933-22.405-46.953-49.588-46.953c-27.183,0-49.318,21.02-49.588,46.953C58.895,94.73,42.099,122.099,42.099,153.17
+                              c0,6.988,0.87,13.931,2.578,20.718c-5.838,3.99-9.595,10.857-9.595,18.585v5.386c0,10.4,6.965,19.597,16.562,21.868
+                              c1.96,0.464,3.948,0.652,5.919,0.564c4.023,21.307,16.544,39.188,33.653,50.431v11.799c-1.755,0.112-3.479,0.832-4.82,2.174
+                              l-20.019,20.019l-36.621,15.985c-18.633,8.134-30.573,27.246-29.712,47.559l4.429,104.493c0.171,4.03,3.492,7.183,7.488,7.183
+                              c0.107,0,0.215-0.002,0.323-0.007c4.139-0.175,7.351-3.672,7.176-7.811l-4.43-104.494c-0.285-6.733,1.465-13.266,4.755-18.889
+                              l19.685,23.622c6.221,7.465,9.646,16.927,9.646,26.643v73.436c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5v-73.436
+                              c0-13.218-4.661-26.09-13.123-36.245L30.066,337.64c1.779-1.226,3.67-2.312,5.691-3.194l31.916-13.932l22.554,36.609
+                              c2.227,3.615,5.909,6.066,10.103,6.726c0.754,0.119,1.51,0.177,2.263,0.177c3.429,0,6.769-1.215,9.417-3.475l14.292-12.195
+                              v124.077c0,4.142,3.358,7.5,7.5,7.5s7.5-3.358,7.5-7.5V348.358l14.291,12.195c2.648,2.26,5.988,3.475,9.417,3.475
+                              c0.752,0,1.509-0.059,2.263-0.177c4.194-0.66,7.876-3.111,10.103-6.726l22.554-36.61l31.916,13.932
+                              c2.02,0.882,3.912,1.968,5.691,3.194l-20.927,25.113c-8.462,10.154-13.123,23.027-13.123,36.245v73.436c0,4.142,3.358,7.5,7.5,7.5
+                              c4.142,0,7.5-3.358,7.5-7.5v-73.436c0-9.716,3.426-19.178,9.646-26.643l19.685-23.622c3.29,5.623,5.04,12.156,4.755,18.889
+                              l-4.429,104.494c-0.175,4.138,3.037,7.635,7.176,7.811c0.108,0.005,0.215,0.007,0.323,0.007c3.996,0,7.317-3.152,7.488-7.183
+                              l4.429-104.493C268.42,347.946,256.479,328.833,237.845,320.699z M133.801,47.063c15.956,0,29.418,10.179,33.399,23.971
+                              c-10.354-3.908-21.62-6.057-33.399-6.057c-11.779,0-23.045,2.149-33.399,6.057C104.383,57.242,117.844,47.063,133.801,47.063z
+                              M72.246,217.2c-1.322-7.203-8.001-12.435-15.187-11.903c-0.637,0.045-1.295-0.009-1.959-0.167
+                              c-2.86-0.677-5.017-3.803-5.017-7.271v-5.386c0-3.479,2.325-6.613,5.292-7.134c2.504-0.44,4.901,0.48,6.417,2.457
+                              c1.377,1.796,3.214,3.08,5.313,3.714c3.071,0.928,6.46,0.383,9.062-1.456c4.619-3.26,8.703-7.234,12.139-11.81
+                              c2.487-3.312,1.818-8.014-1.494-10.5c-3.313-2.487-8.014-1.818-10.501,1.494c-1.701,2.265-3.616,4.324-5.722,6.153
+                              c-3.209-2.744-7.144-4.462-11.318-4.983c-1.437-5.649-2.172-11.426-2.172-17.237c0-40.358,34.408-73.193,76.702-73.193
+                              c42.293,0,76.701,32.834,76.701,73.193c0,5.8-0.731,11.565-2.163,17.204c-1.974,0.157-3.98,0.48-5.837,0.962l-5.638-4.636
+                              c-2.833-2.33-6.399-3.496-10.008-3.281c-11.024,0.651-67.482,2.142-96.448-32.524c-2.656-3.178-7.385-3.602-10.564-0.946
+                              c-3.179,2.656-3.602,7.386-0.946,10.564c14.286,17.097,35.239,28.658,62.276,34.362c20.701,4.367,39.103,3.943,46.313,3.532
+                              l8.796,7.233c2.421,1.991,5.816,2.272,8.527,0.694c1.272-0.693,5.532-1.355,7.391-0.984c3.033,0.603,5.319,3.629,5.319,7.04v5.468
+                              c0,3.469-2.157,6.595-5.017,7.271c-0.663,0.157-1.322,0.214-1.959,0.166c-7.182-0.522-13.865,4.701-15.188,11.903
+                              c-5.456,29.705-31.343,51.265-61.554,51.265C103.59,268.464,77.702,246.904,72.246,217.2z M102.702,348.776L80.144,312.16
+                              L91.7,300.604l31.058,31.058L102.702,348.776z M133.801,321.491l-27.584-27.584v-15.516c8.611,3.278,17.916,5.073,27.584,5.073
+                              c9.668,0,18.973-1.795,27.584-5.072v15.515L133.801,321.491z M164.9,348.776l-20.056-17.114l31.058-31.058l11.556,11.556
+                              L164.9,348.776z" />
+                            </g>
+                          </g>
+                          <g>
+                            <g>
+                              <path
+                                d="M105.734,394.766h-21.05c-4.142,0-7.5,3.358-7.5,7.5c0,4.142,3.358,7.5,7.5,7.5h21.05c4.142,0,7.5-3.358,7.5-7.5
+                              C113.234,398.124,109.876,394.766,105.734,394.766z" />
+                            </g>
+                          </g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                          <g></g>
+                        </svg>
+                      </div>
+                      <div class="input-group positionEdit">
+                        <input
+                          name="EmployeeName"
+                          (input)="SearchEmployee(isWaiter)"
+                          [(ngModel)]="employeeName"
+                          #EmployeeName="ngModel"
+                          class="form-control py-3 borderRadius"
+                          required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <button
+                      class="btn btn-success dispalyInline py-1 px-2 my-1"
+                      type="button"
+                      (click)="SearchEmployee(isWaiter)">
+                      {{ "ReturnOrder.Search" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 pt-3">
+                <perfect-scrollbar [config]="config" class="table-responsive ManageOrderScroll">
+                  <table class="table table-bordered table-striped text-center">
+                    <thead class="bg-maingreen">
+                      <tr>
+                        <th *ngIf="isWaiter == true" scope="col">
+                          {{ "manageorder.Waiter" | translate }}
+                        </th>
+                        <th *ngIf="!isWaiter" scope="col">
+                          {{ "manageorder.Captain" | translate }}
+                        </th>
+                        <th *ngIf="isWaiter == 'General'" scope="col">
+                          {{ "manageorder.Employee" | translate }}
+                        </th>
+                        <th scope="col">{{ "stock.Actions" | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Employee of employeeList">
+                        <th scope="row">{{ Employee?.FullName }}</th>
+                        <td>
+                          <button
+                            *ngIf="
+                              isWaiter == true &&
+                              checkIfPersonSelected(_orderobj.WaiterId, _orderobj.WaiterDocumentId, Employee, true)
+                            "
+                            class="btn btn-success dispalyInline py-1 px-3 m-0"
+                            type="button"
+                            (click)="SelectWaiter(Employee, true)">
+                            {{ "Shared.Select" | translate }}
+                          </button>
+                          <button
+                            *ngIf="
+                              !isWaiter &&
+                              checkIfPersonSelected(_orderobj.CaptainId, _orderobj.CaptainDocumentId, Employee, true)
+                            "
+                            class="btn btn-success dispalyInline py-1 px-3 m-0"
+                            type="button"
+                            (click)="SelectCaptain(Employee, true)">
+                            {{ "Shared.Select" | translate }}
+                          </button>
+                          <button
+                            *ngIf="
+                              isWaiter == 'General' &&
+                              checkIfPersonSelected(_orderobj.EmployeeId, _orderobj.EmployeeDocumentId, Employee, true)
+                            "
+                            class="btn btn-success dispalyInline py-1 px-3 m-0"
+                            type="button"
+                            (click)="SelectEmployee(Employee, true)">
+                            {{ "Shared.Select" | translate }}
+                          </button>
+                          <button
+                            *ngIf="
+                              isWaiter == 'General' &&
+                              checkIfPersonSelected(_orderobj.EmployeeId, _orderobj.EmployeeDocumentId, Employee, false)
+                            "
+                            class="btn btn-success dispalyInline py-1 px-3 m-0"
+                            type="button"
+                            (click)="SelectEmployee(Employee, false)">
+                            {{ "Shared.UnSelect" | translate }}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </perfect-scrollbar>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--footer-->
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light btnEdit mt-0" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+        <button type="button" class="btn btn-primary btnEdit mt-0 shadow-none" data-dismiss="modal">
+          {{ "manageorder.Accept" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end EMPLOYEES MODAL-->
+
+<!--Turky Payment Systems MODAL -->
+<div class="modal fade" id="modal-TurkyPayment" tabindex="-1" role="dialog" aria-labelledby="modal-TurkyPayment">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div *ngIf="turkyPayment" class="modal-content">
+      <!--header-->
+      <div class="modal-header" style="padding: 0.5rem 1rem 0 0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--body-->
+      <div class="modal-body">
+        <div class="row">
+          <div
+            style="padding: 2rem 2rem 7rem 2rem !important; justify-content: center; align-content: center"
+            class="modal-body p-0">
+            <button
+              class="btn mx-1 my-1 bg-maingreen p-4"
+              *ngFor="let p of turkyPayment?.SystemPayments; let i = index"
+              (click)="paymentSystemClicked(p)">
+              {{ p?.Name }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Turky Payment Systems MODAL -->
+
+<app-deliverycustomer [orderobj]="_orderobj" [isDelivery]="_isDelivery"></app-deliverycustomer>
+
+<!--modal of DetailDiscount-->
+<div
+  class="modal fade"
+  id="modal-DetailDiscount"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-DetailDiscount"
+  data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <img
+            class="pull-right"
+            style="cursor: pointer; width: 40px; height: 30px"
+            src="assets/images/discount.png"
+            alt=""
+            srcset="" />
+          <span class="p-1"> {{ "Reports.DiscountAmount" | translate }} </span>
+        </h5>
+      </div>
+      <div class="row">
+        <div *ngIf="_orderobj && _orderobj?.OrderDetails" class="modal-body col-md-6">
+          <div class="table-responsive">
+            <table class="table table-bordered thead-light text-center mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    {{ "CustomerOrder.DiscountPer" | translate }}
+                  </th>
+                  <th scope="col">
+                    {{ "CustomerOrder.DiscountValue" | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <!-- [disabled]="_orderobj?.DiscountVal" -->
+                    <input
+                      id="DiscountPercentage11"
+                      style="text-align: center"
+                      [numbersOnly]="_orderobj?.DiscountPer"
+                      [allowDecimals]="true"
+                      type="number"
+                      [(ngModel)]="_orderobj.DiscountPer"
+                      class="form-control edit"
+                      placeholder="%"
+                      (keyup)="onChangeKeyBoardValue('DiscountPercentage11', _orderobj.DiscountPer)"
+                      (focus)="openkeyboard5('DiscountPercentage11')" />
+                  </th>
+
+                  <td>
+                    <!-- [disabled]="(_orderobj.settings &&_orderobj.settings.AllowMultiTaxOnPrduct) ||_orderobj?.DiscountPer" -->
+                    <input
+                      id="DiscountAmount11"
+                      style="text-align: center"
+                      [numbersOnly]="_orderobj?.DiscountVal"
+                      [allowDecimals]="true"
+                      type="number"
+                      [(ngModel)]="_orderobj.DiscountVal"
+                      class="form-control edit"
+                      placeholder="$"
+                      (keyup)="onChangeKeyBoardValue('DiscountAmount11', _orderobj.DiscountVal)"
+                      (focus)="openkeyboard5('DiscountAmount11')"
+                      (focusout)="truncate(_orderobj)" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul class="flex-wrap flex-nowrap-md m-3 ml-5 d-flex flex-column-md">
+            <li *ngFor="let discountcategory of discountCategories; let i = index" class="nav-item">
+              <a
+                (click)="onChangeKeyBoardValue('DiscountPercentage11', discountcategory.Value)"
+                type="button"
+                class="btn btn-outline-info btnNav"
+                style="min-width: 4.5rem !important; min-height: 2.5rem">
+                {{ discountcategory?.Value }}%
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-6">
+          <div class="numberKeyboard5"></div>
+        </div>
+      </div>
+
+      <div class="col-md-12 modal-footer p-1">
+        <button (click)="closeDiscountModel()" type="button" class="col-md-1 btn btn-primary shadow-none mt-0 btnEdit">
+          {{ "Shared.Ok" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modal of DetailDiscount-->
+
+<!--modal of Tips-->
+<div class="modal fade" id="modal-Tips" tabindex="-1"  role="dialog" aria-labelledby="modal-Tips">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <img class="pull-right" style="cursor: pointer; width: 40px; height: 30px"
+            src="assets/images/money.png" alt="" srcset="" />
+          <span class="p-1"> {{ "Tips" | translate }} </span>
+        </h5>
+      </div>
+      <div class="row">
+        <div class="modal-body col-md-6">
+          <div class="table-responsive">
+            <table class="table table-bordered thead-light text-center mb-0">
+              <thead>
+                <tr>
+                  <th scope="col"> {{ "Tips" | translate }} </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <input  id="Tips" style="text-align: center" type="number" 
+                     [(ngModel)]="_orderobj.Tips"  class="form-control edit"/>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ul *ngIf="categories?.length" class="flex-wrap flex-nowrap-md m-3 ml-5 d-flex flex-column-md">
+            <li *ngFor="let category of categories; let i = index" class="nav-item">
+              <a  type="button"  class="btn btn-outline-info btnNav" (click)="_orderobj.Tips = category?.Value"
+                style="min-width: 4.5rem !important; min-height: 2.5rem">
+                {{ category?.Value }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-6">
+          <div class="KeyboardTips"></div>
+        </div>
+      </div>
+
+      <div class="col-md-12 modal-footer p-1">
+        <button data-dismiss="modal" type="button" class="col-md-1 btn btn-primary shadow-none mt-0 btnEdit">
+          {{ "Shared.Ok" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modal of Tips-->
+
+
+<!--payment Voucher MODAL -->
+
+<div
+  class="modal fade"
+  id="modal-paymentVoucher"
+  aria-hidden="true"
+  aria-labelledby="modal-paymentVoucher"
+  tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="" id="exampleModalToggleLabel">{{ "Shared.Receipt" | translate }}</h3>
+        <div data-dismiss="modal"><i class="fa fa-times"></i></div>
+      </div>
+      <div class="modal-body">
+        <!-- voucher -->
+        <perfect-scrollbar
+          style="height: 25rem"
+          class="pS d-flex justify-content-center align-items-center"
+          [config]="config">
+          <div id="StimulsoftId"></div>
+        </perfect-scrollbar>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary w-30" data-dismiss="modal">Close</button>
+        <button
+          class="btn btn-primary d-flex justify-content-center w-30"
+          (click)="PrintPerview(_orderobj)"
+          [disabled]="disablePrint">
+          <svg
+            fill="#fff"
+            width="20px"
+            height="20.5px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+                c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+                S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+                c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+                S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+                c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+                H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+                c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+                M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+                H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="text-white px-2">{{ "pagetransactions.Print" | translate }} A4</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end Voucher MODAL  -->
+
+<!--modal of MyPoints-->
+<div
+  class="modal fade"
+  id="modal-DetailsMyPoint"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-DetailsMyPoint"
+  data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <i class="fas fa-coins"></i>
+          <span class="p-1"> {{ "Shared.MyPoints" | translate }} </span>
+        </h5>
+      </div>
+
+      <div class="row p-3">
+        <div class="my-points-list">
+          <ng-container *ngFor="let card of myPointCards">
+            <button
+              class="btn point-card"
+              [ngClass]="{ 'default-card': card.IsDefault }"
+              *ngIf="_orderobj.Customer.CustomerPoints >= card.PointsCount && card.Value > 0 && card.PointsCount > 0"
+              (click)="redeemPointsModal(card)">
+              <div class="point-card-top">
+                <span class="point-coins"><i class="fas fa-coins pt-2 px-1"></i></span>
+                <span class="point-count">{{ card.Value | currency : "" : "symbol" : fraction : priceLang }}</span>
+                <!-- <span class="point-currency">{{ "EGYP" | translate }}</span> -->
+                <span class="point-price">{{ "CASHBACK" | translate }}</span>
+                <span class="circle"></span>
+              </div>
+              <div class="point-card-body flex-fill">
+                <span class="font-weight-bold fs-16">{{ card.PointsCount }}</span>
+                <span class="small">{{ "POINTS" | translate }}</span>
+              </div>
+            </button>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-md-12 modal-footer p-1">
+        <button (click)="closeMyPointsModel()" type="button" class="col-md-1 btn btn-primary shadow-none mt-0 btnEdit">
+          {{ "Shared.Ok" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modal of MyPoints-->
+
+<!--modal of Coupons-->
+<div
+  class="modal fade"
+  id="modal-Coupons"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-Coupons"
+  data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <!-- <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <span class="p-1"> {{ "Shared.Coupons" | translate }} </span>
+        </h5>
+      </div> -->
+      <div class="modal-body">
+        <label for="couponNumber">{{ "Shared.Coupon-Number" | translate }}</label>
+        <input class="form-control" type="text" name="couponNumber" [(ngModel)]="couponNumber" />
+      </div>
+      <div class="col-md-12 modal-footer p-1">
+        <button (click)="submitCoupon()" type="button" class="col-md-1 btn btn-primary shadow-none mt-0 btnEdit">
+          {{ "Shared.Redeem" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modal of Coupons-->

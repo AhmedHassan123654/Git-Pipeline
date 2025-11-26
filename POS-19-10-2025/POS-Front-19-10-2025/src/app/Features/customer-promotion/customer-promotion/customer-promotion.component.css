@@ -1,0 +1,70 @@
+.table thead {
+  background: #cce0f6;
+  height: 6vh;
+  line-height: 2;
+  font-size: 17px;
+} /*# sourceMappingURL=customer-promotion.component.css.map */
+
+/*toggle btn*/
+.toggle-btn{
+  margin-inline-start: 15px;
+}
+.toggle-btn .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 28px;
+}
+
+.toggle-btn .switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-btn .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.toggle-btn .slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 8px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+}
+
+.toggle-btn input:checked + .slider {
+  background-color: #2196F3;
+}
+
+.toggle-btn input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.toggle-btn input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  -moz-transform: translateX(26px);
+  -o-transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.toggle-btn .slider.round {
+  border-radius: 34px;
+}
+
+.toggle-btn .slider.round:before {
+  border-radius: 50%;
+}

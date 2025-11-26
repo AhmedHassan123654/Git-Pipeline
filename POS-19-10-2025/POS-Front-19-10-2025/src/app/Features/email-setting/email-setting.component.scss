@@ -1,0 +1,26 @@
+.widget {
+  background: #fff;
+  padding: 27px;
+  min-height: 80vh;
+  margin: 5px auto 10px;
+  .content {
+    padding-inline-start: 31px;
+    padding-top: 17px;
+    .sub-menu {
+      padding-inline-start: 12px;
+      padding-top: 12px;
+    }
+  }
+}
+.content-img {
+  width: 96%;
+  height: 100%;
+  padding: 6px 0px 40px;
+}
+.back {
+  margin: 15px auto;
+  i {
+    font-size: 26px;
+    cursor: pointer;
+  }
+}

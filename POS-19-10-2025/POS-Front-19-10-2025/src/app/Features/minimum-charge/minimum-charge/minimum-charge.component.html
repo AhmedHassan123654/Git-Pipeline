@@ -1,0 +1,418 @@
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<app-breadcrumbs></app-breadcrumbs>
+<form name="Promoform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <!-- Warning -->
+                <!-- <div class="text-align-center">
+                  <div class="alert alert-warning text-center " style="height: 35px; font-size: 17px;padding-top: 5px !important;">
+                    <strong>{{"Shared.info" | translate }}!</strong> 
+                    {{ "Shared.youmustactivetheminimumchargefromthesettingstomakethescreenworks" | translate }}
+                  </div>
+                </div> -->
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--name-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.Name" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="Name"
+                                  #Name="ngModel"
+                                  [(ngModel)]="responseobj.Name"
+                                  id="Name"
+                                  class="form-control borderRadius"
+                                  disabled
+                                  required />
+                                <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                    {{ "pointofsale.NameIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--FromTime-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Reports.FromTime" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-clock"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="time"
+                                  class="form-control borderRadius"
+                                  disabled
+                                  required
+                                  name="TimeFrom"
+                                  #TimeFrom="ngModel"
+                                  placeholder="TimeFrom"
+                                  [(ngModel)]="responseobj.TimeFrom" />
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && TimeFrom.invalid) || (TimeFrom.invalid && TimeFrom.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="TimeFrom.errors.required">
+                                    {{ "setting.TimeISRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- ToTime -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Reports.ToTime" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-clock"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="time"
+                                  class="form-control borderRadius"
+                                  disabled
+                                  required
+                                  name="TimeTo"
+                                  #TimeTo="ngModel"
+                                  placeholder="TimeTo"
+                                  [(ngModel)]="responseobj.TimeTo" />
+                                <div *ngIf="(frmRef.submitted && TimeTo.invalid) || (TimeTo.invalid && TimeTo.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="TimeTo.errors.required">
+                                    {{ "setting.TimeISRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Vat'-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.taxlist" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group positionEdit">
+                                <!-- <ejs-combobox
+                                  name="Tax"
+                                  #Tax="ngModel"
+                                  [(ngModel)]="taxobj"
+                                  [allowFiltering]="true"
+                                  [autofill]="true"
+                                  [dataSource]="TaxList"
+                                  placeholder="Select Tax"
+                                  class="form-control borderRadius"
+                                  [enabled]="false"
+                                  [fields]="Flds"
+                                  ></ejs-combobox> -->
+                                <mat-form-field
+                                  appearance="fill"
+                                  class="form-control borderRadius"
+                                  style="padding: 0 !important; height: 43px; line-height: 10px">
+                                  <mat-label>Tax</mat-label>
+                                  <mat-select name="Tax" [(ngModel)]="taxobj" #Tax="ngModel" [disabled]="!disabledflag">
+                                    <mat-option [value]="taxobj" selected="true" disabled *ngIf="taxobj">
+                                      {{ taxobj["Name"] }}</mat-option
+                                    >
+                                    <mat-option *ngFor="let tax of TaxList" [value]="tax">
+                                      {{ tax.Name }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div *ngIf="">
+                              <div class="" *ngIf="(frmRef.submitted && Tax.invalid) || (Tax.invalid && Tax.touched)">
+                                <div class="alert alert-danger editAlertCash" *ngIf="Tax.errors.required">
+                                  tax is required
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- CanChangePricePerPerson -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.CanChangePricePerPerson" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <input type="checkbox" class="form-control borderRadius"
+                                disabled
+                                name="CanChangePricePerPerson" #CanChangePricePerPerson="ngModel"
+                                [(ngModel)]="responseobj.CanChangePricePerPerson" />
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Check Week Dayes'-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <button class="btn btn-primary" (click)="CheckWorkDays()" [disabled]="!disabledflag">
+                                  {{ "Shared.CheckPromoDays" | translate }}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="paddingLeftz">
+                      <div class="input-group editInputGroup">
+                        <div class="modal-body">
+                          <div class="col-md-12 paddingLeftz">
+                            <table class="table returnOrderTable justify-content-center ble-bordered m-0 meals-table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">
+                                    {{ "Shared.SelectAll" | translate }}
+                                    <input
+                                      type="checkbox"
+                                      [disabled]="!disabledflag"
+                                      name="SelectAll"
+                                      #SelectAll="ngModel"
+                                      id="SelectAll"
+                                      [(ngModel)]="responseobj.SelectAll"
+                                      (change)="SelectAllEvent($event)"
+                                      class="form-control borderRadius" />
+                                  </th>
+                                  <th scope="col">
+                                    {{ "Shared.Tables" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "manageorder.ValuePerPerson" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "pointofsale.ApplaiedTo" | translate }}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let detail of AllTables; index as i">
+                                  <td>
+                                    <label class="ms-checkbox-wrap ms-todo-complete">
+                                      <input
+                                        type="checkbox"
+                                        [disabled]="!disabledflag"
+                                        name="IsChecked{{ i }}"
+                                        #IsChecked="ngModel"
+                                        id="IsChecked"
+                                        [(ngModel)]="detail.IsChecked"
+                                        (ngModelChange)="setMinimumChargeTables()"
+                                        class="form-control borderRadius" />
+                                    </label>
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      class="form-control borderRadius"
+                                      name="Name{{ i }}"
+                                      #Name="ngModel"
+                                      [value]="detail.Name"
+                                      [(ngModel)]="detail.Name"
+                                      readonly />
+                                  </td>
+                                  <td>
+                                    <input
+                                      [numbersOnly]="detail.ValuePerPerson"
+                                      [allowDecimals]="true"
+                                      type="number"
+                                      id="ValuePerPerson{{ i }}"
+                                      name="ValuePerPerson{{ i }}"
+                                      #ValuePerPerson="ngModel"
+                                      [(ngModel)]="detail.ValuePerPerson"
+                                      [disabled]="!disabledflag"
+                                      class="form-control borderRadius" />
+
+                                    <!-- <div
+                                      *ngIf="
+                                        (frmRef.submitted && ValuePerPerson.invalid) ||
+                                        (ValuePerPerson.invalid && ValuePerPerson.touched)
+                                      ">
+                                      <div
+                                        class="alert alert-danger editAlertCash"
+                                        *ngIf="ValuePerPerson.errors.required">
+                                        {{ "Shared.Percentagerequired" | translate }}
+                                      </div>
+                                    </div> -->
+                                  </td>
+                                  <td>
+                                    <div class="input-group editInputGroup">
+                                      <div class="input-group-addon">
+                                        <i class="bi bi-credit-card-2-back-fill"></i>
+                                      </div>
+                                      <div class="input-group">
+                                        <!-- name="{{ 'OrderTypeId' + i }}" -->
+
+                                        <ejs-multiselect
+                                          id="OrderTypesList{{ i }}"
+                                          name="OrderTypesList{{ i }}"
+                                          #OrderTypesList="ngModel"
+                                          [(ngModel)]="detail.OrderTypesList"
+                                          [dataSource]="OrderTypeList"
+                                          [fields]="Flds"
+                                          class="form-control"
+                                          placeholder=""
+                                          [disabled]="!disabledflag">
+                                        </ejs-multiselect>
+                                        <!-- <mat-form-field appearance="fill">
+                                            <mat-label>Toppings</mat-label>
+                                            <mat-select  multiple     [(ngModel)]="detail.OrderTypesList"    class="form-control"   
+                                            >
+                                              <template  >
+                                                  <mat-option  *ngFor="let ordertype of OrderTypeList" [value]="ordertype">{{ordertype.Name}}</mat-option>
+                                              </template>
+                                            </mat-select>
+                                          </mat-form-field> -->
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- WorkDays -->
+
+<div class="modal fade" id="modal-WorkDays" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="ms-card-title m-0">
+          {{ "Shared.CheckPromoDays" | translate }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Table -->
+        <div class="col-md-12 paddingLeftz days-table">
+          <table class="table returnOrderTable table-bordered m-0">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ "Shared.isActive" | translate }}</th>
+                <th scope="col">{{ "Shared.Day" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detail of WorkDays; index as i">
+                <td scope="row">
+                  {{ i + 1 }}
+                </td>
+
+                <td>
+                  <label class="ms-checkbox-wrap ms-todo-complete">
+                    <input
+                      type="checkbox"
+                      name="IsWork{{ i }}"
+                      #IsWork="ngModel"
+                      id="IsWork"
+                      [(ngModel)]="detail.IsWork"
+                      (ngModelChange)="setMinimumChargeWorkDays()"
+                      class="form-control borderRadius" />
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control borderRadius"
+                    name="Name{{ i }}"
+                    [value]="detail.Name"
+                    readonly />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light my-0" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,381 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 col-md-12">
+      <div class="ms-panel">
+        <div class="ms-panel-header">
+          <h6 class="digram">
+            <i class="fas fa-clipboard-list fs-16 px-1"></i>{{ "delivery.UnassignedOrders" | translate }}
+          </h6>
+        </div>
+        <div class="ms-panel-body p-1">
+          <ejs-grid #orderlistgrid id="OrderListGrid" [dataSource]="orderlist" [allowPaging]="true">
+            <!-- [editSettings]='editOptions' (actionBegin)='actionBegin($event)'  -->
+            <e-columns>
+              <e-column
+                field="Date"
+                type="datetime"
+                headerText="Order Date"
+                [isPrimaryKey]="true"
+                textAlign="center"></e-column>
+              <e-column field="CustomerPhone" headerText="Phone" textAlign="center"></e-column>
+              <e-column field="NetTotal" headerText="Net Amount" textAlign="center"></e-column>
+              <e-column field="CustomerName" headerText="Customer Name" textAlign="center"></e-column>
+
+              <e-column field="CustomerAddress.Description" headerText="Address" textAlign="center">
+                <ng-template #template>
+                  <button
+                    data-toggle="modal"
+                    data-target="#modal-addressDetails"
+                    class="btn btn-success editBBtN mt-0"
+                    (click)="ShowAddress($event)">
+                    Address
+                  </button>
+                </ng-template>
+              </e-column>
+              <e-column field="OrderNumber" headerText="Order Number" textAlign="center"></e-column>
+              <!-- <e-column headerText='Actions'[commands]='commands' textAlign='center'></e-column> -->
+              <e-column width="200" headerText="Actions">
+                <ng-template #template>
+                  <div class="center">
+                    <input type="checkbox" (click)="SelectOrder($event)" />
+                  </div>
+                </ng-template>
+              </e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+    <!-- <button data-toggle="modal" data-target="#modal-addressDetails" > bb</button> -->
+    <!--out driver-->
+    <div class="col-lg-4 col-md-12 col-sm-12">
+      <div class="ms-panel">
+        <div class="ms-panel-header p-2">
+          <div class="d-flex justify-content-between align-items-center">
+            <h6 class="digram">
+              <i class="fas fa-motorcycle fs-16 main px-1"></i>{{ "delivery.OutDriver" | translate }}
+            </h6>
+            <button type="button" data-toggle="modal" data-target="#modal-driver" class="btn bg-maingreen has-icon">
+              <i class="fas fa-motorcycle fs-16 px-1"></i>{{ "delivery.AssignDriver" | translate }}
+            </button>
+          </div>
+        </div>
+        <div class="ms-panel-body p-1">
+          <!-- <perfect-scrollbar [config]="config" class="col-md-12 PaymentTypeScroll p-0"> -->
+          <div class="table-responsive">
+            <table class="table table-bordered tabledriver thead-primary text-center">
+              <thead class="text-center bg-maingreen">
+                <tr>
+                  <th scope="col">{{ "delivery.DriverName" | translate }}</th>
+                  <th scope="col">{{ "delivery.OrdersCount" | translate }}</th>
+                  <th scope="col">{{ "delivery.Actions" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let OutDriver of driverOutlist; let i = index">
+                  <th scope="row">{{ OutDriver.DriverName }}</th>
+                  <td>{{ OutDriver.MaxOrders }}</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="mt-0 p-1 btn btn-pill btn-danger has-icon"
+                      (click)="ReturnDriver(OutDriver, i)">
+                      <i class="fas fa-arrow-up"></i>
+                      {{ "delivery.ComeBackToRestaurants" | translate }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- </perfect-scrollbar> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--free driver-->
+<div class="modal fade" id="modal-driver" tabindex="-1" role="dialog" aria-labelledby="modal-driver">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h6 class="digram"><i class="fas fa-motorcycle fs-16 px-1"></i>{{ "delivery.FreeDriver" | translate }}</h6>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- <perfect-scrollbar [config]="config" class="col-md-12 p-1 ManageScrollTablePay"> -->
+        <div class="table-responsive">
+          <table class="table table-bordered tabledriver thead-primary text-center">
+            <thead class="text-center bg-maingreen">
+              <tr>
+                <th scope="col">{{ "delivery.DriverName" | translate }}</th>
+                <th scope="col">{{ "delivery.OrdersCount" | translate }}</th>
+                <th scope="col">{{ "delivery.Actions" | translate }}</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let driver of driverInlist; let i = index">
+                <td scope="row" (click)="AssignToDriver(driver)">
+                  {{ driver.DriverName }}
+                </td>
+                <td (click)="AssignToDriver(driver)">{{ driver.MaxOrders }}</td>
+                <td>
+                  <button
+                    data-toggle="modal"
+                    data-target="#show-Orders"
+                    type="button"
+                    class="mt-0 p-1 btn btn-pill btn-success has-icon"
+                    (click)="ShowOrders(driver)">
+                    <i class="fas fa-clipboard-list fs-16"></i> Show Orders
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="ms-btn-icon-outline btnEditoutline btn-success"
+                    (click)="ExitDriver(driver, i)">
+                    <i class="fas fa-arrow-down"></i> Exit
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- </perfect-scrollbar> -->
+      </div>
+
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--show orders-->
+<div class="modal modalPinCode fade" id="show-Orders" tabindex="-1" role="dialog" aria-labelledby="show-Orders">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h6 class="digram">
+          <i class="fas fa-clipboard-list fs-16 px-1"></i>
+          {{ "delivery.ShowOrders" | translate }}
+        </h6>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="col-md-6 mb-3">
+          <div class="row py-2 justify-content-start align-items-center">
+            <div class="col-md-3 digram">
+              <label class="digram" for="validationCustom22"> <i class="fas fa-print"></i> Printer </label>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group" (focusout)="checkPrinter()">
+                <ejs-combobox
+                  placeholder="{{ 'pointofsale.SelectPrinter' | translate }}"
+                  class="form-control borderRadius"
+                  id="selectprinter"
+                  name="selectPrinter"
+                  [value]="selectPrinter"
+                  [allowFiltering]="true"
+                  [autofill]="true"
+                  [dataSource]="comboboxPrinterlist"
+                  [fields]="comboboxPrinterfields"></ejs-combobox>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <!-- <perfect-scrollbar [config]="config" class="col-md-12 p-1 ManageOrderScroll"> -->
+        <div class="table-responsive">
+          <table class="table table-bordered tabledriver table-striped thead-primary text-center">
+            <thead class="text-center bg-maingreen">
+              <tr>
+                <th scope="col">{{ "delivery.orderNumber" | translate }}</th>
+                <th scope="col">{{ "delivery.orderDate" | translate }}</th>
+                <th scope="col">{{ "delivery.CustomerName" | translate }}</th>
+                <th scope="col">{{ "delivery.DriverName" | translate }}</th>
+                <th scope="col">{{ "delivery.Subtotal" | translate }}</th>
+                <th scope="col">{{ "delivery.Actions" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orderDriverlist; let i = index">
+                <td scope="row">{{ order.OrderNumber }}</td>
+                <td>{{ order.Date }}</td>
+                <td>{{ order.CustomerName }}</td>
+                <td>{{ order.DriverName }}</td>
+                <td>{{ order.SubTotal }}</td>
+                <td class="d-flex">
+                  <button
+                    type="button"
+                    class="m-1 p-1 btn btn-pill btn-success has-icon"
+                    (click)="ReceiveOrder(order, i)">
+                    <i class="fas fa-clipboard-list fs-16"></i> Receive Order
+                  </button>
+                  <button type="button" class="m-1 p-1 btn btn-pill btn-info has-icon">
+                    <i class="fas fa-print"></i> Print
+                  </button>
+                  <button
+                    type="button"
+                    class="m-1 p-1 btn btn-pill btn-warning has-icon"
+                    (click)="unAssignToDriver(order, i)">
+                    <i class="fas fa-recycle fs-16"></i> Unassign Driver
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- </perfect-scrollbar> -->
+      </div>
+
+      <div class="modal-footer d-flex justify-content-around p-1">
+        <button
+          *ngIf="orderDriverlist.length > 0"
+          data-toggle="modal"
+          data-target="#modal-RecieveOrders"
+          type="button"
+          class="btn btn-success mt-0 btnEdit">
+          Receive All
+        </button>
+
+        <div style="width: auto" class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text bg-maingreen">Grand Total</div>
+          </div>
+          <input
+            type="number"
+            name="GrandTotal"
+            [value]="GrandTotal"
+            class="form-control"
+            placeholder="Grand Total"
+            readonly />
+        </div>
+
+        <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--address details-->
+
+<div
+  class="modal modalPinCode fade"
+  id="modal-addressDetails"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-addressDetails">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h6 class="digram"><i class="fas fa-building fs-16 px-1"></i>{{ "delivery.addressDetails" | translate }}</h6>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- <perfect-scrollbar [config]="config" class="col-md-12 p-1 ManageScrollTablePay"> -->
+        <div class="table-responsive">
+          <table class="table table-bordered tabledriver thead-primary text-center">
+            <thead class="text-center bg-maingreen">
+              <tr>
+                <th scope="col">{{ "delivery.description" | translate }}</th>
+                <th scope="col">{{ "delivery.region" | translate }}</th>
+                <th scope="col">{{ "delivery.street" | translate }}</th>
+                <th scope="col">{{ "delivery.Building" | translate }}</th>
+                <th scope="col">{{ "delivery.Floor" | translate }}</th>
+                <th scope="col">{{ "delivery.Apartment" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">{{ CustomerAddress.Description }}</td>
+                <td>{{ CustomerAddress.RegionName }}</td>
+                <td>{{ CustomerAddress.StreetNumber }}</td>
+                <td>{{ CustomerAddress.BuildingNumber }}</td>
+                <td>{{ CustomerAddress.Floor }}</td>
+                <td>{{ CustomerAddress.Apartment }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- </perfect-scrollbar> -->
+      </div>
+
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--recieve modal-->
+<div class="modal modalPinCode fade" tabindex="-1" role="dialog" aria-labelledby="modal-RecieveOrders">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title has-icon ms-icon-round">
+          <i class="flaticon-alert-1 bg-primary text-white"></i> Important Notice!
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>All Orders Will Be Closed</p>
+
+        <div class="d-flex justify-content-around p-1">
+          <button type="button" class="btn btn-success mt-0 btnEdit" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Pin Code Model-->
+<div
+  class="modal modalPinCode fade"
+  id="modal-RecieveOrders"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-PinCode">
+  <div style="transform: translate(20%, -10%)" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="width: 50%">
+      <div class="modal-header">
+        <h3 class="modal-title has-icon ms-icon-round">
+          <i class="flaticon-alert-1 bg-primary text-white"></i> All Orders Will Be Closed!
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body px-5"></div>
+
+      <div class="modal-footer d-flex justify-content-around p-1">
+        <button type="button" class="btn btn-light btnEdit mt-0" data-dismiss="modal">No</button>
+        <button
+          type="submit"
+          data-dismiss="modal"
+          class="btn btn-primary shadow-none mt-0 btnEdit"
+          (click)="ReceiveAllOrder()">
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--End Pin Code-->

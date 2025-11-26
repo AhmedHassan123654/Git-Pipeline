@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ "integration.Driver Assignment" | translate }}</h5>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+
+<div class="modal-body">
+
+  <div class="alert-info p-3 mb-3">
+    {{'integration.assignDriverInfo' | translate}}
+  </div>
+
+  <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+    <thead>
+    <tr>
+      <th>{{'integration.Driver Name' | translate}}</th>
+      <th>{{'Shared.Phone' | translate}}</th>
+      <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let driver of driverList">
+      <td>{{driver.DriverName}}</td>
+      <td>{{driver.TelephoneNumber}}</td>
+      <td>
+        <button type="button" class="btn btn-success m-0"
+                (click)="selectDriver(driver)">{{'Shared.Select'| translate}}</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary m-0" (click)="modalRef.hide()">
+    {{ "Shared.Cancel" | translate }}
+  </button>
+</div>

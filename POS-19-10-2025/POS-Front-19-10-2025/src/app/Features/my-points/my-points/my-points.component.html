@@ -1,0 +1,407 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="Promoform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row mb-3">
+                      <div class="col-5">
+                        <!--Description-->
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.Description" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="Description"
+                                  #Description="ngModel"
+                                  [(ngModel)]="responseobj.Description"
+                                  id="Description"
+                                  class="form-control borderRadius"
+                                  [disabled]="!disabledflag"
+                                  required />
+                                <!-- required -->
+                                <div *ngIf="(frmRef.submitted && Description.invalid) || (Description.invalid && Description.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Description.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-5">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.AmountToPoint" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="AmountToPoint"
+                                  #AmountToPoint="ngModel"
+                                  [(ngModel)]="responseobj.AmountToPoint"
+                                  id="AmountToPoint"
+                                  class="form-control borderRadius"
+                                  [disabled]="!disabledflag" 
+                                  required/>
+                                  <!-- required -->
+                                <div
+                                *ngIf="
+                                  (frmRef.submitted && AmountToPoint.invalid) ||
+                                  (AmountToPoint.invalid && AmountToPoint.touched)
+                                ">
+                                <div class="alert alert-danger editAlertCash" *ngIf="AmountToPoint.errors.required">
+                                  {{ "pointofsale.AmountToPoint" | translate }}
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-2">
+                        <!--Add Detail-->
+                        <button
+                          style="min-width: fit-content"
+                          class="btn btn-success px-2 py-1 m-0 ml-3"
+                          (click)="OpenMyPointPOPUp()"
+                          name="OpenMyPointPOPUp"
+                          [disabled]="!disabledflag"
+                          >
+                          {{ "Shared.AddDetail" | translate }}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-5">
+                        <!--ForEveryPoint-->
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.PointValue" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="PointValue"
+                                  #PointValue="ngModel"
+                                  [(ngModel)]="responseobj.PointValue"
+                                  id="PointValue"
+                                  class="form-control borderRadius"
+                                  [disabled]="!disabledflag"
+                                  required />
+                                <!-- required -->
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && PointValue.invalid) ||
+                                    (PointValue.invalid && PointValue.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="PointValue.errors.required">
+                                    {{ "pointofsale.PointValue" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-5">
+                        <!--ExpireDayNum-->
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.expiresindayes" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-calendar-check"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="ExpireDayNum"
+                                  #ExpireDayNum="ngModel"
+                                  [(ngModel)]="responseobj.ExpireDayNum"
+                                  id="ExpireDayNum"
+                                  class="form-control borderRadius"
+                                  [disabled]="!disabledflag"
+                                  required />
+                                <!-- required -->
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && ExpireDayNum.invalid) ||
+                                    (ExpireDayNum.invalid && ExpireDayNum.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="ExpireDayNum.errors.required">
+                                    {{ "pointofsale.ExpireDayNum" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                     <div class="col-5">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label>  {{ "Shared.UseProduct" | translate }} : </label>
+                          </div>
+                          <input
+                            type="checkbox"
+                            class="form-control borderRadius"
+                            name="UseProducts"
+                            #UseProducts="ngModel"
+                            [disabled]="!disabledflag"
+                            [(ngModel)]="responseobj.UseProducts"
+                            (change)="!$event.currentTarget.checked && SelectAllEvent($event)"
+                          />
+                        </div>
+                     </div>
+                      <div class="col-2">&nbsp;</div>
+                    </div>
+                    <div class="row">
+                      <!-- 🟢 Header / Notice for Default Card -->
+                      <div class="col-12">
+                        <div class="default-info-box">
+                          <i class="fas fa-info-circle m-2"></i>
+                          {{ "messages.DefaultCashbackCard" | translate}}
+                        </div>
+                      </div>
+                      <div class="my-points-list">
+                        <div class="point-card" *ngFor="let item of MyPointDetails; index as i"
+                        [ngClass]="{ 'default-card': item.IsDefault }">
+                          <div class="point-card-top">
+                            <span class="point-coins"><i class="fas fa-coins"></i></span>
+                            <span class="point-count">{{ item.Value }}</span>
+                            <span class="point-price">{{ "CASHBACK" | translate }} <span class="point-price" *ngIf="item.IsDefault">{{ "Shared.Default" | translate }}</span></span>
+                            <span class="circle"></span>
+                          </div>
+                          <div class="point-card-body">
+                            <div class="row align-items-center">
+                              <div class="col-8 text-center">
+                                <p class="font-weight-bold fs-16 p-0 m-0">{{ item.PointsCount }}</p>
+                                <p class="small p-0 m-0">{{ "POINTS" | translate }}</p>
+                              </div>
+                              <div class="col-4 text-end">
+                                <button
+                                  *ngIf="!item.IsDefault"
+                                  type="button"
+                                  (click)="RemoveRow(i)"
+                                  class="ms-btn-icon"
+                                  [disabled]="!disabledflag"
+                                  title="Remove">
+                                  <i class="far fa-trash-alt text-crosss p-0" style="font-size: 1.1rem"></i>
+                                </button>
+                                <button
+                                  *ngIf="item.IsDefault"
+                                  type="button"
+                                  (click)="EditRow(item,i)"
+                                  class="ms-btn-icon edit-btn"
+                                  [disabled]="!disabledflag"
+                                  title="Edit Default">
+                                  <i class="far fa-edit p-0" style="font-size: 1.1rem;color: #ffbc01;"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                     <div class="col-md-12" *ngIf="responseobj.UseProducts">
+                    <div class="paddingLeftz">
+                      <div class="input-group editInputGroup">
+                        <table class="table returnOrderTable table-bordered m-0 meals-table table-section">
+                          <thead>
+                            <tr>
+                              <th scope="col" class="th-1">
+                                {{ "Shared.SelectAll" | translate }}
+                              </th>
+                              <th scope="col">
+                                {{ "products.Product" | translate }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <input type="checkbox" [disabled]="!disabledflag" name="SelectAll" #SelectAll="ngModel"
+                                  id="SelectAll" [(ngModel)]="responseobj.SelectAll" (change)="SelectAllEvent($event)"
+                                  class="form-control borderRadius" />
+                              </td>
+                              <td>
+                                <input type="text" [disabled]="!disabledflag" name="SelectProducts"
+                                  #SelectProducts="ngModel" id="SelectProducts"
+                                  (keyup)="searchProducts(SelectProducts.value)"
+                                  [(ngModel)]="responseobj.SelectProducts" class="form-control borderRadius" />
+                              </td>
+                            </tr>
+                            <tr *ngFor="let detail of paginatedData; index as i">
+                              <td>
+                                <label class="ms-checkbox-wrap ms-todo-complete">
+                                  <input type="checkbox" [disabled]="!disabledflag" name="IsChecked{{ i }}"
+                                    #IsChecked="ngModel" id="IsChecked" [(ngModel)]="detail.IsChecked"
+                                    class="form-control borderRadius" />
+                                </label>
+                              </td>
+                              <td>
+                                <input type="text" class="form-control borderRadius" name="Name{{ i }}"
+                                  [value]="detail.Name" readonly />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="row d-flex align-items-baseline">
+                        <div class="form-group col-3 d-flex align-items-baseline">
+                          <label class="col-7" for="itemsPerPage">{{"Shared.ItemsPerPage" | translate}}</label>
+                          <select class="form-control col-5" id="itemsPerPage" [(ngModel)]="itemsPerPage"
+                            [ngModelOptions]="{standalone: true}" (ngModelChange)="setCurrentPage()">
+                            <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+                          </select>
+                        </div>
+                        <pagination style="justify-content: flex-end" [maxSize]="6" (pageChanged)="pageChanged($event)"
+                          [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="newProductList.length"
+                          previousText="{{ 'Shared.Previous' | translate }}" nextText="{{ 'Shared.Next' | translate }}"
+                          firstText="{{ 'Shared.First' | translate }}" lastText="{{ 'Shared.Last' | translate }}">
+                        </pagination>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--DetailsMyPoint-->
+<div
+  class="modal fade modalPinCode"
+  id="DetailsMyPoint"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="DetailsMyPoint"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document" style="transform: translate(0, 50%)">
+    <div class="modal-content modal-content DetailsMyPoint">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          {{ "Shared.MyPoints" | translate }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row d-flex justify-content-center align-items-center">
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19"> {{ "Shared.PointsCount" | translate }}</label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-coins fs-16"></i>
+                  </div>
+                  <div class="input-group">
+                    <input
+                      id="PointsCount"
+                      autocomplete="off"
+                      type="text"
+                      class="form-control"
+                      name="PointsCount"
+                      #PointsCount="ngModel"
+                      [(ngModel)]="data.PointsCount"
+                      placeholder="{{ 'Shared.PointsCount' | translate }}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19"> {{ "Shared.Value" | translate }}</label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-coins fs-16"></i>
+                  </div>
+                  <div class="input-group">
+                    <input
+                      id="Value"
+                      autocomplete="off"
+                      type="text"
+                      class="form-control"
+                      name="Value"
+                      #Value="ngModel"
+                      [(ngModel)]="data.Value"
+                      placeholder="{{ 'Shared.Value' | translate }}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" *ngIf="!editDefault" (click)="addDetail(data)">
+          {{ "Shared.Save" | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" *ngIf="editDefault" (click)="editDetail(data)">
+          {{ "Shared.edit" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end DetailsMyPoint-->

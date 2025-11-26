@@ -1,0 +1,123 @@
+/* MyPoint style */
+$c1: OrangeRed ;
+$c2: SeaShell;
+$g1: linear-gradient(to bottom, $c1, $c2);
+
+.my-points-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: hidden;
+  gap: 2rem;
+  justify-content: start;
+  align-items: start;
+  padding: 0 1rem;
+  margin: 1rem 0;
+}
+
+
+.point-card {
+  width: 12rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.5rem;
+  background-color: #fff;
+  .point-card-top {
+    display: flex;
+    flex-direction: column ;
+    gap: 0.25rem;
+    padding: 1rem .5rem;
+    margin: 0;
+    text-align: center;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: $g1;
+    color: #333;
+    border-radius: 0.5rem 0.5rem 0 0;
+
+    .point-coins {
+      font-weight: bold;
+      font-size: 1.75rem;
+      color: #000;
+    }
+
+    .point-count {
+      font-weight: bold;
+      font-size: 1.75rem;
+      transform: scale(1, 2);
+      letter-spacing: .25rem;
+      margin-bottom: .5rem
+    }
+
+    .point-currency {
+      font-size: .875rem;
+      letter-spacing: .25rem;
+    }
+
+    .point-price {
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: .25rem;
+    }
+
+    .circle{
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      opacity: 0.2;
+      animation: ripple 15s infinite;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: -56%;
+    }
+  }
+  &.default-card {
+    background: #e7f1ff;
+    box-shadow: 0 0 8px rgba(47, 128, 237, 0.3);
+    .point-card-top {
+      display: flex;
+      flex-direction: column ;
+      gap: 0.25rem;
+      padding: 1rem .5rem;
+      margin: 0;
+      text-align: center;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      background: gold;
+      color: #333;
+      border-radius: 0.5rem 0.5rem 0 0;
+    }  
+    .point-count {
+      font-weight: 700;
+    }
+
+    .edit-btn {
+      color: #2f80ed;
+    }
+  }
+  .point-card-body {
+    display: flex;
+    flex-direction: column ;
+    gap: 0.25rem;
+    padding: .5rem;
+    text-align: right;
+  }
+}
+.default-info-box {
+  background: #e7f1ff;
+  border: 1px solid #b3d1ff;
+  border-radius: 0.5rem;
+  color: #034d8c;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+
+  i {
+    color: #2f80ed;
+    font-size: 1.1rem;
+  }
+}

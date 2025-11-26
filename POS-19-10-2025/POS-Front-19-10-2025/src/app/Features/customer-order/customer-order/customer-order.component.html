@@ -1,0 +1,1055 @@
+<!-- Search form -->
+<!-- <div class="col-md-10 col-sm-12 d-flex form-inline d-flex justify-content-end searchInputForm">
+    <div class="row pl-xs-0 pl-sm-0 ">
+      <div
+        class="col-md-5 d-flex justify-content-start align-items-center label1"
+      >
+        <label>
+          {{'products.SearchWithOrderNumber'|translate}}
+        </label>
+      </div>
+      <div class="col-md-7 paddingLeftz">
+        <div class="input-group editInputGroup">
+          <div class="input-group positionEdit">
+          <ejs-combobox   placeholder="Select Order Number" class="form-control borderRadius" name="OrderNumber"
+             [(ngModel)]="OrderNumber" [allowFiltering]="true" [autofill]="true" [dataSource]="OrderNumbers"
+            [fields]="FLG" (ngModelChange)="SelectOrderInsurance(OrderNumber)"></ejs-combobox>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <i class="fas fa-search" aria-hidden="true"></i>
+  </div> -->
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="CustomerOrderform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div style="background: #fff" class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--Customer-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="CustomerDocumentId">{{ "manageorder.Customer" | translate }} :</label>
+                          </div>
+                          <!-- <div class="col-md-6 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input class="form-control col-md-7" type="text" [(ngModel)]="searchCustomer" (keyup)="filterCustomers($event)"
+                                       [ngModelOptions]="{standalone: true}"
+                                       [placeholder]="'Shared.searchByPhoneorNumber' | translate"
+                                       [disabled]="!enableChiled">
+                                <select
+                                  [(ngModel)]="responseobj.CustomerDocumentId"
+                                  class="form-select borderRadius col-md-5"
+                                  #CustomerDocumentId="ngModel"
+                                  (ngModelChange)="setCustomer(responseobj.CustomerDocumentId)"
+                                  name="CustomerDocumentId"
+                                  [required]="isRequired"
+                                  [disabled]="!enableChiled">
+                                  <option
+                                    *ngFor="let customer of customers"
+                                    [ngValue]="customer.DocumentId"
+                                    [disabled]="!enableChiled">
+                                    {{ customer.Name }}
+                                  </option>
+                                </select>
+
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="
+                                    (frmRef.submitted && CustomerDocumentId.invalid) ||
+                                    (CustomerDocumentId.invalid && CustomerDocumentId.touched)
+                                  ">
+                                  <div *ngIf="CustomerDocumentId.errors.required">Customer Is Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div> -->
+                          
+                          
+                          <div class="col-md-6 d-flex flex-column mb-1">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-combobox
+                                  [enabled]="false"
+                                  name="CustomerDocumentId"
+                                  #CustomerDocumentId="ngModel"
+                                  [(ngModel)]="responseobj.CustomerDocumentId"
+                                  (filtering)='filterCustomers($event)'
+                                  [allowFiltering]="true"
+                                  (ngModelChange)="setCustomer(responseobj.CustomerDocumentId)"
+                                  [autofill]="true"
+                                  [dataSource]="customers"
+                                  [fields]="Flds"
+                                  class="form-control borderRadius"
+                                  [placeholder]="'Shared.searchByPhoneorNumber' | translate"
+                                  id="CustomerDocumentId_id"></ejs-combobox>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          
+                          <button
+                            style="min-width: fit-content"
+                            class="btn btn-success px-2 py-1 m-0 ml-3"
+                            name="OpenCustomerPOPUp"
+                            (click)="OpenCustomerPOPUp()"
+                            name="OpenCustomerPOPUp"
+                            [disabled]="!enableChiled">
+                            {{ "Shared.AddCustomer" | translate }}
+                          </button>
+                        </div>
+                      </div>
+                      <!--customerPhone-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row justify-content-start align-items-center">
+                          <div class="col-md-4">
+                            <label for="validationCustom19"> {{ "Shared.customerPhone" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  class="form-control borderRadius"
+                                  [(ngModel)]="responseobj.CustomerPhone"
+                                  id="CustomerPhone"
+                                  required
+                                  name="CustomerPhone"
+                                  #CustomerPhone="ngModel"
+                                  disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--CreationTime-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row justify-content-start align-items-center">
+                          <div class="col-md-4">
+                            <label for="validationCustom19"> {{ "CashReceipt.Date" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  readonly
+                                  class="pAsolute absolutePosition form-control borderRadius"
+                                  format="dd/MM/yyyy"
+                                  name="CreationTime"
+                                  #CreationTime="ngModel"
+                                  [(ngModel)]="responseobj.CreationTime"
+                                  class="form-control borderRadius Prelative"
+                                  id="CreationTime"
+                                  placeholder="mm/dd/yyyy"
+                                  [disabled]="!enableChiled"></ejs-datepicker>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--received Date-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row justify-content-start align-items-center">
+                          <div class="col-md-4">
+                            <label for="validationCustom19"> {{ "CustomerOrder.ReceivedDate" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  readonly
+                                  class="pAsolute absolutePosition form-control borderRadius"
+                                  format="dd/MM/yyyy"
+                                  name="ReceivedDate"
+                                  #ReceivedDate="ngModel"
+                                  [(ngModel)]="responseobj.ReceivedDate"
+                                  class="form-control borderRadius Prelative"
+                                  id="ReceivedDate"
+                                  placeholder="mm/dd/yyyy"
+                                  [disabled]="!enableChiled"></ejs-datepicker>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--received Time-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row justify-content-start align-items-center">
+                          <div class="col-md-4">
+                            <label for="validationCustom19"> {{ "CustomerOrder.ReceivedTime" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="time"
+                                  [disabled]="!enableChiled"
+                                  class="form-control borderRadius"
+                                  name="ReceivedTime"
+                                  [(ngModel)]="responseobj.ReceivedTime" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--ReceiverName-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="TelephoneNumber">{{ "CustomerOrder.ReceiverName" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-phone"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  class="form-control borderRadius"
+                                  [(ngModel)]="responseobj.ReceiverName"
+                                  id="ReceiverName"
+                                  name="ReceiverName"
+                                  #ReceiverName="ngModel"
+                                  disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--ReceiverPhone-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="TelephoneNumber">{{ "CustomerOrder.ReceiverPhone" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-phone"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  class="form-control borderRadius"
+                                  [(ngModel)]="responseobj.ReceiverPhone"
+                                  id="ReceiverPhone"
+                                  name="ReceiverPhone"
+                                  #ReceiverPhone="ngModel"
+                                  disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--OrderType-->
+                      <div class="col-md-6 mb-3" >
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">{{ "Shared.ordertype" | translate }} :</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-combobox
+                                  name="OrderTypeDocumentId"
+                                  #OrderTypeDocumentId="ngModel"
+                                  [(ngModel)]="responseobj.OrderTypeDocumentId"
+                                  [allowFiltering]="true"
+                                  [dataSource]="orderTypeList"
+                                  required
+                                  [enabled]="enableChiled"
+                                  [autofill]="true"
+                                  (ngModelChange)="setOrderType(responseobj.OrderTypeDocumentId)"
+                                  [fields]="FLG"
+                                  class="form-control borderRadius"
+                                  id="OrderTypeDocument_id"></ejs-combobox>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf=" (frmRef.submitted && OrderTypeDocumentId.invalid) ||
+                                    (OrderTypeDocumentId.invalid && OrderTypeDocumentId.touched)">
+                                  <div *ngIf="OrderTypeDocumentId.errors.required">Order Type Is Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--Tables-->
+                      <div class="col-md-6 mb-3" *ngIf="responseobj.OrderType?.Value == 4">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">{{ "Shared.Tables" | translate }} :</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-combobox
+                                  name="TableId"
+                                  #TableId="ngModel"
+                                  [(ngModel)]="responseobj.TableId"
+                                  [allowFiltering]="true"
+                                  [dataSource]="tablelist"
+                                  (ngModelChange)="setTable()"
+                                  [enabled]="enableChiled"
+                                  [autofill]="true"
+                                  [fields]="FLG"
+                                  class="form-control borderRadius"
+                                  id="Table_id"></ejs-combobox>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--PaymentType-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">{{ "Shared.paymenttype" | translate }} :</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-combobox
+                                  name="PayTypeDocumentId"
+                                  #PayTypeDocumentId="ngModel"
+                                  [(ngModel)]="responseobj.PayTypeDocumentId"
+                                  [allowFiltering]="true"
+                                  [dataSource]="orderPayTypelist"
+                                  placeholder="Select Pay Type"
+                                  required
+                                  [enabled]="enableChiled"
+                                  [autofill]="true"
+                                  (ngModelChange)="responseobj = recalculateOrderObject(responseobj)"
+                                  [fields]="FLG"
+                                  class="form-control borderRadius"
+                                  id="PayTypeDocment_id"></ejs-combobox>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="
+                                    (frmRef.submitted && PayTypeDocumentId.invalid) ||
+                                    (PayTypeDocumentId.invalid && PayTypeDocumentId.touched)
+                                  ">
+                                  <div *ngIf="PayTypeDocumentId.errors.required">Pay Type Is Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--DownPaymentAmount-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label >{{ "CustomerOrder.DownPaymentAmount" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div  class="input-group">
+                                <input *ngIf="!responseobj.PayedAmountReservation" type="number"
+                                  class="form-control borderRadius"
+                                  [(ngModel)]="responseobj.DownPaymentAmount"
+                                  id="DownPaymentAmount"
+                                  name="DownPaymentAmount"
+                                  #DownPaymentAmount="ngModel"
+                                  [disabled]="!enableChiled" />
+
+                                  <input *ngIf="responseobj.PayedAmountReservation" type="number"
+                                  class="form-control borderRadius"
+                                  [value]="responseobj.PayedAmountReservation"
+                                  [disabled]="true"  readonly />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--DeliveryPrice-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="DeliveryPrice"> {{ "Shared.DeliveryPrice" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-clipboard-list fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  id="DeliveryPrice"
+                                  (keyup)="responseobj = recalculateOrderObject(responseobj)"
+                                  name="DeliveryPrice"
+                                  [(ngModel)]="responseobj.DeliveryPrice"
+                                  disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Notes-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="exampleFormControlTextarea1"> {{ "kds.Note" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <textarea
+                                class="form-control borderRadius"
+                                [(ngModel)]="responseobj.NoteForOrder"
+                                name="NoteForOrder"
+                                disabled></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="ms-panel BlueBg">
+                      <div class="ms-panel-header px-2 py-3">
+                        <h6>{{ "Shared.Products" | translate }}</h6>
+                      </div>
+                      <div class="ms-panel-body p-2">
+                        <div class="col-md-12">
+                          <div class="row justify-content-center">
+                            <div class="col-md-12">
+                              <!-- PrdouctGroups -->
+                              <!-- <div class="row">
+
+                                            <div *ngFor="let group of productgrouplist" class="col-md-3 d-flex align-items-center">
+                                                <input type="checkbox" [disabled]="!enableChiled" (change)="loadProductDetails(group)" style="width: 1.5rem;"
+                                                 name="Selected" #Selected="ngModel" [(ngModel)]="group.Selected" class="form-control borderRadius">
+                                                <p class="mx-1 my-0">{{group.Name}}</p>
+                                            </div>
+                                        </div> -->
+                              <!-- Products -->
+
+                              <div class="row">
+                                <!-- <div class="col-md-12">
+                                                <perfect-scrollbar  class="pS manageInsuranceOrderScroll " >
+
+                                                        <div class="d-flex">
+                                                             <div  *ngFor="let N of finalProductList; let i = index" class="chiller_cbbbb m-1 ">
+                                                            <button type="button"  [disabled]="!enableChiled" (click)="addToOrderDetailList(N)"
+                                                                class="btn"> {{N.Name}}</button>
+                                                            <span></span>
+                                                            </div>
+
+
+                                                    </div>
+
+
+                                                  </perfect-scrollbar>
+
+                                          </div> -->
+
+                                <!-- grid-->
+                                <button
+                                  (click)="addToOrderDetailList()"
+                                  [disabled]="!enableChiled"
+                                  class="btn btn-success mr-3">
+                                  {{ "pagetransactions.Add" | translate }}
+                                </button>
+                                <div class="col-md-12">
+                                  <table class="table table-bordered mb-0">
+                                    <thead class="bg-maingreen text-center">
+                                      <tr>
+                                        <th scope="col">{{ "products.Product" | translate }}</th>
+                                        <th scope="col">{{ 'Order.Additions' | translate }}</th>
+                                        <th scope="col">{{ "Order.Price" | translate }}</th>
+                                        <th scope="col">{{ "stock.Quantity" | translate }}</th>
+                                        <th scope="col">{{'CustomerOrder.DiscountPer'|translate}}</th>
+                                        <!-- <th scope="col">{{'CustomerOrder.DiscountValue'|translate}}</th> -->
+                                        <!-- <th scope="col">
+                                          {{ "Reports.TaxAmount" | translate }}
+                                        </th> -->
+                                        <th scope="col">
+                                          {{ "Shared.Total" | translate }}
+                                        </th>
+                                        <th scope="col">
+                                          {{ "delivery.Actions" | translate }}
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="text-center editTd">
+                                      <tr *ngFor="let II of responseobj.OrderDetails; let i = index">
+                                        <td>
+                                          <ejs-combobox
+                                            name="{{ 'UUID' + i }}"
+                                            #UUID="ngModel"
+                                            [(ngModel)]="II.UUID"
+                                            [allowFiltering]="true"
+                                            [autofill]="true"
+                                            required
+                                            [dataSource]="allproductlist"
+                                            [enabled]="enableChiled"
+                                            (change)="setOrderDetail(i, $event)"
+                                            [fields]="FLGUUID"
+                                            class="form-control borderRadius"
+                                            id="UUID_id">
+                                          </ejs-combobox>
+                                        </td>
+                                        <td>
+                                          <div class="action-icons">
+                                            <i 
+                                              class="note-icon far fa-sticky-note"
+                                              [class.text-muted]="!enableChiled"
+                                              (click)="openNoteModel(i)"
+                                              matTooltip="{{ 'kds.Note' | translate }}"
+                                              matTooltipPosition="above"
+                                              style="cursor: pointer; font-size: 1.2rem; color: #3b82f6;">
+                                            </i>
+                                            <i 
+                                              class="side-dish-icon fas fa-utensils"
+                                              [class.text-muted]="!enableChiled"
+                                              (click)="openSideDishes(i)"
+                                              matTooltip="{{ 'products.SideDishes' | translate }}"
+                                              matTooltipPosition="above"
+                                              style="cursor: pointer; font-size: 1.1rem; color: #10b981; margin-right: 8px;">
+                                            </i>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          {{ II.ProductPrice | currency : " " : "symbol" : fraction }}
+                                          <!-- <input id="ProductPrice{{i}}" [numbersOnly]="II.ProductPrice" [allowDecimals]="true" [fraction]="round" name="ProductPrice{{i}}"
+                                            (keyup)="changeProductPrice(II)" class="btn-count" [(ngModel)]="II.ProductPrice"  #ProductPrice="ngModel"
+                                            [disabled]="!enableChiled || !II.Product?.AllowChangePrice" /> -->
+                                        </td>
+                                        <td> 
+                                          <!-- {{II.ProductQuantity}} -->
+                                          <input
+                                            id="ProductQuantity{{ i }}"
+                                            [numbersOnly]="II.ProductQuantity"
+                                            [allowDecimals]="true"
+                                            name="ProductQuantity{{ i }}"
+                                            (keyup)="responseobj = recalculateOrderObject(responseobj)"
+                                            class="btn-count form-control"
+                                            [(ngModel)]="II.ProductQuantity"
+                                            #ProductQuantity="ngModel"
+                                            [disabled]="!enableChiled" />
+                                        </td>
+                                        <td>
+                                          <input
+                                            id="Discount{{ i }}"
+                                            type="number"
+                                            [numbersOnly]="II.Discount"
+                                            [allowDecimals]="true"
+                                            [fraction]="round"
+                                            name="Discount{{ i }}"
+                                            (keyup)="responseobj = recalculateOrderObject(responseobj)"
+                                            class="btn-coun form-control"
+                                            [(ngModel)]="II.Discount"
+                                            #Discount="ngModel"
+                                            [disabled]="!enableChiled" />
+                                        </td>
+                                        <!-- <td >
+                                                    {{ II.OrderDiscountValue | currency:' ':'symbol':fraction}} -->
+                                        <!-- <input id="OrderDiscountValue{{i}}" [numbersOnly]="II.OrderDiscountValue" [allowDecimals]="true" name="OrderDiscountValue{{i}}"
+                                                          class="btn-count" [(ngModel)]="II.OrderDiscountValue" #OrderDiscountValue="ngModel" disabled readonly /> -->
+                                        <!-- </td> -->
+                                        <!-- <td >
+                                                    {{ II.TaxAmount | currency:' ':'symbol':fraction}} -->
+                                        <!-- <input id="TaxAmount{{i}}" [numbersOnly]="II.TaxAmount" [allowDecimals]="true" name="TaxAmount{{i}}"
+                                                          class="btn-count" [(ngModel)]="II.TaxAmount" #TaxAmount="ngModel" disabled readonly /> -->
+                                        <!-- </td> -->
+                                        <td>
+                                          {{ II.Total | currency : " " : "symbol" : fraction }}
+                                          <!-- <input id="ProductFinalPrice{{i}}" [numbersOnly]="II.ProductFinalPrice" [allowDecimals]="true" name="ProductFinalPrice{{i}}"
+                                                          class="btn-count" [(ngModel)]="II.ProductFinalPrice" #ProductFinalPrice="ngModel" disabled readonly /> -->
+                                        </td>
+                                        <td id="actions_BTN">
+                                          <!-- <button [disabled]="!enableChiled" (click)="AddNotes(i)"  class="btn-count" style="font-size: 1.1rem;">{{ "CustomerOrder.AddNote"| translate }}</button> -->
+                                          <button
+                                            [disabled]="!enableChiled"
+                                            (click)="Plus(i)"
+                                            class="btn-count fa fa-plus p-0"
+                                            style="font-size: 1.1rem"></button>
+                                          <button
+                                            [disabled]="!enableChiled"
+                                            (click)="Minus(i)"
+                                            class="btn-count fa fa-minus p-0"
+                                            style="font-size: 1.1rem"></button>
+                                          <button
+                                            [disabled]="!enableChiled"
+                                            (click)="delete(i)"
+                                            class="btn-count far fa-trash-alt text-crosss p-0"
+                                            style="font-size: 1.1rem"></button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  
+                                  <div id="SubTotal" class="form-group pt-3 d-flex">
+
+                                      <label class="col-md-4 maingreen pl-0 pr-4" for="SubTotal">{{ "ReturnOrder.SubTotal" | translate }} :</label>
+                                        
+                                      <span readonly class="col-md-8 form-control">
+                                        {{ responseobj.SubTotal | currency : " " : "symbol" : fraction }}
+                                      </span>
+                                    
+                                  </div>
+                                </div>
+                                <!--end grid-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--Note Model second-->
+<div class="modal fade" id="updatemodal-Notes" tabindex="-1" role="dialog" aria-labelledby="updatemodal-Notes">
+  <div class="modal-dialog AmountModel modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title align-items-baseline d-flex has-icon ms-icon-round orangeColor restaurantName4">
+          <img style="width: 30px; height: 30px" src="assets/images/note2.svg" alt="" />
+          <span class="p-1"> {{ "kds.Note" | translate }} </span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <perfect-scrollbar class="pS ManageScrollModelNote px-2" [config]="config">
+            <div class="row px-1">
+              <div class="col-md-8">
+                <form class="d-flex row justify-content-center align-items-center">
+                  <div class="col-md-10">
+                    <div class="form-group mb-0">
+                      <textarea
+                        class="form-control Prelative"
+                        id="noteArea"
+                        rows="2"
+                        name="Name"
+                        #Name="ngModel"
+                        placeholder="Please Enter Your Note ..."
+                        [(ngModel)]="noteobj.Name"
+                        (input)="filterNotes()"></textarea>
+                    </div>
+                    <div *ngIf="shownoteerror" class="positionNOTE alert alert-danger">Must Enter Note</div>
+                  </div>
+                  <div class="col-md-2">
+                    <button
+                      type="button"
+                      class="btn bg-mainYellow has-icon text-white p-1 m-0 btnEdit"
+                      (click)="addNewNote(noteobj)">
+                      <i class="fas fa-plus"></i>
+                      {{ "pagetransactions.Add" | translate }}
+                    </button>
+                  </div>
+                </form>
+
+                <div class="container">
+                  <div class="row pt-2">
+                    <perfect-scrollbar [config]="config" class="pS ManageScrollchiller px-1">
+                      <div *ngFor="let N of filterNotesList; let i = index" class="chiller_cb m-1">
+                        <input
+                          #NoteChecked
+                          name="NoteChecked"
+                          id="checkedInput{{ i }}"
+                          type="checkbox"
+                          ngModel
+                          [(ngModel)]="N.NoteChecked"
+                          [checked]="N.NoteChecked" />
+                        <label (click)="notesChecked($event, N)" class="labelNotes" for="{{ i }}">{{ N.Name }}</label>
+                        <span></span>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="col-md-4"
+                *ngIf="
+                  responseobj.OrderDetails &&
+                  responseobj.OrderDetails[index] &&
+                  responseobj.OrderDetails[index].OrderDetailNotes
+                ">
+                <perfect-scrollbar [config]="config" class="pS ManageScrollModelSide px-1">
+                  <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-maingreen">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ "Shared.Name" | translate }}</th>
+                        <th scope="col">
+                          {{ "delivery.Actions" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="digram text-center">
+                      <tr *ngFor="let ODN of responseobj.OrderDetails[index].OrderDetailNotes; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ ODN.NoteName }}</td>
+
+                        <td>
+                          <i
+                            (click)="DeleteOrderDetailNote(ODN, i)"
+                            class="far fa-trash-alt text-crosss p-0"
+                            style="font-size: 1.1rem"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </perfect-scrollbar>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--end Note Modal-->
+
+<!-- Side Dishes Modal -->
+<div class="modal fade" id="modal-SideDishes" tabindex="-1" role="dialog" aria-labelledby="modal-SideDishes">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div *ngIf="currentOrderDetail" class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title">
+          <i class="fas fa-utensils me-2"></i> {{ 'products.SideDishes' | translate }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="bg-light">
+              <tr>
+                <th width="50">
+                  <input type="checkbox" [checked]="isAllSideDishSelected()" (change)="toggleAllSideDishs($event)">
+                </th>
+                <th>{{ 'products.Product' | translate }}</th>
+                <th>{{ 'Order.Price' | translate }}</th>
+                <th>{{ 'Reports.Quantity' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of currentOrderDetail?.Product?.ProductSubItems">
+                <td class="text-center">
+                  <input 
+                    type="checkbox"
+                    [checked]="isSideDishSelected(item.SubItemDocumentId)"
+                    (change)="toggleSideDish(item)">
+                </td>
+                <td>{{ item.Name }}</td>
+                <td>{{ item.NewPrice | currency:' ':'symbol':fraction }}</td>
+                <td class="quantity-cell">
+                  <input 
+                    type="number" 
+                    class="form-control form-control-sm text-center" 
+                    [(ngModel)]="item.Quantity" 
+                    min="0.1"
+                    [disabled]="!item.selected"
+                    style="width: 70px;">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <i class="fas fa-times me-1"></i> {{ 'Shared.Close' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" (click)="saveSideDishes()">
+          <i class="fas fa-save me-1"></i> {{ 'Shared.Save' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Side Dishes Modal -->
+
+<!--DetailsCustomer-->
+<div
+  class="modal fade modalPinCode"
+  id="DetailsCustomer"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="DetailsCustomer"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document" style="transform: translate(0, 50%)">
+    <form (ngSubmit)="submitCustomer(frmDetailsCustomer)" #frmDetailsCustomer="ngForm" class="row">
+      <div *ngIf="customerToAdd" class="modal-content modal-content DetailsCustomer">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            {{ "manageorder.Customers" | translate }}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19">
+                    {{ "Reports.Telephone" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="phoneCustomer"
+                        autocomplete="off"
+                        type="text"
+                        class="form-control"
+                        name="CustomerPhone"
+                        required
+                        [(ngModel)]="customerToAdd.Phone"
+                        #CustomerPhone="ngModel"
+                        placeholder="{{ 'Reports.Telephone' | translate }}" />
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && CustomerPhone.invalid) ||
+                          (CustomerPhone.invalid && CustomerPhone.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="CustomerPhone.errors.required">
+                          {{ "delivery.TelephoneIsRequired" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19"> {{ "Reports.Telephone" | translate }} 2 </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="phoneCustomer2"
+                        autocomplete="off"
+                        type="text"
+                        class="form-control"
+                        name="CustomerPhone2"
+                        [(ngModel)]="customerToAdd.Phone2"
+                        #CustomerPhone2="ngModel"
+                        placeholder="{{ 'Reports.Telephone' | translate }} 2" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19"> {{ "Reports.Telephone" | translate }} 3 </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="phoneCustomer3"
+                        autocomplete="off"
+                        type="text"
+                        class="form-control"
+                        name="CustomerPhone3"
+                        [(ngModel)]="customerToAdd.Phone3"
+                        #CustomerPhone3="ngModel"
+                        placeholder="{{ 'Reports.Telephone' | translate }} 3" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19">
+                    {{ "returninsurance.CustomerName" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="NameCustomer"
+                        required
+                        type="text"
+                        class="form-control"
+                        name="CustomerName"
+                        [(ngModel)]="customerToAdd.Name"
+                        #CustomerName="ngModel"
+                        placeholder="{{ 'returninsurance.CustomerName' | translate }}" />
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && CustomerName.invalid) ||
+                          (CustomerName.invalid && CustomerName.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="CustomerName.errors.required">
+                          {{ "pointofsale.NameIsRequired" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19">
+                    {{ "Shared.Taxnumber" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="TaxNo"
+                        type="text"
+                        class="form-control"
+                        name="TaxNo"
+                        [(ngModel)]="customerToAdd.TaxNo"
+                        #TaxNo="ngModel"
+                        placeholder="{{ 'Shared.Taxnumber' | translate }}" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19">
+                    {{ "products.Barcode" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="CustomerBarcode"
+                        type="text"
+                        class="form-control"
+                        name="CustomerBarcode"
+                        [(ngModel)]="customerToAdd.CustomerBarcode"
+                        #CustomerBarcode="ngModel"
+                        placeholder="{{ 'products.Barcode' | translate }}" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            {{ "Shared.Close" | translate }}
+          </button>
+          <button type="submit" class="btn btn-primary">
+            {{ "Shared.Save" | translate }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- end DetailsCustomer-->

@@ -1,0 +1,329 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="driverform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <!-- [hideEditDelete]="driverobj.IsSync" -->
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <!--1-->
+
+                      <div class="form-row pt-3">
+                        <!--employee-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="selectEmployee"> {{ "delivery.EmployeeName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <!-- (focusout)="checkEmployee()" -->
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    [enabled]="false"
+                                    placeholder="{{ 'delivery.SelectEmployee' | translate }}"
+                                    class="form-control borderRadius"
+                                    id="selectEmployee"
+                                    name="EmployeeId"
+                                    #EmployeeId="ngModel"
+                                    [(ngModel)]="responseobj.EmployeeId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="EmpsList"
+                                    [fields]="EmpsFlds"></ejs-combobox>
+                                </div>
+
+                                <!-- <div class="" *ngIf="
+                                  (frmRef.submitted &&
+                                    CustomerId.invalid) ||
+                                  (CustomerId.invalid && CustomerId.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="CustomerId.errors.required">
+                                    {{'CashReceipt.validcustomer'|translate}}
+                                  </div>
+                               </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Driver name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="driverName"> {{ "delivery.DriverName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i _ngcontent-all-c1="" class="fas fa-motorcycle fs-16 main"></i>
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    class="form-control borderRadius"
+                                    name="DriverName"
+                                    #DriverName="ngModel"
+                                    [(ngModel)]="responseobj.DriverName"
+                                    id="name"
+                                    required
+                                    disabled />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && DriverName.invalid) ||
+                                      (DriverName.invalid && DriverName.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="DriverName.errors.required">
+                                      {{ "delivery.DriverNameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Phone-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "delivery.Telephone" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-phone"></i>
+                                </div>
+                                <!-- (focusout)="checkPhone()" -->
+                                <div class="input-group positionEdit">
+                                  <input
+                                    type="number"
+                                    class="form-control borderRadius"
+                                    name="TelephoneNumber"
+                                    #TelephoneNumber="ngModel"
+                                    [(ngModel)]="responseobj.TelephoneNumber"
+                                    id="phone_id"
+                                    required
+                                    disabled />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && TelephoneNumber.invalid) ||
+                                      (TelephoneNumber.invalid && TelephoneNumber.touched)
+                                    ">
+                                    <div
+                                      class="alert alert-danger editAlertCash"
+                                      *ngIf="TelephoneNumber.errors.required">
+                                      {{ "delivery.TelephoneIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Password-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "delivery.Password" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-phone"></i>
+                                </div>
+                                <!-- (focusout)="checkPhone()" -->
+                                <div class="input-group positionEdit">
+                                  <input
+                                    type="password"
+                                    class="form-control borderRadius"
+                                    name="Password"
+                                    #Password="ngModel"
+                                    [(ngModel)]="responseobj.Password"
+                                    id="phone_id"
+                                    required
+                                    disabled />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && Password.invalid) || (Password.invalid && Password.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Password.errors.required">
+                                      {{ "delivery.PasswordRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Maximum Order Count -->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "delivery.OrdersCount" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <img alt="" src="assets/images/sort (2).png" srcset="" />
+                                </div>
+                                <!-- [numbersOnly]="responseobj.MaxOrders"  -->
+                                <div class="input-group positionEdit">
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    class="form-control borderRadius"
+                                    name="MaxOrders"
+                                    #MaxOrders="ngModel"
+                                    [(ngModel)]="responseobj.MaxOrders"
+                                    id="maxOrders_id"
+                                    disabled />
+
+                                  <!-- <div *ngIf="
+                                        (frmRef.submitted && Amount.invalid) ||
+                                        (Amount.invalid && Amount.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="Amount.errors.required">
+                                        {{'CashReceipt.validamount'|translate}}
+                                      </div>
+                                    </div> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--checkbox-->
+                        <div class="col-md-12 mb-4">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="">{{ "Shared.DeliveryPrice" | translate }} </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup py-4">
+                                <div class="input-group d-flex positionEdit justify-content-start">
+                                  <div class="px-2">
+                                    <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                      <input
+                                        type="checkbox"
+                                        value=""
+                                        disabled
+                                        class="form-control borderRadius"
+                                        name="IncludedInTotal"
+                                        #IncludedInTotal="ngModel"
+                                        [(ngModel)]="responseobj.IncludedInTotal"
+                                        (change)="setDriverPriceSettings(1, responseobj.IncludedInTotal)" />
+
+                                      <i class="ms-checkbox-check"></i>
+                                    </label>
+                                    <label class="px-1"> {{ "Shared.includedinrevenue" | translate }}</label>
+                                  </div>
+
+                                  <div class="px-2">
+                                    <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                      <input
+                                        type="checkbox"
+                                        value=""
+                                        disabled
+                                        class="form-control borderRadius"
+                                        id="istabletdevice"
+                                        name="NotIncludedInTotal"
+                                        #NotIncludedInTotal="ngModel"
+                                        [(ngModel)]="responseobj.NotIncludedInTotal"
+                                        (change)="setDriverPriceSettings(2, responseobj.NotIncludedInTotal)" />
+
+                                      <i class="ms-checkbox-check"></i>
+                                    </label>
+                                    <label class="px-1"> {{ "Shared.notincludedintherevenue" | translate }}</label>
+                                  </div>
+                                  <div class="px-2">
+                                    <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                      <input
+                                        type="checkbox"
+                                        value=""
+                                        disabled
+                                        class="form-control borderRadius"
+                                        id="istabletdevice"
+                                        name="FixedDeliveryPersonAmount"
+                                        #FixedDeliveryPersonAmount="ngModel"
+                                        [(ngModel)]="responseobj.FixedDeliveryPersonAmount"
+                                        (change)="setDriverPriceSettings(3, responseobj.FixedDeliveryPersonAmount)" />
+
+                                      <i class="ms-checkbox-check"></i>
+                                    </label>
+                                    <label class="px-1">
+                                      {{
+                                        "Shared.fixedPriceforthedriverandtherestisincludedintherevenue" | translate
+                                      }}</label
+                                    >
+                                  </div>
+
+                                  <div class="px-2" *ngIf="responseobj.NotIncludedInTotal">
+                                    <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                      <input
+                                        type="checkbox"
+                                        value=""
+                                        [disabled]="!enableChiled"
+                                        class="form-control borderRadius"
+                                        id="istabletdevice"
+                                        name="PrintDeliveryPriceSeparated"
+                                        #PrintDeliveryPriceSeparated="ngModel"
+                                        [(ngModel)]="responseobj.PrintDeliveryPriceSeparated"/>
+
+                                      <i class="ms-checkbox-check"></i>
+                                    </label>
+                                    <label class="px-1"> {{ "delivery.PintDeliveryPriceSeparated" | translate }}</label
+                                    >
+                                  </div>
+
+                                  <div
+                                    *ngIf="responseobj.FixedDeliveryPersonAmount"
+                                    class="px-2 d-flex justify-content-center align-items-center">
+                                    <input
+                                      type="number"
+                                      value=""
+                                      class="form-control borderRadius"
+                                      id="istabletdevice"
+                                      name="DriverFixedAmount"
+                                      #DriverFixedAmount="ngModel"
+                                      [(ngModel)]="responseobj.DriverFixedAmount" />
+                                    <label class="m-0 px-1">
+                                      {{ "Shared.DriverPrice" | translate }}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

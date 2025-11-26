@@ -1,0 +1,58 @@
+<!-- Body Content Wrapper -->
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        [editSettings]="editOptions"
+        (rowSelected)="onRowSelected($event)"
+        (toolbarClick)="toolbarClick($event)">
+        <e-columns>
+          <e-column
+            field="DocumentNumber"
+            headerText="{{ 'stock.DocumentNumber' | translate }}"
+            [isPrimaryKey]="true"
+            textAlign="center">
+          </e-column>
+          <e-column
+            field="DocumentDate"
+            type="date"
+            headerText="{{ 'stock.DocumentDate' | translate }}"
+            [format]="formatoptions"
+            textAlign="center"></e-column>
+          <e-column field="Reference" headerText="{{ 'stock.Reference' | translate }}" textAlign="left"></e-column>
+          <e-column field="Description" headerText="{{ 'stock.Description' | translate }}" textAlign="left"></e-column>
+
+          <!-- <e-column width='200' headerText='Actions'>
+                <ng-template #template>
+                  <div class="center">
+                    <a (click)="onResourceEdit($event)" title="Edit">
+                      <span class="e-edit e-icons">
+                        <i class="e-flat"></i>
+                      </span>
+                    </a>
+                    <a (click)="onResourceDelete($event)" title="Delete">
+                      <span class="e-delete e-icons">
+                        <i class="e-flat"></i>
+                      </span>
+                    </a>
+                  </div>
+                </ng-template>
+              </e-column> -->
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

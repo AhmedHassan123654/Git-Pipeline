@@ -1,0 +1,71 @@
+.borderEdit {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+:checked + label::before {
+  content: "";
+}
+
+.form-check-input {
+  width: 20px;
+  height: 20px;
+}
+
+#exampleFormControlInput1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-check {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  padding: 0 1.5rem;
+}
+
+.accordion-toggle .btn {
+  padding: 0.2rem !important;
+}
+
+.checkmerge {
+  margin: -0.5rem 0;
+}
+
+.checkmergeTh {
+  margin: -1rem 0;
+}
+
+.BottomTablePromoEdit thead tr {
+  background-color: #323a67;
+  color: #fff;
+  padding: 1rem;
+}
+.BottomTablePromoEdit th {
+  padding: 0.5rem;
+}
+
+.precentage i {
+  line-height: 2.2;
+  font-size: 18px;
+  color: #29c329;
+}
+
+.days-table thead,
+.meals-table thead {
+  background-color: #cce0f6;
+  padding: 10;
+  height: 7vh;
+  font-size: 18px;
+  line-height: 2;
+}
+.days-table input,
+.meals-table input {
+  /* background-color: #e9ecef; */
+  color: #000;
+}
+
+.table .th-1 {
+  width: 10%;
+} /*# sourceMappingURL=promo.component.css.map */

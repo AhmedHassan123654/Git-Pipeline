@@ -1,0 +1,76 @@
+$width: 90px;
+$height: 43px;
+$knob-padding: 4px;
+.knobs,
+.layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.button {
+  --open-text: "OPEN";
+  --close-text: "CLOSED";
+  position: relative;
+  width: $width;
+  height: $height;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.button.r,
+.button.r .layer {
+  border-radius: 100px;
+}
+
+.button.b2 {
+  border-radius: 2px;
+}
+
+
+.knobs {
+  z-index: 2;
+}
+
+.layer {
+  width: 100%;
+  background-color: #ffe6e6;
+  transition: 0.3s ease all;
+  z-index: 1;
+}
+
+/* Button 1 */
+#button-1 .knobs:before {
+  content: "" var(--close-text);
+  position: absolute;
+  top: $knob-padding;
+  left: $knob-padding;
+  width: $height - $knob-padding * 2;
+  height: $height - $knob-padding *2;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  line-height: $height - $knob-padding *2;
+  background-color: #f44336;
+  border-radius: 50%;
+  transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+}
+
+#button-1.checked .knobs:before {
+  content: "" var(--open-text);
+  left: $width - $height + $knob-padding;
+  background-color: #07bd6d;
+}
+
+#button-1.checked .layer {
+  background-color: #d0ffe8;
+}
+
+#button-1 .knobs,
+#button-1 .knobs:before,
+#button-1 .layer {
+  transition: 0.3s ease all;
+}

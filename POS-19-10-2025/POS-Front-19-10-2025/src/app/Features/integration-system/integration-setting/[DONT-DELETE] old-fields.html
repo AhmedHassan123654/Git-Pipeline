@@ -1,0 +1,297 @@
+<!-- This file is backup for integration settings -->
+<!--UserName-->
+<div class="col-md-6 mb-3">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.UserName" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="User Name"
+            placeholder="User Name"
+            name="UserName"
+            #UserName="ngModel"
+            [(ngModel)]="responseobj.UserName"
+            id="UserName_id"
+            required
+            disabled
+            class="form-control borderRadius" />
+        </div>
+        <div
+          class=""
+          *ngIf="(frmRef.submitted && UserName.invalid) || (UserName.invalid && UserName.touched)">
+          <div class="alert alert-danger editAlertCash" *ngIf="UserName.errors.required">
+            {{ "Shared.UserNameIsRequired" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Password-->
+<div class="col-md-6 mb-3">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19">
+        {{ "Shared.Password" | translate }}
+      </label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="Password"
+            name="Password"
+            #Password="ngModel"
+            [(ngModel)]="responseobj.Password"
+            id="Password_id"
+            required
+            class="form-control borderRadius"
+            disabled />
+        </div>
+        <div
+          class=""
+          *ngIf="(frmRef.submitted && Password.invalid) || (Password.invalid && Password.touched)">
+          <div class="alert alert-danger editAlertCash" *ngIf="Password.errors.required">
+            {{ "Shared.PasswordIsrequired" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--URL-->
+<div class="col-md-6 mb-3">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.URL" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="URL"
+            name="URL"
+            required
+            #URL="ngModel"
+            [(ngModel)]="responseobj.URL"
+            id="URL_id"
+            disabled
+            class="form-control borderRadius" />
+        </div>
+        <div class="" *ngIf="(frmRef.submitted && URL.invalid) || (URL.invalid && URL.touched)">
+          <div class="alert alert-danger editAlertCash" *ngIf="URL.errors.required">
+            {{ "Shared.URLIsrequired" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--ApiSecretKey-->
+<div class="col-md-6 mb-3" *ngIf="responseobj.Integration != 1">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19">{{ "Shared.ApiSecretKey" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="ApiSecretKey"
+            name="ApiSecretKey"
+            #ApiSecretKey="ngModel"
+            [(ngModel)]="responseobj.ApiSecretKey"
+            id="ApiSecretKey_id"
+            required
+            [disabled]="!enableChiled"
+            class="form-control borderRadius" />
+        </div>
+        <div
+          class=""
+          *ngIf="
+                      (frmRef.submitted && ApiSecretKey.invalid) || (ApiSecretKey.invalid && ApiSecretKey.touched)
+                    ">
+          <div class="alert alert-danger editAlertCash" *ngIf="ApiSecretKey.errors.required">
+            ApiSecretKeyIsRequired
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--RestaurantSecretKey-->
+<div class="col-md-6 mb-3" *ngIf="responseobj.Integration != 1">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.RestaurantSecretKey" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="RestaurantSecretKey"
+            name="RestaurantSecretKey"
+            #RestaurantSecretKey="ngModel"
+            [(ngModel)]="responseobj.RestaurantSecretKey"
+            id="RestaurantSecretKey_id"
+            required
+            [disabled]="!enableChiled"
+            class="form-control borderRadius" />
+        </div>
+        <div
+          class=""
+          *ngIf="
+                      (frmRef.submitted && RestaurantSecretKey.invalid) ||
+                      (RestaurantSecretKey.invalid && RestaurantSecretKey.touched)
+                    ">
+          <div class="alert alert-danger editAlertCash" *ngIf="RestaurantSecretKey.errors.required">
+            RestaurantSecretKeyIsRequired
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--SupplierId-->
+<div class="col-md-6 mb-3" *ngIf="responseobj.Integration == 3">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.SupplierId" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="SupplierId"
+            name="SupplierId"
+            #SupplierId="ngModel"
+            [(ngModel)]="responseobj.SupplierId"
+            id="SupplierId_id"
+            required
+            [disabled]="!enableChiled"
+            class="form-control borderRadius" />
+        </div>
+        <div
+          class=""
+          *ngIf="(frmRef.submitted && SupplierId.invalid) || (SupplierId.invalid && SupplierId.touched)">
+          <div class="alert alert-danger editAlertCash" *ngIf="SupplierId.errors.required">
+            SupplierIdIsRequired
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--StoreId-->
+<div class="col-md-6 mb-3" *ngIf="responseobj.Integration == 3">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.StoreId" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="number"
+            placeholder="StoreId"
+            name="StoreId"
+            #StoreId="ngModel"
+            [(ngModel)]="responseobj.StoreId"
+            id="StoreId_id"
+            required
+            [disabled]="!enableChiled"
+            class="form-control borderRadius" />
+        </div>
+        <div class="" *ngIf="(frmRef.submitted && StoreId.invalid) || (StoreId.invalid && StoreId.touched)">
+          <div class="alert alert-danger editAlertCash" *ngIf="StoreId.errors.required">
+            StoreId Is Required
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--CatalogName-->
+<div class="col-md-6 mb-3" *ngIf="responseobj.Integration == 1">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.CatalogName" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="CatalogName"
+            name="CatalogName"
+            #CatalogName="ngModel"
+            [(ngModel)]="responseobj.CatalogName"
+            id="CatalogName_id"
+            class="form-control borderRadius"
+            [disabled]="!enableChiled" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--CategoriId-->
+<div class="col-md-6 mb-3" *ngIf="responseobj.Integration == 1">
+  <div class="row">
+    <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.CategoriId" | translate }}:</label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="fas fa-user fs-16"></i>
+        </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="Categori Id "
+            name="CategoriId"
+            #CategoriId="ngModel"
+            [(ngModel)]="responseobj.CategoriId"
+            id="CategoriId_id"
+            [disabled]="!enableChiled"
+            class="form-control borderRadius" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

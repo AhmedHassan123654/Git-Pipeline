@@ -1,0 +1,64 @@
+.dashboard-saleOfPoints .card {
+  box-shadow: 1px 2px 3px 1px #ddd;
+  transition: all 0.5s ease-in-out;
+  height: auto;
+}
+.dashboard-saleOfPoints .card .title-card {
+  margin-bottom: 25px;
+}
+.dashboard-saleOfPoints .card .card-icon {
+  margin-inline: 10px;
+}
+.dashboard-saleOfPoints .card .card-icon i {
+  vertical-align: middle;
+  padding: 14px;
+  font-size: 24px;
+  border-radius: 4px;
+}
+.dashboard-saleOfPoints .card .card-icon .fa-cogs {
+  color: #3475a3;
+  background-color: rgba(52, 117, 163, 0.2705882353);
+}
+.dashboard-saleOfPoints .card .card-icon .fa-line-chart {
+  color: rgb(9, 189, 9);
+  background-color: rgba(9, 189, 9, 0.26);
+}
+.dashboard-saleOfPoints .card .card-content {
+  margin-bottom: 10px;
+}
+.dashboard-saleOfPoints .card .card-content .meal-details img {
+  width: 44px;
+  height: 40px;
+  border-radius: 6px;
+}
+.dashboard-saleOfPoints .card .card-content .meal-name {
+  display: grid;
+  padding-inline: 5px;
+}
+.dashboard-saleOfPoints .card .card-content .meal-name .name {
+  font-weight: 600;
+}
+.dashboard-saleOfPoints .card .card-content .meal-name .amount {
+  color: rgba(0, 0, 0, 0.52);
+  padding-inline: 3px;
+}
+.dashboard-saleOfPoints .card .card-content .meal-name .quantity {
+  font-weight: 600;
+  color: #0f0fed;
+}
+.dashboard-saleOfPoints .card .card-content .meal-price {
+  color: #1bcf31;
+}
+.dashboard-saleOfPoints ejs-chart {
+  border-radius: 8px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  p {
+    font-size: 14px;
+  }
+  .dashboard-saleOfPoints .card .card-icon i {
+    padding: 9px;
+    font-size: 14px;
+  }
+} /*# sourceMappingURL=posdash-board.component.css.map */

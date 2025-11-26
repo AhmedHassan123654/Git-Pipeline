@@ -1,0 +1,332 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="taxform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <!--1-->
+                      <div class="form-row pt-3">
+                        <!--name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Name" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="Name"
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    required />
+                                </div>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div *ngIf="Name.errors.required">
+                                    {{ "pointofsale.NameIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--ForeignName-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.ForeignName" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="ForeignName"
+                                    name="ForeignName"
+                                    #ForeignName="ngModel"
+                                    [(ngModel)]="responseobj.ForeignName" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--taxtype-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "tax.taxtype" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <select
+                                    class="form-control borderRadius"
+                                    name="Type"
+                                    #Type="ngModel"
+                                    [(ngModel)]="responseobj.Type"
+                                    required
+                                    disabled
+                                    readonly>
+                                    <!-- <option value ="1">{{ "tax.vat"| translate }}</option> -->
+                                    <option value="2" disabled>
+                                      {{ "tax.servicecharge" | translate }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="(frmRef.submitted && Type.invalid) || (Type.invalid && Type.touched)">
+                                  <div *ngIf="Type.errors.required">Tax Type Is Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--valuetype-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "tax.valuetype" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <select
+                                    class="form-control borderRadius"
+                                    name="ValueType"
+                                    #ValueType="ngModel"
+                                    [(ngModel)]="responseobj.ValueType"
+                                    required
+                                    disabled>
+                                    <option value="1">
+                                      {{ "tax.percentage" | translate }}
+                                    </option>
+                                    <option value="2">
+                                      {{ "tax.value" | translate }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="
+                                    (frmRef.submitted && ValueType.invalid) || (ValueType.invalid && ValueType.touched)
+                                  ">
+                                  <div *ngIf="ValueType.errors.required">Value Type Is Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--includeOtherTaxes-->
+                        <!-- <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "tax.includeOtherTaxes" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-multiselect
+                                    name="TaxDetails"
+                                    disabled
+                                    class="form-control borderRadius"
+                                    #TaxDetails="ngModel"
+                                    [(ngModel)]="responseobj.TaxDetails"
+                                    [dataSource]="sourcTaxes"
+                                    [allowFiltering]="true"
+                                    [fields]="FLG"
+                                    [required]="isRequired"
+                                    placeholder="{{ 'products.Taxes' | translate }}"
+                                    [width]="300"
+                                    [sortOrder]="sorting"
+                                    (ngModelChange)="SetVatTaxDetails()">
+                                  </ejs-multiselect>
+                                </div>
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (frmRef.submitted && TaxDetails.invalid) ||
+                                    (TaxDetails.invalid && TaxDetails.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="TaxDetails.errors.required">
+                                    Tax Is required
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+
+
+                        <!--HasVatTax-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "tax.HasVatTax" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-copy"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    class="form-control"
+                                    name="VATTaxDocumentId"
+                                    #VATTaxDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.VATTaxDocumentId"
+                                    id="VATTaxDocumentId_id"
+                                    [dataSource]="sourcTaxes"
+                                    [autofill]="true"
+                                    [allowFiltering]="true"
+                                    placeholder="{{ 'products.Taxes' | translate }}"
+                                    [fields]="FLG"
+                                    disabled
+                                    (ngModelChange)="SetHasVatTax()">
+                                  </ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Value-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Reports.Amount" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    type="number"
+                                    [numbersOnly]="responseobj.Value"
+                                    [allowDecimals]="true"
+                                    class="form-control borderRadius"
+                                    name="Value"
+                                    #Value="ngModel"
+                                    [(ngModel)]="responseobj.Value"
+                                    disabled />
+                                </div>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="(frmRef.submitted && Value.invalid) || (Value.invalid && Value.touched)">
+                                  <div *ngIf="Value.errors.required">Value Is Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--TaxBranches-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "tax.branches" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-multiselect
+                                    name="TaxBranchesIds"
+                                    disabled
+                                    class="form-control borderRadius"
+                                    #TaxBranchesIds="ngModel"
+                                    [(ngModel)]="responseobj.TaxBranchesIds"
+                                    [dataSource]="branches"
+                                    [allowFiltering]="true"
+                                    [fields]="FLG"
+                                    placeholder="{{ 'Shared.Branch' | translate }}"
+                                    [width]="300"
+                                    [sortOrder]="sorting"
+                                    (ngModelChange)="SetTaxBranches()">
+                                  </ejs-multiselect>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--ForOnePerson-->
+                        <div class="col-md-6 mb-3" *ngIf="responseobj.ValueType == '2'">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "tax.ForOnePerson" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <input
+                                    type="checkbox"
+                                    class="form-control borderRadius"
+                                    name="ForOnePerson"
+                                    #ForOnePerson="ngModel"
+                                    [(ngModel)]="responseobj.ForOnePerson" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,370 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="shiftform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber">
+  </app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div style="background: #fff" class="tab-content">
+            <div role="tabpanel" class="tab-pane active show fade in">
+              <div class="col-xl-12 ms-panel col-md-12 col-xs-12">
+                <div class="ms-panel-header p-2">
+                  <div class="col-md-12">
+                    <div class="row align-items-center editBorder">
+                      <div class="col-md-4">
+                        <div class="row my-1">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.Name" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder="Name"
+                                  [(ngModel)]="responseobj.Name"
+                                  name="Name"
+                                  disabled
+                                  #Name="ngModel"
+                                  id="name_id"
+                                  class="form-control borderRadius"
+                                  required />
+                                <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                    {{ "Shared.Nameisrequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="row my-1">
+                          <div class="col-md-4 d-flex justify-content-center align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.ForeignName" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder="Foreign Name"
+                                  [(ngModel)]="responseobj.ForiegnName"
+                                  name="ForiegnName"
+                                  disabled
+                                  #ForiegnName="ngModel"
+                                  id="foriegnname_id"
+                                  class="form-control borderRadius" />
+
+                                <!--    <div *ngIf="
+                                    (frmRef.submitted && ForiegnName.invalid) ||
+                                    (ForiegnName.invalid && ForiegnName.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="ForiegnName.errors.required">
+                                    you must enter foriegnname 
+                                  </div>
+                                </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="row my-1">
+                          <div class="col-md-4 d-flex justify-content-center align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.Alert Before End(minutes)" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder="minutes"
+                                  [(ngModel)]="responseobj.AlertBeforeEnd"
+                                  name="AlertBeforeEnd"
+                                  disabled
+                                  [numbersOnly]="responseobj.AlertBeforeEnd"
+                                  [allowDecimals]="true"
+                                  #AlertBeforeEnd="ngModel"
+                                  id="AlertBeforeEnd_id"
+                                  class="form-control borderRadius" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="row my-1">
+                          <div class="col-md-8">
+                            <label> {{ "Shared.InActive" | translate }}</label>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="ms-checkbox-wrap ms-todo-complete">
+                              <input
+                                type="checkbox"
+                                name="ISActive"
+                                #ISActive="ngModel"
+                                [(ngModel)]="responseobj.ISActive"
+                                class="form-control borderRadius"
+                                disabled />
+                            </label>
+                          </div>
+                        </div>
+
+                        <div class="row my-1">
+                          <div class="col-md-8">
+                            <label>
+                              {{ "Shared.ExitSystemWhenShiftEnd" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-4">
+                            <label class="ms-checkbox-wrap ms-todo-complete">
+                              <input
+                                type="checkbox"
+                                name="ExitSystemWhenShiftEnd"
+                                #IsWork="ngModel"
+                                [(ngModel)]="responseobj.ExitSystemWhenShiftEnd"
+                                class="form-control borderRadius"
+                                disabled />
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ms-panel-body">
+                  <!--           <ejs-grid #grid id='grid' [dataSource]='responseobj.WorkTimeDays'   allowPaging='true' [pageSettings]='pageSettings' [editSettings]='editSettings'  (actionBegin)='actionBegin($event)'(load)='load($event)'>
+            <e-columns>
+           
+ <e-column field='IsDayActive' headerText='Is Day Active' editType='booleanedit' width=160 type="boolean" [allowFiltering]='false' [allowSorting]='false'>
+  <ng-template #template let-data>
+       <div>
+           <ejs-checkbox  #checkbox [checked]='data.IsDayActive' ></ejs-checkbox> 
+       </div>
+   </ng-template>
+</e-column>
+   <e-column  field='DayName' headerText='Day Name' isPrimaryKey='true'   textAlign='center'></e-column>
+
+             
+            <e-column field='FromTime' headerText='From Time' [format]='formatoptions' textAlign='Right'>
+              <ng-template #editTemplate let-data>
+                <ejs-timepicker    [(ngModel)]="orderData.FromTime"  name="FromTime"  ngDefaultControl id="FromTime" placeholder="From Time"  #FromTime="ngModel" floatLabelType='Never'></ejs-timepicker>
+                    </ng-template>
+            </e-column>
+
+              <e-column field='ToTime' headerText='To Time'[format]='formatoptions' textAlign='Right'> 
+                <ng-template #editTemplate let-data> 
+                    <ejs-timepicker  [(ngModel)]="orderData.ToTime"  name="ToTime" ngDefaultControl id="ToTime" placeholder="TO Time" placeholder="To Time" #ToTime="ngModel"floatLabelType='Never'></ejs-timepicker> 
+                </ng-template> 
+            </e-column>
+          
+            </e-columns>
+          </ejs-grid>
+         -->
+                  <div class="col-md-10 ml-auto">
+                    <div class="py-2 justify-content-end align-items-center row">
+                      <div class="col-md-5">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.From" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-clock"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="time"
+                                  class="form-control borderRadius"
+                                  name="FromTime"
+                                  #FromTime="ngModel"
+                                  placeholder="FromTime"
+                                  [(ngModel)]="Getdataobj.FromTime"
+                                  [disabled]="gridFlage" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-5">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.To" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-clock"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="time"
+                                  class="form-control borderRadius"
+                                  name="ToTime"
+                                  #ToTime="ngModel"
+                                  placeholder="ToTime"
+                                  [(ngModel)]="Getdataobj.ToTime"
+                                  [disabled]="gridFlage" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style="justify-content: flex-end; display: flex" class="col-md-1">
+                        <button
+                          type="button"
+                          class="ms-btn-icon btn-pill btn-info"
+                          [disabled]="gridFlage"
+                          (click)="GetTimeValue()">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 paddingLeftz p-0">
+                    <table class="table returnOrderTable table-bordered m-0">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">
+                            {{ "Shared.isActive" | translate }}
+                          </th>
+                          <th scope="col">{{ "Shared.Day" | translate }}</th>
+                          <th scope="col">{{ "Shared.From" | translate }}</th>
+                          <th scope="col">{{ "Shared.To" | translate }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let detail of WorkTimeDays; index as i">
+                          <td scope="row">
+                            {{ i + 1 }}
+                          </td>
+
+                          <td>
+                            <!--   [ngModelOptions]="{standalone: true}" -->
+                            <label class="ms-checkbox-wrap ms-todo-complete">
+                              <input
+                                type="checkbox"
+                                name="IsDayActive{{ i }}"
+                                #IsDayActive="ngModel"
+                                id="IsDayActive"
+                                [(ngModel)]="detail.IsDayActive"
+                                class="form-control borderRadius"
+                                [disabled]="gridFlage" />
+                            </label>
+                          </td>
+                          <td>
+                            <input
+                              type="text"
+                              class="form-control borderRadius"
+                              name="DayName{{ i }}"
+                              [value]="detail.DayName"
+                              readonly />
+                          </td>
+                          <td>
+                            <input
+                              type="time"
+                              class="form-control borderRadius"
+                              name="FromTime{{ i }}"
+                              #FromTime="ngModel"
+                              [(ngModel)]="detail.FromTime"
+                              [disabled]="gridFlage" />
+                          </td>
+                          <td>
+                            <input
+                              type="time"
+                              class="form-control borderRadius"
+                              name="ToTime{{ i }}"
+                              #ToTime="ngModel"
+                              [(ngModel)]="detail.ToTime"
+                              [disabled]="gridFlage" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <hr />
+                  <ejs-grid
+                    #grid2
+                    id="grid2"
+                    [dataSource]="CashierList"
+                    [allowSelection]="true"
+                    [allowPaging]="true"
+                    [pageSettings]="pageSettings"
+                    (rowSelected)="onRowSelected($event)"
+                    [allowSorting]="true"
+                    [allowFiltering]="true"
+                    [filterSettings]="filterOptions"
+                    allowPaging="true"
+                    [editSettings]="editSettings">
+                    <e-columns>
+                      <e-column
+                        field="UserName"
+                        headerText="{{ 'Shared.Cashier' | translate }}"
+                        isPrimaryKey="true"
+                        textAlign="center"></e-column>
+
+                      <e-column
+                        field="Is Selected"
+                        headerText="{{ 'permission.SelectUser' | translate }}"
+                        editType="booleanedit"
+                        width="60"
+                        type="boolean"
+                        [allowFiltering]="false"
+                        [allowSorting]="false">
+                        <ng-template #template let-data>
+                          <div>
+                            <ejs-checkbox
+                              #checkbox
+                              (change)="onRowSelected(data)"
+                              [checked]="data.IsSelected"
+                              [disabled]="gridFlage"></ejs-checkbox>
+                          </div>
+                        </ng-template>
+                      </e-column>
+                    </e-columns>
+                  </ejs-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

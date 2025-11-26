@@ -1,0 +1,151 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="driverform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <!-- [hideEditDelete]="driverobj.IsSync" -->
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <!--1-->
+                      <div class="form-row pt-3">
+                        <!--name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Name" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="Name"
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    required />
+                                </div>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div *ngIf="Name.errors.required">
+                                    {{ "pointofsale.NameIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--ForeignName-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.ForeignName" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="ForeignName"
+                                    name="ForeignName"
+                                    #ForeignName="ngModel"
+                                    [(ngModel)]="responseobj.ForeignName" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--IsStopped-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "stock.Stoped" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      value=""
+                                      disabled
+                                      class="form-control borderRadius"
+                                      name="IsStopped"
+                                      #IsStopped="ngModel"
+                                      [(ngModel)]="responseobj.IsStopped" />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--HideProductGroupsInOrder-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"
+                                >{{ "products.HideProductGroupsInOrder" | translate }}:</label
+                              >
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      value=""
+                                      disabled
+                                      class="form-control borderRadius"
+                                      name="HideProductGroupsInOrder"
+                                      #HideProductGroupsInOrder="ngModel"
+                                      [(ngModel)]="responseobj.HideProductGroupsInOrder" />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,9 @@
+@media (max-width: 1200px) { 
+    :host ::ng-deep .modal-dialog {
+            zoom: .6 !important;
+        }
+
+    :host ::ng-deep .modal-content {
+            height: 100rem !important;
+        }
+}

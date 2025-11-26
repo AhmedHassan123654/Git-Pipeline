@@ -1,0 +1,909 @@
+<!--  My Popup AllOrders With All Details -->
+<div class="ms-panel-popup" *ngIf="!controlpopup">
+    <div class="ms-panel">
+      <div class="ms-panel-header d-flex justify-content-between">
+        <h6>{{ "kds.orders" | translate }}</h6>
+        <!--  <button class="btn" id="close-popup" (click)="ClosePopup()">
+          <i class="fas fa-times"></i>
+        </button> -->
+      </div>
+      <div class="ms-panel-body">
+        <!-- Select Cashier -->
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="col-md-6 mb-3">
+            <div class="row pr-xs-0">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19">
+                  {{ "Shared.Cashier" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-combobox
+                      name="OrderCaShierId"
+                      #OrderCaShierId="ngModel"
+                      [(ngModel)]="filtterOrder.AppUserID"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="CashierList"
+                      [fields]="cashierFlds"
+                      class="form-control borderRadius"
+                      id="OrderCaShierId_id"></ejs-combobox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-6 mb-3">
+            <div class="row pr-xs-0">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19">
+                  {{ "CashReceipt.Date" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-datepicker
+                      class="pAsolute absolutePosition"
+                      format="MM/dd/yyyy"
+                      name="date"
+                      #date="ngModel"
+                      [(ngModel)]="filtterOrder.date"
+                      class="form-control borderRadius Prelative"
+                      id="date"
+                      placeholder="mm/dd/yyyy"></ejs-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="close-popup" (click)="FilterOrders()">
+          {{ "Shared.filter" | translate }}
+        </button>
+        <div class="control-section">
+          <div class="e-mastertext"></div>
+  
+          <ejs-grid
+            #mastergrid
+            id="mastergrid"
+            [dataSource]="Orders"
+            [allowPaging]="true"
+            [pageSettings]="pageSettings"
+            (rowSelected)="onRowSelected($event)">
+            <e-columns>
+              <!-- [visible]='false' -->
+              <e-column field="DocumentId" headerText="DocumentId" [visible]="false"></e-column>
+  
+              <!--  <e-column field='IsView' headerText='IsView' editType='booleanedit' width=60 type="boolean" [allowFiltering]='false' [allowSorting]='false'>
+                  <ng-template #template let-data>
+                       <div>
+                           <ejs-checkbox  #checkbox [checked]='data.IsView' (change)='checkboxChangemastergrid($event)'></ejs-checkbox> 
+                       </div>
+                   </ng-template>
+                </e-column> -->
+              <!-- [displayAsCheckBox]='MyFlag' -->
+              <e-column
+                field="IsView"
+                headerText="{{ 'Shared.view' | translate }}"
+                editType="booleanedit"
+                type="boolean"
+                [allowFiltering]="false"
+                [allowSorting]="false">
+                <ng-template #template let-data>
+                  <div>
+                    <ejs-checkbox
+                      #checkbox
+                      [checked]="data.IsView"
+                      (change)="checkboxChangemastergrid($event)"></ejs-checkbox>
+                    <!-- <ejs-checkbox  #checkbox [checked]='data.IsView' (change)='checkboxChangemastergrid($event)'[disabled]="MyFlag"></ejs-checkbox>  -->
+                  </div>
+                </ng-template>
+              </e-column>
+              <e-column field="OrderNumber" headerText="{{ 'delivery.orderNumber' | translate }}"></e-column>
+              <e-column field="OrderTypeName" headerText="{{ 'Shared.ordertype' | translate }}"></e-column>
+              <e-column field="CashierName" headerText="{{ 'Shared.ProductQuantity' | translate }}"></e-column>
+            </e-columns>
+          </ejs-grid>
+  
+          <br /><br /><br />
+  
+          <ejs-grid #detailgrid id="detailgrid" [dataSource]="OrderDetails" [allowSelection]="false">
+            <e-columns>
+              <e-column field="ProductName" headerText="{{ 'Shared.productName' | translate }}"></e-column>
+              <e-column field="RealPrice" headerText="{{ 'Shared.ProductPrice' | translate }}"></e-column>
+              <e-column field="ProductQuantity" headerText="{{ 'Shared.ProductQuantity' | translate }}"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+      <div class="ms-panel-footer d-flex justify-content-end">
+        <button class="btn btn-primary" id="close-popup" (click)="ClosePopup()">Close</button>
+        <span>&nbsp;</span>
+        <button class="btn btn-primary" id="close-popup" (click)="GetthisOrderData()">View</button>
+      </div>
+    </div>
+  </div>
+  <app-breadcrumbs></app-breadcrumbs>
+  <form name="ٌReturnOrderform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+    <app-pagetransactions
+      [form]="frmRef"
+      [service]="service"
+      [formobj]="responseobj"
+      [request]="request"
+      [breakSave]="breakSave"
+      [actionFromParnt]="actionFromParnt"
+      (afterPag)="afterPag($event)"
+      (quickEvents)="quickEvents($event)"
+      [pageNumber]="pageNumber">
+    </app-pagetransactions>
+  
+    <div class="col-md-12">
+      <div class="ms-panel-fh">
+        <div class="cont">
+          <div class="ms-panel rounded">
+            <div class="ms-panel-body clearfix">
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active show fade in">
+                  <div class="col-xl-12 col-md-12 col-xs-12">
+                    <div class="p-2">
+                      <div class="col-md-12">
+                        <div class="row align-items-center">
+                          <!--first col-->
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "ReturnOrder.ReturnNumber" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="material-icons fs-16">input</i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      type="number"
+                                      placeholder=""
+                                      [(ngModel)]="responseobj.ReturnOrderNumber"
+                                      name="ReturnOrderNumber"
+                                      #ReturnOrderNumber="ngModel"
+                                      id="ReturnOrderNumber_id"
+                                      class="form-control borderRadius"
+                                      readonly />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "delivery.orderNumber" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-clipboard-list fs-16" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      type="number"
+                                      placeholder=""
+                                      [(ngModel)]="myOrder.OrderNumber"
+                                      name="OrderNumber"
+                                      #OrderNumber="ngModel"
+                                      id="OrderNumber_id"
+                                      readonly
+                                      class="form-control borderRadius" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "ReturnOrder.ReturnOrderDate" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i aria-hidden="true" class="fa fa-calendar"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <ejs-datepicker
+                                      class="pAsolute absolutePosition"
+                                      format="MM/dd/yyyy"
+                                      name="date"
+                                      #date="ngModel"
+                                      [(ngModel)]="responseobj.ReturnDate"
+                                      [ngClass]="{
+                                        'is-invalid': frmRef.submitted && date.invalid
+                                      }"
+                                      class="form-control borderRadius Prelative"
+                                      id="date"
+                                      placeholder="mm/dd/yyyy"
+                                      required
+                                      [enabled]="false"
+                                      readonly="true"></ejs-datepicker>
+                                  </div>
+  
+                                  <div
+                                    *ngIf="(frmRef.submitted && date.invalid) || (date.invalid && date.touched)"
+                                    class="">
+                                    <div class="alert alert-danger editAlert" *ngIf="date.errors.required">
+                                      {{ "ExtraExpenses.DateIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "delivery.orderDate" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i aria-hidden="true" class="fa fa-calendar"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <!--  <input type="date" placeholder="OrderDate" [(ngModel)]="myOrder.Date" name="OrderDate"
+                                                #Name="ngModel" id="OrderDate_id" disabled
+                                                class="form-control borderRadius"> -->
+                                    <!--  -->
+                                    <ejs-datepicker
+                                      class="pAsolute absolutePosition"
+                                      readonly="true"
+                                      format="MM/dd/yyyy"
+                                      name="date2"
+                                      #date2="ngModel"
+                                      [(ngModel)]="myOrder.Date"
+                                      class="form-control borderRadius Prelative"
+                                      id="date2"
+                                      placeholder="mm/dd/yyyy"></ejs-datepicker>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "ReturnOrder.ReturnCashierName" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group positionEdit">
+                                    <ejs-combobox
+                                      name="CashierId"
+                                      #CashierId="ngModel"
+                                      [(ngModel)]="responseobj.CashierId"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      [dataSource]="CashierList"
+                                      [fields]="cashierFlds"
+                                      class="form-control borderRadius"
+                                      id="CashierId_id"
+                                      [enabled]="false"
+                                      [readonly]="settings.PreventChangeCashierInReturnOrder"></ejs-combobox>
+  
+                                    <div
+                                      class=""
+                                      *ngIf="
+                                        (frmRef.submitted && CashierId.invalid) ||
+                                        (CashierId.invalid && CashierId.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="CashierId.errors.required">
+                                        {{ "ReturnOrder.CashierNamerequired" | translate }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "ReturnOrder.OrderCashierName" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <!--      <input type="text" placeholder="Cashier Name" [(ngModel)]="myOrder.CashierName" name="CashierName"
+                                            #CashierName="ngModel" id="CashierName_id" class="form-control borderRadius" readonly> -->
+                                    <ejs-combobox
+                                      name="ClosingUserId"
+                                      #ClosingUserId="ngModel"
+                                      [(ngModel)]="myOrder.ClosingUserId"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      [dataSource]="CashierList"
+                                      [fields]="cashierFlds"
+                                      class="form-control borderRadius"
+                                      id="ClosingUser_Id"
+                                      readonly></ejs-combobox>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+  
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "ReturnOrder.ReturnOrderPayments" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <table class="table returnOrderTable table-bordered m-0">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">#</th>
+                                      <th scope="col">
+                                        {{ "manageorder.payName" | translate }}
+                                      </th>
+                                      <th scope="col">
+                                        {{ "manageorder.Pay Amount" | translate }}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let detail of responseobj.POSReturnOrderPayments; index as i">
+                                      <td scope="row">
+                                        {{ i + 1 }}
+                                      </td>
+                                      <td>
+  
+                                        <ejs-combobox
+                                          name="PaymentTypeId"
+                                          #PaymentTypeId="ngModel"
+                                          [(ngModel)]="detail.PayTypeDocumentId"
+                                          [allowFiltering]="true"
+                                          [autofill]="true"
+                                          [dataSource]="paymentTypeList"
+                                          [fields]="PaymentTypeFlds"
+                                          class="form-control borderRadius"
+                                          id="PaymentTypeId_Id"
+                                          (change)="ShowCustomers($event)"
+                                          [required]="isRequired"
+                                          [enabled]="!disableflage"></ejs-combobox>
+                                        <div
+                                          class=""
+                                          *ngIf="
+                                            (frmRef.submitted && PaymentTypeId.invalid) ||
+                                            (PaymentTypeId.invalid && PaymentTypeId.touched)
+                                          ">
+                                          <div
+                                            class="alert alert-danger editAlertCash"
+                                            *ngIf="PaymentTypeId.errors.required">
+                                            {{ "ReturnOrder.PayTypeRequired" | translate }}
+                                          </div>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div class="input-group positionEdit">
+                                          <input
+                                            [numbersOnly]="detail.PayAmount"
+                                            [allowDecimals]="true"
+                                            name="Amount"
+                                            #PayAmount="ngModel"
+                                            [(ngModel)]="detail.PayAmount"
+                                            id="PayAmount_id"
+                                            class="form-control borderRadius"
+                                            name="PayAmount{{ i }}"
+                                            [disabled]="disableflage"
+                                            [required]="isRequired"
+                                            (change)="countPayAmount(detail.PayAmount)"
+                                            readonly />
+                                          <div
+                                            *ngIf="
+                                              (frmRef.submitted && PayAmount.invalid) ||
+                                              (PayAmount.invalid && PayAmount.touched)
+                                            ">
+                                            <div
+                                              class="alert alert-danger editAlertCash"
+                                              *ngIf="PayAmount.errors.required">
+                                              {{ "ReturnOrder.PayAmountTyperequired" | translate }}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                          <!--  *ngIf="showCustomer"  [required]="isRequired" -->
+                          <div class="col-md-6 mb-3">
+                            <div class="row">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">
+                                  {{ "delivery.CustomerName" | translate }}
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      name="CustomerName"
+                                      #CustomerName="ngModel"
+                                      [(ngModel)]="myOrder.CustomerName"
+                                      id="CustomerName_id"
+                                      class="form-control borderRadius"
+                                      name="CustomerName"
+                                      readonly
+                                      disabled />
+                                    <!--     <ejs-combobox 
+                                                name="CustomerDocumentID" #CustomerDocumentID="ngModel"
+                                                [(ngModel)]="responseobj.CustomerDocumentID" [allowFiltering]="true" [autofill]="true"
+                                                [dataSource]="CustomerList"    
+                                                [fields]="CustomerFlds" class="form-control borderRadius" id="CustomerDocument_ID" [enabled]="false"
+                                               
+                                                ></ejs-combobox> -->
+  
+                                    <!--    <div class="" *ngIf="
+                                                (frmRef.submitted &&
+                                                CustomerDocumentID.invalid) ||
+                                                (CustomerDocumentID.invalid && CustomerDocumentID.touched)">
+                                                <div class="alert alert-danger editAlertCash" *ngIf="CustomerDocumentID.errors.required">
+                                                {{'messages.MustSelectCustomer'|translate}}
+                                                </div>
+                                            </div> -->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--description-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="exampleFormControlTextarea1">
+                              {{ "ReturnOrder.Return Reason" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <textarea
+                                class="form-control borderRadius"
+                                [(ngModel)]="responseobj.ReturnReason"
+                                name="ReturnReason"
+                                [disabled]="disableflage"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  return order info
+                  <div class="ms-panel-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">
+                                  {{ "Shared.Ischecked" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.productName" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.ReturnedQuantity" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.RemaindQuantity" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.ProductQuantity" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.ProductPrice" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.DiscountAmount" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.TaxAmount" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.RealPrice" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Order.Total Payable" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Reports.CancellationReason" | translate }}
+                                </th>
+                              </tr>
+                            </thead>
+  
+                            <tbody>
+                              <tr *ngFor="let p of responseobj.POSReturnOrderDetails; let i = index" data-dismiss="modal">
+                                <th scope="row">{{ i + 1 }}</th>
+  
+                                <td>
+                                  <!--  <input type="checkbox" [checked]="p.Ischecked"(change)='checkboxChangegrid(p)' [disabled]="p.IsDisabled"> -->
+  
+                                  <input
+                                    type="checkbox"
+                                    name="Ischecked{{ i }}"
+                                    [(ngModel)]="p.Ischecked"
+                                    (change)="checkboxChangegrid(p)"
+                                    [disabled]="disableflage" />
+                                </td>
+                                <td>{{ p.ProductName }}</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    [numbersOnly]="p.ReturnedQuantity"
+                                    [allowDecimals]="p.UseWeights"
+                                    #ReturnedQuantity
+                                    name="ReturnedQuantity{{ i }}"
+                                    [(ngModel)]="p.ReturnedQuantity"
+                                    (keyup)="CalculateReturnOrderTotal()"
+                                    [disabled]="disableflage"
+                                    [readonly]="!p.Ischecked" />
+                                </td>
+                                <td>{{ p.RemaindQuantity }}</td>
+                                <td>{{ p.ProductQuantity }}</td>
+                                <td>{{ p.ProductPrice }}</td>
+                                <td>{{ p.DiscountAmount }}</td>
+                                <td>{{ p.TaxAmount }}</td>
+                                <td>{{ p.RealPrice }}</td>
+                                <td>
+                                  {{ p.ReturnOrderTotal | currency : " " : "symbol" : fraction }}
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    [(ngModel)]="p.CancellationReason"
+                                    #CancellationReason
+                                    name="CancellationReason{{ i }}"
+                                    [disabled]="disableflage" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">
+                                  {{ "ReturnOrder.NetTotal" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.ServiceChargeValue" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Order.Total Discount" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Order.Total Tax" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.DeliveryPrice" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Shared.ServiceChargeAndDeliveryTaxes" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "ReturnOrder.SubTotal" | translate }}
+                                </th>
+                              </tr>
+                            </thead>
+  
+                            <tbody>
+                              <tr *ngFor="let x of MyReturnOrder; let i = index" data-dismiss="modal">
+                                <th scope="row">{{ i + 1 }}</th>
+  
+                                <td>
+                                  {{ x.NetTotal | currency : " " : "symbol" : fraction }}
+                                </td>
+                                <!-- <td>{{x.TotalTaxAmount}}</td> -->
+                                <td>
+                                  {{ x.ServiceChargeValue | currency : " " : "symbol" : fraction }}
+                                </td>
+                                <!-- <td>{{x.OrderDetailTaxesTotal| currency:' ':'symbol':fraction}}</td> -->
+                                <td>
+                                  {{ x.TotalDiscountAmount | currency : " " : "symbol" : fraction }}
+                                </td>
+                                <td>
+                                  {{ x.TotalTaxAmount | currency : " " : "symbol" : fraction }}
+                                </td>
+                                <td>
+                                  {{ x.DeliveryPrice | currency : " " : "symbol" : fraction }}
+                                </td>
+                                <td>
+                                  {{ x.OrderMasterTaxesTotal | currency : " " : "symbol" : fraction }}
+                                </td>
+  
+                                <td>
+                                  {{ x.SubTotal | currency : " " : "symbol" : fraction }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!--   <ejs-grid #grid2 id='grid2' [dataSource]='MyReturnOrder'
+                     
+                      >
+                      <e-columns>
+                        <e-column  field='NetTotal' headerText='Net Total' width='200'  textAlign='center'></e-column>
+                        <e-column  field='TotalTaxAmount' headerText='Total Tax Amount' width='200'  textAlign='center'></e-column>
+                        <e-column  field='TotalDiscountAmount' headerText='Total Discount Amount' width='200'  textAlign='center'></e-column>
+                        <e-column  field='ServiceChargeValue' headerText='ServiceChargeValue' width='200'  textAlign='center'></e-column>
+                        <e-column  field='DeliveryPrice' headerText='Delivery Price' width='200'  textAlign='center'></e-column>
+                        <e-column  field='SubTotal' headerText='Sub Total' width='200'  textAlign='center'></e-column>
+                      </e-columns>
+                    </ejs-grid>   -->
+                    <!--  dynamic grid java script -->
+                    <!--   <div id='container'>
+               
+                      <div id='grid2'></div>
+                  </div> -->
+                    <!--     <div class="table-responsive ">
+                      <table class="table table-bordered ">
+                        <thead>
+                          <tr  >
+                            <th scope="col">#</th>
+                            <th scope="col"width='200'>Total Meals</th>
+                            <th scope="col"width='200'>Total Tax</th>
+                            <th scope="col"width='200'>Total Discount</th>
+                            <th scope="col"width='200'>Service Charge Value</th>
+                            <th scope="col"width='200'>delivery</th>
+                            <th scope="col"width='200'>Total Of ReturnOrder</th>
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let order of MyReturnOrder ; index as i"r>
+                            <td scope="row">
+                              {{i+1}}
+                            </td>
+                            <td>
+                              <input type="text" name="TotalTax" [(ngModel)]="order.TotalTax" disabled>
+                            </td>
+                            <td>
+                              <input type="text" name="TotalTax" [(ngModel)]="order.TotalTax" disabled>
+                            </td>
+                            <td>
+                              <input type="text" name="TotalDiscount" [(ngModel)]="order.TotalDiscount" disabled>
+                            </td>
+                            <td>
+                              <input type="text" name="ServiceChargeValue" [(ngModel)]="order.ServiceChargeValue" disabled>
+                            </td>
+                            <td>
+                              <input type="text" name="delivery" [(ngModel)]="order.delivery" disabled>
+                            </td>
+                            <td>
+                              <input type="text" name="TotalOfReturnOrder" [(ngModel)]="order.TotalOfReturnOrder" disabled>
+                            </td>
+                            
+                          </tr>
+                         
+                        </tbody>
+                      </table>
+                    </div>
+                        -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  
+  <!-- <div class="modal fade" id="modal-3" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+    <div class="modal__overlay">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+  
+          <div class="modal-header py-3">
+            <h5 class="modal-title"> <button type="button" class="ms-btn-icon btn-pill text-white btn-info editmsBtn"><i class="fas fa-motorcycle text-white"></i></button>  اختيار عميل</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+  
+          <div class="modal-body">
+            <div>
+              <div class="row ">
+                <div class="col-md-6 borderEdit">
+                  <div class="row  my-1">
+                    <div
+                      class="col-md-4 d-flex justify-content-center align-items-center label1"
+                    >
+                      <label for="validationCustom19">
+                       Customer
+                      </label>
+                    </div>
+                    <div class="col-md-8 paddingLeftz">
+                      <div class="input-group editInputGroup">
+                        <div class="input-group-addon">
+                          <i  class="fas fa-user" aria-hidden="true"></i>
+                        </div>
+                        <div class="input-group" >
+                       
+  
+                        <ejs-combobox 
+                        name="CustomerDocumentID" #CustomerDocumentID="ngModel"
+                        [(ngModel)]="responseobj.CustomerDocumentID" [allowFiltering]="true" [autofill]="true"
+                        [dataSource]="CustomerList"    
+                        [fields]="CustomerFlds" class="form-control borderRadius" id="CustomerDocument_ID"
+                          
+                        ></ejs-combobox>
+                      </div>
+                      </div>
+  
+                      
+                    </div>
+                  </div>
+                  </div>
+             <button type="button" class="btn btn-success" (click)="ClosePopupCustomer()">Ok</button>
+         
+              </div>
+            </div>
+          </div>
+  
+   
+      </div>
+      </div>
+    </div>
+     
+  </div>
+   -->
+  
+  <!-- Report modal -->
+  <div class="modal fade" id="modal-5" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header borderb">
+          <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+            <svg
+              width="28px"
+              height="27px"
+              version="1.1"
+              id="Layer_1"
+              x="0px"
+              y="0px"
+              viewBox="0 0 512 512"
+              style="enable-background: new 0 0 512 512"
+              xml:space="preserve">
+              <g>
+                <g>
+                  <path
+                    d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+        c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+        S354.987,409.6,349.867,409.6z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+        c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+        S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+        c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+        H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+        c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+          M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+        H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+                </g>
+              </g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+            </svg>
+            <span class="px-2"> Printer Setting</span>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+  
+        <div class="modal-body">
+          <form>
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="col-md-10 py-2">
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-md-3 d-flex justify-content-start align-items-center label1"></div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div id="myviewer"></div>
+  
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

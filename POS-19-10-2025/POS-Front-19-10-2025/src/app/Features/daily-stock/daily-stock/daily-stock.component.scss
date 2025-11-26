@@ -1,0 +1,126 @@
+.qty-alert {
+  width: 50%;
+  height: 50px;
+}
+
+.presentaion-section {
+  background: #2a3549;
+  padding: 4px;
+  box-shadow: 0 1px 6px 1px #2a35497d;
+  max-height: 75vh;
+  min-height: 75vh;
+  overflow-y: scroll;
+  .product-groups {
+    height: 15vh;
+  }
+  .products {
+    height: 50vh;
+  }
+  ul {
+    li {
+      width: 100%;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
+  .nav-tabs-editM {
+    li {
+      a {
+        font-size: 13px !important;
+        height: 58px;
+        width: 97%;
+        font-weight: 600;
+        cursor: pointer;
+        overflow: hidden;
+      }
+    }
+  }
+  #ItemsNav {
+    li {
+      margin: 0px !important;
+    }
+  }
+  .col-lg-12 {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
+}
+.masterStyle {
+  background: #cce0f6;
+  padding: 12px;
+  border-radius: 6px;
+  .lable {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+.table {
+  .quantiy {
+    width: 62px;
+    text-align: center;
+    .form-control {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+  .desc {
+    width: 95px;
+  }
+  .fa-edit {
+    font-size: 17px !important;
+    color: #1a9f3d;
+    font-weight: 700;
+  }
+  .fa-trash-alt {
+    color: red;
+    font-weight: 600;
+    font-size: 17px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #edeaea;
+  transition: all 0.8s ease-in-out;
+}
+
+.alert {
+  font-size: 0.9rem !important;
+}
+
+.add-btn {
+  font-size: 14px !important;
+  padding: 0.025rem 0.025rem !important;
+  min-width: 10px !important;
+  margin-top: unset !important;
+}
+
+.qty-inputs {
+  padding: 0.25rem 0.5rem !important;
+  width: unset !important;
+  text-align: center !important;
+  border-radius: 5px !important;
+  display: inline-block !important;
+}
+
+.ms-panel-body {
+  position: relative;
+  padding: 0.5rem !important;
+}

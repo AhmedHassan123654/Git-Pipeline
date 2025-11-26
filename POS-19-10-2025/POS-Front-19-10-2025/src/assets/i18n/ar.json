@@ -1,6 +1,12 @@
 {
-  
   "Shared": {
+    "Get":"تحصل علي",
+    "Take":"تأخذ",
+    "SomeSelected":"بعض المجموعات مختارة",
+    "AllSelected":"جميع المجموعات مختارة",
+    "NoneSelected":"لا يوجد مجموعات مختارة",
+    "ProductWithoutSideDish":"بدون طبق جانبى",
+    "Unassigned":"غير مسند",
     "MyPoints":"نقاطي",
     "Default":"إفتراضي",
     "PrintType":"نوع الطباعة",
@@ -267,7 +273,7 @@
     "customerlist": "قائمة بيانات العملاء",
     "SelectTakenProduct": "حدد الوجبات المأخوذه",
     "NumberOfTakenProduct": "عدد الوجبات المأخوذة",
-    "SelectPromoProducts": "اختيار وجبات العروض",
+    "SelectPromoProducts": "اختيار وجبات العرض",
     "NumberOfPromoProduct": "عدد وجبات العروض",
     "AddNewPromoProduct": "إضافة وجبه عرض جديد ",
     "CheckAllProducts": "اختيار كل الوجبات",
@@ -734,9 +740,14 @@
     "ImmediatePrint":"طباعة فورية",
     "PrintSeparateInsuranceReport":"طباعة تقرير التأمين منفصل عن تقرير العميل",
     "BlackList":"القائمة السوداء",
-    "CustomerNotes": "ملاحظه على العميل"
+    "CustomerNotes": "ملاحظه على العميل",
+    "dailyinventory":"الجرد اليومي",
+    "dailyinventorylist":"قائمة الجرد اليومي",
+    "customercomplaint": "شكاوي العملاء",
+    "complaint": "الشكوى"
   },
   "products": {
+    "GroupMealName":"اسم المجموعه",
     "AsGroupMeal":"يعرف كمجموعه",
     "IncludedProducts":"الوجبات المضمنه",
     "Mandatory":"إجباري",
@@ -1197,6 +1208,7 @@
 
   },
   "setting": {
+    "CannotUpdateAfterAssignDriver":"لا يمكن التعديل علي الطلب بعد تعيين السائق",
     "DonotUsePOSInIncomingUser":"لا يعتمد فتح الوردية على نقطة البيع.",
     "DefaultOrderPreparationTimeInMinutes":"الوقت الافتراضي لتحضير الطلب بالدقائق",
     "AllowAdminAccessPOSTransactons":"السماح لمستخدم الادمن بالدخول للمبيعات",
@@ -1795,6 +1807,7 @@
 
   },
   "Reports": {
+    "showssalesonlyreturnnotincluded": ".هذه القيم محتسبة علي كمية المبيعات فقط",
     "employeeFeedingReport": "تقرير وجبات الموظفين",
     "Redeem":"استبدل",
     "ValidPoints":"النقاط الصالحة ولم تنتهي",
@@ -2175,7 +2188,9 @@
     "productQuantityReport":"تقرير كميات الوجبات",
     "VerifiedByUserName":":تم التأكيد بواسطة المستخدم",
     "dailystockReport":"تقرير المخزون اليومي",
-    "InsuranceCreatorUserName":"التامين اضيف بواسطة"
+    "InsuranceCreatorUserName":"التامين اضيف بواسطة",
+    "customercomplaintReport":"تقرير شكاوى العملاء",
+    "complaint": "الشكوى"
   },
   "tax": {
     "DefaultForProduct":"ضريبه افتراضيه للمنتجات",
@@ -2324,6 +2339,7 @@
   },"Exeptions":{
     "duplicateDate":"التاريخ موجود بالفعل"
   },
+  "Admin":"أدمن",
   "Employee":"الموظف",
   "Cashier":"كاشير",
   "Driver":"ساْئق",

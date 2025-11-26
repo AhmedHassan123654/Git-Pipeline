@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="col-xl-12 col-md-12">
+    <div style="margin-top: 7rem !important" class="ms-panel">
+      <div class="d-flex">
+        <div
+          style="background-image: url(assets/images/register.jpg); background-size: cover"
+          class="d-flexhalf imgCol d-none d-md-block d-lg-block"></div>
+        <div class="d-flexhalf">
+          <div class="ms-panel-header d-flex flex-column justify-content-center align-items-center">
+            <h1 class="signIn">Register</h1>
+            <a
+              routerlink="/login"
+              color="accent"
+              class="mat-focus-indicator w-100 mat-button mat-button-base mat-accent"
+              ng-reflect-color="accent"
+              ng-reflect-router-link="/register"
+              tabindex="0"
+              aria-disabled="false"
+              href="firstHome/login"
+              ><span class="mat-button-wrapper">Already have an account? Sign in!</span
+              ><span
+                matripple=""
+                class="mat-ripple mat-button-ripple"
+                ng-reflect-disabled="false"
+                ng-reflect-centered="false"
+                ng-reflect-trigger="http://localhost:63269/registe"></span
+              ><span class="mat-button-focus-overlay"></span
+            ></a>
+          </div>
+          <div class="ms-panel-body">
+            <form class="needs-validation" (ngSubmit)="submitCustomer(frmDetailsCustomer)" #frmDetailsCustomer="ngForm">
+              <div class="form-row">
+                <div class="col-md-12 mb-2">
+                  <label for="validationCustom01">Name</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Name"
+                      name="Name"
+                      [(ngModel)]="customerToAdd.Name"
+                      #Name="ngModel"
+                      required />
+                    <div
+                      class=""
+                      *ngIf="(frmDetailsCustomer.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                      <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">Name Is Required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12 mb-2">
+                  <label for="validationCustom04">Phone</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Phone"
+                      name="Phone"
+                      [(ngModel)]="customerToAdd.Phone"
+                      #Phone="ngModel"
+                      required />
+                    <div
+                      class=""
+                      *ngIf="(frmDetailsCustomer.submitted && Phone.invalid) || (Phone.invalid && Phone.touched)">
+                      <div class="alert alert-danger editAlertCash" *ngIf="Phone.errors.required">
+                        Phone Is Required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-success mt-4 d-block w-50" type="submit">Create Account</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

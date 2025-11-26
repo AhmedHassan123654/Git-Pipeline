@@ -1,0 +1,433 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="driverform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <!--comment-->
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="form-row pt-3">
+                        <!--First name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="firstName"> {{ "Shared.firstName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user fs-16 main"></i>
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <input
+                                    name="FirstName"
+                                    #FirstName="ngModel"
+                                    [(ngModel)]="responseobj.FirstName"
+                                    id="FirstName_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="isRequired" />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && FirstName.invalid) ||
+                                      (FirstName.invalid && FirstName.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="FirstName.errors.required">
+                                      First Name is required
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Last name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="lastName"> {{ "Shared.lastName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user fs-16 main"></i>
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <input
+                                    name="LastName"
+                                    #LastName="ngModel"
+                                    [(ngModel)]="responseobj.LastName"
+                                    id="LastName_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="isRequired" />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && LastName.invalid) || (LastName.invalid && LastName.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="LastName.errors.required">
+                                      Last Name is required
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Full name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="fullName"> {{ "Shared.fullName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user fs-16 main"></i>
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <input
+                                    name="FullName"
+                                    #FullName="ngModel"
+                                    [(ngModel)]="responseobj.FullName"
+                                    id="FullName_id"
+                                    class="form-control borderRadius"
+                                    readonly />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--employeeTypes-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="employeeTypes"> {{ "Shared.employeeTypes" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="UserType"
+                                    #UserType="ngModel"
+                                    [(ngModel)]="responseobj.UserType"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="UserTypesLists"
+                                    placeholder="Select User Type"
+                                    [fields]="{ text: 'translatedName', value: 'Id' }"
+                                    class="form-control borderRadius"
+                                    id="UserType_id"
+                                    [enabled]="false"></ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Branch Name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "Shared.BranchName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-code-branch"></i>
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <!-- <input
+                                    name="BranchName"
+                                    #BranchName="ngModel"
+                                    [(ngModel)]="responseobj.BranchName"
+                                    id="BranchName_id"
+                                    class="form-control borderRadius"
+                                    readonly /> -->
+                                  <ejs-combobox
+                                    name="BranchDocumentId"
+                                    #BranchDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.BranchDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="branches"
+                                    placeholder="Select Branch"
+                                    [fields]="BranchFlds"
+                                    class="form-control borderRadius"
+                                    id="BranchDocumentId"
+                                    [enabled]="disabledFlag.getValue() === true"></ejs-combobox>
+
+                                  <!-- <div *ngIf="
+                                        (frmRef.submitted && Amount.invalid) ||
+                                        (Amount.invalid && Amount.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="Amount.errors.required">
+                                        {{'CashReceipt.validamount'|translate}}
+                                      </div>
+                                    </div> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--phone-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="TelephoneNumber">{{ "UserProfile.PhoneNumber" | translate }} </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="Phone"
+                                    #Phone="ngModel"
+                                    [(ngModel)]="responseobj.Phone"
+                                    id="Phone_id"
+                                    class="form-control borderRadius"
+                                    disabled />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--address-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="Address">{{ "Order.Address" | translate }} </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="far fa-building"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="Address"
+                                    #Address="ngModel"
+                                    [(ngModel)]="responseobj.Address"
+                                    id="Address_id"
+                                    class="form-control borderRadius"
+                                    disabled />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--canHaveMeal-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center">
+                              <label for="canHaveMeal"> {{ "Shared.canHaveMeal" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8">
+                              <label class="ms-checkbox-wrap ms-todo-complete m-0">
+                                <input
+                                  name="ShouldHaveMeal"
+                                  type="checkbox"
+                                  #ShouldHaveMeal="ngModel"
+                                  [(ngModel)]="responseobj.ShouldHaveMeal"
+                                  id="ShouldHaveMeal_id"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!--isActive-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center">
+                              <label for="canHaveMeal"> {{ "stock.Stoped" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8">
+                              <label class="ms-checkbox-wrap ms-todo-complete m-0">
+                                <input
+                                  name="InActive"
+                                  type="checkbox"
+                                  #InActive="ngModel"
+                                  [(ngModel)]="responseobj.InActive"
+                                  id="InActive_id"
+                                  (change)="ViewInActiveReason($event)"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- inactivedate-->
+                        <div *ngIf="ViewInActive" class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="inactivedate"> {{ "Shared.inactivedate" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-datepicker
+                                    class="pAsolute absolutePosition"
+                                    format="dd/MM/yyyy"
+                                    name="date"
+                                    #date="ngModel"
+                                    [(ngModel)]="responseobj.InActiveDate"
+                                    [ngClass]="{
+                                      'is-invalid': frmRef.submitted && date.invalid
+                                    }"
+                                    class="form-control borderRadius Prelative"
+                                    id="date"
+                                    placeholder="mm/dd/yyyy"
+                                    [readonly]="false"></ejs-datepicker>
+                                </div>
+
+                                <!-- <div
+                                            *ngIf="(frmRef.submitted && date.invalid)||(date.invalid && date.touched)"
+                                            class=""
+                                        >
+                                            <div
+                                            class="alert alert-danger editAlert"
+                                            *ngIf="date.errors.required"
+                                            >
+                                            {{
+                                                "ExtraExpenses.DateIsRequired" | translate
+                                            }} 
+                                            </div>
+                                        </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--inactivereason-->
+                        <div *ngIf="ViewInActive" class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="inactivereason"> {{ "Shared.inactivereason" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <textarea
+                                  name="InActiveReason"
+                                  #InActiveReason="ngModel"
+                                  [(ngModel)]="responseobj.InActiveReason"
+                                  [disabled]="showdInActiveReason"
+                                  required
+                                  class="form-control borderRadius"
+                                  id="inactivereason"></textarea>
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && InActiveReason.invalid) ||
+                                    (InActiveReason.invalid && InActiveReason.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="InActiveReason.errors.required">
+                                    InActive Reason is required
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Description-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="Description"> {{ "CashReceipt.lbldescription" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <textarea
+                                  name="Description"
+                                  #Description="ngModel"
+                                  [(ngModel)]="responseobj.Description"
+                                  class="form-control borderRadius"
+                                  id="Description"
+                                  disabled></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--picture-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.picture" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="d-flex align-items-end">
+                                <div class="uplade__iamge mb-0">
+                                  <label id="uplade_Img" for="upladeImg" class="uplade__iamge--label mb-0" translate>
+                                    <i class="flaticon-pencil uplade__iamge--icon"></i>
+                                    shared.uploadImage.name
+                                  </label>
+                                  <input
+                                    class="d-none"
+                                    #file
+                                    type="file"
+                                    name=""
+                                    id="upladeImg"
+                                    (change)="uploadImage($event)"
+                                    [disabled]="showUploader" />
+                                  <div id="upladDone" class="uplade__iamge--img d-none">
+                                    <label for="editImg" class="uplade__iamge--img--edit m-0">
+                                      <i class="flaticon-pencil uplade__iamge--icon"></i>
+                                    </label>
+                                    <input
+                                      class="d-none"
+                                      type="file"
+                                      #file
+                                      name=""
+                                      id="editImg"
+                                      (change)="uploadImage($event)"
+                                      [disabled]="showUploader" />
+                                    <button
+                                      type="button"
+                                      class="uplade__iamge--img--delete"
+                                      (click)="removeImage()"
+                                      [disabled]="showUploader">
+                                      <i class="flaticon-trash uplade__iamge--icon"></i>
+                                    </button>
+                                    <img [src]="responseobj.PictureName" alt="" />
+                                  </div>
+                                </div>
+                                <!--   <button class="btn btn-outline-primary btnEdit mx-1"(click)="uploadFile()" >{{'Shared.picture'|translate}}</button>  -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

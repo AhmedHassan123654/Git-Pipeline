@@ -1,0 +1,38 @@
+<div class="ms-card">
+  <div class="ms-card-img">
+    <img class="img-fluid" [src]="menuItem.PicturePath ? imgURL + menuItem.PicturePath : defaultIm" alt="card_img" />
+    <span *ngIf="menuItem.DiscountValue" class="badge badge-pill badge-primary">{{ menuItem.DiscountValue }}% OFF</span>
+  </div>
+  <div class="ms-card-body">
+    <div class="new">
+      <h1 class="mb-0 mainName">
+        <a>{{ menuItem.Name }}</a>
+      </h1>
+    </div>
+    <div class="mt-2">
+      <p>{{ menuItem.Description }}</p>
+    </div>
+    <div class="new meta d-flex">
+      <h3 *ngIf="!menuItem.DiscountValue">
+        {{ menuItem.Price | currency : " " : "symbol" : fraction }}
+      </h3>
+      <h2 *ngIf="menuItem.DiscountValue">
+        <span class="text-muted old-price">{{ menuItem.Price | currency : " " : "symbol" : fraction }}</span>
+        <span class="primary-color mx-2">{{
+          menuItem.Price - menuItem.Price * (menuItem.DiscountValue / 100) | currency : " " : "symbol" : fraction
+        }}</span>
+      </h2>
+      <div class="text-muted">
+        <button (click)="openModalWithComponent(menuItem.DocumentId)" class="btn">
+          <span>
+            <i class="bi bi-eye"></i>
+          </span>
+        </button>
+        <!-- [disabled]="onCart()" -->
+        <button (click)="addToCart()" class="btn">
+          <i class="bi bi-cart3"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

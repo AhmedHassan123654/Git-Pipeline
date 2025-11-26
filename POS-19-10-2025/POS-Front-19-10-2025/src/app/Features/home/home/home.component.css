@@ -1,0 +1,613 @@
+.wrapper {
+  display: inline-flex;
+}
+.wrapper .icon {
+  margin: 0 20px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .icon span {
+  display: block;
+  height: 60px;
+  width: 60px;
+  background: #fff;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .icon span i {
+  line-height: 60px;
+  font-size: 25px;
+}
+.wrapper .icon .tooltip {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  background: #fff;
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 25px;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .icon:hover .tooltip {
+  top: -70px;
+  opacity: 1;
+  pointer-events: auto;
+}
+.icon .tooltip:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  background: #fff;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%) rotate(45deg);
+  transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .icon:hover span {
+  color: #fff;
+}
+.wrapper .icon:hover span,
+.wrapper .icon:hover .tooltip {
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.4);
+}
+.wrapper .facebook:hover span,
+.wrapper .facebook:hover .tooltip,
+.wrapper .facebook:hover .tooltip:before {
+  background: #3b5999;
+}
+.wrapper .twitter:hover span,
+.wrapper .twitter:hover .tooltip,
+.wrapper .twitter:hover .tooltip:before {
+  background: #46c1f6;
+}
+.wrapper .instagram:hover span,
+.wrapper .instagram:hover .tooltip,
+.wrapper .instagram:hover .tooltip:before {
+  background: #e1306c;
+}
+.wrapper .github:hover span,
+.wrapper .github:hover .tooltip,
+.wrapper .github:hover .tooltip:before {
+  background: #333;
+}
+.wrapper .youtube:hover span,
+.wrapper .youtube:hover .tooltip,
+.wrapper .youtube:hover .tooltip:before {
+  background: #de463b;
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+}
+
+.svgEditing {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #f0f0fa;
+}
+.svge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-size: 1000px 100px;
+}
+.svge.one {
+  z-index: 1000;
+  opacity: 0.9;
+  top: 0;
+}
+.svge.two {
+  z-index: 999;
+  opacity: 0.5;
+  top: 10px;
+}
+.sectionName {
+  position: absolute;
+  top: 0;
+  z-index: 1009;
+  opacity: 1;
+  top: 1rem;
+  left: 5rem;
+}
+.sectionNameScreens {
+  position: absolute;
+  z-index: 1009;
+  opacity: 1;
+  top: 17rem;
+  left: 10rem;
+}
+.ms-panel-body,
+.ms-panel-footer {
+  padding: 1rem;
+}
+.editLang {
+  background-color: #fff;
+  outline: none;
+  padding: 0.625rem 1rem;
+  min-width: 120px;
+  margin-top: 1rem;
+}
+.VersionStyle {
+  position: fixed;
+  top: 92%;
+  right: 1.3%;
+  background-color: #e8d1ff !important;
+  color: rgba(96, 9, 240, 1) !important;
+  border: none;
+  width: fit-content;
+  text-align: center;
+  color: #fff;
+  border-radius: 50px;
+  padding: 10px 25px;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5), inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5), -4px -4px 6px rgba(116, 125, 136, 0.2);
+  outline: none;
+  white-space: nowrap;
+}
+/*Notification*/
+
+.notifications .btn {
+  font-size: 14px;
+  outline: none;
+  padding: 0.625rem 0.5rem;
+  min-width: 22px;
+  margin-top: 1rem;
+  border-radius: 36px;
+}
+.notifications .dropdown-menu .notification-title {
+  padding: 10px 10px 0px 10px;
+  color: #8d8d8d;
+}
+.notifications .dropdown-menu .dropdown-item {
+  font-size: 14px;
+}
+.notifications .dropdown-menu .dropdown-item .fa-eye {
+  cursor: pointer;
+}
+.fa-bell {
+  font-size: 22px;
+  border-radius: 27px;
+  cursor: pointer;
+}
+.notifications p {
+  font-weight: 600;
+  font-size: 16px;
+  color: #00000085;
+  line-height: 4;
+  padding-inline: 5px;
+}
+.notifications .notification-num {
+  background-color: #de463b;
+  color: #fff;
+  position: absolute;
+  left: 28px;
+  padding: 3px 7px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 12px;
+  top: 12px;
+}
+.notifications .dropdown-menu {
+  max-height: 150px;
+  overflow-y: scroll;
+}
+.notifications .item-notification-num {
+  margin: 10px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 39px;
+  font-size: 14px;
+  position: absolute;
+  right: -7px;
+  padding: 4px 7px;
+  background: #de463b;
+  margin-top: 6px;
+}
+[dir="ltr"] .main-header .inner-header .notifications .notification-num {
+  left: -14px;
+}
+[dir="ltr"] .main-header .inner-header .notifications .item-notification-num {
+  right: 248px;
+}
+.branch-img {
+  width: 110px;
+  height: 100px;
+  padding: 10px;
+}
+.branch-img img {
+  max-width: 100%;
+  min-width: 100%;
+}
+.notification-section {
+  display: flex;
+  justify-content: end;
+}
+/********* bg color **********/
+/* end bg color*/
+
+/*responsive*/
+
+/*Favourite*/
+.favourites .dropdown {
+  background: transparent;
+}
+.favourites .dropdown .btn {
+  width: 30px;
+  height: 75px;
+  background: transparent;
+  margin-top: 0px;
+}
+.favourites .dropdown .btn img {
+  width: 57%;
+  height: 85%;
+}
+.favourites .dropdown-menu {
+  min-width: 34vh;
+  max-height: 51vh;
+  top: 86px;
+  left: 332px;
+  overflow-y: scroll;
+}
+.favourites .dropdown-menu .dropdown-item {
+  font-size: 17px;
+  cursor: pointer;
+}
+.favourites .dropdown-item button {
+  background: transparent;
+  border: none;
+}
+.c-red {
+  color: red;
+}
+.c-ddd {
+  color: #ddd;
+}
+.team-section .containerEdit .favourite-list {
+  text-align: center;
+  color: #fff;
+  padding: 16px 16px 0px 16px;
+}
+.team-section .containerEdit .favourite-list .item i {
+  color: yellow;
+}
+
+.notifications {
+  font-size: 30px;
+  color: #fff;
+  margin: 0 20px;
+}
+
+#whatsNewModal .modal-content {
+  max-height: 90vh;
+  overflow: auto;
+  direction: ltr;
+}
+.topic-header {
+  padding: 8px 0px 22px;
+}
+.topic-header span {
+  font-weight: 500;
+  font-size: 32px;
+}
+#whatsNewModal .modal-body {
+  padding: 0rem 1rem;
+}
+#whatsNewModal .main-topics {
+  border: 1px solid #dddddd6b;
+  padding: 12px 16px;
+  border-top: 0px;
+}
+#whatsNewModal .topic-img {
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+#whatsNewModal .btn-topic {
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 12px 10px;
+  background: #4f8dca;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+#whatsNewModal .btn-topic:hover {
+  opacity: 0.8;
+}
+#whatsNewModal .btn:active {
+  background: #142b4f;
+}
+#whatsNewModal .title-topic {
+  border: 1px solid #ddd;
+  padding: 12px 16px;
+}
+#whatsNewModal .topic-content p {
+  font-family: SYSTEM-UI;
+  line-height: 1.4;
+}
+#whatsNewModal .modal-header .close {
+  padding-top: 22px;
+  font-size: 30px;
+  display: contents;
+}
+/**/
+
+.new-content {
+  width: 56px;
+  height: 43px;
+  animation-name: new;
+}
+@keyframes new {
+  from {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+  }
+}
+/* .new-notification{
+    position: relative;
+    bottom: 60px;
+    width: 20px;
+    background: #fff;
+    text-align: center;
+    border-radius: 11px;
+    font-size: 14px;
+    height: 20px;
+    font-weight: bold;
+    padding: 2px;
+    color: #e40001;
+    -webkit-border-radius:;
+    -moz-border-radius:;
+    -ms-border-radius:;
+    -o-border-radius:;
+} */
+.new-notification .mat-icon {
+  position: relative;
+  bottom: 46px;
+  left: 20px;
+}
+@media (max-width: 574px) {
+  .editLang {
+    min-width: 84px;
+    margin-top: 0.2rem;
+    padding: 0px;
+    height: 29px;
+  }
+  .team-section .cardEdit-info {
+    display: none;
+  }
+
+  .btn-login {
+    font-size: 14px;
+    min-width: 83px;
+    margin-top: 0.2rem;
+    height: 29px;
+    padding: 0px 2px;
+    line-height: 00.1;
+  }
+  .notifications .btn {
+    font-size: 12px;
+    outline: none;
+    padding: 0.1rem 0.3rem;
+    min-width: 22px;
+    margin-top: 0.3rem;
+    border-radius: 36px;
+  }
+  .notifications .notification-num {
+    left: 16px;
+    padding: 2px 6px;
+    font-size: 11px;
+    top: 0px;
+  }
+  .team-section button.cardEdit {
+    width: calc(50% - 30px);
+  }
+  .team-section .cardEdit-info {
+    position: relative;
+    bottom: auto;
+    left: auto;
+  }
+  .time {
+    font-size: 20px;
+  }
+  .team-section .cardEdit-img {
+    margin: 10px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  .team-section .cardEdit:hover .cardEdit-img {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  .team-section .cardEdit-info::before {
+    content: none;
+  }
+  .team-section .cardEdit-info {
+    padding: 20px 3px;
+  }
+  .team-section button.cardEdit {
+    padding: 10px 0 0;
+  }
+  .team-section button.bg1.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg2.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg3.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg4.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg5.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg6.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.cardEdit:hover .cardEdit-info {
+    display: block;
+  }
+  .rowEdit {
+    padding: 15px 0px;
+  }
+  .containerEditTwo .cardEdit {
+    width: calc(33% - 39px);
+  }
+  .branch-img {
+    width: 100%;
+    height: 12vh;
+    padding: 10px;
+  }
+  .containerEditTwo .cardEdit:first-of-type {
+    text-align: center;
+  }
+  .containerEditTwo .cardEdit:nth-child(3) {
+    font-size: 17px;
+    padding: 10px;
+  }
+  .containerEditTwo .cardEdit:nth-child(2) span:first-of-type {
+    border-bottom: none;
+    font-weight: 600;
+  }
+  .branch-name {
+    padding: 5px 10px;
+  }
+  #whatsNewModal .btn-topic {
+    padding: 12px 2px;
+    font-size: 12px;
+  }
+}
+/*new logo*/
+.logo-container {
+  max-width: 1227px;
+  margin: auto;
+}
+.logo-img {
+  width: 25%;
+  display: inline-block;
+  padding: 10px 10px 0px 10px;
+}
+.no-bg {
+  background-color: transparent;
+  height: 0px;
+}
+@media (min-width: 575px) and (max-width: 991px) {
+  .team-section .cardEdit-info {
+    display: none;
+  }
+
+  .team-section .cardEdit-info {
+    position: relative;
+    bottom: auto;
+    left: auto;
+  }
+  .team-section .cardEdit-img {
+    margin: 10px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  .team-section .cardEdit:hover .cardEdit-img {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  .team-section .cardEdit-info::before {
+    content: none;
+  }
+  .team-section .cardEdit-info {
+    padding: 20px 3px;
+  }
+  .team-section button.cardEdit {
+    padding: 10px 0 0;
+  }
+  .team-section button.bg1.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg2.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg3.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg4.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg5.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.bg6.cardEdit .cardEdit-info {
+    display: none;
+  }
+  .team-section button.cardEdit:hover .cardEdit-info {
+    display: block;
+  }
+  .rowEdit {
+    padding: 15px 0px;
+  }
+  .containerEditTwo .cardEdit {
+    width: calc(30% - 17px);
+  }
+  .branch-img {
+    width: 10vh;
+    height: 12vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-inline-start: 5px;
+    padding-inline-end: 3px;
+  }
+  .containerEditTwo .cardEdit:first-of-type {
+    text-align: center;
+  }
+  .branch-name {
+    padding: 3px 14px;
+  }
+  .containerEditTwo .cardEdit:nth-child(3) {
+    font-size: 17px;
+    padding: 10px;
+  }
+  .team-section button.cardEdit {
+    width: calc(30% - 21px);
+  }
+  .containerEditTwo .cardEdit:nth-child(2) span {
+    padding: 0.1rem;
+  }
+  #whatsNewModal .btn-topic {
+    padding: 12px 2px;
+    font-size: 14px;
+  }
+}

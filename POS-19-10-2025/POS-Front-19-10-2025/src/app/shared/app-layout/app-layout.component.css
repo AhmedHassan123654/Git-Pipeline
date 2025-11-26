@@ -1,0 +1,75 @@
+.row {
+  display: block !important;
+}
+
+li a.router-link-active span {
+  color: #ff0018 !important;
+}
+.side-nav .menu-item a {
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.restaurantName7 {
+  padding-right: 0rem;
+  color: #fff !important;
+  font-size: 1rem !important;
+  font-family: "Roboto", cursive;
+  text-shadow: 0.1rem 0.1rem 0.1rem #445373;
+  position: relative;
+  display: inline-block;
+  max-width: 100% !important;
+}
+.restaurantName7::before {
+  content: "";
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 4px solid #ff0018;
+  border-left: 4px solid #ff0018;
+}
+.restaurantName7::after {
+  content: "";
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-bottom: 4px solid #ff0018;
+  border-right: 4px solid #ff0018;
+}
+
+.Flex-columnDir {
+  display: flex;
+  flex-direction: column;
+}
+.editColorFFF {
+  background-color: #fff;
+}
+.editNameRest {
+  position: relative;
+}
+/* .editNameRest::before {
+  content: "";
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 5px solid #ff0018;
+  border-left: 5px solid #ff0018;
+  border-radius: 5px;
+} */
+
+/* .editNameRest::after {
+  content: "";
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-bottom: 5px solid #ff0018;
+  border-right: 5px solid #ff0018;
+  border-radius: 5px;
+} */

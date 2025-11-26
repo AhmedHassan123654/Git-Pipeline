@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="col-xl-12 col-md-12">
+    <div style="margin-top: 7rem !important" class="ms-panel">
+      <div class="d-flex">
+        <div
+          style="background-image: url(assets/images/login.jpg); background-size: cover"
+          class="d-flexhalf imgCol d-none d-md-block d-lg-block"></div>
+        <div class="d-flexhalf">
+          <div class="ms-panel-header d-flex flex-column justify-content-center align-items-center">
+            <h1 class="signIn">Sign In</h1>
+            <a
+              (click)="routTo('firstHome/register')"
+              color="accent"
+              class="mat-focus-indicator w-100 mat-button mat-button-base mat-accent"
+              ng-reflect-color="accent"
+              tabindex="0"
+              aria-disabled="false"
+              ><span class="mat-button-wrapper">Don't have an account? Sign up now! </span
+              ><span
+                matripple=""
+                class="mat-ripple mat-button-ripple"
+                ng-reflect-disabled="false"
+                ng-reflect-centered="false"></span
+              ><span class="mat-button-focus-overlay"></span
+            ></a>
+          </div>
+          <div class="ms-panel-body">
+            <form class="needs-validation" (ngSubmit)="logInCustomer(frmCustomer)" #frmCustomer="ngForm">
+              <div class="form-row">
+                <div class="col-md-12 mb-3">
+                  <label for="validationCustom08">Phone</label>
+                  <div class="input-group">
+                    <input
+                      type="email"
+                      class="form-control"
+                      placeholder="Phone"
+                      name="CPhone"
+                      [(ngModel)]="Phone"
+                      #CPhone="ngModel"
+                      required />
+                    <div
+                      class=""
+                      *ngIf="(frmCustomer.submitted && CPhone.invalid) || (CPhone.invalid && CPhone.touched)">
+                      <div class="alert alert-danger editAlertCash" *ngIf="CPhone.errors.required">
+                        Phone Is Required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-success mt-4 d-block w-50" type="submit">Sign In</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a (click)="GoBack()" class="backArrow"> <i class="bi bi-arrow-left"></i> Go Back</a>
+  </div>
+</div>

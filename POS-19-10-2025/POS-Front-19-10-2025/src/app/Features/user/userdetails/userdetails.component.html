@@ -1,0 +1,233 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="UserDetailsform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="form-row pt-3">
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="UserNumber"> {{ "UserProfile.UserNumber" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="number"
+                                    readonly
+                                    id="UserNumber"
+                                    name="UserNumber"
+                                    #UserNumber="ngModel"
+                                    [(ngModel)]="responseobj.UserNumber" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="foreignname"> {{ "Shared.UserName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="UserName"
+                                    name="UserName"
+                                    #UserName="ngModel"
+                                    required
+                                    [(ngModel)]="responseobj.UserName" />
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && UserName.invalid) || (UserName.invalid && UserName.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="UserName.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Password" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-unlock-alt"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="Password"
+                                    id="Password"
+                                    name="Password"
+                                    #Password="ngModel"
+                                    disabled
+                                    [(ngModel)]="responseobj.Password" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.ConfirmPassword" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-unlock-alt"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="ConfirmPassword"
+                                    type="Password"
+                                    id="ConfirmPassword"
+                                    name="ConfirmPassword"
+                                    #ConfirmPassword="ngModel"
+                                    disabled
+                                    [(ngModel)]="responseobj.ConfirmPassword" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Pin" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-key"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    id="Pin"
+                                    name="Pin"
+                                    #Pin="ngModel"
+                                    disabled
+                                    [(ngModel)]="responseobj.Pin" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!---->
+                        <div class="col-md-6 mb-4">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center">
+                              <label> {{ "Shared.InActive" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8">
+                              <label class="ms-checkbox-wrap ms-todo-complete m-0">
+                                <input
+                                  type="checkbox"
+                                  disabled
+                                  class="form-control"
+                                  name="InActive"
+                                  #InActive="ngModel"
+                                  [(ngModel)]="responseobj.InActive"
+                                  id="InActive" />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!--employee-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="selectEmployee"> {{ "delivery.EmployeeName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    [enabled]="false"
+                                    placeholder="{{ 'delivery.SelectEmployee' | translate }}"
+                                    class="form-control borderRadius"
+                                    id="EmployeeDocument_Id"
+                                    name="EmployeeDocumentId"
+                                    #EmployeeDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.EmployeeDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="EmpsList"
+                                    [fields]="EmpFlds"></ejs-combobox>
+                                </div>
+
+                                <!-- <div class="" *ngIf="
+                                  (frmRef.submitted &&
+                                    CustomerId.invalid) ||
+                                  (CustomerId.invalid && CustomerId.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="CustomerId.errors.required">
+                                    {{'CashReceipt.validcustomer'|translate}}
+                                  </div>
+                               </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

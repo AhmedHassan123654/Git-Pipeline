@@ -1,0 +1,433 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="comboform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="col-md-12">
+    <div class="ms-card">
+      <div class="ms-card-header">
+        <div class="row pr-xs-0">
+          <div class="col-md-5">
+            <div class="row">
+              <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19"> {{ "products.ComboProduct" | translate }} : </label>
+              </div>
+              <div class="col-md-9 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <img style="width: 25px" src="assets/images/take-away.png" alt="" srcset="" />
+                  </div>
+                  <div class="input-group">
+                    <ejs-combobox
+                      id="ProductDocumentId"
+                      name="ProductDocumentId"
+                      #ProductDocumentId="ngModel"
+                      [(ngModel)]="responseobj.ProductDocumentId"
+                      [allowFiltering]="true"
+                      [dataSource]="combos"
+                      [allowFiltering]="true"
+                      required
+                      [enabled]="enableChiled"
+                      [autofill]="false"
+                      (ngModelChange)="setComboName()"
+                      [fields]="FLGDocument"
+                      class="form-control borderRadius"></ejs-combobox>
+                    <div
+                      class="alert alert-danger editAlertCash"
+                      *ngIf="
+                        (frmRef.submitted && ProductDocumentId.invalid) ||
+                        (ProductDocumentId.invalid && ProductDocumentId.touched)
+                      ">
+                      <div *ngIf="ProductDocumentId.errors.required">Combo Is Required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+              <mat-icon (click)="addComboDetail()" style="font-size: 24px">plus_one</mat-icon>
+            </button>
+          </div>
+          <div class="col-md-5">
+            <mat-checkbox
+              class="example-margin mt-2"
+              name="LoadingSideDishes"
+              [(ngModel)]="responseobj.MandatoryLoadingOfSideDishes"
+              [color]="primary"
+              [disabled]="!enableChiled">
+              {{ "Shared.MandatoryLoadingOfSideDishes" | translate }}
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="ms-card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered thead-primary">
+            <thead class="bg-maingreen">
+              <tr class="text-center">
+                <th scope="col">{{ "Shared.type" | translate }}</th>
+                <th scope="col">{{ "Shared.Name" | translate }}</th>
+                <th scope="col">{{ "stock.Quantity" | translate }}</th>
+                <th scope="col">{{ "stock.Actions" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-center" *ngFor="let comboDetail of responseobj.ComboDetails; let i = index">
+                <th scope="row">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group">
+                      <ejs-combobox
+                        name="{{ 'Type' + i }}"
+                        #Type="ngModel"
+                        [(ngModel)]="comboDetail.Type"
+                        [allowFiltering]="true"
+                        [autofill]="true"
+                        required
+                        [dataSource]="compoTypes"
+                        [enabled]="enableChiled"
+                        (ngModelChange)="setDetailType(i)"
+                        [fields]="FLG"
+                        class="form-control borderRadius"
+                        id="Type">
+                      </ejs-combobox>
+                      <div
+                        class="alert alert-danger editAlertCash"
+                        *ngIf="(frmRef.submitted && Type.invalid) || (Type.invalid && Type.touched)">
+                        <div *ngIf="Type.errors.required">Type Is Required</div>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                <td>
+                  <input
+                    id="Name{{ i }}"
+                    name="Name{{ i }}"
+                    autocomplete="off"
+                    class="form-control borderRadius"
+                    [(ngModel)]="comboDetail.Name"
+                    #Name="ngModel"
+                    [disabled]="!enableChiled" />
+                </td>
+                <td>
+                  <div class="input-group editInputGroup">
+                    <div class="input-group">
+                      <input
+                        type="number"
+                        id="Quantity{{ i }}"
+                        [numbersOnly]="comboDetail.Quantity"
+                        [allowDecimals]="false"
+                        autocomplete="off"
+                        name="Quantity{{ i }}"
+                        required
+                        class="form-control borderRadius"
+                        [(ngModel)]="comboDetail.Quantity"
+                        #Quantity="ngModel"
+                        [disabled]="!enableChiled || comboDetail.Type == 2" />
+                      <div
+                        class="alert alert-danger editAlertCash"
+                        *ngIf="(frmRef.submitted && Quantity.invalid) || (Quantity.invalid && Quantity.touched)">
+                        <div *ngIf="Quantity.errors.required">Quantity Is Required</div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                
+                <td class="texr-center">
+                  <button
+                    [disabled]="!enableChiled"
+                    *ngIf="comboDetail.Type == 1"
+                    (click)="openSideDishesModel(i)"
+                    type="button"
+                    class="btn btn-success m-0 btnEdit">
+                    {{ "products.SideDishes" | translate }}
+                  </button>
+                  <button
+                    [disabled]="!enableChiled"
+                    *ngIf="comboDetail.Type == 2"
+                    (click)="openNoteModel(i)"
+                    type="button"
+                    class="btn btn-success m-0 btnEdit">
+                    {{ "kds.Note" | translate }}
+                  </button>
+                  <button
+                    [disabled]="!enableChiled"
+                    (click)="deleteComboDetail(i)"
+                    type="button"
+                    class="btn far fa-trash-alt text-crosss m-0 btnEdit"></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div
+  class="modal fade"
+  id="modal-1"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-1"
+  data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header p-2">
+        <h5 class="modal-title has-icon ms-icon-round">
+          <img style="width: 25px" src="assets/images/take-away.png" alt="" srcset="" />
+          {{ "products.SideDishes" | translate }}
+        </h5>
+        <input
+          class="form-control col-md-4"
+          type="search"
+          id="search"
+          name="Name"
+          autocomplete="off"
+          style="margin-left: auto"
+          [(ngModel)]="searchSides"
+          (input)="searchInSides(searchSides)"
+          placeholder="{{ 'Dashboard.SearchHere' | translate }}" />
+        <button type="button" class="close" (click)="closeSideDishesModel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div
+        *ngIf="
+          responseobj.ComboDetails &&
+          responseobj.ComboDetails[index] &&
+          responseobj.ComboDetails[index].ComboDetailDetails
+        "
+        class="modal-body">
+        <div class="table-responsive">
+          <table class="table productTable text-center table-bordered thead-primary">
+            <thead class="bg-maingreen">
+              <tr style="text-align: center">
+                <th scope="col">
+                  <span class="example-list-section">
+                    <mat-checkbox
+                      class="example-margin"
+                      [checked]="allComplete"
+                      [color]="primary"
+                      [disabled]="!enableChiled"
+                      (change)="setAll($event.checked)">
+                      {{ "Shared.SelectAll" | translate }}
+                    </mat-checkbox>
+                  </span>
+                </th>
+                <th scope="col">{{ "Shared.Name" | translate }}</th>
+                <th *ngIf="responseobj.MandatoryLoadingOfSideDishes" scope="col">
+                  {{ "stock.Quantity" | translate }}
+                </th>
+                <th scope="col">{{ "Shared.ProductPrice" | translate }}</th>
+                <!-- <th scope="col">{{ "products.ProductUnits" | translate }}</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of searchInSides(searchSides)">
+                <th scope="row">
+                  <mat-checkbox
+                    [(ngModel)]="product.Checked"
+                    [color]="primary"
+                    [disabled]="!enableChiled"
+                    (ngModelChange)="updateAllComplete(product)">
+                  </mat-checkbox>
+                </th>
+                <td>{{ product.DetailName }}</td>
+                <td *ngIf="responseobj.MandatoryLoadingOfSideDishes">
+                  <div class="quantity-counter" [class.sm]="small">
+                    <button [disabled]="!enableChiled || !product.Checked" type="button" (click)="decrement(product)">
+                      <mat-icon class="text-muted"> keyboard_arrow_down</mat-icon>
+                    </button>
+                    <input
+                      [disabled]="!enableChiled || !product.Checked"
+                      type="text"
+                      [value]="product.Quantity"
+                      [(ngModel)]="product.Quantity"
+                      (keypress)="keyPress($event)" />
+                    <button [disabled]="!enableChiled || !product.Checked" type="button" (click)="increment(product)">
+                      <mat-icon class="text-muted"> keyboard_arrow_up</mat-icon>
+                    </button>
+                  </div>
+                </td>
+                <td class="d-flex justify-content-center">
+                  <input
+                    class="form-control"
+                    type="number"
+                    [(ngModel)]="product.Price"
+                    style="max-width: 10rem"
+                    placeholder="{{ 'Order.enternewprice' | translate }}"
+                    aria-label="default input example"
+                    [disabled]="!enableChiled || !product.Checked" />
+                </td>
+                <!-- <td>
+                  <div class="input-group editInputGroup">
+                    <div class="input-group">
+                      <ejs-combobox
+                        name="{{ 'VolumeDocumentId' + i }}"
+                        #VolumeDocumentId="ngModel"
+                        [(ngModel)]="product.VolumeDocumentId"
+                        [allowFiltering]="true"
+                        [autofill]="true"
+                        [required]="product.ProductVolumes?.length > 0 && product.Checked"
+                        [dataSource]="product.ProductVolumes"
+                        [enabled]="enableChiled && product.ProductVolumes?.length > 0"
+                        (ngModelChange)="setProductVolume(product)"
+                        [fields]="FLGVolume"
+                        class="form-control borderRadius"
+                        id="VolumeDocumentId">
+                      </ejs-combobox>
+                      <div
+                        class="alert alert-danger editAlertCash"
+                        *ngIf="(frmRef.submitted && VolumeDocumentId.invalid) || (VolumeDocumentId.invalid && VolumeDocumentId.touched)">
+                        <div *ngIf="VolumeDocumentId.errors.required">Volume Is Required</div>
+                      </div>
+                    </div>
+                  </div>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light mt-0 btnEdit" (click)="closeSideDishesModel()">
+          {{ "Shared.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Note Model second-->
+<div
+  class="modal fade"
+  id="modal-Notes"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-Notes"
+  data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog AmountModel modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title align-items-baseline d-flex has-icon ms-icon-round orangeColor restaurantName4">
+          <img style="width: 30px; height: 30px" src="assets/images/note2.svg" alt="" />
+          <span class="p-1"> {{ "kds.Note" | translate }} </span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <perfect-scrollbar class="pS ManageScrollModelNote px-2" [config]="config">
+            <div class="row px-1">
+              <div class="col-md-8">
+                <form class="d-flex row justify-content-center align-items-center">
+                  <div class="col-md-10">
+                    <div class="form-group mb-0">
+                      <textarea
+                        class="form-control Prelative"
+                        id="noteArea"
+                        rows="2"
+                        name="Name"
+                        #Name="ngModel"
+                        placeholder="Please Enter Your Note ..."
+                        [(ngModel)]="noteName"
+                        (input)="findNotes()"></textarea>
+                    </div>
+                    <div *ngIf="shownoteerror" class="positionNOTE alert alert-danger">Must Enter Note</div>
+                  </div>
+                  <div class="col-md-2">
+                    <button
+                      type="button"
+                      class="btn bg-mainYellow has-icon text-white p-1 m-0 btnEdit"
+                      (click)="addNewNote(noteName)">
+                      <i class="fas fa-plus"></i>
+                      {{ "pagetransactions.Add" | translate }}
+                    </button>
+                  </div>
+                </form>
+
+                <div class="container">
+                  <div class="row pt-2">
+                    <perfect-scrollbar [config]="config" class="pS ManageScrollchiller px-1">
+                      <div *ngFor="let N of filterNotes; let i = index" class="chiller_cb m-1">
+                        <input
+                          #NoteChecked
+                          name="NoteChecked"
+                          id="checkedInput{{ i }}"
+                          type="checkbox"
+                          ngModel
+                          [(ngModel)]="N.NoteChecked"
+                          [checked]="N.NoteChecked" />
+                        <label (click)="notesChecked($event, N)" class="labelNotes" for="{{ i }}">{{ N.Name }}</label>
+                        <span></span>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="col-md-4"
+                *ngIf="
+                  responseobj.ComboDetails &&
+                  responseobj.ComboDetails[index] &&
+                  responseobj.ComboDetails[index].ComboDetailDetails
+                ">
+                <perfect-scrollbar [config]="config" class="pS ManageScrollModelSide px-1">
+                  <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-maingreen">
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{ "Shared.Name" | translate }}</th>
+                        <th scope="col">
+                          {{ "delivery.Actions" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="digram text-center">
+                      <tr *ngFor="let ODN of responseobj.ComboDetails[index].ComboDetailDetails; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ ODN.DetailName }}</td>
+
+                        <td>
+                          <i
+                            (click)="deleteDetailDetail(ODN, i)"
+                            class="far fa-trash-alt text-crosss p-0"
+                            style="font-size: 1.1rem"></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </perfect-scrollbar>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--end Note Modal-->

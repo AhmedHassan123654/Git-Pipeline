@@ -1,0 +1,247 @@
+<!-- reload -->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12">
+  
+  <!-- Backup Settings Section -->
+  <div class="ms-panel">
+    <div class="ms-panel-body">
+      <form
+      name="backupform"
+      class="row d-flex justify-content-between align-items-center"
+      #frmRef="ngForm"
+      (ngSubmit)="(frmRef.form.valid)"
+      *ngIf="!!backupModel"
+      novalidate>
+      
+      <!--backupDuratonTypes Options -->
+      <div class="form-row col-12 pt-0 mb-4">
+        <div class="col-md-12">
+            <h4 class="py-1 mb-0">{{ "PosSettings.backupDurationOption" | translate }} :</h4>
+          </div>
+          <div class="col-md-6 py-2">
+            <div class="row align-items-center form-group mb-0">
+              <div class="col-md-6">
+                <label for="Duration">
+                  {{ "PosSettings.backupDurationTypes" | translate }}
+                </label>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group borderRadius editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-window-restore"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-combobox
+                      name="BackupDurationType"
+                      #BackupDurationType="ngModel"
+                      [(ngModel)]="backupModel.BackupDurationType"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="backupDurationTypes"
+                      [disabled]="disabled"
+                      placeholder="Backup Duration Types"
+                      [fields]="fields"
+                      class="form-control borderRadius"
+                      id="BackupDurationType_id"></ejs-combobox>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 py-2">
+            <div class="row align-items-center form-group mb-0">
+              <div class="col-md-2 d-flex">
+                <label for="Duration" class="m-0">
+                  {{ "Shared.Every" | translate }}
+                </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group borderRadius editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-hourglass-half"></i>
+                  </div>
+                  <div class="input-group">
+                    <input
+                      type="number"
+                      class="form-control borderRadius"
+                      id="BackupDuration"
+                      name="BackupDuration"
+                      #BackupDuration="ngModel"
+                      [(ngModel)]="backupModel.BackupDuration"
+                      [disabled]="disabled"
+                      [max]="5"
+                      aria-describedby="emailHelp"
+                      placeholder="Duration" />
+                  </div>
+                  <label class="align-items-center d-flex justify-content-center w-75 m-0">
+                    {{ (backupModel.BackupDurationType == 1 ? "Shared.Hour" : "Shared.Day") | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <div class="col-sm-12 col-md-4 d-flex justify-content-center align-items-center">
+          <label class="mx-1">
+            {{ "Shared.Path" | translate }}
+            <!-- المسار: -->
+          </label>
+          <div class="input-group form-group editInputGroup">
+            <div class="input-group-addon">
+              <i class="bi bi-arrow-bar-up"></i>
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                placeholder="Path"
+                name="path"
+                required
+                #path="ngModel"
+                [(ngModel)]="backupModel.Path"
+                id="path"
+                [disabled]="disabled"
+                class="form-control borderRadius" />
+            </div>
+            <div class="" *ngIf="(frmRef.submitted && path.invalid) || (path.invalid && path.touched)">
+              <div class="alert alert-danger editAlertCash" *ngIf="path.errors.required">
+                {{ "Shared.URLIsrequired" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-sm-12 col-md-3 d-flex justify-content-between align-items-center form-group">
+          <button
+            type="button"
+            name="pull"
+            class="btn btnEdit bg-blue shadow-none form-group"
+            (click)="show = false; disabled = false"
+            *ngIf="show">
+            <i class="fas"></i>
+            {{ "pagetransactions.Edit" | translate }}
+            <!-- تعديل -->
+          </button>
+          <button
+          type="button"
+            name="pull"
+            class="btn btnEdit bg-danger shadow-none form-group"
+            (click)="show = true; disabled = true"
+            *ngIf="!show">
+            <i class="fas"></i>
+            {{ "pagetransactions.undo" | translate }}
+            <!-- تراجع -->
+          </button>
+          <button
+            type="button"
+            name="pull"
+            class="btn btnEdit bg-success shadow-none form-group"
+            (click)="update(backupModel); show = true; disabled = true"
+            *ngIf="!show">
+            <i class="fas"></i>
+            {{ "Shared.Save" | translate }}
+            <!-- حفظ -->
+          </button>
+        </div>
+
+        <div class="col-sm-12 col-md-3 d-flex justify-content-between align-items-center form-group">
+          <button type="button" name="pull" class="btn btnEdit m-0 bg-Orange shadow-none btnWAA" (click)="backup()">
+            <i class="fas fa-wordpress-simple"></i>
+            <!-- عمل نسخة احتياطية -->
+            {{ "Shared.doBackup" | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- POS Update Section -->
+  <!-- <div class="ms-panel mb-4">
+    <div class="ms-panel-header">
+      <h2>{{ 'PosSettings.updatePos' | translate }}</h2>
+    </div>
+    <div class="ms-panel-body">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h4 class="mb-0">{{ 'PosSettings.currentVersion' | translate }}: <strong>{{currentVersion}}</strong></h4>
+          <br />
+          <h4 class="mb-0">{{ 'PosSettings.latestVersion' | translate }}: <strong>{{latestVersion}}</strong></h4>
+        </div>
+        <div class="col-md-4 text-right">
+          <button 
+            type="button" 
+            class="btn btn-primary" 
+            (click)="updatePos()"
+            [disabled]="isUpdating">
+            <i class="fas fa-sync-alt me-2"></i>
+            {{ 'PosSettings.updateToLatest' | translate }}
+            <span *ngIf="isUpdating" class="spinner-border spinner-border-sm ms-2" role="status"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+</div>
+
+<!-- Restore Section -->
+<div class="col-md-12">
+  <div class="ms-panel mt-3">
+    <div class="col-md-12">
+      <h4 class="py-1 mb-0">{{ "PosSettings.RestoreBackup" | translate }} :</h4>
+    </div>
+    <div class="ms-panel-body">
+      <form name="restoreform" #restoreFrm="ngForm" class="row d-flex align-items-center" novalidate>
+        <div class="col-sm-12 col-md-6 d-flex justify-content-center align-items-center">
+          <label class="mx-1">{{ 'PosSettings.BackupPathToRestore' | translate }}</label>
+          <div class="input-group form-group editInputGroup">
+            <div class="input-group-addon">
+              <i class="bi bi-arrow-bar-down"></i>
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                [placeholder]="'PosSettings.BackupPathToRestore' | translate"
+                name="restorePath"
+                required
+                #restorePathRef="ngModel"
+                [(ngModel)]="restorePath"
+                id="restorePath"
+                class="form-control borderRadius" />
+            </div>
+            <div class="" *ngIf="(restoreFrm.submitted && restorePathRef.invalid) || (restorePathRef.invalid && restorePathRef.touched)">
+              <div class="alert alert-danger editAlertCash" *ngIf="restorePathRef.errors?.required">
+                {{ 'Shared.URLIsrequired' | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3 d-flex justify-content-between align-items-center form-group">
+          <button type="button" name="restore" class="btn btnEdit m-0 bg-success shadow-none btnWAA" (click)="restore()" [disabled]="!restorePath">
+            <i class="fas fa-undo"></i>
+            {{ 'PosSettings.Restore' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

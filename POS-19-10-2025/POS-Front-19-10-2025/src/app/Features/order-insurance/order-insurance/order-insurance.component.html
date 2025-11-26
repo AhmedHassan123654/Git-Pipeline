@@ -1,0 +1,692 @@
+<!-- Search form -->
+<div  *ngIf="!dialogData?.isPopUp && !settings?.OrderInsuranceHideList && loadSettings" class="col-md-10 col-sm-12 d-flex form-inline d-flex justify-content-end searchInputForm">
+  <div class="row pl-xs-0 pl-sm-0">
+    <div class="col-md-5 d-flex justify-content-start align-items-center label1">
+      <label>
+        {{ "products.SearchWithOrderNumber" | translate }}
+      </label>
+    </div>
+    <div class="col-md-7 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group positionEdit">
+          <ejs-combobox
+            placeholder="Select Order Number"
+            class="form-control borderRadius"
+            name="OrderNumber"
+            [(ngModel)]="OrderNumber"
+            [allowFiltering]="true"
+            [autofill]="true"
+            [dataSource]="OrderNumbers"
+            [fields]="FLG"
+            (ngModelChange)="SelectOrderInsurance(OrderNumber)"></ejs-combobox>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <i class="fas fa-search" aria-hidden="true"></i>
+</div>
+<app-breadcrumbs  *ngIf="!dialogData?.isPopUp"></app-breadcrumbs>
+
+<form name="OrderInsuranceform" class="" #frmRef="ngForm" (ngSubmit)="saveInsurance(frmRef)" novalidate>
+  <app-pagetransactions  *ngIf="!dialogData?.isPopUp && loadSettings"
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [hidePagination]="hidePagination"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12" *ngIf="loadSettings">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div style="background: #fff" class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--insurance Num-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pl-xs-0 pl-sm-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom18"> {{ "Shared.insuranceNum" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <img alt="" src="assets/images/sort (2).png" srcset="" />
+                              </div>
+
+                              <div class="input-group positionEdit">
+                                <div class="input-group">
+                                  <input
+                                    [numbersOnly]="responseobj.SerialNumber"
+                                    [allowDecimals]="false"
+                                    name="SerialNumber"
+                                    #SerialNumber="ngModel"
+                                    [(ngModel)]="responseobj.SerialNumber"
+                                    id="SerialNumber_id"
+                                    class="form-control borderRadius"
+                                    [disabled]="!dialogData?.isPopUp"
+                                    readonly />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--date-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row justify-content-start align-items-center">
+                          <div class="col-md-4">
+                            <label for="validationCustom19"> {{ "CashReceipt.Date" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  readonly
+                                  class="pAsolute absolutePosition form-control borderRadius"
+                                  format="dd/MM/yyyy"
+                                  name="date"
+                                  #date="ngModel"
+                                  [(ngModel)]="responseobj.CreationTime"
+                                  (ngModelChange)="ChangeObjDate()"
+                                  class="form-control borderRadius Prelative"
+                                  id="date"
+                                  placeholder="mm/dd/yyyy"></ejs-datepicker>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--customer-->
+                      <!-- <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="name"> {{ "manageorder.Customer" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  [(ngModel)]="searchCustomer"
+                                  (keyup)="filterCustomers($event)"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  [placeholder]="'Shared.searchByPhoneorNumber' | translate"
+                                  [disabled]="!enableChiled" />
+                                <select
+                                  [(ngModel)]="responseobj.CustomerDocumentId"
+                                  class="form-select borderRadius paytype-Insurance"
+                                  #CustomerDocumentId="ngModel"
+                                  (ngModelChange)="setCustomer(responseobj.CustomerDocumentId)"
+                                  name="CustomerDocumentId"
+                                  [required]="isRequired"
+                                  [disabled]="!enableChiled">
+                                  <option
+                                    *ngFor="let customer of customers"
+                                    [ngValue]="customer.DocumentId"
+                                    [disabled]="!enableChiled">
+                                    {{ customer.Name }}
+                                  </option>
+                                </select>
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="
+                                    (frmRef.submitted && CustomerDocumentId.invalid) ||
+                                    (CustomerDocumentId.invalid && CustomerDocumentId.touched)
+                                  ">
+                                  <div *ngIf="CustomerDocumentId.errors.required">Customer Is Required</div>
+                                </div>
+                                <button
+                                  type="button"
+                                  style="min-width: fit-content"
+                                  class="btn btn-success px-2 py-1 my-0 mx-1"
+                                  name="OpenCustomerPOPUp"
+                                  [disabled]="!enableChiled"
+                                  (click)="addCustomer()">
+                                  {{ "Shared.AddCustomer" | translate }}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- ///////////customer2 -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row justify-content-start align-items-center">
+                          <div class="col-md-4">
+                            <label for="validationCustom19"> {{ "manageorder.Customer" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-combobox
+                                  name="CustomerDocumentId"
+                                  #CustomerDocumentId="ngModel"
+                                  [(ngModel)]="responseobj.CustomerDocumentId"
+                                  (filtering)='filterCustomers($event)'
+                                  [allowFiltering]="true"
+                                  [autofill]="true"
+                                  (ngModelChange)="setCustomer(responseobj.CustomerDocumentId)"
+                                  [dataSource]="customers"
+                                  [fields]="customerFlds"
+                                  [required]="isRequired"
+                                  [disabled]="!enableChiled"
+                                  class="form-control borderRadius"
+                                  [placeholder]="'Shared.searchByPhoneorNumber' | translate"
+                                  id="CustomerDocumentId_id"></ejs-combobox>
+                              </div>
+                              <div
+                                class="alert alert-danger editAlertCash"
+                                *ngIf="
+                                  (frmRef.submitted && CustomerDocumentId.invalid) ||
+                                  (CustomerDocumentId.invalid && CustomerDocumentId.touched)
+                                ">
+                                <div *ngIf="CustomerDocumentId.errors.required">Customer Is Required</div>
+                              </div>
+                              <button
+                                type="button"
+                                style="min-width: fit-content"
+                                class="btn btn-success px-2 py-1 my-0 mx-1"
+                                name="OpenCustomerPOPUp"
+                                [disabled]="!enableChiled"
+                                (click)="addCustomer()">
+                                {{ "Shared.AddCustomer" | translate }}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--phone-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="TelephoneNumber">{{ "UserProfile.PhoneNumber" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-phone"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  class="form-control borderRadius"
+                                  [numbersOnly]="responseobj.CustomerPhone"
+                                  [(ngModel)]="responseobj.CustomerPhone"
+                                  id="CustomerPhone"
+                                  [required]="isRequired"
+                                  name="CustomerPhone"
+                                  #CustomerPhone="ngModel"
+                                  [disabled]="!dialogData?.isPopUp" />
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && CustomerPhone.invalid) ||
+                                    (CustomerPhone.invalid && CustomerPhone.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="CustomerPhone.errors.required">
+                                    Customer Phone Is required
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--PaymentType-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">{{ "Shared.paymenttype" | translate }} :</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <select
+                                  [(ngModel)]="responseobj.PayTypeDocumentId"
+                                  id="PayTypeDocment_id"
+                                  name="PayTypeDocumentId"
+                                  #PayTypeDocumentId="ngModel"
+                                  placeholder="Select Pay Type"
+                                  class="form-control borderRadius"
+                                  [required]="isRequired"
+                                  [disabled]="!enableChiled">
+                                  <!-- [ngValue]="paytype.DocumentId" this line the one responsible for showing the data after refresh or any thing -->
+                                  <option
+                                    *ngFor="let paytype of orderPayTypes"
+                                    [ngValue]="paytype.DocumentId"
+                                    [disabled]="!enableChiled">
+                                    {{ paytype.Name }}
+                                  </option>
+                                </select>
+
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="
+                                    (frmRef.submitted && PayTypeDocumentId.invalid) ||
+                                    (PayTypeDocumentId.invalid && PayTypeDocumentId.touched)
+                                  ">
+                                  <div *ngIf="PayTypeDocumentId.errors.required">Pay Type Is Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--order Number-->
+                      <div *ngIf="!dialogData?.isPopUp" class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="OrderNumber"> {{ "ReturnOrder.OrderNumber" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-clipboard-list fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="number"
+                                  class="form-control col-md-7 rounded"
+                                  id="OrderNumber"
+                                  name="OrderNumber"
+                                  [(ngModel)]="responseobj.OrderNumber"
+                                  [disabled]="!dialogData?.isPopUp" />
+                                <button
+                                  type="button"
+                                  [disabled]="!enableChiled"
+                                  (click)="getOrderForInsurance()"
+                                  [ngClass]="langDirection === 'ar' ? 'mr-1' : 'ml-1'"
+                                  class="btn btn-success has-icon m-0 btnEdit col-md-5">
+                                  {{ "Shared.DowntoUse" | translate }}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--IsStopped-->
+                      <!-- <div class="col-md-6 mb-3">
+                                        <div class="row d-flex pr-xs-0 ">
+                                        <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                            <label for="validationCustom19">{{ "stock.Stoped"| translate }}  :</label>
+                                        </div>
+                                        <div class="col-md-8 paddingLeftz">
+                                            <div class="input-group editInputGroup">
+                                            <div class="input-group">
+                                                <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                                <input type="checkbox" class="form-control borderRadius"
+                                                >
+                                                <i class="ms-checkbox-check"></i>
+                                                </label>
+                                            </div>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                </div> -->
+                      <!--Notes-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="exampleFormControlTextarea1"> {{ "kds.Note" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <textarea
+                                class="form-control borderRadius"
+                                [(ngModel)]="responseobj.Description"
+                                name="Description"
+                                [disabled]="!dialogData?.isPopUp && disableDiscription" ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="ms-panel BlueBg">
+                      <div class="ms-panel-header px-2 py-3">
+                        <h6>
+                          {{ "returninsurance.InsuranceItems" | translate }}
+                        </h6>
+                      </div>
+                      <div class="ms-panel-body p-2">
+                        <div class="col-md-12">
+                          <div class="row justify-content-center">
+                            <perfect-scrollbar class="pS manageInsuranceOrderScroll col-md-12">
+                              <div *ngFor="let N of insurances; let i = index" class="chiller_cbbbb m-1">
+                                <button
+                                  type="button"
+                                  [disabled]="!enableChiled"
+                                  (click)="addToInsuranceList(N)"
+                                  class="btn">
+                                  {{ N.Name }}
+                                </button>
+                                <!-- <label (click)="addToInsuranceList(N)" class="labelNotes" for="{{ i }}">{{ N.Name }}</label> -->
+                                <span></span>
+                              </div>
+                            </perfect-scrollbar>
+
+                            <!-- grid-->
+                            <div class="col-md-12">
+                              <!-- <ejs-grid  class="ms-panel" #grid id='grid' [dataSource]='responseobj.OrderInsuranceDetails' [allowPaging]='true' [pageSettings]='pageSettings'
+                                          [allowSorting]='true' [allowFiltering]='true' [filterSettings]='filterOptions' [toolbar]='toolbarOptions'
+                                          [allowGrouping]='true'[allowPdfExport]='true' [allowExcelExport]='true' (toolbarClick)='toolbarClick($event)'
+                                          >
+                                          <e-columns>
+                                            <e-column field='InsuranceName' headerText="Name" textAlign='center'></e-column>
+                                            <e-column field='Quantity' headerText="{{'stock.Quantity'|translate}}" textAlign='center'></e-column>
+                                            <e-column field='Price' headerText="{{'Order.Price'|translate}}" textAlign='center'></e-column>
+                                            <e-column  headerText="{{'Shared.Total'|translate}}" >
+                                              <ng-template #template let-data>
+                                                <div class="d-flex justify-content-start align-items-start">
+                                                    {{data.Price * data.Quantity}}
+                                                </div>
+                                            </ng-template>
+                                            </e-column>
+                                            <e-column field='ProductName' headerText="{{'products.Product'|translate}}" textAlign='center'></e-column>
+                                            <e-column  headerText="{{'delivery.Actions'|translate}}" >
+                                              <ng-template #template let-data>
+                                                <div class="d-flex justify-content-start align-items-start">
+                                                    <button  style="min-width: 40px !important;" type="button" (click)="PlusInsuranceItems(data)"class="fa fa-plus p-0"></button>
+                                                    &nbsp;
+                                                    <button  style="min-width: 40px !important;" type="button" (click)="MinusInsuranceItems(data)"class="fa fa-minus p-0"></button>
+                                                    &nbsp;
+                                                    <button  style="min-width: 40px !important;" type="button" (click)="deleteInsurance(data)"class="far fa-trash-alt text-crosss p-0"></button>
+                                                    &nbsp;
+
+                                                </div>
+                                            </ng-template>
+                                            </e-column>
+
+                                          </e-columns>
+                                          </ejs-grid> -->
+
+                              <table class="table table-bordered mb-0">
+                                <thead class="bg-maingreen text-center">
+                                  <tr>
+                                    <th scope="col">
+                                      {{ "Shared.Name" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "stock.Quantity" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "Order.Price" | translate }}
+                                    </th>
+                                    <!-- <th *ngIf="validationList['CanChangeInsurancePrice']" scope="col">{{'Order.Price'|translate}}</th> -->
+                                    <th scope="col">
+                                      {{ "Shared.Total" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "products.Product" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "delivery.Actions" | translate }}
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody class="text-center editTd">
+                                  <tr *ngFor="let II of responseobj.OrderInsuranceDetails; let i = index">
+                                    <th scope="row">
+                                      <select
+                                        [(ngModel)]="II.InsuranceDocumentId"
+                                        id="InsuranceDocument_id"
+                                        name="{{ 'InsuranceDocumentId' + i }}"
+                                        #InsuranceDocumentId="ngModel"
+                                        placeholder="Select Pay Type"
+                                        class="form-control borderRadius"
+                                        (ngModelChange)="setInsuranceDetail(i)"
+                                        [required]="isRequired"
+                                        [disabled]="!enableChiled">
+                                        <option
+                                          *ngFor="let insurance of allinsurancelist"
+                                          [ngValue]="insurance.DocumentId"
+                                          [disabled]="!enableChiled">
+                                          {{ insurance.Name }}
+                                        </option>
+                                      </select>
+                                      <div
+                                        class="alert alert-danger editAlertCash"
+                                        *ngIf="
+                                          (frmRef.submitted && InsuranceDocumentId.invalid) ||
+                                          (InsuranceDocumentId.invalid && InsuranceDocumentId.touched)
+                                        ">
+                                        <div *ngIf="InsuranceDocumentId.errors.required">
+                                          insurance Name Is Required
+                                        </div>
+                                      </div>
+                                    </th>
+                                    <td class="editmarg2">
+                                      <!-- <input numbersOnly  [(value)]="II.Quantity" class="btn-count" /> -->
+                                      <input
+                                        id="Quantity{{ i }}"
+                                        [numbersOnly]="II.Quantity"
+                                        [allowDecimals]="false"
+                                        name="Quantity{{ i }}"
+                                        (keyup)="SetOrderInsurance()"
+                                        class="btn-count"
+                                        [(ngModel)]="II.Quantity"
+                                        #Quantity="ngModel"
+                                        [disabled]="!enableChiled"
+                                        oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : 0" />
+                                    </td>
+                                    <td class="editmarg2">
+                                      <input
+                                        id="Price{{ i }}"
+                                        [numbersOnly]="II.Price"
+                                        [allowDecimals]="true"
+                                        name="Price{{ i }}"
+                                        (keyup)="SetOrderInsurance()"
+                                        class="btn-count"
+                                        [(ngModel)]="II.Price"
+                                        #Price="ngModel"
+                                        [disabled]="!enableChiled"
+                                        oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : 0" />
+                                    </td>
+                                    <td>
+                                      {{ II.Price ? II.Price * II.Quantity : 0 }}
+                                    </td>
+                                    <td>
+                                      <select
+                                        [(ngModel)]="II.ProductDocumentId"
+                                        id="ProductDocument_id"
+                                        name="{{ 'ProductDocumentId' + i }}"
+                                        #ProductDocumentId="ngModel"
+                                        placeholder="Select Pay Type"
+                                        class="form-control borderRadius"
+                                        (ngModelChange)="setProductDetail(i)"
+                                        [disabled]="!enableChiled">
+                                        <option
+                                          *ngFor="let product of products"
+                                          [ngValue]="product.DocumentId"
+                                          [disabled]="!enableChiled">
+                                          {{ product.Name }}
+                                        </option>
+                                      </select>
+                                    </td>
+                                    <td class="d-flex align-items-center justify-content-evenly border-0">
+                                      <button
+                                        [disabled]="!enableChiled"
+                                        (click)="PlusInsuranceItems(i)"
+                                        class="btn btn-count fa fa-plus p-0"
+                                        style="font-size: 1.1rem; line-height: 1.6rem"></button>
+                                      <button
+                                        [disabled]="!enableChiled"
+                                        (click)="MinusInsuranceItems(i)"
+                                        class="btn btn-count fa fa-minus p-0"
+                                        style="font-size: 1.1rem; line-height: 1.6rem"></button>
+                                      <button
+                                        [disabled]="!enableChiled"
+                                        (click)="deleteInsurance(i)"
+                                        class="btn btn-count far fa-trash-alt text-crosss p-0"
+                                        style="font-size: 1.1rem"></button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <div class="form-group pt-3 d-flex">
+                                <label class="col-md-4 maingreen pl-0 pr-4" for="TotInsurance"
+                                  >{{ "Order.Total Insurance" | translate }} :</label
+                                >
+                                <input
+                                  type="text"
+                                  name="TotalInsuranceAmount"
+                                  #TotalInsuranceAmount="ngModel"
+                                  [(ngModel)]="responseobj.Amount"
+                                  readonly
+                                  class="col-md-8 form-control"
+                                  id="TotInsurance"
+                                  rows="2" />
+                              </div>
+                            </div>
+                            <!--end grid-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="dialogData?.isPopUp">
+                    <button  type="submit" class="btn btn-primary my-1">
+                      {{ "Shared.Save" | translate }}
+                    </button>
+                    <button type="button" class="btn btn-light my-1 mr-1 ml-1" (click)="closeDialoge()">
+                      {{ "Shared.Close" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Report modal -->
+<div class="modal fade" id="modal-5" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+      c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+      S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+      c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+      S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+      c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+      H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+      c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+        M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+      H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> Printer Setting</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-10 py-2">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-md-3 d-flex justify-content-start align-items-center label1"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div id="myviewer"></div>
+
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>

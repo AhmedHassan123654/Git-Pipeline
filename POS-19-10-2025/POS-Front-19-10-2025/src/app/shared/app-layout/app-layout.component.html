@@ -1,0 +1,219 @@
+<div
+  (click)="overlay()"
+  [ngStyle]="{ display: OpenSideMenu ? 'none' : 'block' }"
+  class="ms-aside-overlay ms-overlay-left ms-toggler"
+  data-target="#ms-side-nav"
+  data-toggle="slideLeft"></div>
+
+<!-- Sidebar Navigation Left -->
+
+<perfect-scrollbar
+  [ngClass]="{ 'ms-aside-left-open': OpenSideMenu }"
+  id="ms-side-nav"
+  [config]="config"
+  class="pS side-nav fixed ms-aside-scrollable ms-aside-left pcoded-navbar">
+  <!-- Logo -->
+  <div class="logo-sn p-1 m-0 ms-d-block-lg">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <div style="width: 100%; padding: 1rem" class="editNameRest">
+        <img style="max-width: 100%; width: 100%" class="img-fluid" src="assets/images/new-logo-nobg.png" alt="" />
+      </div>
+    </div>
+  </div>
+  <!-- Navigation -->
+  <ul
+    class="accordion ms-main-aside fs-14"
+    style="position: absolute; height: 100%; overflow: auto !important"
+    id="side-nav-accordion">
+    <!-- home -->
+    <li style="cursor: pointer" class="menu-item" [routerLink]="['/home']">
+      <a class="mainTitle padNone">
+        <span>
+          <i class="material-icons">home</i>
+          {{ ll | translate }}
+        </span>
+      </a>
+    </li>
+    <!-- /home -->
+    <!-- Dashboard -->
+    <li style="cursor: pointer" class="menu-item" [routerLink]="['/POSDashboard']">
+      <a class="mainTitle padNone">
+        <span>
+          <mat-icon>dashboard</mat-icon>
+          {{ "Shared.posdashboard" | translate }}
+        </span>
+      </a>
+    </li>
+    <!-- /Dashboard -->
+
+    <!-- not cloud screens for sidebar -->
+    <li *ngIf="!IsCloud" class="menu-item editColor">
+      <a class="mainTitle">
+        <span class="main">
+          <i *ngIf="!SectionIcon" class="fas fa-sort-amount-down fs-16 main"></i>
+          <mat-icon *ngIf="SectionIcon">{{ SectionIcon }}</mat-icon>
+          {{ getTranslationName("Shared", SectionName) | translate }}
+        </span>
+      </a>
+
+      <perfect-scrollbar class="folder-structure" [config]="config" style="height: calc(100vh - 12rem) !important">
+        <ul id="input" class="collapse show" data-parent="#side-nav-accordion">
+          <li *ngFor="let screen of CurrentSectionScreens">
+            <!-- <div style="background-color: rgba(0, 0, 0, 0.3); border-radius: 0.25rem; height: 1rem; width: 1rem;"></div> -->
+            <div style="position: relative" class=" " *ngIf="screen.RouteName != 'POSDashboard'">
+              <a class="mainTitleLink" [routerLink]="['/' + screen.RouteName]" routerLinkActive="router-link-active">
+                {{ getTranslationName("Shared", screen.Name) | translate }}
+              </a>
+
+              <mat-icon
+                class="styleIcon"
+                *ngIf="screen.ScreenNumber == 87"
+                matBadge="{{ ReturnCounts }}"
+                matBadgeColor="warn">
+                notifications</mat-icon
+              >
+            </div>
+          </li>
+        </ul>
+      </perfect-scrollbar>
+    </li>
+
+    <!-- cloud screens for sidebar -->
+    <div *ngFor="let section of SectionsList; let i = index">
+      <li id="accordion{{ i }}" *ngIf="IsCloud && SectionsList" class="menu-item editColor">
+        <a
+          class="mainTitle"
+          (click)="closeAllColapsed(i)"
+          data-toggle="collapse"
+          data-toggle="collapse"
+          href="#collapseOne{{ i }}">
+          <span class="main">
+            <mat-icon>{{ section.Icon }}</mat-icon>
+            {{ getTranslationName("Shared", section.Name) | translate }}
+          </span>
+        </a>
+
+        <perfect-scrollbar class="folder-structure" [config]="config">
+          <ul id="collapseOne{{ i }}" class="accordion-collapse collapse">
+            <li *ngFor="let screen of GetSectionScreensForCloud(section.Name)">
+              <div style="position: relative" class=" ">
+                <a class="mainTitleLink" [routerLink]="['/' + screen.RouteName]" routerLinkActive="router-link-active">
+                  {{ getTranslationName("Shared", screen.Name) | translate }}
+                </a>
+
+                <mat-icon
+                  class="styleIcon"
+                  *ngIf="screen.ScreenNumber == 87"
+                  matBadge="{{ ReturnCounts }}"
+                  matBadgeColor="warn">
+                  notifications</mat-icon
+                >
+              </div>
+            </li>
+          </ul>
+        </perfect-scrollbar>
+      </li>
+    </div>
+  </ul>
+</perfect-scrollbar>
+
+<!-- Main Content -->
+<main class="body-content">
+  <!-- Navigation Bar -->
+
+  <nav class="navbar ms-navbar pcoded-header" style="z-index: 3">
+    <div class="ms-aside-toggler ms-toggler pl-0" (click)="customToggleActions($event)" data-toggle="slideLeft">
+      <span class="ms-toggler-bar bg-dark"></span>
+      <span class="ms-toggler-bar bg-dark"></span>
+      <span class="ms-toggler ms-toggler-bar bg-dark"></span>
+    </div>
+    <ul
+      [ngClass]="{ dropShow: showDropDown }"
+      class="ms-nav-list d-flex justify-content-around align-items-center ms-inline mb-0"
+      id="ms-nav-options">
+      <div style="padding: 0.5rem 1rem" class="">
+        <app-received-orders-notification *ngIf="isAllowedToViewOrderScreen.getValue() === true"></app-received-orders-notification>
+      </div>
+
+      <div style="padding: 0.5rem 1rem" class="">
+        <app-language></app-language>
+      </div>
+
+      <div>
+        <app-set-styles></app-set-styles>
+      </div>
+      <div
+        tooltip="User"
+        placement="bottom"
+        class="ms-nav-item p-0 d-flex justify-content-center align-items-center tooltipContainer">
+        <a
+          class="dropdown nav-link"
+          href="#"
+          id="userDropdown"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false">
+          <img
+            style="border: 1px solid #ccc; width: 2rem; height: 2rem"
+            class="ms-user-img ms-img-round"
+            src="assets/images/profile.png"
+            alt="people" />
+        </a>
+        <ul
+          style="padding: 11px 0px"
+          class="dropdown-menu dropdown-menu-right user-dropdown"
+          aria-labelledby="userDropdown">
+          <div
+            class="user-dropdownDrop"
+            style="
+              background-color: rgb(255, 255, 255);
+              border-left: 1px solid rgba(0, 0, 0, 0.3);
+              border-top: 1px solid rgba(0, 0, 0, 0.3);
+              height: 16px;
+              position: absolute;
+              top: 0px;
+              transform: translate(-50%, -50%) rotate(45deg);
+              width: 16px;
+            "></div>
+          <li class="ms-dropdown-list">
+            <a class="media fs-14 p-2" routerLink="/userprofile">
+              <span class="mdList">
+                <i style="font-size: 1.1rem" class="px-1 bi bi-person"></i>
+                <span> {{ "Dashboard.Profile" | translate }}</span>
+              </span>
+            </a>
+          </li>
+          <li class="dropdown-menu-footer">
+            <a class="media fs-14 p-2" (click)="onLogout()">
+              <span class="mdList">
+                <i style="font-size: 1.1rem" class="px-1 bi bi-box-arrow-right"></i>
+                <span>{{ "Dashboard.Logout" | translate }}</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div (click)="callkeyboard()" tooltip="Keyboard" placement="bottom">
+        <img style="width: 3.7rem; height: 3.2rem" src="assets/images/keyboardn.png" alt="" srcset="" />
+      </div>
+    </ul>
+
+    <div
+      (click)="clickedSlideDown()"
+      class="ms-toggler ms-d-block-sm pr-0 ms-nav-toggler"
+      data-toggle="slideDown"
+      data-target="#ms-nav-options">
+      <span class="ms-toggler-bar bg-white"></span>
+      <span class="ms-toggler-bar bg-white"></span>
+      <span class="ms-toggler-bar bg-white"></span>
+    </div>
+  </nav>
+  <div class="ms-content-wrapper">
+    <div class="row">
+      <router-outlet (activate)="onRouterOutletActivate($event)"></router-outlet>
+    </div>
+  </div>
+</main>
+<div class="key-boeard" *ngIf="showKeyboard">
+  <app-keyboard [_frm]="frmRef" (tabEvent)="tab()"></app-keyboard>
+</div>

@@ -1,0 +1,1718 @@
+<!-- reload -->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-md-12">
+  <div class="ms-panel-fh">
+    <div class="">
+      <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0" role="tablist">
+        <li class="px-2" id="tab1" role="presentation">
+          <a href="#tab133" aria-controls="tab133" class="active basic-info" role="tab" data-toggle="tab">
+            {{ "Shared.deliveryorders" | translate }}
+          </a>
+        </li>
+        <li class="px-2" id="tab2" role="presentation">
+          <a href="#tab144" aria-controls="tab144" role="tab" data-toggle="tab" class="basic-info">
+            {{ "Shared.payOrders" | translate }}
+          </a>
+        </li>
+        <li class="px-2" id="tab2" role="presentation">
+          <a href="#tab155" aria-controls="tab155" role="tab" data-toggle="tab" class="basic-info">
+            {{ "permission.Reports" | translate }}
+          </a>
+        </li>
+        <li>
+          <a href="#tab166" aria-controls="tab166" role="tab" (click)="GetAllOrdersNotPaidDriver()" data-toggle="tab" class="basic-info">
+            {{ "Shared.FollowDrivers" | translate }}
+          </a>
+        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <div class="cont">
+      <div class="ms-panel-body-1 clearfix">
+        <div style="background: #fff" class="tab-content ms-panel">
+          <!------------ first form ---------------->
+          <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+            <div class="col-xl-12 col-md-12 col-xs-12">
+              <div class="ms-panel-header p-2">
+                <div class="container-fluid">
+                  <div class="d-flex row justify-content-start align-items-center">
+                    <!-- date -->
+                    <div class="col-md-4 d-flex justify-content-start align-items-center px-1">
+                      <div class="input-group editInputGroup">
+                        <label class="d-flex align-items-center justify-content-center px-1 mb-0" for="FromDate">
+                          {{ "CashReceipt.Date" | translate }}
+                        </label>
+                        <span class="input-group-text">
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                        <ejs-datepicker
+                          class="pAsolute absolutePosition"
+                          format="dd/MM/yyyy"
+                          name="Date"
+                          #Date="ngModel"
+                          [(ngModel)]="dataobj2.Date"
+                          class="form-control borderRadius Prelative"
+                          id="Date"
+                          placeholder="mm/dd/yyyy"></ejs-datepicker>
+                        <!-- (change)="GetGrideOrdersList()"></ejs-datepicker> -->
+                      </div>
+                    </div>
+                    <!--order number-->
+                    <div class="col-md-3 d-flex justify-content-start align-items-center px-1">
+                      <div class="pr-xs-0">
+                        <div class="input-group editInputGroup">
+                          <label class="d-flex align-items-center justify-content-center px-1 mb-0" for="OrderNumber">
+                            {{ "ReturnOrder.OrderNumber" | translate }}
+                          </label>
+                          <span class="input-group-text"
+                            ><i class="fas fa-clipboard-list fs-16" aria-hidden="true"></i
+                          ></span>
+                          <input
+                            type="number"
+                            class="form-control"
+                            id="OrderNumber"
+                            name="OrderNumber"
+                            [(ngModel)]="dataobj2.OrderNumber" />
+                          <!-- (change)="GetGrideOrdersList()" /> -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- driver list -->
+                    <div class="col-md-5 d-flex justify-content-start align-items-center px-1">
+                      <div class="input-group editInputGroup">
+                        <label class="d-flex align-items-center justify-content-center px-1 mb-0" for="driverDoc-id">
+                          {{ "Shared.driverlist" | translate }}
+                        </label>
+                        <span class="input-group-text"><i class="fas fa-user" aria-hidden="true"></i> </span>
+                        <ejs-combobox
+                          name=""
+                          #DriverDocID="ngModel"
+                          [(ngModel)]="dataobj2.DriverDocID"
+                          [allowFiltering]="true"
+                          [autofill]="true"
+                          [dataSource]="DriverList"
+                          placeholder=""
+                          [fields]="driverFlds"
+                          class="form-control borderRadius"
+                          id="driverDoc-id"></ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex row justify-content-start align-items-center pt-2">
+                    <!--Select Customer-->
+                    <div class="col-md-4 d-flex justify-content-start align-items-center px-1">
+                      <div class="input-group editInputGroup">
+                        <label
+                          class="d-flex align-items-center justify-content-center px-1 mb-0"
+                          for="CustomerDocumentId"
+                          >{{ "manageorder.Customer" | translate }}
+                        </label>
+                        <span class="input-group-text"><i class="fas fa-user" aria-hidden="true"></i> </span>
+                        <input
+                          class="form-control"
+                          type="text"
+                          [(ngModel)]="dataobj2.SearchCustomer"
+                          [ngModelOptions]="{ standalone: true }"
+                          [placeholder]="'Shared.searchByPhoneorNumber' | translate" />
+                        <!-- (keyup)="filterCustomers($event)" -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row py-2 my-1 d-flex editBorder justify-content-around align-items-center">
+                    <div class="col-md-12 d-flex justify-content-end align-items-center p-1">
+                      <span class="px-1">
+                        <button type="button" class="btn custom-btn btn-secondary" (click)="GetGrideOrdersList()">
+                          {{ "ReturnOrder.Search" | translate }}
+                        </button>
+                      </span>
+                      <span class="px-1">
+                        <button
+                          class="btn custom-btn btn-info"
+                          [disabled]="!checkSelectedOrders"
+                          data-toggle="modal"
+                          data-target="#modal-1"
+                          (click)="GetAssginDriverList()">
+                          {{ "Shared.AssignDriver" | translate }}
+                        </button>
+                      </span>
+                      <span class="px-1">
+                        <button
+                          class="btn custom-btn btn-success"
+                          data-toggle="modal"
+                          data-target="#modal-2"
+                          (click)="GetBackDriverList()">
+                          {{ "Shared.Driverback" | translate }}
+                        </button>
+                      </span>
+                      <span class="px-1">
+                        <button class="btn custom-btn btn-info" data-toggle="modal" data-target="#modal-101">
+                          {{ "Shared.setting" | translate }}
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ms-panel-body" *ngIf="showgrid">
+                <div class="col-md-12">
+                  <div class="row justify-content-start">
+                    <div class="col-xs-6 d-flex justify-content-center align-items-center">
+                      <label> {{ "Shared.SelectAll" | translate }}</label>
+                    </div>
+                    <div class="col-xs-6">
+                      <label class="ms-checkbox-wrap ms-todo-complete m-0 mx-2">
+                        <input
+                          type="checkbox"
+                          class="form-control px-1 borderRadius"
+                          [checked]="checkAssignAll"
+                          (click)="assignAll($event)" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <ejs-grid
+                  (queryCellInfo)="customiseCell($event)"
+                  #grid
+                  id="grid"
+                  [dataSource]="Orders"
+                  [allowPaging]="true"
+                  [pageSettings]="pageSettings"
+                  [allowSorting]="true"
+                  [allowFiltering]="true"
+                  [filterSettings]="filterOptions"
+                  [allowGrouping]="true"
+                  [allowPdfExport]="true"
+                  [allowExcelExport]="true"
+                  (toolbarClick)="toolbarClick($event)"
+                  (rowSelected)="onRowSelected($event)">
+                  <e-columns>
+                    <e-column
+                      width="120"
+                      field="IsSelected"
+                      headerText="{{ 'Shared.Ischecked' | translate }}"
+                      editType="booleanedit"
+                      type="boolean"
+                      [allowFiltering]="false"
+                      [allowSorting]="false">
+                      <ng-template #template let-data>
+                        <div>
+                          <ejs-checkbox
+                            #checkbox
+                            (change)="onRowSelected(data)"
+                            [checked]="data.IsSelected"></ejs-checkbox>
+                        </div>
+                      </ng-template>
+                    </e-column>
+                    <e-column
+                      field="OrderNumber"
+                      headerText="{{ 'ReturnOrder.OrderNumber' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="Customer.Name"
+                      [visible]="Properties.CustomerName"
+                      headerText="{{ 'returninsurance.CustomerName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="Customer.Phone"
+                      [visible]="Properties.CustomerPhone"
+                      headerText="{{ 'Shared.customerPhone' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="CustomerAddress.Description"
+                      [visible]="Properties.CustomerAddress"
+                      headerText="{{ 'returninsurance.CustomerAddress' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="CustomerAddress.RegionName"
+                      [visible]="Properties.CustomerAddress"
+                      headerText="{{ 'delivery.region' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="SubTotal"
+                      [visible]="Properties.SubTotal"
+                      headerText="{{ 'delivery.Subtotal' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="StatusValue"
+                      [visible]="Properties.DeliveryStatus"
+                      headerText="{{ 'Shared.status' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="CreationTime"
+                      [visible]="Properties.CreationDate"
+                      headerText="{{ 'ExtraExpenses.Date' | translate }}"
+                      type="date"
+                      [format]="orderDateFormat"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="DeliveryAssignTime"
+                      [visible]="Properties.DeliveryAssignTime"
+                      headerText="{{ 'ExtraExpenses.AssignTime' | translate }}"
+                      type="dateTime"
+                      [format]="DateFormat"
+                      textAlign="center"
+                      [allowFiltering]="false"
+                      [allowSorting]="false"></e-column>
+                    <e-column
+                      field="DeliveryBackTime"
+                      [visible]="Properties.DeliveryBackTime"
+                      headerText="{{ 'ExtraExpenses.BackTime' | translate }}"
+                      type="dateTime"
+                      [format]="DateFormat"
+                      textAlign="center"
+                      [allowFiltering]="false"
+                      [allowSorting]="false"></e-column>
+                    <e-column
+                      field="DeliveryExitTime"
+                      [visible]="Properties.DeliveryExitTime"
+                      headerText="{{ 'ExtraExpenses.ExitTime' | translate }}"
+                      type="dateTime"
+                      [format]="DateFormat"
+                      textAlign="center"
+                      [allowFiltering]="false"
+                      [allowSorting]="false"></e-column>
+                    <e-column
+                      field="DriverName"
+                      [visible]="Properties.DriverName"
+                      headerText="{{ 'delivery.DriverName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="DriverPhone"
+                      [visible]="Properties.DriverPhone"
+                      headerText="{{ 'delivery.DriverPhone' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="AllOrderPaymentNames"
+                      [visible]="Properties.OrderPayTypeName"
+                      headerText="{{ 'ReturnOrder.OrderPayTypeName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="CaptainName"
+                      [visible]="Properties.CaptainName"
+                      headerText="{{ 'ReturnOrder.CaptainName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="PointOfSaleName"
+                      [visible]="Properties.PointOfSaleName"
+                      headerText="{{ 'ReturnOrder.PointOfSaleName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="BranchName"
+                      [visible]="Properties.BranchName"
+                      headerText="{{ 'pointofsale.BranchName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="NoteForOrder"
+                      [visible]="Properties.NoteForOrder"
+                      headerText="{{ 'ReturnOrder.NoteForOrder' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="ReferenceId"
+                      [visible]="Properties.ReferenceId"
+                      headerText="{{ 'ReturnOrder.ReferenceId' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="HostName"
+                      [visible]="Properties.HostName"
+                      headerText="{{ 'ReturnOrder.HostName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="WorkTimeName"
+                      [visible]="Properties.WorkTimeName"
+                      headerText="{{ 'Shared.WorkTimeName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="EmployeeName"
+                      [visible]="Properties.EmployeeName"
+                      headerText="{{ 'delivery.EmployeeName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="TotalInsuranceAmount"
+                      [visible]="Properties.TotalInsuranceAmount"
+                      headerText="{{ 'Reports.TotalInsuranceAmount' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="OrderTypeName"
+                      [visible]="Properties.OrderTypeName"
+                      headerText="{{ 'Shared.OrderTypeName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column headerText="{{ 'delivery.Actions' | translate }}" textAlign="center">
+                      <ng-template #template let-data>
+                        <div class="center d-flex align-items-center">
+                          <button
+                            style="min-width: 90px"
+                            type="button"
+                            [disabled]="disablePrint"
+                            (click)="PrintPerview(data)"
+                            class="btn btn-pill btn-success p-1 has-icon my-0 mx-1">
+                            <i class="fas fa-print"></i>
+                            {{ "Order.show" | translate }}
+                          </button>
+                        </div>
+                      </ng-template>
+                    </e-column>
+                  </e-columns>
+                </ejs-grid>
+              </div>
+            </div>
+          </div>
+          <!------------ second form ---------------->
+          <div class="tab-pane fade" id="tab144">
+            <div class="col-xl-12 col-md-12">
+              <div class="ms-panel-header p-2">
+                <div class="col-md-12">
+                  <div class="row editBorder justify-content-center align-items-center">
+                    <div class="col-md-2">
+                      <div class="d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-success btnEdit" (click)="UpdatePaidOrders()">
+                          {{ "Order.Pay" | translate }}
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-md-2 d-flex justify-content-center align-items-center">
+                      <button
+                        style="padding: 0.4rem 0.3rem !important"
+                        type="button"
+                        class="btn btn-secondary"
+                        (click)="GetOrdersbyDateOrDriver()">
+                        {{ "ReturnOrder.Search" | translate }}
+                      </button>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="pr-xs-0">
+                        <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                          <label class="m-0 btnEdit">
+                            {{ "Shared.SearchName" | translate }}
+                          </label>
+                        </div>
+                        <div class="col-md-8 paddingLeftz">
+                          <div class="input-group editInputGroup">
+                            <div class="input-group-addon">
+                              <i class="fas fa-motorcycle" style="font-size: 1.2rem"></i>
+                            </div>
+                            <div class="input-group">
+                              <ejs-combobox
+                                placeholder=""
+                                name="OrderCaShierId"
+                                #OrderCaShierId="ngModel"
+                                [(ngModel)]="responseobj.DriverdocumentId"
+                                [allowFiltering]="true"
+                                [autofill]="true"
+                                [dataSource]="DriverList"
+                                [fields]="driverFlds"
+                                class="form-control borderRadius"
+                                id="OrderCaShierId_id"></ejs-combobox>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="d-flex row justify-content-center align-items-center">
+                        <div class="col-md-4">
+                          <label class="m-0 btnEdit">{{ "Shared.SearchDate" | translate }}</label>
+                        </div>
+
+                        <div id="searchDate" class="input-group col-md-8">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                          <ejs-datepicker
+                            class="pAsolute absolutePosition"
+                            format="dd/MM/yyyy"
+                            name="date"
+                            #date="ngModel"
+                            [(ngModel)]="responseobj.Date2"
+                            class="form-control borderRadius Prelative"
+                            id="date"
+                            placeholder="mm/dd/yyyy"></ejs-datepicker>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ms-panel-body">
+                <div class="col-md-12">
+                  <div class="row justify-content-start">
+                    <div class="col-xs-6 d-flex justify-content-center align-items-center">
+                      <label> {{ "Shared.SelectAll" | translate }}</label>
+                    </div>
+                    <div class="col-xs-6">
+                      <label class="ms-checkbox-wrap ms-todo-complete m-0 mx-2">
+                        <input
+                          type="checkbox"
+                          class="form-control px-1 borderRadius"
+                          name="CheckAllPay"
+                          [(ngModel)]="CheckAllPay"
+                          [checked]="CheckAllPay"
+                          (click)="CheckAllRows(CheckAllPay)" />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <ejs-grid
+                  *ngIf="MyOrders && MyOrders.length"
+                  #grid2
+                  id="grid2"
+                  [dataSource]="MyOrders"
+                  [allowPaging]="true"
+                  [pageSettings]="pageSettings"
+                  [allowSorting]="true"
+                  [allowFiltering]="true"
+                  [filterSettings]="filterOptions"
+                  [allowGrouping]="true"
+                  [allowPdfExport]="true"
+                  [allowExcelExport]="true"
+                  (toolbarClick)="toolbarClick($event)"
+                  (rowSelected)="onRowSelected2($event)">
+                  <e-columns>
+                    <e-column
+                      field="Ispayment"
+                      headerText="{{ 'Order.Payment' | translate }}"
+                      editType="booleanedit"
+                      type="boolean"
+                      [allowFiltering]="false"
+                      [allowSorting]="false">
+                      <ng-template #template let-data>
+                        <div>
+                          <ejs-checkbox
+                            #checkbox
+                            (change)="onRowSelected2(data)"
+                            [checked]="data.Ispayment"></ejs-checkbox>
+                          <!-- <ejs-checkbox  #checkbox [checked]='data.IsView' (change)='checkboxChangemastergrid($event)'[disabled]="MyFlag"></ejs-checkbox>  -->
+                          <!-- <input type="checkbox" name="isSelected{{i}}" [(ngModel)]="data.isSelected" disabled > -->
+                        </div>
+                      </ng-template>
+                    </e-column>
+                    <e-column
+                      field="CreationTime"
+                      headerText="{{ 'CashReceipt.Date' | translate }}"
+                      type="date"
+                      [format]="orderDateFormat"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="OrderNumber" width="80"
+                      headerText="{{ 'ReturnOrder.OrderNumber' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="DriverName"
+                      headerText="{{ 'delivery.DriverName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="Customer.Name"
+                      headerText="{{ 'returninsurance.CustomerName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="CustomerAddress.Description"
+                      headerText="{{ 'returninsurance.CustomerAddress' | translate }}"
+                      textAlign="center"></e-column>
+                      <e-column width="80"
+                      field="CustomerAddress.RegionName"
+                      headerText="{{ 'delivery.region' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="TotalDeliverPrice"
+                      headerText="{{ 'Shared.DeliveryPrice' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="SubTotal"
+                      headerText="{{ 'delivery.Subtotal' | translate }}"
+                      textAlign="center"></e-column>
+
+                    <e-column headerText="{{ 'ReturnOrder.PayType' | translate }}" width="250">
+                      <ng-template #template let-data>
+                        <div class="center d-flex align-items-center">
+                          <!--    <a  title="Edit">
+                                <span class="e-edit e-icons">
+                                  <i class="e-flat"></i>
+                                </span>
+                              </a> -->
+                          <button
+                            class="btn btn-info editBtnDriver"
+                            data-toggle="modal"
+                            data-target="#modal-3"
+                            (click)="Getpaymentdata(data)">
+                            {{ "ReturnOrder.PayType" | translate }}</button
+                          >&nbsp;
+
+                          <button class="btn btn-info editBtnDriver" [disabled]="disablePrint" (click)="Print(data)">
+                            {{ "ReturnOrder.Printer" | translate }}</button
+                          >&nbsp;
+                        </div>
+                      </ng-template>
+                    </e-column>
+                  </e-columns>
+                </ejs-grid>
+              </div>
+              <hr />
+              <div class="ms-panel-footer">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row editpah">
+                      <div class="col-md-4">
+                        <label for="choosePayment">
+                          <h6>
+                            {{ "Shared.Selectedorders" | translate }}
+                          </h6>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <p class="">{{ ChoosenOrders }}({{ ChoosenorderNumber }})</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row editpah">
+                      <div class="col-md-4">
+                        <label for="choosePayment">
+                          <h6>
+                            {{ "kds.orders" | translate }}
+                          </h6>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <p class="">{{ totalOfSub }} ({{ myOrderCounts }})</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row editpah">
+                      <div class="col-md-4">
+                        <label for="choosePayment">
+                          <h6></h6>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <p class=""></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row editpah">
+                      <div class="col-md-4">
+                        <label for="choosePayment">
+                          <h6>
+                            {{ "Shared.DeliveryPrice" | translate }}
+                          </h6>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <p class="">{{ totalOfDeliveryPrice }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row editpah">
+                      <div class="col-md-4">
+                        <label for="choosePayment">
+                          <h6>
+                            {{ "Shared.priceofdelivery" | translate }}
+                          </h6>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <p class="">{{ totalOfDeliveryPricePerson }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row editpah">
+                      <div class="col-md-4">
+                        <label for="choosePayment">
+                          <h6></h6>
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <p class=""></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!------------ third form ---------------->
+          <div class="tab-pane fade" id="tab155">
+            <div class="col-xl-12 col-md-12">
+              <div class="ms-panel-body">
+                <div class="row">
+                  <!--Branch Name-->
+                  <div class="col-md-6 mb-3">
+                    <div class="row pl-xs-0 pl-sm-0">
+                      <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom18">
+                          {{ "Shared.BranchName" | translate }}
+                        </label>
+                      </div>
+                      <div class="col-md-8 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fas fa-code-branch"></i>
+                          </div>
+
+                          <div class="input-group positionEdit">
+                            <input [value]="Branch?.Name" class="form-control borderRadius" disabled />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--driver name-->
+                  <div class="col-md-6 mb-3">
+                    <div class="row pr-xs-0">
+                      <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom19">
+                          {{ "delivery.DriverName" | translate }}
+                        </label>
+                      </div>
+                      <div class="col-md-8 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                          </div>
+                          <div class="input-group">
+                            <ejs-combobox
+                              name="DriverDocID"
+                              #DriverDocID="ngModel"
+                              [(ngModel)]="dataobj.DriverDocID"
+                              [allowFiltering]="true"
+                              [autofill]="true"
+                              [dataSource]="DriverList"
+                              placeholder=""
+                              [fields]="driverFlds"
+                              class="form-control borderRadius"
+                              id="DriverDoc_id"></ejs-combobox>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Date-->
+                  <div class="col-md-6 mb-3">
+                    <div class="row align-items-center justify-content-start">
+                      <div class="col-md-4">
+                        <label> {{ "Shared.fromdata" | translate }} </label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </div>
+                          <div class="input-group">
+                            <ejs-datepicker
+                              class="form-control"
+                              format="dd/MM/yyyy"
+                              name="date"
+                              #date="ngModel"
+                              [(ngModel)]="dataobj.FromDate"></ejs-datepicker>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--to date-->
+
+                  <div class="col-md-6 mb-3">
+                    <div class="row align-items-center justify-content-start">
+                      <div class="col-md-4">
+                        <label> {{ "Shared.todata" | translate }} </label>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </div>
+                          <div class="input-group">
+                            <ejs-datepicker
+                              class="form-control"
+                              format="dd/MM/yyyy"
+                              name="date2"
+                              #date2="ngModel"
+                              [(ngModel)]="dataobj.ToDate"></ejs-datepicker>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--FromTime-->
+                  <div class="col-md-6 mb-3">
+                    <div class="row">
+                      <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom19"> {{ "Reports.FromTime" | translate }} : </label>
+                      </div>
+                      <div class="col-md-8 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="bi bi-clock"></i>
+                          </div>
+                          <div class="input-group">
+                            <input
+                              type="time"
+                              class="form-control borderRadius"
+                              name="FromTime"
+                              #FromTime="ngModel"
+                              placeholder="FromTime"
+                              [(ngModel)]="dataobj.FromTime" />
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ToTime -->
+                  <div class="col-md-6 mb-3">
+                    <div class="row">
+                      <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom19"> {{ "Reports.ToTime" | translate }} : </label>
+                      </div>
+                      <div class="col-md-8 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="bi bi-clock"></i>
+                          </div>
+                          <div class="input-group">
+                            <input
+                              type="time"
+                              class="form-control borderRadius"
+                              name="ToTime"
+                              #ToTime="ngModel"
+                              placeholder="ToTime"
+                              [(ngModel)]="dataobj.ToTime" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Cashier-->
+                  <div class="col-md-6 mb-3">
+                    <div class="row pr-xs-0">
+                      <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom19">
+                          {{ "Shared.Cashier" | translate }}
+                        </label>
+                      </div>
+                      <div class="col-md-8 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                          </div>
+                          <div class="input-group">
+                            <ejs-combobox
+                              name="CasheirID"
+                              #CasheirID="ngModel"
+                              [(ngModel)]="dataobj.CasheirID"
+                              [allowFiltering]="true"
+                              [autofill]="true"
+                              [dataSource]="CashierList"
+                              placeholder=""
+                              [fields]="cashierFlds"
+                              class="form-control borderRadius"
+                              id="CasheirID_id"></ejs-combobox>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                  <!--Paid-Or-Not-->
+                  <div class="col-md-6 mb-3">
+                    <div class="row pr-xs-0">
+                      <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom19">
+                          {{ "delivery.filterByPaid" | translate }}
+                        </label>
+                      </div>
+                      <div class="col-md-8 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                          </div>
+                          <div class="input-group">
+                            <ejs-combobox 
+                              name="OptionPaidId"
+                              #OptionPaidId="ngModel"
+                              [(ngModel)]="dataobj.OptionPaidId"
+                              [allowFiltering]="true"
+                              [autofill]="true"
+                              [allowCustom]="false"
+                              [dataSource]="PaidFilterList"
+                              placeholder=""
+                              [fields]="optionPaidFlds"
+                              class="form-control borderRadius"
+                              id="OptionPaidId_id"></ejs-combobox>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row py-3">
+                  <div class="col-6">
+                    <button
+                      style="padding: 0.4rem 0.3rem !important"
+                      type="button"
+                      class="btn btn-success"
+                      (click)="GetTotalDriverReport()">
+                      {{ "delivery.drivers" | translate }}
+                    </button>
+                    &nbsp;
+                    <button
+                      style="padding: 0.4rem 0.3rem !important"
+                      type="button"
+                      class="btn btn-success"
+                      (click)="GetDataReport()">
+                      {{ "Shared.Detaileddrivers" | translate }}</button
+                    >&nbsp;
+                    <button
+                      style="padding: 0.4rem 0.3rem !important"
+                      type="button"
+                      class="btn btn-success"
+                      (click)="GetDataReport2()">
+                      {{ "Shared.Detailedusers" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="TotalDriverData && TotalDriverReport == true">
+              <div id="container">
+                <ejs-grid
+                  (queryCellInfo)="customiseCell($event)"
+                  #TotalDrivergrid
+                  id="TotalDrivergrid"
+                  [dataSource]="TotalDriverData"
+                  [allowPaging]="true"
+                  [pageSettings]="pageSettings"
+                  [allowSorting]="true"
+                  [allowFiltering]="true"
+                  [filterSettings]="filterOptions"
+                  [allowGrouping]="true"
+                  [allowPdfExport]="true"
+                  [allowExcelExport]="true"
+                  [toolbar]="totalDriverToolbarOptions"
+                  (toolbarClick)="totalDrivertoolbarClick($event)"
+                  (rowSelected)="onRowSelected($event)">
+                  <e-columns>
+                    <e-column
+                      field="DriverName"
+                      headerText="{{ 'Reports.DriverName' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="Count"
+                      [visible]="Properties.Count"
+                      headerText="{{ 'Reports.OrdersCount' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="PaidCount"
+                      [visible]="Properties.PaidCount"
+                      headerText="{{ 'delivery.paid' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="NotPaidCount"
+                      [visible]="Properties.NotPaidCount"
+                      headerText="{{ 'delivery.notPaid' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="subTotal"
+                      [visible]="Properties.subTotal"
+                      headerText="{{ 'Reports.Total' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column
+                      field="DeliveryPersonDeliveryPrice"
+                      [visible]="Properties.DeliveryPersonDeliveryPrice"
+                      headerText="{{ 'delivery.DeliveryPersonPrice' | translate }}"
+                      textAlign="center"></e-column>
+                    <e-column headerText="{{ 'delivery.Actions' | translate }}" textAlign="center">
+                      <ng-template #template let-data>
+                        <div class="center d-flex align-items-center">
+                          <button
+                            style="min-width: 90px"
+                            type="button"
+                            [disabled]="disablePrint"
+                            (click)="printDriverDetail(data)"
+                            class="btn btn-pill btn-success p-1 has-icon my-0 mx-1">
+                            <i class="fas fa-print"></i>
+                            {{ "Order.Print" | translate }}
+                          </button>
+                        </div>
+                      </ng-template>
+                    </e-column>
+                  </e-columns>
+                </ejs-grid>
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="!TotalDriverReport">
+              <div id="container">
+                <div id="Reportgrid"></div>
+              </div>
+            </div>
+
+            <hr />
+            <div class="ms-panel-footer">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row editpah">
+                    <div class="col-md-4">
+                      <label for="choosePayment">
+                        <h6>{{ "Shared.Total" | translate }} :</h6>
+                      </label>
+                    </div>
+                    <div class="col-md-8">
+                      <p class="">{{ Totals }}</p>
+                    </div>
+                  </div>
+                  <div class="row editpah" *ngIf="DeliveryPrice">
+                    <div class="col-md-4">
+                      <label for="choosePayment">
+                        <h6>{{ "delivery.DeliveryPrice" | translate }} :</h6>
+                      </label>
+                    </div>
+                    <div class="col-md-8">
+                      <p class="">{{ DeliveryPrice }}</p>
+                    </div>
+                  </div>
+                  <div class="row editpah" *ngIf="DeliveryPersonDeliveryPrice">
+                    <div class="col-md-4">
+                      <label for="choosePayment">
+                        <h6>{{ "delivery.DeliveryPersonPrice" | translate }} :</h6>
+                      </label>
+                    </div>
+                    <div class="col-md-8">
+                      <p class="">{{ DeliveryPersonDeliveryPrice }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!------------ Forth form ---------------->
+          <div class="tab-pane fade" id="tab166">
+            <div class="ms-panel-body">
+              <div class="row py-3">
+                <button
+                  style="padding: 0.4rem 0.3rem !important"
+                  type="button"
+                  class="btn btn-success"
+                  (click)="DriverPaidAsync()">
+                  {{ "Shared.Receipt" | translate }}
+                </button>
+                <button
+                  style="padding: 0.4rem 0.3rem !important"
+                  type="button"
+                  class="btn btn-primary mr-2"
+                  (click)="GetAllOrdersNotPaidDriver()">
+                  <i class="fas fa-sync-alt"></i>
+                  {{ "Shared.Refresh" | translate }}
+                </button>
+                &nbsp;
+              </div>
+
+              <ejs-grid
+                *ngIf="NotPaidDriverOrders && NotPaidDriverOrders.length"
+                #followDriverGrid
+                id="followDriverGrid"
+                [dataSource]="NotPaidDriverOrders"
+                [allowPaging]="true"
+                [pageSettings]="pageSettings"
+                [allowSorting]="true"
+                [allowFiltering]="true"
+                [filterSettings]="filterOptions"
+                [allowGrouping]="true"
+                [allowPdfExport]="true"
+                [allowExcelExport]="true"
+                (toolbarClick)="toolbarClickfollowdriver($event)"
+                (rowSelected)="onRowSelectedfollowDriver($event)">
+                <e-columns>
+                  <e-column
+                    field="DriverPaid"
+                    headerText="{{ 'Shared.DriverPaid' | translate }}"
+                    editType="booleanedit"
+                    type="boolean"
+                    [allowFiltering]="false"
+                    [allowSorting]="false">
+                    <ng-template #template let-data>
+                      <div>
+                        <ejs-checkbox
+                          #checkbox
+                          (change)="onRowSelectedfollowDriver(data)"
+                          [checked]="data.DriverPaid"></ejs-checkbox>
+                      </div>
+                    </ng-template>
+                  </e-column>
+
+                  <e-column
+                    field="OrderNumber"
+                    headerText="{{ 'ReturnOrder.OrderNumber' | translate }}"
+                    textAlign="center"></e-column>
+                  <e-column
+                    field="SubTotal"
+                    headerText="{{ 'delivery.Subtotal' | translate }}"
+                    textAlign="center"></e-column>
+                  <e-column
+                    field="DriverName"
+                    headerText="{{ 'delivery.DriverName' | translate }}"
+                    textAlign="center"></e-column>
+                  <e-column
+                    field="DriverPhone"
+                    headerText="{{ 'delivery.DriverPhone' | translate }}"
+                    textAlign="center"></e-column>
+                  <e-column
+                    field="Paid"
+                    headerText="{{ 'Shared.paid' | translate }}"
+                    editType="booleanedit"
+                    type="boolean"
+                    [allowFiltering]="false"
+                    [allowSorting]="false">
+                    <ng-template #template let-data>
+                      <div>
+                        <input type="checkbox" disabled name="Paid" id="Paid" [checked]="data.Paid" />
+                      </div>
+                    </ng-template>
+                  </e-column>
+                </e-columns>
+              </ejs-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--modal 1 -->
+<div class="modal fade" id="modal-1" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal__overlay">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header py-3">
+          <h5 class="modal-title">
+            <button type="button" class="ms-btn-icon btn-pill text-white btn-info editmsBtn">
+              <i class="fas fa-motorcycle text-white"></i>
+            </button>
+            {{ "delivery.AssignDriver" | translate }}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body row d-flex">
+          <div class="col-1">
+            <div class="d-flex justify-content-end">
+              <div class="letter-section">
+                <ng-container *ngFor="let char of getFirstchar(); let i = index">
+                  <div
+                    class="letter-content d-flex justify-content-center"
+                    *ngIf="char"
+                    (click)="clickedBtnCheck(char)">
+                    <div type="button">
+                      <span class="letter text-center">
+                        {{ char }}
+                      </span>
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="letter-content d-flex justify-content-end align-items-center" (click)="clickedBtnCheck('')">
+                  <div class="d-flex align-items-center justify-content-center text-center p-0 m-0" type="button">
+                    <span type="button" class="delete-letter-icon fas fa-trash"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-11">
+            <ejs-grid
+              #Drivegrid
+              id="Drivegrid"
+              [dataSource]="filterdDrivers"
+              [allowPaging]="true"
+              [pageSettings]="pageSettings"
+              [allowSorting]="true">
+              <e-columns>
+                <e-column field="DriverName"  headerText="Driver , السائق" textAlign="center"></e-column>
+                <e-column>
+                  <ng-template #template let-data>
+                    <div>
+                      <button type="button" class="btn btn-success m-0" (click)="AssignOnly(data)">
+                        {{ "delivery.Assign" | translate }}
+                      </button>
+                      &nbsp;
+                      <button type="button" class="btn btn-success m-0" (click)="AssignExtit(data)">
+                        {{ "delivery.AssignExit" | translate }}
+                      </button>
+                    </div>
+                  </ng-template>
+                </e-column>
+              </e-columns>
+            </ejs-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modal 2 -->
+<div class="modal fade" id="modal-2" tabindex="-1" role="dialog" aria-labelledby="modal-2">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-3">
+        <h5 class="modal-title">
+          <button type="button" class="ms-btn-icon btn-pill text-white btn-success editmsBtn">
+            <i class="fas fa-motorcycle text-white"></i>
+          </button>
+          {{ "Shared.Driverback" | translate }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <ejs-grid
+          #Drivegrid2
+          id="Drivegrid2"
+          [dataSource]="filterdDrivers"
+          [allowPaging]="true"
+          [pageSettings]="pageSettings"
+          [allowSorting]="true">
+          <e-columns>
+            <e-column field="DriverName" headerText="{{ 'Shared.driver' | translate }}" textAlign="center"></e-column>
+            <e-column
+              field="OrderNumbers"
+              headerText="{{ 'ReturnOrder.OrderNumber' | translate }}"
+              textAlign="center"></e-column>
+
+            <e-column>
+              <ng-template #template let-data>
+                <div>
+                  <button type="button" class="btn btn-success m-0" (click)="Back(data)">
+                    {{ "Shared.Ischecked" | translate }}
+                  </button>
+                </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modal 3 -->
+<div class="modal fade" id="modal-3" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal__overlay">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header py-3">
+          <h5 class="modal-title">
+            <button type="button" class="ms-btn-icon btn-pill text-white btn-info editmsBtn">
+              <i class="fas fa-motorcycle text-white"></i>
+            </button>
+            {{"Shared.changePayType"|translate}}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div>
+            <div class="row">
+              <div class="col-md-6 borderEdit">
+                <div class="row my-1">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "ReturnOrder.OrderNumber" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          placeholder="OrderNumber"
+                          [(ngModel)]="myOrder.OrderNumber"
+                          name="OrderNumber"
+                          #OrderNumber="ngModel"
+                          id="OrderNumber_id"
+                          readonly
+                          class="form-control borderRadius" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 borderEdit" *ngIf="myOrder.CustomerName">
+                <div class="row my-1">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Reports.Customer" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          placeholder="CustomerName"
+                          [(ngModel)]="myOrder.CustomerName"
+                          name="CustomerName"
+                          #CustomerName="ngModel"
+                          id="CustomerName_id"
+                          readonly
+                          class="form-control borderRadius" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="col-md-6 borderEdit" *ngIf="CustonerFlag">
+                <div class="row my-1">
+                  <div class="col-md-4 d-flex justify-content-center align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Shared.customer" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-combobox
+                          name="CustmerId"
+                          #CustmerId="ngModel"
+                          [(ngModel)]="myOrder.CustomerDocumentId"
+                          [allowFiltering]="true"
+                          [autofill]="true"
+                          [dataSource]="CustomerList"
+                          required
+                          [fields]="CustomerFlds"
+                          class="form-control borderRadius"
+                          id="CustmerId_Id">
+                        </ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+
+              <div class="col-md-12 mb-4">
+                <div class="navbar-collapse" id="navbarSupportedContentt3">
+                  <ul class="flex-wrap flex-nowrap-sm mb-0 d-flex flex-column-sm mr-auto">
+                    <li *ngFor="let OL of PaymentTypeList; let i = index" class="nav-item m-1">
+                      <a type="button" class="btn btn-outline-info btnNav" (click)="orderPayTypeClicked(OL)">
+                        {{ OL.Name }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <table class="table table-bordered mb-0">
+                  <thead class="bg-maingreen text-center">
+                    <tr>
+                      <th scope="col">
+                        {{ "Reports.OrderPayType" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "ReturnOrder.Net Amount" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "manageorder.Pay Amount" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "Shared.transaction" | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-center editTd">
+                    <tr *ngFor="let orderPayment of myOrder.OrderPayments; let i = index">
+                      <th scope="row">{{ orderPayment.PayTypeName }}</th>
+                      <td class="">
+                        <input
+                          value="{{ orderPayment.Amount | currency : ' ' : 'symbol' : fraction }}"
+                          class="form-control btn-count text-center"
+                          id="Amount{{ i }}"
+                          #Amount
+                          readonly />
+                      </td>
+                      <td class="">
+                        <input
+                          [numbersOnly]="orderPayment.PayAmount"
+                          [allowDecimals]="true"
+                          [(ngModel)]="orderPayment.PayAmount"
+                          class="form-control btn-count text-center"
+                          id="PayAmount{{ i }}"
+                          #PayAmount
+                          (input)="onInputChangeNum($event); changePaymentAmount(i, orderPayment)" 
+                          />
+                          <!-- (focus)="onInputFocusNumPay($event, i)" -->
+                      </td>
+                      <td>
+                        <i
+                          (click)="DeletePayment(orderPayment, i)"
+                          class="far fa-trash-alt text-crosss p-0"
+                          style="font-size: 1.1rem"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-md-6 borderEdit">
+                <button type="button" class="btn btn-success" (click)="SavePaymentType()">
+                  {{ "Shared.Save" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modal 101 -->
+<div class="modal fade" id="modal-101" tabindex="-1" role="dialog" aria-labelledby="modal-101">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-3 d-flex align-items-center">
+        <h5 class="modal-title">
+          <img style="width: 2rem; height: 2rem" src="assets/images/settings.png" alt="" />
+          {{ "Shared.setting" | translate }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="SubTotal" #SubTotal="ngModel" [(ngModel)]="Properties.SubTotal" />
+                  {{ "delivery.Subtotal" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="TotalInsuranceAmount"
+                    #TotalInsuranceAmount="ngModel"
+                    [(ngModel)]="Properties.TotalInsuranceAmount" />
+                  {{ "Reports.TotalInsuranceAmount" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="EmployeeName"
+                    #EmployeeName="ngModel"
+                    [(ngModel)]="Properties.EmployeeName" />
+                  {{ "delivery.EmployeeName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CreationDate"
+                    #CreationDate="ngModel"
+                    [(ngModel)]="Properties.CreationDate" />
+                  {{ "ExtraExpenses.Date" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryStatus"
+                    #DeliveryStatus="ngModel"
+                    [(ngModel)]="Properties.DeliveryStatus" />
+                  {{ "Shared.status" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="WorkTimeName"
+                    #WorkTimeName="ngModel"
+                    [(ngModel)]="Properties.WorkTimeName" />
+                  {{ "Shared.WorkTimeName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="HostName" #HostName="ngModel" [(ngModel)]="Properties.HostName" />
+                  {{ "ReturnOrder.HostName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="ReferenceId"
+                    #ReferenceId="ngModel"
+                    [(ngModel)]="Properties.ReferenceId" />
+                  {{ "ReturnOrder.ReferenceId" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="NoteForOrder"
+                    #NoteForOrder="ngModel"
+                    [(ngModel)]="Properties.NoteForOrder" />
+                  {{ "ReturnOrder.NoteForOrder" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="BranchName" #BranchName="ngModel" [(ngModel)]="Properties.BranchName" />
+                  {{ "pointofsale.BranchName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="PointOfSaleName"
+                    #PointOfSaleName="ngModel"
+                    [(ngModel)]="Properties.PointOfSaleName" />
+                  {{ "ReturnOrder.PointOfSaleName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CaptainName"
+                    #CaptainName="ngModel"
+                    [(ngModel)]="Properties.CaptainName" />
+                  {{ "ReturnOrder.CaptainName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="OrderPayTypeName"
+                    #OrderPayTypeName="ngModel"
+                    [(ngModel)]="Properties.OrderPayTypeName" />
+                  {{ "ReturnOrder.OrderPayTypeName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CustomerName"
+                    #CustomerName="ngModel"
+                    [(ngModel)]="Properties.CustomerName" />
+                  {{ "returninsurance.CustomerName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CustomerPhone"
+                    #CustomerPhone="ngModel"
+                    [(ngModel)]="Properties.CustomerPhone" />
+                  {{ "Shared.customerPhone" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CustomerAddress"
+                    #CustomerAddress="ngModel"
+                    [(ngModel)]="Properties.CustomerAddress" />
+                  {{ "returninsurance.CustomerAddress" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="DriverName" #DriverName="ngModel" [(ngModel)]="Properties.DriverName" />
+                  {{ "delivery.DriverName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DriverPhone"
+                    #DriverPhone="ngModel"
+                    [(ngModel)]="Properties.DriverPhone" />
+                  {{ "delivery.DriverPhone" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryAssignTime"
+                    #DeliveryAssignTime="ngModel"
+                    [(ngModel)]="Properties.DeliveryAssignTime" />
+                  {{ "ExtraExpenses.AssignTime" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryBackTime"
+                    #DeliveryBackTime="ngModel"
+                    [(ngModel)]="Properties.DeliveryBackTime" />
+                  {{ "ExtraExpenses.BackTime" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryExitTime"
+                    #DeliveryExitTime="ngModel"
+                    [(ngModel)]="Properties.DeliveryExitTime" />
+                  {{ "ExtraExpenses.ExitTime" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ms-panel-footer d-flex justify-content-end">
+        <button class="btn btn-secondary" id="close-popup" (click)="SaveFollowOrderSetting()">save</button>
+      </div>
+    </div>
+  </div>
+</div>

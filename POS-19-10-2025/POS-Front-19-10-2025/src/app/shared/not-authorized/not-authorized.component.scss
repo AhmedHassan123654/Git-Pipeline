@@ -1,0 +1,14 @@
+.ms-error-404 {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../../../assets/images/forbidden2.png);
+  background-size: cover;
+  background-position: center center;
+  z-index: 2;
+  opacity: 0.8;
+}
+.ms-content-wrapper {
+  padding: 50px !important;
+}

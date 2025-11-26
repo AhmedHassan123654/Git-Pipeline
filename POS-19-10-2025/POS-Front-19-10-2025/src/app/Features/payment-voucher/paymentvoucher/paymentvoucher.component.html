@@ -1,0 +1,376 @@
+<div class="col-md-12">
+  <div class="row mx-1 shadow-sm mb-2 bg-white rounded align-items-center">
+    <div class="col-md-6 col-sm-12">
+      <!-- breadcrumbs -->
+      <ol class="breadcrumb bg-white my-0 breadcrumb-arrow-sep">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="styleAll"
+            ><i class="material-icons" style="font-size: 1.2rem">home</i>
+            {{ "ReturnOrder.Home" | translate }}
+          </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ "Layout.Payment Voucher" | translate }}
+        </li>
+
+        <li class="breadcrumb-item">
+          <a class="styleAll" [routerLink]="['paymentvoucherlist']" routerLinkActive="router-link-active"
+            ><i class="material-icons" style="font-size: 1.2rem"></i>
+            {{ "ReturnOrder.All" | translate }}
+          </a>
+        </li>
+      </ol>
+    </div>
+    <div class="col-md-6 col-sm-12 d-flex">
+      <!-- Search form -->
+      <!-- <form class="form-inline d-flex justify-content-center searchInputForm">
+          <input
+            class="form-control searchInput2 form-control-sm mr-3 w-75"
+            type="text"
+            placeholder=" {{
+              'ReturnOrder.Search' | translate
+            }}  "
+            aria-label="Search"
+          />
+          <i class="fas fa-search" aria-hidden="true"></i>
+        </form> -->
+    </div>
+  </div>
+</div>
+
+<form name="paymentvoucherform" class="" #frmRef="ngForm" (ngSubmit)="(paymentVoucherForm.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    (quickEvents)="quickEvents($event)"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <!--1-->
+                      <div class="form-row pt-3">
+                        <!-- CustomerOrEmployee -->
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-4">
+                              <!-- <label class="form-check-label my-0" for="CustomerOrEmployee2">
+                                     {{ "manageorder.CustomerOrEmployee" | translate }}
+                                   </label>
+                                   <span class="required-asterisk">* </span> -->
+                            </div>
+                            <div class="col-md-8 d-flex">
+                              <div class="mx-1 d-flex justify-content-center align-items-center">
+                                <input
+                                  readonly
+                                  class="checkedN mx-1"
+                                  type="radio"
+                                  (change)="CustomerChange($event)"
+                                  disabled />
+                                <label class="form-check-label my-0" for="CustomerOrEmployee1">
+                                  {{ "manageorder.Customer" | translate }}
+                                </label>
+                              </div>
+                              <div class="mx-1 d-flex justify-content-center align-items-center">
+                                <input
+                                  readonly
+                                  class="checkedN mx-1"
+                                  type="radio"
+                                  name="CustomerOrEmployee"
+                                  id="CustomerOrEmployee2"
+                                  #CustomerOrEmployee2="ngModel"
+                                  [(ngModel)]="responseobj.CustomerOrEmployee"
+                                  value="2"
+                                  (change)="clearData()"
+                                  disabled />
+                                <label class="form-check-label my-0" for="CustomerOrEmployee2">
+                                  {{ "manageorder.Employee" | translate }}
+                                </label>
+                              </div>
+                              <div class="mx-1 d-flex justify-content-center align-items-center">
+                                <input
+                                  readonly
+                                  class="checkedN mx-1"
+                                  type="radio"
+                                  name="CustomerOrEmployee"
+                                  id="CustomerOrEmployee3"
+                                  #CustomerOrEmployee2="ngModel"
+                                  [(ngModel)]="responseobj.CustomerOrEmployee"
+                                  value="3"
+                                  (change)="clearData()"
+                                  disabled />
+                                <label class="form-check-label my-0" for="CustomerOrEmployee3">
+                                  {{ "manageorder.General" | translate }}
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Select Customer-->
+                        <div class="col-md-6 mb-3" *ngIf="true">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "CashReceipt.lblcustomer" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <!--  [enabled]="false" -->
+                                <div class="input-group" (focusout)="checkCustomer()">
+                                  <ejs-combobox
+                                    name="CustomerId"
+                                    #CustomerId="ngModel"
+                                    [enabled]="comboflag"
+                                    [(ngModel)]="responseobj.CustomerId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="CustomerList"
+                                    placeholder="{{ 'CashReceipt.lblcustomer' | translate }}"
+                                    [fields]="CustomerFlds"
+                                    class="form-control borderRadius"
+                                    id="customer_id"
+                                    [(value)]="combovalcustomer"
+                                    required></ejs-combobox>
+                                </div>
+
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (responseobj.CustomerOrEmployee == '1' &&
+                                      paymentVoucherForm.submitted &&
+                                      CustomerId.invalid) ||
+                                    (CustomerId.invalid && CustomerId.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="CustomerId.errors.required">
+                                    {{ "CashReceipt.validcustomer" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Select Employee-->
+                        <div class="col-md-6 mb-3" *ngIf="false">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "CashReceipt.Employee" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group" (focusout)="checkEmployee()">
+                                  <ejs-combobox
+                                    name="EmployeeId"
+                                    #EmployeeId="ngModel"
+                                    [enabled]="comboflag"
+                                    [(ngModel)]="responseobj.EmployeeId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="EmpsList"
+                                    placeholder="{{ 'CashReceipt.Employee' | translate }}"
+                                    [fields]="EmpsFlds"
+                                    class="form-control borderRadius"
+                                    id="employee_id"
+                                    required></ejs-combobox>
+                                </div>
+
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (responseobj.CustomerOrEmployee == '2' &&
+                                      paymentVoucherForm.submitted &&
+                                      EmployeeId.invalid) ||
+                                    (EmployeeId.invalid && EmployeeId.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="EmployeeId.errors.required">
+                                    {{ "CashReceipt.validemployee" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Amount-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "CashReceipt.lblamount" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <img src="assets/images/amount (2).png" alt="" srcset="" />
+                                </div>
+
+                                <div class="input-group positionEdit" (click)="closedCalender()">
+                                  <input
+                                    [numbersOnly]="responseobj.Amount"
+                                    [allowDecimals]="true"
+                                    name="Amount"
+                                    disabled
+                                    #Amount="ngModel"
+                                    [(ngModel)]="responseobj.Amount"
+                                    id="amount_id"
+                                    class="form-control borderRadius"
+                                    required />
+
+                                  <div
+                                    *ngIf="
+                                      (paymentVoucherForm.submitted && Amount.invalid) ||
+                                      (Amount.invalid && Amount.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Amount.errors.required">
+                                      {{ "CashReceipt.validamount" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Branch Name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "Shared.BranchName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-code-branch"></i>
+                                </div>
+
+                                <div class="input-group positionEdit" (click)="closedCalender()">
+                                  <input
+                                    [numbersOnly]="responseobj.Amount"
+                                    [allowDecimals]="true"
+                                    name="Amount"
+                                    disabled
+                                    #Amount="ngModel"
+                                    [(ngModel)]="responseobj.Amount"
+                                    id="amount_id"
+                                    class="form-control borderRadius"
+                                    required />
+
+                                  <div
+                                    *ngIf="
+                                      (paymentVoucherForm.submitted && Amount.invalid) ||
+                                      (Amount.invalid && Amount.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Amount.errors.required">
+                                      {{ "CashReceipt.validamount" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--2-->
+
+                        <!--order Date-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "CashReceipt.Date" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-datepicker
+                                    [enabled]="false"
+                                    class="pAsolute absolutePosition"
+                                    format="MM/dd/yyyy"
+                                    name="date"
+                                    #date="ngModel"
+                                    [(ngModel)]="responseobj.Date"
+                                    [ngClass]="{
+                                      'is-invalid': paymentVoucherForm.submitted && date.invalid
+                                    }"
+                                    class="form-control borderRadius Prelative"
+                                    id="date"
+                                    placeholder="mm/dd/yyyy"
+                                    required></ejs-datepicker>
+                                  <!--<input (click)="openCalender()" (keydown)="$event.preventDefault()" (change)="changeDate(date.value)" [(ngModel)]="responseobj .Date" #date="ngModel"
+                                        type="date" class="form-control borderRadius Prelative "  name="date" id="date" required />
+                                          <div *ngIf="CalenderOpened">
+                                            <ejs-calendar class="pAsolute absolutePosition " id="calendar" #calendar (change)="selectDate()" (click)="selectDate()"   [value]="calenderValue"></ejs-calendar>
+                                          </div>-->
+                                  <!-- <div *ngIf="f.submitted && date.invalid" class="invalid-feedback" > </div> -->
+                                </div>
+                                <div
+                                  *ngIf="
+                                    (paymentVoucherForm.submitted && date.invalid) || (date.invalid && date.touched)
+                                  "
+                                  class="">
+                                  <div class="alert alert-danger editAlert" *ngIf="date.errors.required">
+                                    {{ "ExtraExpenses.DateIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Description-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="exampleFormControlTextarea1">
+                                {{ "CashReceipt.lbldescription" | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <textarea
+                                  name="Description"
+                                  #Description="ngModel"
+                                  disabled
+                                  [(ngModel)]="responseobj.Description"
+                                  class="form-control borderRadius"
+                                  id="description_id"
+                                  required></textarea>
+                                <div
+                                  class="editAlertCash"
+                                  *ngIf="
+                                    (paymentVoucherForm.submitted && Description.invalid) ||
+                                    (Description.invalid && Description.touched)
+                                  ">
+                                  <div class="alert alert-danger" *ngIf="Description.errors.required">
+                                    {{ "CashReceipt.validdescription" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,785 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="permissionsform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <div class="col-md-3 py-2 d-flex">
+    <button [disabled]="disableEditPermission" type="submit" class="btn btn-outline-danger btnNav" (click)="save()">
+      <i class="far fa-save pr-1"></i>
+      {{ "pagetransactions.save" | translate }}
+    </button>
+    <br /><br />
+  </div>
+
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div style="background: #fff" class="tab-content">
+            <div role="tabpanel" class="tab-pane active show fade in">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel-header p-2">
+                  <div class="col-md-12">
+                    <div class="row align-items-center p-1">
+                      <div class="col-md-6">
+                        <div class="row my-1">
+                          <div class="mx-1 d-flex justify-content-center align-items-center">
+                            <label class="form-check-label my-0" for="">
+                              {{ "permission.UsersGroups" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  name="GroupName"
+                                  #GroupName="ngModel"
+                                  [(ngModel)]="responseobj.GroupName"
+                                  id="GroupName_id"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ms-panel-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="col-md-12">
+                        <div class="">
+                          <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0 pt-0" role="tablist">
+                            <li class="px-0" id="tab1" role="presentation">
+                              <a
+                                href="#tab-1"
+                                aria-controls="tab-1"
+                                class="active basic-info py-2"
+                                role="tab"
+                                data-toggle="tab">
+                                {{ "permission.OrderTypes" | translate }}
+                                <!-- {{'responseobj.SelectUser'|translate}} -->
+                              </a>
+                            </li>
+
+                            <li class="px-2" id="tab2" role="presentation">
+                              <a
+                                href="#tab-2"
+                                aria-controls="tab-2"
+                                role="tab"
+                                data-toggle="tab"
+                                class="basic-info py-2">
+                                {{ "permission.ProductGroups" | translate }}
+                              </a>
+                            </li>
+                            <li class="px-2" id="tab3" role="presentation">
+                              <a
+                                href="#tab-3"
+                                aria-controls="tab-3"
+                                role="tab"
+                                data-toggle="tab"
+                                class="basic-info py-2">
+                                {{ "permission.Halls" | translate }}
+                              </a>
+                            </li>
+                            <li class="px-2" id="tab4" role="presentation">
+                              <a
+                                href="#tab-4"
+                                aria-controls="tab-4"
+                                role="tab"
+                                data-toggle="tab"
+                                class="basic-info py-2">
+                                {{ "permission.PointOfSales" | translate }}
+                              </a>
+                            </li>
+                            <li class="px-2" id="tab5" role="presentation">
+                              <a
+                                href="#tab-5"
+                                aria-controls="tab-5"
+                                role="tab"
+                                data-toggle="tab"
+                                class="basic-info py-2">
+                                {{ "permission.PayTypes" | translate }}
+                              </a>
+                            </li>
+                            <li class="px-2" id="tab6" role="presentation">
+                              <a
+                                href="#tab-6"
+                                aria-controls="tab-6"
+                                role="tab"
+                                data-toggle="tab"
+                                class="basic-info py-2">
+                                {{ "permission.Options" | translate }}
+                              </a>
+                            </li>
+                            <li class="px-2" id="tab7" role="presentation">
+                              <a
+                                href="#tab-7"
+                                aria-controls="tab-7"
+                                role="tab"
+                                data-toggle="tab"
+                                class="basic-info py-2">
+                                {{ "permission.ScreenPermissions" | translate }}
+                              </a>
+                            </li>
+                            <li class="px-2" id="tab8" role="presentation">
+                              <a
+                                href="#tab-8"
+                                aria-controls="tab-8"
+                                role="tab"
+                                data-toggle="tab"
+                                class="basic-info py-2">
+                                {{ "permission.ReportPermissions" | translate }}
+                              </a>
+                            </li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                          </ul>
+                        </div>
+
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <div class="cont">
+                              <div class="ms-panel-body-1 clearfix">
+                                <div class="tab-content">
+                                  <div role="tabpanel" class="tab-pane active show fade in" id="tab-1">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <ejs-grid
+                                        #grid1
+                                        id="grid1"
+                                        [dataSource]="OrderTypesList"
+                                        [allowPaging]="true"
+                                        [pageSettings]="pageSettings"
+                                        [allowSorting]="true"
+                                        [allowFiltering]="true"
+                                        [filterSettings]="filterOptions"
+                                        [allowGrouping]="true"
+                                        [allowPdfExport]="true"
+                                        [allowExcelExport]="true"
+                                        (toolbarClick)="toolbarClick($event)"
+                                        [editSettings]="editOptions"
+                                        (rowSelecting)="ChangeAllSelections($event, OrderTypesList)"
+                                        (rowDeselecting)="ChangeAllSelections($event, OrderTypesList)">
+                                        <!-- (rowSelected)= "ChangeOrderTypes($event)" (rowDeselected)="ChangeOrderTypes($event)"
+                                         > -->
+
+                                        <e-columns>
+                                          <e-column
+                                            field="DocumentId"
+                                            isPrimaryKey="true"
+                                            [visible]="false"
+                                            textAlign="center"></e-column>
+                                          <e-column
+                                            field="Name"
+                                            headerText="{{ 'Shared.Name' | translate }}"
+                                            textAlign="center"
+                                            isPrimaryKey="true">
+                                          </e-column>
+
+                                          <e-column
+                                            field="IsSelected"
+                                            textAlign="center"
+                                            headerText="{{ 'Shared.Select' | translate }}"
+                                            type="checkbox"
+                                            [allowFiltering]="false"
+                                            [allowSorting]="false"></e-column>
+                                          <!-- <e-column field='IsSelected' textAlign='center' 
+                                            headerText='{{"Shared.Select"|translate}}' type="boolean"
+                                            editType='booleanedit' [allowFiltering]='false' [allowSorting]='false'>
+                                            <ng-template #template let-data >
+                                              <div>
+                                               <ejs-checkbox #checkbox [checked]='data.IsSelected' (change)="ChangeOrderTypes($event)"[disabled]="gridFlag">
+                                                </ejs-checkbox> 
+                                                
+                                               
+                                              </div>
+                                            </ng-template>
+                                          </e-column> -->
+                                        </e-columns>
+                                      </ejs-grid>
+                                    </div>
+                                  </div>
+
+                                  <div role="tabpanel" class="tab-pane fade" id="tab-2">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <ejs-grid
+                                        #grid2
+                                        id="Grid2"
+                                        [dataSource]="ProductGroupsList"
+                                        [allowPaging]="true"
+                                        [pageSettings]="pageSettings"
+                                        [allowSorting]="true"
+                                        [allowFiltering]="true"
+                                        [filterSettings]="filterOptions"
+                                        [allowGrouping]="true"
+                                        [allowPdfExport]="true"
+                                        [allowExcelExport]="true"
+                                        (toolbarClick)="toolbarClick($event)"
+                                        [editSettings]="editOptions"
+                                        (rowSelecting)="ChangeAllSelections($event, ProductGroupsList)"
+                                        (rowDeselecting)="ChangeAllSelections($event, ProductGroupsList)">
+                                        <e-columns>
+                                          <e-column
+                                            field="Name"
+                                            headerText="{{ 'Shared.Name' | translate }}"
+                                            textAlign="center"
+                                            isPrimaryKey="true">
+                                          </e-column>
+
+                                          <e-column
+                                            field="IsSelected"
+                                            textAlign="center"
+                                            headerText="{{ 'Shared.Select' | translate }}"
+                                            type="checkbox"
+                                            [allowFiltering]="false"
+                                            [allowSorting]="false"></e-column>
+
+                                          <!-- <e-column field='IsSelected' textAlign='center'
+                                            headerText='{{"Shared.Select"|translate}}' type="boolean"
+                                            editType='booleanedit' [allowFiltering]='false' [allowSorting]='false'>
+                                            <ng-template #template let-data>
+                                              <div>
+                                                <ejs-checkbox #checkbox2 [checked]='data.IsSelected'(change)="ChangeProductGroups($event)"  [disabled]="gridFlag">
+                                                </ejs-checkbox>
+                                              </div>
+                                            </ng-template>
+                                          </e-column> -->
+                                        </e-columns>
+                                      </ejs-grid>
+                                    </div>
+                                  </div>
+
+                                  <div role="tabpanel" class="tab-pane fade" id="tab-3">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <!-- (load)='load3($event)' -->
+                                      <ejs-grid
+                                        #grid3
+                                        id="grid3"
+                                        [dataSource]="HallList"
+                                        [allowPaging]="true"
+                                        [pageSettings]="pageSettings"
+                                        [allowSorting]="true"
+                                        [allowFiltering]="true"
+                                        [filterSettings]="filterOptions"
+                                        [allowGrouping]="true"
+                                        [allowPdfExport]="true"
+                                        [allowExcelExport]="true"
+                                        (toolbarClick)="toolbarClick($event)"
+                                        [editSettings]="editOptions"
+                                        (rowSelecting)="ChangeAllSelections($event, HallList)"
+                                        (rowDeselecting)="ChangeAllSelections($event, HallList)">
+                                        <e-columns>
+                                          <e-column
+                                            field="DocumentId"
+                                            isPrimaryKey="true"
+                                            [visible]="false"
+                                            textAlign="center"></e-column>
+                                          <e-column
+                                            field="Name"
+                                            headerText="{{ 'Shared.Name' | translate }}"
+                                            textAlign="center"
+                                            isPrimaryKey="true">
+                                          </e-column>
+
+                                          <e-column
+                                            field="IsSelected"
+                                            textAlign="center"
+                                            headerText="{{ 'Shared.Select' | translate }}"
+                                            type="checkbox"
+                                            [allowFiltering]="false"
+                                            [allowSorting]="false"></e-column>
+
+                                          <!-- <e-column field='IsSelected' textAlign='center'
+                                            headerText='{{"Shared.Select"|translate}}' type="boolean" 
+                                            editType='booleanedit' [allowFiltering]='false' [allowSorting]='false'>
+                                            <ng-template #template let-data>
+                                              <div>
+                                                <ejs-checkbox #checkbox [checked]='data.IsSelected' (change)="ChangeHalls($event)"  [disabled]="gridFlag"
+                                                  >
+                                                </ejs-checkbox>
+                                              </div>
+                                            </ng-template>
+                                          </e-column> -->
+                                        </e-columns>
+                                      </ejs-grid>
+                                    </div>
+                                  </div>
+
+                                  <div role="tabpanel" class="tab-pane fade" id="tab-4">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <!-- (load)='load4($event)' -->
+                                      <ejs-grid
+                                        #grid4
+                                        id="grid4"
+                                        [dataSource]="PointsList"
+                                        [allowPaging]="true"
+                                        [pageSettings]="pageSettings"
+                                        [allowSorting]="true"
+                                        [allowFiltering]="true"
+                                        [filterSettings]="filterOptions"
+                                        [allowGrouping]="true"
+                                        [allowPdfExport]="true"
+                                        [allowExcelExport]="true"
+                                        (toolbarClick)="toolbarClick($event)"
+                                        [editSettings]="editOptions"
+                                        (rowSelecting)="ChangeAllSelections($event, PointsList)"
+                                        (rowDeselecting)="ChangeAllSelections($event, PointsList)">
+                                        <e-columns>
+                                          <e-column
+                                            field="DocumentId"
+                                            isPrimaryKey="true"
+                                            [visible]="false"
+                                            textAlign="center"></e-column>
+                                          <e-column
+                                            field="Name"
+                                            headerText="{{ 'Shared.Name' | translate }}"
+                                            textAlign="center"
+                                            isPrimaryKey="true">
+                                          </e-column>
+
+                                          <e-column
+                                            field="IsSelected"
+                                            textAlign="center"
+                                            headerText="{{ 'Shared.Select' | translate }}"
+                                            type="checkbox"
+                                            [allowFiltering]="false"
+                                            [allowSorting]="false"></e-column>
+
+                                          <!-- <e-column field='IsSelected' textAlign='center'
+                                            headerText='{{"Shared.Select"|translate}}' type="boolean"
+                                            editType='booleanedit' [allowFiltering]='false' [allowSorting]='false'>
+                                            <ng-template #template let-data>
+                                              <div>
+                                                <ejs-checkbox #checkbox [checked]='data.IsSelected' (change)="ChangePoints($event)" [disabled]="gridFlag"
+                                                  >
+                                                </ejs-checkbox>
+                                              </div>
+                                            </ng-template>
+                                          </e-column>
+                                           -->
+                                        </e-columns>
+                                      </ejs-grid>
+                                    </div>
+                                  </div>
+
+                                  <div role="tabpanel" class="tab-pane fade" id="tab-5">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <!-- (load)='load5($event)' -->
+                                      <ejs-grid
+                                        #grid5
+                                        id="grid5"
+                                        [dataSource]="PayTypesList"
+                                        [allowPaging]="true"
+                                        [pageSettings]="pageSettings"
+                                        [allowSorting]="true"
+                                        [allowFiltering]="true"
+                                        [filterSettings]="filterOptions"
+                                        [allowGrouping]="true"
+                                        [allowPdfExport]="true"
+                                        [allowExcelExport]="true"
+                                        (toolbarClick)="toolbarClick($event)"
+                                        [editSettings]="editOptions"
+                                        (rowSelecting)="ChangeAllSelections($event, PayTypesList)"
+                                        (rowDeselecting)="ChangeAllSelections($event, PayTypesList)">
+                                        <e-columns>
+                                          <e-column
+                                            field="Name"
+                                            headerText="{{ 'Shared.Name' | translate }}"
+                                            textAlign="center"
+                                            isPrimaryKey="true">
+                                          </e-column>
+
+                                          <e-column
+                                            field="IsSelected"
+                                            textAlign="center"
+                                            headerText="{{ 'Shared.Select' | translate }}"
+                                            type="checkbox"
+                                            [allowFiltering]="false"
+                                            [allowSorting]="false"></e-column>
+
+                                          <!-- <e-column field='IsSelected' textAlign='center'
+                                            headerText='{{"Shared.Select"|translate}}' type="boolean"
+                                            editType='booleanedit' [allowFiltering]='false' [allowSorting]='false'>
+                                            <ng-template #template let-data>
+                                              <div>
+                                                <ejs-checkbox #checkbox [checked]='data.IsSelected'(change)="ChangePayTypes($event)"  [disabled]="gridFlag"
+                                                 >
+                                                </ejs-checkbox>
+                                              </div>
+                                            </ng-template>
+                                          </e-column> -->
+                                        </e-columns>
+                                      </ejs-grid>
+                                    </div>
+                                  </div>
+
+                                  <div role="tabpanel" class="tab-pane fade" id="tab-6">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <div class="table-responsive">
+                                        <table class="table table-bordered editText text-center">
+                                          <thead>
+                                            <tr class="thead-gray"></tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr ng-repeat="userOption in userOptions">
+                                              <!-- [disabled]="!flagQueryM" -->
+                                              <td>
+                                                <div
+                                                  *ngFor="let option of responseobj.POSUserRoleOptions; let i = index">
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <div class="row justify-content-start align-items-center">
+                                                        <div class="col-md-2">
+                                                          <label class="ms-checkbox-wrap ms-todo-complete">
+                                                            <input
+                                                              type="checkbox"
+                                                              class="form-control borderRadius"
+                                                              name="option{{ i }}"
+                                                              id="{{ i }}"
+                                                              [(ngModel)]="option.IsGranted"
+                                                              [disabled]="gridFlag"
+                                                              (click)="
+                                                                option.IsGranted && option.Name === 'CanAddDiscount'
+                                                                  ? (option.MaxDiscountValue = option.MaxDiscountValue)
+                                                                  : (option.MaxDiscountValue = null)
+                                                              " />
+                                                          </label>
+                                                        </div>
+                                                        <div class="col-md-10 d-flex">
+                                                          <p>
+                                                            {{ "Options." + option.Name | translate }}
+                                                          </p>
+
+                                                          &nbsp;&nbsp; &nbsp; &nbsp;
+                                                          <div
+                                                            *ngIf="
+                                                              option.IsGranted &&
+                                                              (option.Name === 'CanAddDiscount' ||
+                                                                option.Name === 'CanAddDiscountForDetail')
+                                                            ">
+                                                            <!-- appLimit100 -->
+                                                            <input
+                                                              name="maxDiscountInput{{ i }}"
+                                                              type="number"
+                                                              [required]="
+                                                                option.IsGranted &&
+                                                                (option.Name === 'CanAddDiscount' ||
+                                                                  option.Name === 'CanAddDiscountForDetail')
+                                                              " (ngModelChange)="clampInputValue($event, option)"
+                                                              style="width: 80%; height: 80%"
+                                                              [ngModel]="option.MaxDiscountValue" />
+                                                            <span id="maxDiscountPercentageMark{{ i }}">%</span>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div role="tabpanel" class="tab-pane fade" id="tab-7">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <div class="ms-panel-header p-2">
+                                        <div class="col-md-12">
+                                          <div class="row align-items-center">
+                                            <div class="col-md-4">
+                                              <div class="row my-1">
+                                                <div
+                                                  class="col-md-4 d-flex justify-content-center align-items-center label1"></div>
+                                                <div class="col-md-8 paddingLeftz">
+                                                  <div class="input-group editInputGroup">
+                                                    <div class="input-group"></div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="row my-1">
+                                                <div
+                                                  class="col-md-4 d-flex justify-content-center align-items-center label1"></div>
+                                                <div class="col-md-8 paddingLeftz">
+                                                  <div class="input-group editInputGroup">
+                                                    <div class="input-group"></div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="ms-panel-body">
+                                        <div class="row">
+                                          <div class="col-md-12">
+                                            <div class="col-xl-12 col-md-12 col-xs-12">
+                                              <ejs-grid
+                                                #grid7
+                                                id="grid7"
+                                                [dataSource]="ScreensList"
+                                                [allowPaging]="true"
+                                                [pageSettings]="pageSettings"
+                                                [allowSorting]="true"
+                                                [allowFiltering]="true"
+                                                [filterSettings]="filterOptions"
+                                                [allowGrouping]="true"
+                                                [allowPdfExport]="true"
+                                                [allowExcelExport]="true"
+                                                (toolbarClick)="toolbarClick($event)">
+                                                <e-columns>
+                                                  <e-column
+                                                    field="ScreenTranslation"
+                                                    width="200"
+                                                    headerText="Name"
+                                                    isPrimaryKey="true">
+                                                  </e-column>
+                                                  <e-column
+                                                    field="SelectAll"
+                                                    textAlign="center"
+                                                    headerText="Select All"
+                                                    type="boolean"
+                                                    editType="booleanedit"
+                                                    [allowFiltering]="false"
+                                                    [allowSorting]="false">
+                                                    <ng-template #headerTemplate let-data>
+                                                      <div>
+                                                        <ejs-checkbox
+                                                          #checkbox
+                                                          [checked]="isAllChecked"
+                                                          [indeterminate]="isIndeterminate"
+                                                          [label]="data.headerText"
+                                                          labelPosition="Before"
+                                                          (change)="selectAllPermissions($event, data)"
+                                                          [disabled]="gridFlag">
+                                                        </ejs-checkbox>
+                                                      </div>
+                                                    </ng-template>
+                                                    <ng-template #template let-data>
+                                                      <div>
+                                                        <ejs-checkbox
+                                                          #checkbox
+                                                          [checked]="data.SelectAll"
+                                                          (change)="checkboxChangeSelectAll($event)"
+                                                          [disabled]="gridFlag">
+                                                        </ejs-checkbox>
+                                                      </div>
+                                                    </ng-template>
+                                                  </e-column>
+
+                                                  <e-column
+                                                    field="View"
+                                                    textAlign="center"
+                                                    headerText="{{ 'pagetransactions.View' | translate }}"
+                                                    type="boolean"
+                                                    editType="booleanedit"
+                                                    [allowFiltering]="false"
+                                                    [allowSorting]="false">
+                                                    <ng-template #template let-data>
+                                                      <div>
+                                                        <ejs-checkbox
+                                                          #checkbox
+                                                          [checked]="data.View"
+                                                          (change)="checkboxChangeView($event)"
+                                                          [disabled]="gridFlag">
+                                                        </ejs-checkbox>
+                                                      </div>
+                                                    </ng-template>
+                                                  </e-column>
+                                                  <e-column
+                                                    field="New"
+                                                    textAlign="center"
+                                                    headerText="{{ 'pagetransactions.Add' | translate }}"
+                                                    type="boolean"
+                                                    editType="booleanedit"
+                                                    [allowFiltering]="false"
+                                                    [allowSorting]="false">
+                                                    <ng-template #template let-data>
+                                                      <div>
+                                                        <ejs-checkbox
+                                                          #checkbox
+                                                          [checked]="data.New"
+                                                          (change)="checkboxChangeNew($event)"
+                                                          [disabled]="gridFlag">
+                                                        </ejs-checkbox>
+                                                      </div>
+                                                    </ng-template>
+                                                  </e-column>
+                                                  <e-column
+                                                    field="Edit"
+                                                    textAlign="center"
+                                                    headerText="{{ 'pagetransactions.Edit' | translate }}"
+                                                    type="boolean"
+                                                    editType="booleanedit"
+                                                    [allowFiltering]="false"
+                                                    [allowSorting]="false">
+                                                    <ng-template #template let-data>
+                                                      <div>
+                                                        <ejs-checkbox
+                                                          #checkbox
+                                                          [checked]="data.Edit"
+                                                          (change)="checkboxChangeEdit($event)"
+                                                          [disabled]="gridFlag">
+                                                        </ejs-checkbox>
+                                                      </div>
+                                                    </ng-template>
+                                                  </e-column>
+                                                  <e-column
+                                                    field="Delete"
+                                                    textAlign="center"
+                                                    headerText="{{ 'pagetransactions.Delete' | translate }}"
+                                                    type="boolean"
+                                                    editType="booleanedit"
+                                                    [allowFiltering]="false"
+                                                    [allowSorting]="false">
+                                                    <ng-template #template let-data>
+                                                      <div>
+                                                        <ejs-checkbox
+                                                          #checkbox
+                                                          [checked]="data.Delete"
+                                                          (change)="checkboxChangeDelete($event)"
+                                                          [disabled]="gridFlag">
+                                                        </ejs-checkbox>
+                                                      </div>
+                                                    </ng-template>
+                                                  </e-column>
+                                                  <e-column
+                                                    field="Print"
+                                                    textAlign="center"
+                                                    headerText="{{ 'pagetransactions.Print' | translate }}"
+                                                    type="boolean"
+                                                    editType="booleanedit"
+                                                    [allowFiltering]="false"
+                                                    [allowSorting]="false">
+                                                    <ng-template #template let-data>
+                                                      <div>
+                                                        <ejs-checkbox
+                                                          #checkbox
+                                                          [checked]="data.Print"
+                                                          (change)="checkboxChangePrint($event)"
+                                                          [disabled]="gridFlag">
+                                                        </ejs-checkbox>
+                                                      </div>
+                                                    </ng-template>
+                                                  </e-column>
+                                                  <!-- <e-column field='Archive' textAlign='center'
+                                                          headerText="{{'Shared.Archive'|translate}}" type="boolean"
+                                                          editType='booleanedit' [allowFiltering]='false' [allowSorting]='false'>
+                                                          <ng-template #template let-data>
+                                                            <div>
+                                                              <ejs-checkbox #checkbox [checked]='data.Archive' (change)='checkboxChangeArchive($event)'  [disabled]="gridFlag"
+                                                              >
+                                                              </ejs-checkbox>
+                                                            </div>
+                                                          </ng-template>
+                                                        </e-column> -->
+                                                </e-columns>
+                                              </ejs-grid>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                  <div role="tabpanel" class="tab-pane fade" id="tab-8">
+                                    <div class="col-xl-12 col-md-12 col-xs-12">
+                                      <div class="table-responsive">
+                                        <table class="table table-bordered editText text-center">
+                                          <thead>
+                                            <tr class="thead-gray"></tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr ng-repeat="userOptionReport in userOptionReports">
+                                              <!-- [disabled]="!flagQueryM" -->
+                                              <td>
+                                                <div
+                                                  *ngFor="let optionReport of responseobj.POSUserRoleOptionReports ; let i = index">
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                      <div class="row justify-content-start align-items-center">
+                                                        <div class="col-md-2">
+                                                          <label class="ms-checkbox-wrap ms-todo-complete">
+                                                            <input
+                                                              type="checkbox"
+                                                              class="form-control borderRadius"
+                                                              name="optionReport{{ i }}"
+                                                              id="{{ i }}"
+                                                              [(ngModel)]="optionReport.IsGranted"
+                                                              [disabled]="gridFlag"
+                                                              />
+                                                              <!-- (click)="
+                                                              option.IsGranted && option.Name === 'CanAddDiscount'
+                                                                ? (option.MaxDiscountValue = option.MaxDiscountValue)
+                                                                : (option.MaxDiscountValue = null)
+                                                            " -->
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-10 d-flex">
+                                                          <p>
+                                                            {{ "Options." + optionReport.Name | translate }}
+                                                          </p>
+
+                                                          <!-- &nbsp;&nbsp; &nbsp; &nbsp;
+                                                          <div
+                                                            *ngIf="
+                                                              option.IsGranted &&
+                                                              (option.Name === 'CanAddDiscount' ||
+                                                                option.Name === 'CanAddDiscountForDetail')
+                                                            ">
+                                                            <input
+                                                              name="maxDiscountInput{{ i }}"
+                                                              type="number"
+                                                              [required]="
+                                                                option.IsGranted &&
+                                                                (option.Name === 'CanAddDiscount' ||
+                                                                  option.Name === 'CanAddDiscountForDetail')
+                                                              "
+                                                              style="width: 80%; height: 80%"
+                                                              [(ngModel)]="option.MaxDiscountValue" />
+                                                            <span id="maxDiscountPercentageMark{{ i }}">%</span>
+                                                          </div> -->
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

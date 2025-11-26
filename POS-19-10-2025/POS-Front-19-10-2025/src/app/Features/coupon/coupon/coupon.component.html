@@ -1,0 +1,418 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="Promoform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--UseRations-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">{{ "Shared.UseRations" | translate }}:</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                  <input
+                                    type="checkbox"
+                                    name="UseRations"
+                                    #UseRations="ngModel"
+                                    [(ngModel)]="responseobj.UseRations"
+                                    class="form-control borderRadius"
+                                    (ngModelChange)="setValueTypesEnum()"
+                                    [disabled]="!enableChiled"
+                                    />
+                                  <i class="ms-checkbox-check"></i>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                      </div>
+                      <!--Description-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.Description" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="Description"
+                                  #Description="ngModel"
+                                  [(ngModel)]="responseobj.Description"
+                                  id="Description"
+                                  class="form-control borderRadius"
+                                  [disabled]="!enableChiled"
+                                  required />
+                                <!-- required -->
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && Description.invalid) ||
+                                    (Description.invalid && Description.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Description.errors.required">
+                                    {{ "Shared.Description" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                       <!--Code-->
+                       <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <button
+                              style="min-width: fit-content"
+                              class="btn btn-success px-2 py-1"
+                              (click)="generateRandomString()"
+                              [disabled]="!enableChiled">
+                              {{ "Shared.generateCode" | translate }}
+                            </button>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="Code"
+                                  #PointValue="ngModel"
+                                  readonly
+                                  [(ngModel)]="responseobj.Code"
+                                  id="Code"
+                                  class="form-control borderRadius"
+                                  required />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                     
+                      <!--discounttype-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.discounttype" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-credit-card-2-back-fill"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-dropdownlist
+                                    [(ngModel)]="responseobj.DiscountType"
+                                    (ngModelChange)="onDiscountTypeChange()"
+                                    [dataSource]="ValueTypesEnum"
+                                    [fields]="Flds"
+                                    name="DiscountType"
+                                    #DiscountType="ngModel"
+                                    class="form-control borderRadius"
+                                    id="DiscountType_id"
+                                    [enabled]="false"
+                                    required
+                                    placeholder=""></ejs-dropdownlist>
+                                <!-- required -->
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && DiscountType.invalid) ||
+                                    (DiscountType.invalid && DiscountType.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="DiscountType.errors.required">
+                                    {{ "Shared.discounttype" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Value-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.Value" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="number"
+                                  placeholder=""
+                                  name="Value"
+                                  #Value="ngModel"
+                                  [(ngModel)]="responseobj.Value"
+                                  (keyup)="responseobj.DiscountType == 1 && responseobj.Value > 100 ? responseobj.Value = 100 : responseobj.Value"
+                                  id="Value"
+                                  class="form-control borderRadius"
+                                  [disabled]="!enableChiled"
+                                  [required]="true" />
+                                <!-- required -->
+                                <div *ngIf="(frmRef.submitted && Value.invalid) || (Value.invalid && Value.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Value.errors.required">
+                                    {{ "Shared.Value" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!--CouponDate-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row justify-content-start align-items-center">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.CouponDate" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  readonly
+                                  class="pAsolute absolutePosition form-control borderRadius"
+                                  format="dd/MM/yyyy"
+                                  name="CouponDate"
+                                  #CouponDate="ngModel"
+                                  [(ngModel)]="responseobj.CouponDate"
+                                  class="form-control borderRadius Prelative"
+                                  id="CouponDate"
+                                  placeholder="mm/dd/yyyy"
+                                  required
+                                  [min]="minDate"
+                                  [disabled]="!enableChiled"></ejs-datepicker>
+                                <!-- required -->
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && CouponDate.invalid) ||
+                                    (CouponDate.invalid && CouponDate.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="CouponDate.errors.required">
+                                    {{ "Shared.CouponDate" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--ExpireDayNum-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.expiresindayes" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="number"
+                                  placeholder=""
+                                  name="ExpireDayNum"
+                                  #ExpireDayNum="ngModel"
+                                  [(ngModel)]="responseobj.ExpireDayNum"
+                                  id="ExpireDayNum"
+                                  required
+                                  class="form-control borderRadius"
+                                  [disabled]="!enableChiled" />
+                                <!-- required -->
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && ExpireDayNum.invalid) ||
+                                    (ExpireDayNum.invalid && ExpireDayNum.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="ExpireDayNum.errors.required">
+                                    {{ "Shared.expiresindayes" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                       <!--Customer-->
+                       <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">{{ "Shared.customergrouplist" | translate }}:</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-multiselect
+                                  name="CustomerGroupDocumentId"
+                                  #CustomerGroupDocumentId="ngModel"
+                                  [(ngModel)]="responseobj.CustomerGroups"
+                                  [allowFiltering]="true"
+                                  [allowCustomValue]="false"
+                                  [dataSource]="CustomerGroups"
+                                  placeholder="Select CustomerGroups"
+                                  [disabled]="!enableChiled"
+                                  [fields]="FldDocumentId"
+                                  [sortOrder]="sorting"
+                                  class="form-control borderRadius"
+                                  (ngModelChange)="disableCountsInputs()"
+                                  id="CustomerGroups_id"></ejs-multiselect>
+                                <!-- <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="
+                                    (frmRef.submitted && CustomerGroupDocumentId?.invalid) ||
+                                    (CustomerGroupDocumentId.invalid && CustomerGroupDocumentId.touched)
+                                  ">
+                                  <div *ngIf="CustomerGroupDocumentId.errors.required">CustomerGroups Is Required</div>
+                                </div> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--UseCountPerCustomer-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                               {{ !responseobj.UseRations ? ("Shared.UseCountPerCustomer" | translate) :("Shared.UseCountPerCustomerPerDay" | translate)  }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="number"
+                                  name="UseCountPerCustomer"
+                                  #UseCountPerCustomer="ngModel"
+                                  [(ngModel)]="responseobj.UseCountPerCustomer"
+                                  id="UseCountPerCustomer"
+                                  class="form-control borderRadius"
+                                  [readOnly]="!responseobj?.CustomerGroups?.length"
+                                  [required]="responseobj?.CustomerGroups?.length"
+                                   />
+                                <!-- required -->
+                                <div *ngIf="(frmRef.submitted && UseCountPerCustomer.invalid) || (UseCountPerCustomer.invalid && UseCountPerCustomer.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="UseCountPerCustomer.errors.required">
+                                    {{ "Shared.UseCountPerCustomer" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--UseCountPerCoupon-->
+                      <div class="col-md-6 mb-3" *ngIf="!responseobj.UseRations">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.UseCountPerCoupon" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="number"
+                                  placeholder=""
+                                  name="UseCountPerCoupon"
+                                  #UseCountPerCoupon="ngModel"
+                                  [(ngModel)]="responseobj.UseCountPerCoupon"
+                                  id="UseCountPerCoupon"
+                                  class="form-control borderRadius"
+                                  [disabled]="!enableChiled || responseobj?.CustomerGroups?.length"
+                                  [required]="!responseobj?.CustomerGroups?.length"
+                                   />
+                                <!-- required -->
+                                <div *ngIf="(frmRef.submitted && UseCountPerCoupon.invalid) || (UseCountPerCoupon.invalid && UseCountPerCoupon.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="UseCountPerCoupon.errors.required">
+                                    {{ "Shared.UseCountPerCoupon" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                     
+                      <!--Products-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label> {{ "Shared.OfferAppliesToProducts" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <ejs-multiselect
+                                name="productDocumentId"
+                                [disabled]="!enableChiled"
+                                class="form-control borderRadius"
+                                #productDocumentId="ngModel"
+                                [(ngModel)]="responseobj.ProductsIds"
+                                (ngModelChange)="setValueTypesEnum()"
+                                [dataSource]="products"
+                                [fields]="FldDocumentId">
+                                <!-- (ngModelChange)="SelectProducts(selectedProductDocumentId)" -->
+                                <!-- placeholder="{{ 'Order.OrderType' | translate }}" -->
+                              </ejs-multiselect>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

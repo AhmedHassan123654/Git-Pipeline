@@ -1,0 +1,61 @@
+.e-grid .e-rowcell:not(.e-editedbatchcell),
+.e-grid .e-detailrowcollapse:not(.e-editedbatchcell),
+.e-grid .e-detailrowexpand:not(.e-editedbatchcell),
+.e-grid .e-gridcontent .e-rowdragdrop:not(.e-editedbatchcell),
+.e-grid .e-gridheader .e-rowdragdrop:not(.e-editedbatchcell),
+.e-grid .e-emptyrow:not(.e-editedbatchcell) {
+  color: #000;
+  opacity: 1;
+}
+.table-bordered td,
+.table-bordered th {
+  border: 1px solid gray;
+}
+
+.navbar {
+  border: 1px solid transparent !important;
+}
+
+.restaurantName4 svg {
+  fill: #4f8dca !important;
+}
+.borderEditPagetrans {
+  border-radius: 7px;
+  border: 1px solid #dfdfdf;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: transparent;
+}
+
+.reportTypeBtn .btnEdit {
+  transition: all 0.2s;
+  border: 1px solid darkgreen;
+  background-color: #fff;
+}
+.reportTypeBtn .btnEdit:hover,
+.reportTypeBtn .btnEdit:focus,
+.reportTypeBtn.active .btnEdit {
+  min-width: 80px !important;
+  padding: 0.325rem 0.7rem !important;
+  transform: scale(1.1);
+  background-color: darkgreen;
+  color: #fff;
+}
+.nav-link {
+  padding: 0.5rem !important;
+}
+.Tabset .nav-tabs li {
+  flex: 1 1 auto;
+  max-width: fit-content;
+  margin: 0 2px;
+}
+.btn-danger .fa-bar-chart {
+  font-size: 22px;
+}
+.btn-danger .fa-eye {
+  font-size: 16px;
+}
+svg {
+  width: 100% !important;
+}

@@ -1,0 +1,142 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-md-6 paddingLeftz" *ngIf="!settings?.OrderInsuranceHideList">
+  <div class="input-group editInputGroup">
+    <div class="input-group-addon">
+      <i class="fas fa-user" aria-hidden="true"></i>
+    </div>
+    <div class="input-group">
+      <input
+        #searchKeyList
+        name="searchKeyList"
+        class="form-control"
+        type="text"
+        [(ngModel)]="searchKey"
+        (keyup)="filterList($event)"
+        [placeholder]="'Shared.searchByPhoneorNumberorInssuranceNum' | translate"
+        />
+    </div>
+  </div>
+</div>
+<div class="col-md-6 paddingLeftz" *ngIf="settings?.OrderInsuranceHideList">
+  <div class="input-group editInputGroup">
+    <div class="input-group-addon">
+      <i class="fas fa-user" aria-hidden="true"></i>
+    </div>
+    <div class="input-group">
+      <input
+        #searchKeyList
+        name="searchKeyList"
+        class="form-control"
+        type="text"
+        [(ngModel)]="searchKey"
+        [placeholder]="'Shared.searchByPhoneorNumber' | translate"
+        />
+    </div>
+    <div class="input-group-append">
+      <button
+        class="btn btn-primary"
+        type="button"
+        (click)="filterListFromBtn(searchKey)">
+        <i class="fas fa-search"></i>
+      </button>
+    </div> 
+   </div>
+</div>
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        (rowSelected)="onRowSelected($event)"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions">
+        <e-columns>
+          <e-column
+            field="SerialNumber"
+            headerText="{{ 'Reports.SerialNumber' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="Description"
+            headerText="{{ 'CashReceipt.lbldescription' | translate }}"
+            [isPrimaryKey]="true"
+            textAlign="center"></e-column>
+          <e-column
+            field="CustomerName"
+            headerText="{{ 'returninsurance.CustomerName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="CustomerPhone"
+            headerText="{{ 'Shared.customerPhone' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="CreationTime"
+            headerText="{{ 'CashReceipt.Date' | translate }}"
+            [format]="format"
+            type="date"
+            textAlign="left"></e-column>
+
+          <e-column
+            field="hasReturn"
+            headerText="{{ 'CashReceipt.hasReturn' | translate }}"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <ng-template #template let-data>
+              <div>
+                <input type="checkbox" disabled name="hasReturn" id="hasReturn" [checked]="data.hasReturn" />
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column field="Amount" headerText="{{ 'CashReceipt.amount' | translate }}" textAlign="left"></e-column>
+          <e-column
+            field="ReturnAmount"
+            headerText="{{ 'CashReceipt.ReturnAmount' | translate }}"
+            textAlign="left"></e-column>
+          <e-column
+            field="ReturnInsuranceSerialNumber"
+            headerText="{{ 'CashReceipt.ReturnInsuranceSerialNumber' | translate }}"
+            textAlign="left"></e-column>
+          <e-column
+            field="IsSync"
+            headerText="{{ 'Shared.IsSync' | translate }}"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <e-column headerText="{{ 'delivery.Actions' | translate }}" textAlign="center">
+              <ng-template #template let-data>
+                <div class="center d-flex align-items-center">
+                  <button
+                    style="min-width: 90px"
+                    [disabled]="data.Amount === data.ReturnAmount"
+                    type="button"
+                    (click)="MakeReturnInsurance(data)"
+                    class="btn btn-pill btn-success p-1 has-icon my-0 mx-1">
+                    {{ "Shared.ShowReturnInsurance" | translate }}
+                  </button>
+                </div>
+              </ng-template>
+            </e-column>
+            <ng-template #template let-data>
+              <div>
+                <input type="checkbox" disabled name="IsSync" id="IsSync" [checked]="data.IsSync" />
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

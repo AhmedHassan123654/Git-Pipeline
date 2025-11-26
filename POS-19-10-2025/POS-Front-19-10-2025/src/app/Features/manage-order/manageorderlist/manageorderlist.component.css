@@ -1,0 +1,28 @@
+input::-webkit-calendar-picker-indicator {
+  color: transparent !important;
+}
+.ordSearch {
+  display: flex;
+  justify-content: center;
+}
+.e-grid .e-rowcell {
+  padding: 0;
+}
+.e-grid .e-rowcell:not(.e-editedbatchcell),
+.e-grid .e-detailrowcollapse:not(.e-editedbatchcell),
+.e-grid .e-detailrowexpand:not(.e-editedbatchcell),
+.e-grid .e-gridcontent .e-rowdragdrop:not(.e-editedbatchcell),
+.e-grid .e-gridheader .e-rowdragdrop:not(.e-editedbatchcell),
+.e-grid .e-emptyrow:not(.e-editedbatchcell) {
+  color: #000;
+  opacity: 1 !important;
+}
+@media (max-width: 1200px) { 
+    :host ::ng-deep .modal-dialog {
+            zoom: .6 !important;
+        }
+
+    :host ::ng-deep .modal-content {
+            height: 100rem !important;
+        }
+}

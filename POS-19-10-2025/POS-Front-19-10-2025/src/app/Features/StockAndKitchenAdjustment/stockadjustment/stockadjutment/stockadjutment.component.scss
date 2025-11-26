@@ -1,0 +1,19 @@
+.master {
+  margin-bottom: 10px;
+  background-color: #cce0f6;
+  height: auto;
+  margin-top: 6px;
+  border-radius: 4px;
+  .content {
+    padding: 16px 8px;
+  }
+}
+.table {
+  .quantity {
+    width: 10%;
+    input {
+      padding: 4px;
+      text-align: center;
+    }
+  }
+}

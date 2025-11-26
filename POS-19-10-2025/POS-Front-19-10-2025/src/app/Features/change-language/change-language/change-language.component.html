@@ -1,0 +1,112 @@
+<form name="ٌchangClanguageform" class="col-md-12" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="ms-panel-fh">
+        <div class="cont">
+          <div class="ms-panel rounded">
+            <div class="ms-panel-body clearfix">
+              <div class="tab-content">
+                <div class="row">
+                  <div class="col-md-12 mb-3">
+                    <div class="row">
+                      <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom19"> {{ "Layout.Language" | translate }} : </label>
+                      </div>
+                      <div class="col-md-4 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="input-group-addon">
+                            <i class="fas fa-language"></i>
+                          </div>
+                          <div class="input-group positionEdit">
+                            <ejs-combobox
+                              class="form-control borderRadius"
+                              name="LanguageId"
+                              #LanguageId="ngModel"
+                              [(ngModel)]="Object.LanguageId"
+                              id="language_id"
+                              [dataSource]="languages"
+                              [autofill]="true"
+                              [allowFiltering]="true"
+                              placeholder="Select Language"
+                              [fields]="fields"
+                              [(value)]="combovalLanguage">
+                            </ejs-combobox>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" class="btn btn-info btnEdit has-icon m-0" (click)="getdata()">
+                          <i class="material-icons">arrow_upward</i>
+                          {{ "Shared.Show" | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <div class="row">
+                      <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                        <label for="validationCustom19"> {{ "Shared.Import" | translate }} : </label>
+                      </div>
+                      <div class="col-md-4 paddingLeftz">
+                        <div class="input-group editInputGroup">
+                          <div class="custom-file">
+                            <input
+                              value="{{ fileUploaded }}"
+                              type="file"
+                              class="custom-file-input"
+                              id="customFile"
+                              class="form-control"
+                              (change)="uploadedFile($event)"
+                              placeholder="Upload file"
+                              accept=".xlsx" />
+                            <!--  <label class="custom-file-label" for="customFile">{{namefile}}</label> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" class="btn btn-info btnEdit has-icon m-0" (click)="readAsJson()">
+                          <i class="material-icons">arrow_upward</i>
+                          {{ "Shared.Getdatafromfile" | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="ms-card">
+        <div class="ms-card-body">
+          <button class="btn btn-success" (click)="btnClicked()">
+            <i class="fa fa-file-excel-o" style="font-size: 20px; color: black">
+              &nbsp; {{ "Shared.ExportToExcel" | translate }}</i
+            >
+          </button>
+          <ejs-grid
+            #grid
+            id="Grid"
+            [dataSource]="gridList"
+            [allowPaging]="true"
+            [pageSettings]="pageSettings"
+            [allowSorting]="true"
+            [allowFiltering]="true"
+            [filterSettings]="filterOptions"
+            [allowGrouping]="true"
+            [allowExcelExport]="true"
+            (toolbarClick)="toolbarClick($event)">
+            <e-columns>
+              <e-column field="description" headerText="description" textAlign="center"></e-column>
+              <e-column field="key" headerText="key" textAlign="left"></e-column>
+              <e-column field="value" headerText="value" textAlign="left"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

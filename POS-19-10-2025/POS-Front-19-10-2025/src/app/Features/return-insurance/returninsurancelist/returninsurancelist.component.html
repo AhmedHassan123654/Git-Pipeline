@@ -1,0 +1,62 @@
+<!-- Body Content Wrapper -->
+
+<ol class="breadcrumb breadcrumb-arrow-sep pb-0">
+  <li class="breadcrumb-item">
+    <a class="styleAll" [routerLink]="['/home']" routerLinkActive="router-link-active"
+      ><i class="material-icons" style="font-size: 1.2rem">home</i>
+      {{ "ReturnOrder.Home" | translate }}
+    </a>
+  </li>
+  <li class="breadcrumb-item">
+    <a class="styleAll" [routerLink]="['/returninsurancelist']" routerLinkActive="router-link-active" class="active"
+      ><i class="material-icons" style="font-size: 1.2rem"></i>
+      {{
+        "Shared.Return
+          Insurance List" | translate
+      }}</a
+    >
+  </li>
+</ol>
+
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #grid
+        id="Grid"
+        [dataSource]="returnInsurances"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions"
+        (actionBegin)="onResource($event)">
+        <e-columns class="d-flex">
+          <e-column field="OrderNumber" headerText="Order Number" textAlign="center"> </e-column>
+          <e-column field="CloseDate" headerText="Date" textAlign="center"></e-column>
+          <e-column field="CustomerName" headerText="CustomerName" textAlign="left"></e-column>
+          <e-column field="CustomerPhone" headerText="CustomerPhone" textAlign="left"></e-column>
+          <e-column field="TotalInsuranceAmount" headerText="Total Insurance" textAlign="center"></e-column>
+          <e-column headerText="Actions" [commands]="commands" textAlign="center"></e-column>
+          <!-- <e-column width='200' headerText='Actions'>
+                <ng-template #template>
+                  <div class="center">
+                    <a (click)="onResourceEdit($event)" title="Edit">
+                      <span class="e-edit e-icons">
+                        <i class="e-flat"></i>
+                      </span>
+                    </a>
+                  </div>
+                </ng-template>
+              </e-column> -->
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

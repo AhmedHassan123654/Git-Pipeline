@@ -1,0 +1,1278 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="pointofsaleform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="">
+                  <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0 pt-1" role="tablist">
+                    <li class="px-0" id="tab1" role="presentation">
+                      <a
+                        href="#tab-1"
+                        aria-controls="tab-1"
+                        class="active basic-info py-2"
+                        role="tab"
+                        data-toggle="tab">
+                        {{ "Shared.pointofsales" | translate }}
+                      </a>
+                    </li>
+
+                    <li class="px-2" id="tab2" role="presentation" *ngIf="responseobj.UsePaymentDevices">
+                      <a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab" class="basic-info py-2">
+                        {{ "pointofsale.PaymentDevices" | translate }}</a
+                      >
+                    </li>
+
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                </div>
+
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="tab-content needs-validation clearfix" novalidate>
+                      <!--1-->
+                      <!-- First Tab -->
+                      <div role="tabpanel" class="tab-pane active show fade in" id="tab-1">
+                        <div class="form-row pt-3">
+                          <!--Name-->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="name"> {{ "pointofsale.Name" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      class="form-control borderRadius"
+                                      id="name"
+                                      name="Name"
+                                      #Name="ngModel"
+                                      [(ngModel)]="responseobj.Name"
+                                      disabled
+                                      required />
+                                  </div>
+
+                                  <div
+                                    class=""
+                                    *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--Foreign name-->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="foreignname"> {{ "pointofsale.ForeignName" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      disabled
+                                      class="form-control borderRadius"
+                                      name="FName"
+                                      #FName="ngModel"
+                                      [(ngModel)]="responseobj.FName"
+                                      id="foreignname" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--Device Name-->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="devicename"> {{ "pointofsale.DeviceName" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-desktop"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      type="text"
+                                      disabled
+                                      class="form-control borderRadius"
+                                      name="DeviceName"
+                                      #DeviceName="ngModel"
+                                      [(ngModel)]="responseobj.DeviceName"
+                                      id="devicename"
+                                      required />
+
+                                    <div
+                                      *ngIf="
+                                        (frmRef.submitted && DeviceName.invalid) ||
+                                        (DeviceName.invalid && DeviceName.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="DeviceName.errors.required">
+                                        {{ "pointofsale.DeviceNameIsRequired" | translate }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- MachineCode-->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="branchname"> {{ "pointofsale.MachineCode" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-code-branch"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      type="text"
+                                      [numbersOnly]="responseobj.MachineCode"
+                                      [allowDecimals]="false"
+                                      disabled
+                                      class="form-control borderRadius"
+                                      name="MachineCode"
+                                      #MachineCode="ngModel"
+                                      [(ngModel)]="responseobj.MachineCode"
+                                      id="MachineCode" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="printername"> {{ "Shared.DefultOrderType" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-print"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <ejs-combobox
+                                      [enabled]="false"
+                                      placeholder="Order Type"
+                                      class="form-control borderRadius"
+                                      id="OrderTypeId"
+                                      name="OrderTypeId"
+                                      #OrderTypeId="ngModel"
+                                      [(ngModel)]="responseobj.OrderTypeId"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      [dataSource]="ApplaiedOrderTypeList"
+                                      [fields]="Flds"></ejs-combobox>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- MultiOrderTypeList-->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="branchname"> {{ "pointofsale.ApplaiedTo" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-code-branch"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <ejs-multiselect
+                                      name="ApplaiedToOrderTypeList"
+                                      #OrderTypeList="ngModel"
+                                      class="form-control"
+                                      [(ngModel)]="responseobj.ApplaiedToOrderTypeList"
+                                      [dataSource]="ApplaiedOrderTypeList"
+                                      [fields]="Flds"
+                                      placeholder="POS Order Types"
+                                      id="ApplaiedToOrderTypeList"
+                                      [enabled]="false"></ejs-multiselect>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Branch Name -->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="branchname"> {{ "pointofsale.BranchName" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-code-branch"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <!--  <input type="text"disabled
+                                        class="form-control borderRadius" 
+                                        name="BranchName" #BranchName="ngModel"
+                                        [(ngModel)]="responseobj.BranchName"
+                                        id="branchname" readonly /> -->
+                                    <ejs-combobox
+                                      [enabled]="false"
+                                      placeholder="branch"
+                                      class="form-control borderRadius"
+                                      id="BranchDocumentId"
+                                      name="BranchDocumentId"
+                                      #BranchDocumentId="ngModel"
+                                      [(ngModel)]="responseobj.BranchDocumentId"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      [dataSource]="BranchList"
+                                      [fields]="BranchFlds"
+                                      required></ejs-combobox>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--Pricing Class-->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="pricingclassid"> {{ "pointofsale.PricingClass" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-money-check-alt"></i>
+                                  </div>
+                                  <!-- (focusout)="checkPricingClass()" -->
+                                  <div class="input-group positionEdit">
+                                    <ejs-combobox
+                                      [enabled]="false"
+                                      placeholder="{{ 'pointofsale.SelectPrincingClass' | translate }}"
+                                      class="form-control borderRadius"
+                                      id="pricingclassid"
+                                      name="PricingClassId"
+                                      #PricingClassId="ngModel"
+                                      [(ngModel)]="responseobj.PricingClassId"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      [dataSource]="PricingClassList"
+                                      [fields]="PricingClassFlds"></ejs-combobox>
+
+                                    <!-- <div *ngIf="
+                                          (frmRef.submitted && PricingClassId.invalid) ||
+                                          (PricingClassId.invalid && PricingClassId.touched)
+                                        ">
+                                        <div class="alert alert-danger editAlertCash" *ngIf="PricingClassId.errors.required">
+                                          {{'pointofsale.PricingClassIsRequired'|translate}}
+                                        </div>
+                                      </div>  -->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Printer Name -->
+                          <div *ngIf="!settings.IsCloud && !IsMainServer" class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="printername"> {{ "pointofsale.PrinterName" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-print"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <ejs-combobox
+                                      [enabled]="false"
+                                      placeholder="{{ 'pointofsale.SelectPrinter' | translate }}"
+                                      class="form-control borderRadius"
+                                      id="printername"
+                                      name="PrinterName"
+                                      #PrinterName="ngModel"
+                                      [(ngModel)]="responseobj.PrinterName"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      required
+                                      [dataSource]="NetworkPrinterList"
+                                      [fields]="NetworkPrinterFlds"
+                                      aria-required="Required">
+                                    </ejs-combobox>
+                                    <div
+                                      *ngIf="
+                                        (frmRef.submitted && PrinterName.invalid) ||
+                                        (PrinterName.invalid && PrinterName.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="PrinterName.errors.required">
+                                        {{ "Printer.validprintername" | translate }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Printer Name -->
+                          <div *ngIf="settings.IsCloud || IsMainServer" class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="printername"> {{ "pointofsale.PrinterName" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-print"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      class="form-control borderRadius"
+                                      id="PrinterName"
+                                      name="PrinterName"
+                                      #PrinterName="ngModel"
+                                      [(ngModel)]="responseobj.PrinterName"
+                                      disabled />
+                                    <div
+                                      *ngIf="
+                                        (frmRef.submitted && PrinterName.invalid) ||
+                                        (PrinterName.invalid && PrinterName.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="PrinterName.errors.required">
+                                        {{ "Printer.validprintername" | translate }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- StockId -->
+                          <div *ngIf="settings.DealingWithStockAs == 3" class="col-md-6 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label> {{ "stock.Stock" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-print"></i>
+                                  </div>
+
+                                  <div class="input-group positionEdit">
+                                    <ejs-combobox
+                                      [enabled]="enableChiled"
+                                      placeholder="{{ 'stock.SelectStock' | translate }}"
+                                      class="form-control borderRadius"
+                                      id="StockId"
+                                      name="StockId"
+                                      #StockId="ngModel"
+                                      [(ngModel)]="responseobj.StockId"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      required
+                                      [dataSource]="StockList"
+                                      [fields]="FLGID"
+                                      aria-required="Required">
+                                    </ejs-combobox>
+                                    <div *ngIf="(frmRef.submitted && StockId.invalid) || (StockId.invalid && StockId.touched)">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="StockId.errors.required">  Stock is required </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--ReportPath-->
+                          <div class="col-md-6 mb-4">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="name"> {{ "pointofsale.ReportPath" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      class="form-control borderRadius"
+                                      id="ReportsPath"
+                                      name="ReportsPath"
+                                      #ReportsPath="ngModel"
+                                      [(ngModel)]="responseobj.ReportsPath"
+                                      disabled />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--OrdersSequenceFrom-->
+                          <div *ngIf="settings && settings.OrderNumberGenerationType == 30" class="col-md-6 mb-4">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="name">
+                                  {{ "pointofsale.OrdersSequenceFrom" | translate }}
+                                  :
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      type="number"
+                                      class="form-control borderRadius"
+                                      disabled
+                                      id="OrdersSequenceFrom"
+                                      name="OrdersSequenceFrom"
+                                      #OrdersSequenceFrom="ngModel"
+                                      [(ngModel)]="responseobj.OrdersSequenceFrom" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--OrdersSequenceTo-->
+                          <div *ngIf="settings && settings.OrderNumberGenerationType == 30" class="col-md-6 mb-4">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="name">
+                                  {{ "pointofsale.OrdersSequenceTo" | translate }}
+                                  :
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      type="number"
+                                      class="form-control borderRadius"
+                                      disabled
+                                      id="OrdersSequenceTo"
+                                      name="OrdersSequenceTo"
+                                      #OrdersSequenceTo="ngModel"
+                                      [(ngModel)]="responseobj.OrdersSequenceTo" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--Auth/ unAuth-->
+                          <div class="col-md-6 mb-4" *ngIf="showAuth">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="pricingclassid"> {{ "Shared.authorUnath" | translate }} : </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz" *ngIf="showAuthBtn">
+                                <button
+                                  [disabled]="!enableChiled && settings && !settings.PullAllTablesFromPOS"
+                                  name="Auth"
+                                  #Auth="ngModel"
+                                  [(ngModel)]="responseobj.Auth"
+                                  ngDefaultControl
+                                  type="button"
+                                  style="color: #fff"
+                                  class="btn m-0 p-2"
+                                  (click)="clickedATH()"
+                                  [ngStyle]="{
+                                    'background-color': ClickedAuthor ? 'green' : 'gray'
+                                  }">
+                                  {{ AuthoStringVal }}
+                                </button>
+                              </div>
+                              <div class="col-md-8 paddingLeftz" *ngIf="showAuthParag">
+                                <p>Authorized to other device</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--download exe for printing-->
+                          <div class="col-md-6 mb-4" *ngIf="settings.IsCloud">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="pricingclassid">
+                                  {{ "Shared.downloadPrintingEXE" | translate }}
+                                  :
+                                </label>
+                              </div>
+                              <a class="col-md-8 paddingLeftz" style="cursor: pointer" (click)="downloadExe()">
+                                <i class="fa fa-download"></i>
+                              </a>
+                            </div>
+                          </div>
+
+                          <!--checkbox-->
+                          <div class="col-md-12 mb-4">
+                            <div class="row pl-xs-0 pl-sm-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1"></div>
+                              <div class="col-md-12 paddingLeftz">
+                                <div class="input-group editInputGroup py-4">
+                                  <div class="input-group positionEdit justify-content-start">
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          disabled
+                                          class="form-control borderRadius"
+                                          id="istabletdevice"
+                                          name="IsTabletDevice"
+                                          #IsTabletDevice="ngModel"
+                                          [(ngModel)]="responseobj.IsTabletDevice" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">
+                                        {{ "pointofsale.TabletDevice" | translate }}
+                                      </label>
+                                    </div>
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          disabled
+                                          class="form-control borderRadius"
+                                          id="ishallposid"
+                                          name="IsHallPos"
+                                          #IsHallPos="ngModel"
+                                          [(ngModel)]="responseobj.IsHallPos" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1"> {{ "pointofsale.HallPos" | translate }}</label>
+                                    </div>
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                        type="checkbox"
+                                        value=""
+                                        disabled
+                                        class="form-control borderRadius"
+                                        id="ismobileposid"
+                                        name="IsMobilePos"
+                                        #IsMobilePos="ngModel"
+                                        [(ngModel)]="responseobj.IsMobilePos" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">{{ "pointofsale.MobilePos" | translate }}</label>
+                                    </div>
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          disabled
+                                          class="form-control borderRadius"
+                                          id="ShowPinAfterPayment"
+                                          name="ShowPinAfterPayment"
+                                          #ShowPinAfterPayment="ngModel"
+                                          [(ngModel)]="responseobj.ShowPinAfterPayment" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1"> {{ "pointofsale.ShowPinAfterPayment" | translate }}</label>
+                                    </div>
+
+                                    <!-- Call Center -->
+                                    <div class="px-2" *ngIf="!responseobj.ReceiveCallCenter">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          [disabled]="!enableChiled"
+                                          class="form-control borderRadius"
+                                          id="IsCallCenterid"
+                                          name="IsCallCenter"
+                                          #IsCallCenter="ngModel"
+                                          [(ngModel)]="responseobj.IsCallCenter" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">{{ "pointofsale.IsCallCenter" | translate }}</label>
+                                    </div>
+                                    <!-- Payment Button Directly-->
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          [disabled]="!enableChiled"
+                                          class="form-control borderRadius"
+                                          id="PaymentButtonDirectly"
+                                          name="PaymentButtonDirectly"
+                                          #PaymentButtonDirectly="ngModel"
+                                          [(ngModel)]="responseobj.PaymentButtonDirectly" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">{{ "pointofsale.PaymentButtonDirectly" | translate }}</label>
+                                    </div>
+                                    <div class="px-2" *ngIf="!responseobj.IsCallCenter">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          [disabled]="!enableChiled"
+                                          class="form-control borderRadius"
+                                          id="ReceiveCallCenter"
+                                          name="ReceiveCallCenter"
+                                          #ReceiveCallCenter="ngModel"
+                                          [(ngModel)]="responseobj.ReceiveCallCenter" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">{{ "pointofsale.ReceiveCallCenter" | translate }}</label>
+                                    </div>
+                                    <div class="px-2" *ngIf="responseobj.ReceiveCallCenter">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          [disabled]="!enableChiled"
+                                          class="form-control borderRadius"
+                                          id="LinkWithOnlineOrder"
+                                          name="LinkWithOnlineOrder"
+                                          #LinkWithOnlineOrder="ngModel"
+                                          [(ngModel)]="responseobj.LinkWithOnlineOrder" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">{{ "pointofsale.LinkWithOnlineOrder" | translate }}</label>
+                                    </div>
+                                    <div class="px-2" *ngIf="responseobj.ReceiveCallCenter && responseobj.LinkWithOnlineOrder">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          [disabled]="!enableChiled"
+                                          class="form-control borderRadius"
+                                          id="ReceiveAutomaticCallCenter"
+                                          name="ReceiveAutomaticCallCenter"
+                                          #ReceiveAutomaticCallCenter="ngModel"
+                                          [(ngModel)]="responseobj.ReceiveAutomaticCallCenter" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">{{ "pointofsale.ReceiveAutomaticCallCenter" | translate }}</label>
+                                    </div>
+                                    
+                                    <!-- PaymentMachine -->
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          disabled
+                                          class="form-control borderRadius"
+                                          id="UsePaymentDevices"
+                                          name="UsePaymentDevices"
+                                          #UsePaymentDevices="ngModel"
+                                          [(ngModel)]="responseobj.UsePaymentDevices" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">
+                                        {{ "pointofsale.UsePaymentDevices" | translate }}
+                                      </label>
+                                    </div>
+
+                                    <!-- LoginByPin -->
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          disabled
+                                          class="form-control borderRadius"
+                                          id="LoginByPin"
+                                          name="LoginByPin"
+                                          #LoginByPin="ngModel"
+                                          [(ngModel)]="responseobj.LoginByPin" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">
+                                        {{ "PosSettings.LoginByPin" | translate }}
+                                      </label>
+                                    </div>
+                                    
+                                    <!-- UsingDrawer -->
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          disabled
+                                          class="form-control borderRadius"
+                                          id="UsingDrawer"
+                                          name="UsingDrawer"
+                                          #UsingDrawer="ngModel"
+                                          [(ngModel)]="responseobj.UsingDrawer" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">
+                                        {{ "PosSettings.UsingDrawer" | translate }}
+                                      </label>
+                                    </div>
+
+                                    <!-- UseScaler -->
+                                    <div class="px-2">
+                                      <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                        <input
+                                          type="checkbox"
+                                          value=""
+                                          disabled
+                                          class="form-control borderRadius"
+                                          id="UseScaler"
+                                          name="UseScaler"
+                                          #UseScaler="ngModel"
+                                          [(ngModel)]="responseobj.UseScaler" />
+                                        <i class="ms-checkbox-check"></i>
+                                      </label>
+                                      <label class="px-1">
+                                        {{ "PosSettings.UseScaler" | translate }}
+                                      </label>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- DrawerType -->
+                          <div *ngIf="responseobj.UsingDrawer" class="col-md-6 mb-4">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-6 d-flex justify-content-start align-items-center label1">
+                                <label for="name">
+                                  {{ "PosSettings.DrawerType" | translate }}
+                                </label>
+                                <span class="required-asterisk px-1 mb-3"> * </span>
+                              </div>
+                              <div class="col-md-6 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-sort-numeric-up"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <ejs-combobox
+                                      class="form-control"
+                                      name="DrawerType"
+                                      #DrawerType="ngModel"
+                                      [(ngModel)]="responseobj.DrawerType"
+                                      id="DrawerType_id"
+                                      [dataSource]="DrawerTypes"
+                                      [autofill]="true"
+                                      [allowFiltering]="true"
+                                      placeholder="Select Drawer Type"
+                                      [fields]="fields">
+                                    </ejs-combobox>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- DrawerCOMPort -->
+                          <div *ngIf="responseobj.UsingDrawer && responseobj.DrawerType == 1" class="col-md-6 mb-4">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-6 d-flex justify-content-start align-items-center label1">
+                                <label for="name">
+                                  {{ "PosSettings.DrawerCOMPort" | translate }}
+                                </label>
+                                <span class="required-asterisk px-1 mb-3"> * </span>
+                              </div>
+                              <div class="col-md-6 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-sort-numeric-up"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      class="form-control borderRadius"
+                                      name="DrawerCOMPort"
+                                      placeholder="COM3"
+                                      #DrawerCOMPort="ngModel"
+                                      [(ngModel)]="responseobj.DrawerCOMPort"
+                                      required
+                                      type="text" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--CallCenterUrl-->
+                          <div class="col-md-6 mb-4" *ngIf="responseobj.ReceiveCallCenter">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="CallCenterUrl">
+                                  {{ "pointofsale.CallCenterUrl" | translate }}
+                                  :
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      class="form-control borderRadius"
+                                      id="CallCenterUrl"
+                                      name="CallCenterUrl"
+                                      #CallCenterUrl="ngModel"
+                                      [(ngModel)]="responseobj.CallCenterUrl"
+                                      [disabled]="!enableChiled"
+                                      required />
+                                  </div>
+
+                                  <div
+                                    class=""
+                                    *ngIf="
+                                      (frmRef.submitted && CallCenterUrl.invalid) ||
+                                      (CallCenterUrl.invalid && CallCenterUrl.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="CallCenterUrl.errors.required">
+                                      CallCenterUrl Is Required
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div class="col-md-3 mr-5" style="margin-top: -7px" *ngIf="!showProgressbar">
+                            <button
+                              *ngIf="
+                                responseobj.CallCenterUrl &&
+                                responseobj.ReceiveCallCenter &&
+                                responseobj.LinkWithOnlineOrder &&
+                                canPushInputsToOO == true
+                              "
+                              type="button"
+                              name="push"
+                              data-toggle="modal"
+                              data-target="#push"
+                              class="btn bg-blue shadow-none btnWAA my-1"
+                              (click)="startProgressbar(1)"
+                              [disabled]="!enableChiled">
+                              <i class="fas fa-arrow-up"></i>
+                              {{ "Shared.PushToServer" | translate }}
+                            </button>
+                          </div>
+
+                          <!--KioskUrl-->
+                          <div class="col-md-6 mb-4" *ngIf="responseobj.ReceiveCallCenter">
+                            <div class="row pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="KioskUrl">
+                                  {{ "pointofsale.KioskUrl" | translate }}
+                                  :
+                                </label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group editInputGroup">
+                                  <div class="input-group-addon">
+                                    <i class="fas fa-user" aria-hidden="true"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input
+                                      class="form-control borderRadius"
+                                      id="KioskUrl"
+                                      name="KioskUrl"
+                                      #KioskUrl="ngModel"
+                                      [(ngModel)]="responseobj.KioskUrl"
+                                      [disabled]="!enableChiled"
+                                       />
+                                  </div>
+                                </div>
+                              </div>
+                              <div></div>
+                            </div>
+                          </div>
+                          <div class="col-md-3 mr-5" style="margin-top: -7px" *ngIf="!showProgressbar">
+                            <button
+                              *ngIf="
+                                responseobj.KioskUrl &&
+                                responseobj.ReceiveCallCenter &&
+                                responseobj.LinkWithOnlineOrder &&
+                                canPushInputsToOO == true
+                              "
+                              type="button"
+                              name="push"
+                              data-toggle="modal"
+                              data-target="#push"
+                              class="btn bg-blue shadow-none btnWAA my-1"
+                              (click)="startProgressbar(2)"
+                              [disabled]="!enableChiled">
+                              <i class="fas fa-arrow-up"></i>
+                              {{ "Shared.PushToServer" | translate }}
+                            </button>
+                          </div>
+                          <div class="col-md-6 mt-2" *ngIf="showProgressbar">
+                            <div class="progress-bar__action">
+                              <mat-progress-bar
+                                mode="determinate"
+                                max="100"
+                                [value]="progressValue"
+                                class="progress-bar progress-bar-striped bg-success"></mat-progress-bar>
+                              <span class="progress-value" [ngStyle]="{ 'inset-inline-start': progressValue + '%' }"
+                                >{{ progressValue }}%</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Second Tab -->
+                      <div role="tabpanel" class="tab-pane fade" id="tab-2">
+                        <button (click)="addPaymentDevice()" [disabled]="!enableChiled" class="btn btn-success">
+                          {{ "pagetransactions.Add" | translate }}
+                        </button>
+                        <table class="table table-bordered">
+                          <thead class="thead-dark">
+                            <tr>
+                              <th scope="col">
+                                {{ "pointofsale.PaymentDevices" | translate }}
+                              </th>
+                              <th scope="col">
+                                {{ "Shared.paytype" | translate }}
+                              </th>
+                              <th scope="col">Port</th>
+                              <th scope="col">IP</th>
+                              <th scope="col">
+                                {{ "Shared.Path" | translate }}
+                              </th>
+                              <th scope="col">
+                                {{ "setting.Port" | translate }}
+                              </th>
+                              <th scope="col">
+                                {{ "pointofsale.WatingSeconds" | translate }}
+                              </th>
+                              <th scope="col">
+                                {{ "Shared.Machinenumber" | translate }}
+                              </th>
+                              <th scope="col">
+                                {{ "delivery.Actions" | translate }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of responseobj.PaymentDevices; let i = index">
+                              <td id="CompanyNumber{{ i }}">
+                                <ejs-combobox
+                                  [disabled]="!enableChiled"
+                                  class="form-control borderRadius"
+                                  name="{{ 'CompanyNumber' + i }}"
+                                  #CompanyNumber="ngModel"
+                                  [(ngModel)]="item.CompanyNumber"
+                                  [allowFiltering]="false"
+                                  [autofill]="false"
+                                  [dataSource]="paymentCompanies"
+                                  [fields]="FLGID"
+                                  required
+                                  (ngModelChange)="checkForSameCompanyOrPay(item.CompanyNumber, i)"
+                                  [ngClass]="
+                                    checkRequiredValid(frmRef, CompanyNumber) ? 'border-danger' : ''
+                                  "></ejs-combobox>
+                              </td>
+
+                              <td id="PayTypeDocumentId{{ i }}">
+                                <ejs-combobox
+                                  [disabled]="!enableChiled"
+                                  class="form-control borderRadius"
+                                  name="{{ 'PayTypeDocumentId' + i }}"
+                                  #PayTypeDocumentId="ngModel"
+                                  [(ngModel)]="item.PayTypeDocumentId"
+                                  [allowFiltering]="false"
+                                  [autofill]="false"
+                                  [dataSource]="PayTypes"
+                                  [fields]="FLG"
+                                  required
+                                  (ngModelChange)="checkForSameCompanyOrPay(item.PayTypeDocumentId, i, true)"
+                                  [ngClass]="checkRequiredValid(frmRef, PayTypeDocumentId) ? 'border-danger' : ''">
+                                </ejs-combobox>
+                              </td>
+
+                              <td>
+                                <input
+                                  type="text"
+                                  class="form-control borderRadius"
+                                  name="{{ 'Port' + i }}"
+                                  #Port="ngModel"
+                                  [(ngModel)]="item.Port"
+                                  [disabled]="!enableChiled || item.CompanyNumber == 12" />
+                              </td>
+
+                              <td>
+                                <input
+                                  type="text"
+                                  class="form-control borderRadius"
+                                  name="{{ 'IP' + i }}"
+                                  #IP="ngModel"
+                                  [(ngModel)]="item.IP"
+                                  [disabled]="!enableChiled || item.CompanyNumber == 12" />
+                              </td>
+
+                              <td>
+                                <input
+                                  type="text"
+                                  class="form-control borderRadius"
+                                  required
+                                  name="{{ 'Path' + i }}"
+                                  #Path="ngModel"
+                                  [(ngModel)]="item.Path"
+                                  [value]="item.CompanyNumber === 12 ? '0' : item.Path"
+                                  [disabled]="!enableChiled || item.CompanyNumber == 12"
+                                  required
+                                  [ngClass]="checkRequiredValid(frmRef, Path) ? 'border-danger' : ''" />
+                              </td>
+                              <td>
+                                <input
+                                  type="number"
+                                  class="form-control borderRadius"
+                                  name="{{ 'ComPort' + i }}"
+                                  #ComPort="ngModel"
+                                  [(ngModel)]="item.ComPort"
+                                  [disabled]="!enableChiled || item.CompanyNumber == 12" />
+                              </td>
+
+                              <td>
+                                <input
+                                  type="number"
+                                  class="form-control borderRadius"
+                                  required
+                                  name="{{ 'WatingSeconds' + i }}"
+                                  #Path="ngModel"
+                                  [(ngModel)]="item.WatingSeconds"
+                                  [disabled]="!enableChiled"
+                                  required
+                                  [ngClass]="checkRequiredValid(frmRef, WatingSeconds) ? 'border-danger' : ''" />
+                              </td>
+                              <td>
+                                <input
+                                  type="text"
+                                  class="form-control borderRadius"
+                                  required
+                                  name="{{ 'MachineNumber' + i }}"
+                                  #MachineNumber="ngModel"
+                                  [(ngModel)]="item.MachineNumber"
+                                  [disabled]="!enableChiled"
+                                  required
+                                  [ngClass]="checkRequiredValid(frmRef, MachineNumber) ? 'border-danger' : ''" />
+                              </td>
+                              <td>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <button 
+                                  *ngIf="item.CompanyNumber == 12"
+                                  [disabled]="!enableChiled"
+                                  data-toggle="modal"
+                                  data-target="#modal-3"
+                                  type="button"
+                                  (click)="showFawryData(item)"
+                                  class="btn btn-success m-0">
+                                  {{ "Shared.enterPaymentMethodCredentials" | translate }}
+                                </button>
+                                <button
+                                  (click)="deletePaymentDevice(i)"
+                                  [disabled]="!enableChiled"
+                                  class="btn btn-danger m-0">
+                                  {{ "pagetransactions.Delete" | translate }}
+                                </button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!--modal 3 -->
+<div class="modal fade" id="modal-3" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal__overlay">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header py-3">
+          <h5 class="modal-title">
+            <button type="button" class="ms-btn-icon btn-pill text-white btn-info editmsBtn">
+              <i class="fas fa-coins text-white"></i>
+            </button>
+            {{ "Shared.enterPaymentMethodCredentials" | translate }}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div>
+            <div class="row">
+              <div class="col-md-6 borderEdit">
+                <div class="row my-1">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Pos Serial Number"}}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          placeholder="FawryPosSerialNumber"
+                          [(ngModel)]="fawryobj.FawryPosSerialNumber"
+                          name="FawryPosSerialNumber"
+                          #FawryPosSerialNumber="ngModel"
+                          id="FawryPosSerialNumber_id"
+                          required
+                          class="form-control borderRadius" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 borderEdit">
+                <div class="row my-1">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "MerchantCode"}}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          placeholder="FawryMerchantCode"
+                          [(ngModel)]="fawryobj.FawryMerchantCode"
+                          name="FawryMerchantCode"
+                          #FawryMerchantCode="ngModel"
+                          id="FawryMerchantCode_id"
+                          required
+                          class="form-control borderRadius" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 borderEdit">
+                <div class="row my-1">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Secret_Key" }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          placeholder="FawrySecret_Key"
+                          [(ngModel)]="fawryobj.FawrySecret_Key"
+                          name="FawrySecret_Key"
+                          #FawrySecret_Key="ngModel"
+                          id="FawrySecret_Key_id"
+                          required
+                          class="form-control borderRadius" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 borderEdit">
+                <div class="row my-1">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Fawry_Url" }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          placeholder="Fawry_Url"
+                          [(ngModel)]="fawryobj.Fawry_Url"
+                          name="Fawry_Url"
+                          #Fawry_Url="ngModel"
+                          id="Fawry_Url_id"
+                          required
+                          class="form-control borderRadius" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-1">
+          <button type="button" class="btn btn-success m-0 btnEdit" (click)="setFawryData()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

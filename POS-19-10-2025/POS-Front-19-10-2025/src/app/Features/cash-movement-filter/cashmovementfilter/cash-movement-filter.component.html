@@ -1,0 +1,219 @@
+<div class="col-md-12">
+  <div class="row mx-1 shadow-sm mb-2 bg-white rounded align-items-center">
+    <div class="col-md-6 col-sm-12">
+      <!-- breadcrumbs -->
+      <ol class="breadcrumb bg-white my-0 breadcrumb-arrow-sep">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="styleAll"
+            ><i class="material-icons" style="font-size: 1.2rem">home</i>
+            {{ "ReturnOrder.Home" | translate }}
+          </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ "Reports.CashMovementFilter" | translate }}
+        </li>
+      </ol>
+    </div>
+    <div class="col-md-6 col-sm-12 d-flex">
+      <!-- Search form -->
+      <!-- <form class="form-inline d-flex justify-content-center searchInputForm">
+        <input
+          class="form-control searchInput2 form-control-sm mr-3 w-75"
+          type="text"
+          placeholder=" {{
+            'ReturnOrder.Search' | translate
+          }}  "
+          aria-label="Search"
+        />
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </form> -->
+    </div>
+  </div>
+</div>
+<br />
+<div class="px-0 col-md-12">
+  <div class="ms-panel-fh">
+    <div class="cont">
+      <div class="ms-panel-body-1 clearfix">
+        <div class="tab-content">
+          <div role="tabpanel">
+            <div class="col-xl-12 col-md-12 col-xs-12">
+              <div class="ms-panel rounded">
+                <div class="ms-panel-body">
+                  <div class="needs-validation clearfix" novalidate>
+                    <!--1-->
+                    <div class="form-row pt-3">
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Reports.BranchName" | translate }} : </label>
+                          </div>
+                          <ejs-multiselect
+                            id="multiselectbransh"
+                            [dataSource]="Branch"
+                            [fields]="branshfields"
+                            [(ngModel)]="branshdata"
+                            placeholder="{{ 'Reports.BranchName' | translate }}"
+                            [width]="250"
+                            [sortOrder]="sorting">
+                          </ejs-multiselect>
+                        </div>
+                      </div>
+
+                      <!--2-->
+
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "permission.SelectUser" | translate }} : </label>
+                          </div>
+                          <ejs-multiselect
+                            id="multiselectelement"
+                            [dataSource]="users"
+                            [fields]="fields"
+                            [(ngModel)]="userData"
+                            placeholder="{{ 'permission.SelectUser' | translate }}"
+                            [width]="250"
+                            [sortOrder]="sorting">
+                          </ejs-multiselect>
+                        </div>
+                      </div>
+                      <!--3-->
+
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.From" | translate }} : </label>
+                          </div>
+                          <div class="col-md-6 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  class="pAsolute absolutePosition"
+                                  name="datefrom"
+                                  [format]="DateFormat"
+                                  #datefrom="ngModel"
+                                  [(ngModel)]="dateFrom"
+                                  class="form-control borderRadius Prelative"
+                                  id="datefrom"
+                                  placeholder="mm/dd/yyyy"></ejs-datepicker>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--4-->
+
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.To" | translate }} : </label>
+                          </div>
+                          <div class="col-md-6 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  class="pAsolute absolutePosition"
+                                  format="dd/MM/yyyy"
+                                  name="dateto"
+                                  [(ngModel)]="dateTo"
+                                  class="form-control borderRadius Prelative"
+                                  id="dateto"
+                                  placeholder="mm/dd/yyyy"></ejs-datepicker>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                      <div class="col-10"></div>
+
+                      <div class="col-2">
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger btnNav"
+                          style="max-width: 300px; width: 110px"
+                          (click)="GetEODReport()">
+                          {{ "Shared.Show" | translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="">
+  <div class="col-lg-12">
+    <div class="ms-card" *ngIf="EODReport != null">
+      <div class="ms-card-body">
+        <ejs-grid
+          #grid
+          id="Grid"
+          [dataSource]="EODReportData"
+          [allowPaging]="true"
+          [pageSettings]="pageSettings"
+          [allowSorting]="true"
+          [allowFiltering]="true"
+          [filterSettings]="filterOptions"
+          [toolbar]="toolbarOptions"
+          [allowGrouping]="true"
+          [allowPdfExport]="true"
+          [allowExcelExport]="true"
+          (toolbarClick)="toolbarClick($event)"
+          [editSettings]="editOptions"
+          (actionBegin)="onResource($event)">
+          <e-columns>
+            <!-- <e-column field='DocumentId' headerText='CashReciept ID' [isPrimaryKey]='true' textAlign='center'></e-column> -->
+            <e-column field="date" headerText="التاريخ" [allowEditing]="false" format="yMd" textAlign="left"></e-column>
+            <e-column field="CashierName" headerText="المستخدم" [allowEditing]="false" textAlign="left"></e-column>
+            <e-column
+              field="Amount"
+              headerText="المبيعات"
+              [allowEditing]="false"
+              [columns]="orderColumns"
+              textAlign="center"></e-column>
+            <e-column
+              field="RTAmount"
+              headerText="المردودات"
+              [allowEditing]="false"
+              [columns]="returnColumns"
+              textAlign="center"></e-column>
+            <e-column field="CRAmount" headerText="مدفوعات العملاء" [allowEditing]="false" textAlign="left"></e-column>
+            <e-column field="EEAmount" headerText="المصروفات" [allowEditing]="false" textAlign="left"></e-column>
+            <e-column field="ReceiveCashCashier" headerText="استلام النقد للكاشير" textAlign="left"></e-column>
+            <e-column field="deficit" width="88" headerText="العجز" [allowEditing]="false" textAlign="left"></e-column>
+
+            <e-column width="99" headerText="Actions" [commands]="commands" textAlign="center">
+              <!--    <ng-template #template>
+              <div class="center">
+                <a (click)="onResourceEdit($event)" title="Edit">
+                  <span class="e-edit e-icons">
+                    <i class="e-flat"></i>
+                  </span>
+                </a>
+                <a (click)="onResourceDelete($event)" title="Delete">
+                  <span class="e-delete e-icons">
+                    <i class="e-flat"></i>
+                  </span>
+                </a>
+              </div>
+            </ng-template> -->
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div></div>

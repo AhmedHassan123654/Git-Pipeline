@@ -1,0 +1,1024 @@
+<!--sync setting-->
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <div class="container-fluid">
+      <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0 pt-1 pr-0" role="tablist">
+        <li class="px-0" id="tab1" role="presentation">
+          <a href="#tab-1" aria-controls="tab-1" class="active basic-info py-2" role="tab" data-toggle="tab">
+            <i class="fas fa-cog"></i> {{ "setting.Sync Setting" | translate }}
+          </a>
+        </li>
+        <!-- <li class="px-2" id="tab2" role="presentation">
+          <a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab" class="basic-info py-2">
+            <i class="fas fa-cog"></i> {{ "setting.TimeJobSettings" | translate }} 
+          </a>
+        </li> -->
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <div class="modal-content">
+        <div class="modal-body">
+          <form (ngSubmit)="submitData(frmServerSync, $event)" #frmServerSync="ngForm">
+            <div class="cont">
+              <div class="">
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active show fade in" id="tab-1">
+                    <div class="container-fluid">
+                      <div class="col-xl-12 col-md-12 col-xs-12">
+                        <div class="">
+                          <div class="row">
+                            <div class="col-md-6 py-2">
+                              <div class="form-group row align-items-center mb-0">
+                                <div class="col-md-4">
+                                  <label>
+                                    <p *ngIf="databaseDetailobj.IsMain" class="requiredstr">
+                                      {{ "Shared.serverLink" | translate }}
+                                    </p>
+                                    <p *ngIf="!databaseDetailobj.IsMain" class="requiredstr">
+                                      {{ "Shared.PullURL" | translate }}
+                                    </p>
+                                  </label>
+                                  <span class="required-asterisk"> * </span>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-server"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        type="text"
+                                        class="form-control borderRadius"
+                                        id="FerpUrl"
+                                        name="FerpUrl"
+                                        disabled
+                                        #FerpUrl="ngModel"
+                                        [(ngModel)]="databaseDetailobj.FerpUrl"
+                                        aria-describedby="emailHelp"
+                                        placeholder="{{ 'setting.Server Name' | translate }}"
+                                        required />
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="alert text-danger"
+                                    *ngIf="
+                                      (!FerpUrl.valid && FerpUrl.touched) ||
+                                      (frmServerSync.submitted && FerpUrl.invalid)
+                                    ">
+                                    <div class="alert-danger" *ngIf="FerpUrl.errors.required">
+                                      {{ "setting.ServerNameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="!databaseDetailobj.IsMain" class="col-md-6 py-2">
+                              <div class="form-group row align-items-center mb-0">
+                                <div class="col-md-4">
+                                  <label>
+                                    <p class="requiredstr">
+                                      {{ "Shared.PushURL" | translate }}
+                                    </p>
+                                  </label>
+                                  <span class="required-asterisk"> * </span>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-server"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        type="text"
+                                        class="form-control borderRadius"
+                                        id="PushUrl"
+                                        name="PushUrl"
+                                        #PushUrl="ngModel"
+                                        [(ngModel)]="databaseDetailobj.PushUrl"
+                                        aria-describedby="emailHelp"
+                                        placeholder="{{ 'Shared.PushURL' | translate }}"
+                                        disabled
+                                        required  />
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="alert text-danger"
+                                    *ngIf="
+                                      (!PushUrl.valid && PushUrl.touched) ||
+                                      (frmServerSync.submitted && PushUrl.invalid)
+                                    ">
+                                    <div class="alert-danger" *ngIf="PushUrl.errors.required">PushUrl Is Required</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div *ngIf="!databaseDetailobj.IsMain" class="col-md-6 py-2">
+                              <div class="form-group row align-items-center mb-0">
+                                <div class="col-md-4">
+                                  <label>
+                                    <p class="requiredstr">
+                                      {{ "setting.tenantid" | translate }}
+                                    </p>
+                                  </label>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-server"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        type="text"
+                                        class="form-control borderRadius"
+                                        id="TenantId"
+                                        name="TenantId"
+                                        #TenantId="ngModel"
+                                        [(ngModel)]="databaseDetailobj.TenantId"
+                                        aria-describedby="emailHelp"
+                                        placeholder="{{ 'setting.tenantid' | translate }}" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- <a role="tab" data-toggle="tab" class="basic-info py-2">
+                                  <i class="fas fa-cog"></i> {{ "setting.TimeJobSettings" | translate }} 
+                                </a> -->
+                          <div class="row">
+                            <div class="col-md-6 py-2">
+                              <div class="row align-items-center form-group mb-0">
+                                <div class="col-md-4">
+                                  <label for="Duration">
+                                    {{ "Shared.PushToServer" | translate }}
+                                  </label>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group borderRadius editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-hourglass-start"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <ejs-combobox
+                                        name="Push"
+                                        #Push="ngModel"
+                                        [(ngModel)]="databaseDetailobj.Push"
+                                        [allowFiltering]="true"
+                                        [autofill]="true"
+                                        [dataSource]="databaseDetailobj.PushToServerList"
+                                        [enabled]="false"
+                                        placeholder="Push"
+                                        (change)="setpushvalue($event.value)"
+                                        [fields]="Flds"
+                                        class="form-control borderRadius"
+                                        id="Push_id"></ejs-combobox>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 py-2" *ngIf="showMintes">
+                              <div class="row align-items-center form-group mb-0">
+                                <div class="col-md-4">
+                                  <label for="Duration">
+                                    {{ "Shared.Every" | translate }}
+                                  </label>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group borderRadius editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-hourglass-start"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        type="number"
+                                        class="form-control borderRadius"
+                                        id="PushMintes"
+                                        name="PushMintes"
+                                        #PushMintes="ngModel"
+                                        [(ngModel)]="databaseDetailobj.PushMintes"
+                                        aria-describedby="emailHelp"
+                                        placeholder="Mintes"
+                                        disabled />
+                                      <div
+                                        *ngIf="
+                                          (frmServerSync.submitted && PushMintes.invalid) ||
+                                          (PushMintes.invalid && PushMintes.touched)
+                                        ">
+                                        <div
+                                          class="alert alert-danger editAlertCash"
+                                          *ngIf="PushMintes.errors.required">
+                                          {{ "Shared.NumberOfMintesrequired" | translate }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <label>
+                                      {{ "Shared.Minutes" | translate }}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Pull From Server Schedule -->
+                          <div class="row">
+                            <div class="col-md-6 py-2">
+                              <div class="row align-items-center form-group mb-0">
+                                <div class="col-md-4">
+                                  <label for="Duration">
+                                    {{ "setting.PullFromServer" | translate }}
+                                  </label>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group borderRadius editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-hourglass-start"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <ejs-combobox
+                                        name="Pull"
+                                        #Pull="ngModel"
+                                        [(ngModel)]="databaseDetailobj.Pull"
+                                        [allowFiltering]="true"
+                                        [autofill]="true"
+                                        [dataSource]="databaseDetailobj.PullFromServerList"
+                                        [enabled]="false"
+                                        placeholder="Pull"
+                                        (change)="setPullvalue($event.value)"
+                                        [fields]="Flds"
+                                        class="form-control borderRadius"
+                                        id="Pull_id"></ejs-combobox>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--     <div class="col-md-6 py-2"*ngIf="showtimes">
+                                  <div class="row align-items-center form-group mb-0">
+                                    <div class="col-md-4">                            
+                                      <label for="Duration">
+                                      {{'setting.Time'|translate}}
+                                      </label>
+                                    
+                                    </div>
+                                    <div class="col-md-8">
+                                      <div class="input-group borderRadius editInputGroup">
+                                        <div class="input-group-addon">                              
+                                          <i class="fas fa-hourglass-start"></i>
+                                        </div>
+                                        <div class="input-group">
+                                          <ejs-multiselect 
+                                          name="TimesList" 
+                                          #TimesList="ngModel"
+                                          class="form-control"
+                                          [(ngModel)]="databaseDetailobj.ListOfTimes"
+                                          [dataSource]="TimeList"
+                                          [fields]="TimeFlds"
+                                          placeholder="Times"
+                                            id="Times_list"
+                                          [required]="isRequired"
+                                          ></ejs-multiselect>
+                                        </div>
+                                        <div class="" *ngIf="
+                                        (frmServerSync.submitted &&
+                                        TimesList.invalid) ||
+                                        (TimesList.invalid && TimesList.touched)">
+                                        <div class="alert alert-danger editAlertCash" *ngIf="TimesList.errors.required">
+                                          One Or More Times  required
+                                        </div>
+                                    </div>
+                                      </div>
+                                    </div> 
+                                  </div>
+                                </div> -->
+                            <div class="col-md-6 py-2" *ngIf="showPullMintes">
+                              <div class="row align-items-center form-group mb-0">
+                                <div class="col-md-4">
+                                  <label for="Duration">
+                                    {{ "Shared.Every" | translate }}
+                                  </label>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group borderRadius editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-hourglass-start"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        type="number"
+                                        class="form-control borderRadius"
+                                        id="PullMintes"
+                                        name="PullMintes"
+                                        #PullMintes="ngModel"
+                                        [(ngModel)]="databaseDetailobj.PullMintes"
+                                        aria-describedby="emailHelp"
+                                        placeholder="Mintes"
+                                        disabled="" />
+                                      <div
+                                        *ngIf="
+                                          (frmServerSync.submitted && PullMintes.invalid) ||
+                                          (PullMintes.invalid && PullMintes.touched)
+                                        ">
+                                        <div
+                                          class="alert alert-danger editAlertCash"
+                                          *ngIf="PullMintes.errors.required">
+                                          {{ "Shared.NumberOfMintesrequired" | translate }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <label>
+                                      {{ "Shared.Minutes" | translate }}
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div role="tabpanel" class="tab-pane fade" id="tab-2"> 
+                    <div class="col-xl-12 col-md-12 col-xs-12">
+                        <div class="ms-panel-body"> 
+                          <div class="row mb-3 ">
+                            <div class="col-md-6 py-2">
+                              <div class="row align-items-center form-group mb-0">
+                                <div class="col-md-4">                            
+                                  <label for="Duration">
+                                    {{ "Shared.PushToServer" | translate }} 
+                                  </label>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group borderRadius editInputGroup">
+                                    <div class="input-group-addon">                              
+                                      <i class="fas fa-hourglass-start"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <ejs-combobox name="Push" #Push="ngModel"
+                                      [(ngModel)]="databaseDetailobj.Push" [allowFiltering]="true" [autofill]="true"
+                                      [dataSource]="databaseDetailobj.PushToServerList" 
+                                      placeholder="Push" (change)="setpushvalue($event.value)"
+                                      [fields]="Flds" class="form-control borderRadius" id="Push_id"
+                                    
+                                    ></ejs-combobox>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>
+                            <div class="col-md-6 py-2"*ngIf="showMintes">
+                              <div class="row align-items-center form-group mb-0">
+                                <div class="col-md-4">                            
+                                  <label for="Duration">
+                                    {{ "Shared.Every" | translate }} 
+                                  </label>
+                                
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group borderRadius editInputGroup">
+                                    <div class="input-group-addon">                              
+                                      <i class="fas fa-hourglass-start"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input type="number"  
+                                      class="form-control borderRadius"
+                                      id="PushMintes"
+                                      name="PushMintes"
+                                      #PushMintes = "ngModel"
+                                      [(ngModel)]="databaseDetailobj.PushMintes"
+                                      aria-describedby="emailHelp"
+                                      placeholder='Mintes'/> 
+                                      <div *ngIf="
+                                      (frmServerSync.submitted && PushMintes.invalid) ||
+                                      (PushMintes.invalid && PushMintes.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="PushMintes.errors.required">
+                                    {{ "Shared.NumberOfMintesrequired" | translate }} 
+                                    </div>
+                                  </div>
+                                    </div>
+                                    <label >
+                                      {{'Shared.Minutes'|translate}}
+                                      </label>
+                                  </div>
+                              
+                                </div>
+                                
+                              </div>
+                            </div>
+                      
+                          </div>
+                          <div class="row mb-3 ">
+                            <div class="col-md-6 py-2">
+                              <div class="row align-items-center form-group mb-0">
+                                <div class="col-md-4">                            
+                                  <label for="Duration">
+                                    {{'setting.PullFromServer'|translate}}
+                                  </label>
+                                
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group borderRadius editInputGroup">
+                                    <div class="input-group-addon">                              
+                                      <i class="fas fa-hourglass-start"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <ejs-combobox name="Pull" #Pull="ngModel"
+                                      [(ngModel)]="databaseDetailobj.Pull" [allowFiltering]="true" [autofill]="true"
+                                      [dataSource]="databaseDetailobj.PullFromServerList" 
+                                      placeholder="Pull"(change)="setPullvalue($event.value)"
+                                      [fields]="Flds" class="form-control borderRadius" id="Pull_id"
+                                    ></ejs-combobox>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>
+                          <div class="col-md-6 py-2"*ngIf="showPullMintes">
+                            <div class="row align-items-center form-group mb-0">
+                              <div class="col-md-4">                            
+                                <label for="Duration">
+                                  {{ "Shared.Every" | translate }} 
+                                </label>
+                              
+                              </div>
+                              <div class="col-md-8">
+                                <div class="input-group borderRadius editInputGroup">
+                                  <div class="input-group-addon">                              
+                                    <i class="fas fa-hourglass-start"></i>
+                                  </div>
+                                  <div class="input-group">
+                                    <input type="number"  
+                                    class="form-control borderRadius"
+                                    id="PullMintes"
+                                    name="PullMintes"
+                                    #PullMintes = "ngModel"
+                                    [(ngModel)]="databaseDetailobj.PullMintes"
+                                    aria-describedby="emailHelp"
+                                    placeholder='Mintes'/> 
+                                    <div *ngIf="
+                                    (frmServerSync.submitted && PullMintes.invalid) ||
+                                    (PullMintes.invalid && PullMintes.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="PullMintes.errors.required">
+                                  {{ "Shared.NumberOfMintesrequired" | translate }} 
+                                  </div>
+                                </div>
+                                  </div>
+                                  <label >
+                                    {{'Shared.Minutes'|translate}}
+                                    </label>
+                                </div>
+                            
+                              </div>
+                              
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <!--      <div class=" d-flex justify-content-end">
+                <button type="submit" name="save" class="btn btn-primary shadow-none">
+                  {{ "setting.Save" | translate }}
+                </button> 
+              </div> -->
+              <!-- <div class="modal-footer">     
+                      <button type="submit" name="save" class="btn btn-primary shadow-none mt-0">
+                        {{ "setting.Save" | translate }}
+                      </button>
+                    </div>   -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--sync-->
+  <div class="col-md-12 mt-2">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- <div class="col-md-12">
+        <div class="sync-section">
+          <h5 class="digram"><i class="fas fa-sync"></i> {{ "setting.Sync" | translate }} </h5>
+        </div>
+      </div> -->
+        <div class="col-md-12 settings-actions">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="sync-section">
+                      <h4 class="digram">
+                        <i class="fas fa-sync"></i>
+                        {{ "setting.Sync" | translate }}
+                      </h4>
+                    </div>
+                  </div>
+                  <!-- pullAll -->
+                  <div class="col-md-2">
+                    <div class="d-flex justify-content-end">
+                      <button type="button" name="pull" class="btn bg-blue shadow-none btnWAA my-1" (click)="pullAll()">
+                        <i class="fas fa-arrow-down"></i>
+                        {{ "setting.PullFromServer" | translate }}
+                      </button>
+                      <!-- data-toggle="modal"
+                    data-target="#pull"
+                      <div
+                        class="modal fade proggress-modal"
+                        id="pull"
+                        tabindex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <div class="d-flex justify-content-end">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i> </span>
+                                </button>
+                              </div>
+                            </div>
+
+                            <div class="modal-body">
+                              <div class="d-flex align-items-center justify-content-center">
+                                <div *ngIf="showProgressPull">
+                                  <ejs-progressbar
+                                    id="percentage"
+                                    type="Linear"
+                                    trackThickness="13"
+                                    progressThickness="13"
+                                    value="100"
+                                    [showProgressValue]="showProgressValue"
+                                    [animation]="animation"
+                                    maximum="100"></ejs-progressbar>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="modal-body">
+                              <div class="d-flex align-items-center justify-content-center">
+                                <div *ngIf="showProgressPullProducts">
+                                  <ejs-progressbar
+                                    id="percentage"
+                                    type="Linear"
+                                    trackThickness="13"
+                                    progressThickness="13"
+                                    value="100"
+                                    [showProgressValue]="showProgressValue"
+                                    [animation]="animation"
+                                    maximum="100"></ejs-progressbar>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-body">
+                              <div class="d-flex align-items-center justify-content-center">
+                                <div *ngIf="showProgressPullCustomers">
+                                  <ejs-progressbar
+                                    id="percentage"
+                                    type="Linear"
+                                    trackThickness="13"
+                                    progressThickness="13"
+                                    value="100"
+                                    [showProgressValue]="showProgressValue"
+                                    [animation]="animation"
+                                    maximum="100"></ejs-progressbar>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-body">
+                              <div class="d-flex align-items-center justify-content-center">
+                                <div *ngIf="showProgressPullItems">
+                                  <ejs-progressbar
+                                    id="percentage"
+                                    type="Linear"
+                                    trackThickness="13"
+                                    progressThickness="13"
+                                    value="100"
+                                    [showProgressValue]="showProgressValue"
+                                    [animation]="animation"
+                                    maximum="100"></ejs-progressbar>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="d-flex justify-content-end">
+                      <button type="button" role="button" class="btn  shadow-none btnWAA my-1" (click)="pullCustomersFromServer()" >
+                        <i class="fas fa-arrow-down"></i>
+                        {{ "Shared.PullCustomers" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  <!-- pushFromServer -->
+                  <div class="col-md-2">
+                    <div class="d-flex justify-content-end">
+                      <button
+                        type="button"
+                        name="push"
+                        class="btn bg-blue shadow-none btnWAA my-1"
+                        (click)="pushFromServer()">
+                        <i class="fas fa-arrow-up"></i>
+                        {{ "Shared.PushToServer" | translate }}
+                      </button>
+                      <!-- data-toggle="modal"
+                    data-target="#push"
+                      <div
+                        class="modal fade proggress-modal"
+                        id="push"
+                        tabindex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <div class="d-flex justify-content-end">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i> </span>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="modal-body">
+                              <div class="d-flex align-items-center justify-content-center">
+                                <div *ngIf="showProgressPush">
+                                  <ejs-progressbar
+                                    id="percentage"
+                                    type="Linear"
+                                    trackThickness="10"
+                                    progressThickness="10"
+                                    value="100"
+                                    [showProgressValue]="showProgressValue"
+                                    [animation]="animation"
+                                    maximum="100"></ejs-progressbar>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-4 mt-4 d-flex">
+                    <div  *ngIf="(showProgressPull || showProgressPullProducts || showProgressPullCustomers || showProgressPullItems || showProgressPush) && (pullProductsFromServerAction == false && pullCustomersFromServerAction == false) ">
+                      <a class="cancel-progress_btn" (click)="cancelProgressBar()"><i class="fa fa-times text-white" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                    <div *ngIf="pullProductsFromServerAction && pullFromServerAction && pullItemsFromServerAction" class="text-success ">
+                      <h5><i class="far fa-check-circle px-2"></i>  {{'setting.pullAllSettings' | translate}}</h5>
+                    </div>
+                    <div *ngIf="pullCustomersFromServerAction" class="text-success ">
+                      <h5><i class="far fa-check-circle px-2"></i>{{'Shared.Done' | translate}}</h5>
+                    </div>
+                    <div *ngIf="pushToServerAction" class="text-success ">
+                      <h5><i class="far fa-check-circle px-2 push"></i>{{'Shared.Done' | translate}}</h5>
+                    </div>
+                    <div >
+                      <div *ngIf="showProgressPull && pullProductsFromServerAction == false">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          enabled="hideProgressBar"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div >
+                      <div *ngIf="showProgressPullProducts">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                         ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div>
+                      <div *ngIf="showProgressPullCustomers">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div>
+                      <div *ngIf="showProgressPullItems">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div >
+                      <div *ngIf="showProgressPush">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div >
+                      <div *ngIf="showProgressPull && pullProductsFromServerAction == false">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          enabled="hideProgressBar"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div >
+                      <div *ngIf="showProgressPullProducts">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                         ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div>
+                      <div *ngIf=" showProgressPullCustomers">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div>
+                      <div *ngIf="showProgressPullItems">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    <div >
+                      <div *ngIf="showProgressPush">
+                        <ejs-progressbar
+                          id="percentage"
+                          type="Linear"
+                          trackThickness="20"
+                          progressThickness="20"
+                          value="100"
+                          [showProgressValue]="showProgressValue"
+                          [animation]="animation"
+                          maximum="100"
+                          ></ejs-progressbar>
+                      </div>
+                    </div>
+                    </div>
+                  <div class="col-8 md-stepper" *ngIf="pullSettingsAction">
+                    <div class="md-stepper-horizontal orange">
+                      <div class="md-step  ">
+                        <div class="md-step-circle" [ngClass]="pullItemsFromServerAction ? 'bgSuccess':'bgDefault'"><span>1</span></div>
+                        <div class="md-step-title" [ngClass]="pullItemsFromServerAction ? 'text-success':'text-default'">{{'Shared.PullStockItems' | translate}}</div>
+                        <div class="md-step-bar-left" [ngClass]="pullItemsFromServerAction ? 'bgSuccess':'bgDefault'"></div>
+                        <div class="md-step-bar-right" [ngClass]="pullItemsFromServerAction ? 'bgSuccess':'bgDefault'"></div>
+                      </div>
+                      <div class="md-step  ">
+                        <div class="md-step-circle" [ngClass]="pullProductsFromServerAction ? 'bgSuccess':'bgDefault'"><span>2</span></div>
+                        <div class="md-step-title" [ngClass]="pullProductsFromServerAction ? 'text-success':'text-default'">{{'Shared.PullProducts' | translate}}</div>
+                        <div class="md-step-bar-left" [ngClass]="pullProductsFromServerAction ? 'bgSuccess':'bgDefault'"></div>
+                        <div class="md-step-bar-right" [ngClass]="pullProductsFromServerAction ? 'bgSuccess':'bgDefault'"></div>
+                      </div>
+                      <div class="md-step ">
+                        <div class="md-step-circle" [ngClass]="pullFromServerAction ? 'bgSuccess':'bgDefault'"><span>3</span></div>
+                        <div class="md-step-title" [ngClass]="pullFromServerAction ? 'text-success':'text-default'"> {{ "setting.PullFromServer" | translate }}</div>
+                        <div class="md-step-bar-left" [ngClass]="pullFromServerAction ? 'bgSuccess':'bgDefault'"></div>
+                        <div class="md-step-bar-right" [ngClass]="pullFromServerAction ? 'bgSuccess':'bgDefault'"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="content">
+                        <!-- <dl class="containerDD">
+                        <dt class="title">{{'Shared.Title' | translate}}</dt>
+                        <dd class="title">({{'Shared.count' | translate}})</dd>
+                      </dl> -->
+                        <dl class="containerDD">
+                          <dt>{{ "Order.UnClosedOrders" | translate }}</dt>
+                          <dd>( {{ responseobj.OrdersNotPaid }} )</dd>
+                        </dl>
+                        <dl class="containerDD">
+                          <dt>{{ "Order.ClosedOrders" | translate }}</dt>
+                          <dd>( {{ responseobj.OrdersPaidAndNotSync }} )</dd>
+                        </dl>
+                        <dl class="containerDD">
+                          <dt>{{ "Screens.ReturnOrders" | translate }}</dt>
+                          <dd>( {{ responseobj.ReturnOrdersNotSync }} )</dd>
+                        </dl>
+                        <dl class="containerDD">
+                          <dt>{{ "Screens.CashReceipt" | translate }}</dt>
+                          <dd>( {{ responseobj.CashReceiptNotSync }} )</dd>
+                        </dl>
+                        <dl class="containerDD">
+                          <dt>{{ "Layout.Expenses" | translate }}</dt>
+                          <dd>( {{ responseobj.ExtraExpenseNotSync }} )</dd>
+                        </dl>
+                      </div>
+
+                      <div
+                        *ngIf="settings && settings.ShowButtonDeleteOrdersAfterSync"
+                        class="d-flex justify-content-end">
+                        <button
+                          type="button"
+                          name="DeleteOrdersAfterSync"
+                          data-toggle="modal"
+                          data-target="#DeleteOrdersAfterSync"
+                          class="btn btn-danger mt-22"
+                          (click)="DeleteOrdersAfterSync()">
+                          <span> </span>
+                          {{ "setting.ShowButtonDeleteOrdersAfterSync" | translate }}
+                        </button>
+                      </div>
+                      <div class="d-flex justify-content-end">
+                        <span *ngIf="DeleteCountOrder > 0"
+                          >{{ "Order.ClosedOrders" | translate }} ( {{ DeleteCountOrder }} )</span
+                        >
+                        <br />
+                        <span *ngIf="DeleteCountReturnOrder > 0">
+                          {{ "Screens.ReturnOrders" | translate }} ( {{ DeleteCountReturnOrder }} )</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- <div class="col-md-6">
+                  <div class="row align-items-end">
+                    <div class="col-md-3">
+                      <button type="button" name="pull" class="btn bg-blue shadow-none btnWAA  my-1" (click)="pullFromServer()">
+                        <i class="fas fa-arrow-down"></i>
+                        {{ "setting.PullFromServer" | translate }}
+                      </button>
+                    </div>
+                      <div class="col-md-4" *ngIf="showProgressPull">
+                        <ejs-progressbar  style="border-radius: 10px;"  id='percentage' type='Linear' trackThickness=13  progressThickness=13 value=100 [showProgressValue]='showProgressValue' [animation]='animation' maximum=100></ejs-progressbar>
+                      </div>
+                  </div>
+                  <div class="row align-items-end">
+                    <div class="col-md-3">
+                      <button type="button" name="pull" class="btn bg-blue shadow-none btnWAA  my-1" (click)="pullProductsFromServer()">
+                        <i class="fas fa-arrow-down"></i>
+                        {{'Shared.PullProducts'|translate}}
+                        </button>
+                    </div>
+                    
+                      <div class="col-md-4" *ngIf="showProgressPullProducts">
+                        <ejs-progressbar  style="border-radius: 10px;"  id='percentage' type='Linear' trackThickness=13  progressThickness=13 value=100 [showProgressValue]='showProgressValue' [animation]='animation' maximum=100></ejs-progressbar>
+                      </div>
+                
+                  </div>
+                  <div class="row align-items-end">
+                    <div class="col-md-3">
+                      <button type="button" name="pull" class="btn bg-blue shadow-none btnWAA  my-1" (click)="pullCustomersFromServer()">
+                        <i class="fas fa-arrow-down"></i>
+                        {{'Shared.PullCustomers'|translate}}
+                        </button>
+                    </div>
+                    
+                      <div class="col-md-4" *ngIf="showProgressPullCustomers">
+                        <ejs-progressbar  style="border-radius: 10px;"  id='percentage' type='Linear' trackThickness=13  progressThickness=13 value=100 [showProgressValue]='showProgressValue' [animation]='animation' maximum=100></ejs-progressbar>
+                      </div>
+                
+                  </div>
+                  <div class="row align-items-end">
+                    <div class="col-md-3">
+                      <button type="button" name="pull" class="btn bg-blue shadow-none btnWAA  my-1" (click)="pullItemsFromServer()">
+                        <i class="fas fa-arrow-down"></i>
+                        {{'Shared.PullStockItems'|translate}}
+                      </button>
+                    </div>
+                    
+                      <div class="col-md-4" *ngIf="showProgressPullItems">
+                        <ejs-progressbar  style="border-radius: 10px;"  id='percentage' type='Linear' trackThickness=13  progressThickness=13 value=100 [showProgressValue]='showProgressValue' [animation]='animation' maximum=100></ejs-progressbar>
+                      </div>
+                
+                  </div>
+  
+                  <div class="row align-items-end">
+                    <div class="col-md-3">
+                      
+                      <button type="button" name="push"  class="btn bg-blue shadow-none btnWAA   my-1" (click)="pushFromServer()">
+                        <i class="fas fa-arrow-up"></i>
+                        {{ "Shared.PushToServer" | translate }}
+                    </button>
+  
+                    </div>
+                    
+                        <div  class="col-md-4" *ngIf="showProgressPush">
+                        <ejs-progressbar id='percentage' type='Linear' trackThickness=10  progressThickness=10 value=100 [showProgressValue]='showProgressValue' [animation]='animation' maximum=100></ejs-progressbar>
+                      </div> 
+                  </div>
+                </div> -->
+                <!-- <div class="col-md-6 pb-3">
+                  <div class="form-group row align-items-start mb-0">
+                      <div class="col-md-4">                         
+                        <label >
+                   <p class="requiredstr"> Unposted Documents :</p>  
+                        </label>
+                        
+                      </div>
+                      <div class="col-md-8 ">
+                          <div style="border: 1px solid rgba(0,0,0,.1); padding: 10px;" class="">
+                            <dl class="containerDD">
+              
+                              <dt>  {{ "Order.UnClosedOrders" | translate }}</dt>
+                              <dd> ( {{responseobj.OrdersNotPaid}} )</dd>
+                            </dl>
+                            <dl class="containerDD">
+                              <dt>  {{ "Order.ClosedOrders" | translate }} </dt>
+                              <dd>( {{responseobj.OrdersPaidAndNotSync}} )</dd>
+                            </dl>
+                            <dl class="containerDD">
+                              <dt> {{ "Screens.ReturnOrders" | translate }} </dt>
+                              <dd>( {{responseobj.ReturnOrdersNotSync}} ) </dd> 
+                            </dl>
+                            <dl class="containerDD">
+                              <dt> {{ "Screens.CashReceipt" | translate }} </dt>
+                              <dd> ( {{responseobj.CashReceiptNotSync}} )</dd> 
+                            </dl>
+                            <dl class="containerDD">
+                              <dt> {{ "Layout.Expenses" | translate }} </dt>
+                              <dd> ( {{responseobj.ExtraExpenseNotSync}} )</dd>
+                            </dl>
+                          </div>
+                      </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

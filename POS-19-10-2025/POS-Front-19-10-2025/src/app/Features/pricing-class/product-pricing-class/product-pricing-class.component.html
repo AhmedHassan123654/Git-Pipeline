@@ -1,0 +1,236 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-md-12 mt-2 mb-2">
+  <button
+    type="submit"
+    class="btn btn-outline-success btnNav"
+    (click)="SaveProducts()"
+    [disabled]="disableSave"
+    *ngIf="request.showEdit; else false">
+    <i class="far fa-save px-2"></i>{{ "pagetransactions.save" | translate }}
+  </button>
+  <!-- <div class="pb-1 d-flex justify-content-start align-items-center">
+      <button type="submit" class="btn btn-outline-info btnNav" (click)="SaveProducts()"
+       *ngIf="request.showEdit else false">
+        <i class="far fa-save pr-1"></i>{{"pagetransactions.Save" | translate}}
+     </button>
+    </div> -->
+</div>
+
+<div class="col-md-12">
+  <div class="ms-panel">
+    <div class="ms-panel-body">
+      <div class="row">
+        <!--name-->
+        <div class="col-md-6 mb-3">
+          <div class="row d-flex pr-xs-0">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="validationCustom19">{{ "Shared.Name" | translate }} </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-user" aria-hidden="true"></i>
+                </div>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    [(ngModel)]="request.Name"
+                    name="Name"
+                    #Name="ngModel"
+                    id="Name_id"
+                    class="form-control borderRadius"
+                    readonly />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--foreignName-->
+        <div class="col-md-6 mb-3">
+          <div class="row d-flex pr-xs-0">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="validationCustom19">{{ "Shared.ForeignName" | translate }} </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-user" aria-hidden="true"></i>
+                </div>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    placeholder="ForeignName"
+                    [(ngModel)]="request.ForeignName"
+                    name="ForeignName"
+                    #ForeignName="ngModel"
+                    id="Name_id"
+                    class="form-control borderRadius"
+                    readonly />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <accordion [isAnimated]="true">
+    <accordion-group
+      class="mb-3"
+      heading="{{ 'Shared.productgroups' | translate }}"
+      [panelClass]="customClass"
+      [isOpen]="isOpenFirst">
+      <div class="row">
+        <div *ngFor="let group of productGroup; index as i" class="col-md-3">
+          <div class="flexStart">
+            <input
+              type="checkbox"
+              (change)="filterProductsBySelectedgroups()"
+              style="width: 2rem"
+              name="Selected{{ i }}"
+              #Selected="ngModel"
+              [(ngModel)]="group.Selected"
+              class="form-control borderRadius" />
+            <p>{{ group.ProductGroupName }}</p>
+          </div>
+        </div>
+      </div>
+    </accordion-group>
+  </accordion>
+</div>
+<div class="col-md-12">
+  <div class="table-section">
+    <div class="input-group editInputGroup">
+      <div class="modal-body">
+        <div class="col-md-12 paddingLeftz">
+          <table class="table returnOrderTable table-bordered m-0 meals-table">
+            <thead>
+              <tr>
+                <th scope="col">{{ 'Shared.productgroups' | translate }}</th>
+                <th scope="col">{{ "products.Product" | translate }}</th>
+                <th scope="col">{{ "Shared.Price" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    name="SelectProductGroup"
+                    #SelectProductGroup="ngModel"
+                    id="SelectProductGroup"
+                    (keyup)="searchProducts(SelectProductGroup.value, SelectProduct.value)"
+                    [(ngModel)]="responseobj.SelectProductGroup"
+                    class="form-control borderRadius" />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="SelectProduct"
+                    #SelectProduct="ngModel"
+                    id="SelectProduct"
+                    (keyup)="searchProducts(SelectProductGroup.value, SelectProduct.value)"
+                    [(ngModel)]="responseobj.SelectProduct"
+                    class="form-control borderRadius" />
+                </td>
+              </tr>
+              <tr *ngFor="let detail of finalProductList; index as i">
+                <td>
+                  <input
+                    type="text"
+                    class="form-control borderRadius"
+                    name="ProductGroupName{{ i }}"
+                    [value]="detail.ProductGroupName"
+                    readonly />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control borderRadius"
+                    name="ProductName{{ i }}"
+                    [value]="detail.ProductName"
+                    readonly />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="Price{{ i }}"
+                    #Price="ngModel"
+                    id="Price"
+                    [(ngModel)]="detail.Price"
+                    class="form-control borderRadius" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--   <accordion-group heading='{{ "Shared.products"| translate }}' class="EditingCustomClass" [panelClass]="customClass"
+    [isOpen]="isFirstOpen">
+    <div class="row">
+    <div class="col-md-12">
+      <div class="btn-group justify-content-start align-items-center d-flex p-1">
+        <p class="m-0 px-1">{{ "Shared.ItemsPerPage"| translate }}</p>
+        <select  (change)="onChange($event.target.value)"  style="width: 5rem;" name="NumberItems" id="aantal" class="form-control" [(ngModel)]="NumberItems">
+          <option *ngFor="let option of options" [value]="option" >{{option}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12 p-0">
+        <div class="table-responsive">
+           <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+              <thead>
+                   <tr>
+                       <th class="d-flex justify-content-center" scope="col">
+                        {{ "Shared.products"| translate }}
+                       </th> 
+                       <th scope="col">{{ "Shared.Price"| translate }}</th>
+                     
+               </thead> 
+               <tbody>
+                <tr >
+                  <td>
+                    <input type="text" name="SelectProduct" #SelectProduct="ngModel" id="SelectProduct" (keyup)="searchProducts(SelectProduct.value,SelectPrice.value)" [(ngModel)]="responseobj.SelectProductGroups" class="form-control borderRadius" >
+                  </td>
+                   <td>
+                    <input type="number" name="SelectPrice" #SelectPrice="ngModel" id="SelectPrice" (keyup)="searchProducts(SelectProduct.value,SelectPrice.value)" [(ngModel)]="responseobj.SelectPrice" class="form-control borderRadius" >
+
+                  </td> 
+               
+              </tr>
+                   <tr class="p-1"  *ngFor="let product of finalProductList; let i = index" data-dismiss="modal">
+                       <td>{{product.ProductName}}</td>
+                        <td class="d-flex justify-content-center">
+                        <input type="number" name="Price{{i}}" #Price="ngModel" [(ngModel)]="product.Price" (keyup)="GetProductPrice(product)" class="form-control borderRadius" >
+                       </td> 
+                    
+                   </tr>
+               </tbody>
+           </table>
+
+           <div class="d-flex justify-content-between row align-items-center">
+            <div class="col-md-8 col-sm-12">
+                  <pagination   [boundaryLinks]="true"  [(ngModel)]="currentPage" (numPages)="smallnumPages = $event" [maxSize]="10" [itemsPerPage]="NumberItems" [totalItems]="filtredProducts?.length" (pageChanged)="pageChanged($event)"
+                  previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+                  </pagination>
+             </div>
+                          <div  class="col-sm-12  col-md-4">
+                            <div class="PageNumberAccord">
+                              The selected page no: {{currentPage}}/{{smallnumPages}}
+                            </div>                    
+                          </div>
+           </div>   
+         </div>
+
+    </div>
+   </div>
+    </accordion-group>
+  </accordion>
+</div> -->

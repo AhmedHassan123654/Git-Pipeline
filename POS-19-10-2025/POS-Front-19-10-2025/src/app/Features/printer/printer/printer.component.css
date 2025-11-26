@@ -1,0 +1,76 @@
+.navbar {
+  border: 1px solid transparent !important;
+}
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.modal-backdrop.show {
+  opacity: 0;
+}
+
+.marginTop10 {
+  margin-top: 10px;
+}
+.table td.BorderEdit {
+  border: none;
+
+  flex-grow: 1;
+}
+.table td.BorderEdit:not(:last-child) {
+  border-right: 1px solid #ccc !important;
+}
+.table td.BorderEdit:last-child {
+  border-right: 1px solid #333 !important;
+}
+.table td.BorderEdit:nth-last-child() {
+  border-right: 1px solid #333 !important;
+}
+.tdedit {
+  /* display: flex;
+flex-wrap: wrap !important;
+justify-content: flex-start; */
+  display: grid;
+  grid-template-columns: 200px 200px 200px 200px 200px auto;
+}
+.TrEdit {
+  border: 1px solid #07be6e;
+  border-radius: 0.25rem;
+  display: flex;
+}
+tr td div.BorderEdit:not(:last-child) {
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.ms-checkbox-wrap input[type="checkbox"] {
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+}
+input.editcheck[type="checkbox"] {
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+}
+.designNameGroup {
+  margin: 0;
+  height: 100%;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0 0 0.25rem 0;
+  border: 1px solid #07be6e;
+  background-color: #07be6e;
+  color: #fff;
+}
+.BorderEdit {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.editBorder label {
+  font-size: 1rem !important;
+}
+.tdedit {
+  display: grid;
+  grid-template-columns: 200px 200px 200px 200px 200px auto;
+}

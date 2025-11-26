@@ -1,0 +1,510 @@
+<section dir="rtl">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-md-offset-3">
+        <!-- default-data -->
+        <form name="wizardform" id="msform" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+          <!-- progressbar -->
+          <ul id="progressbar" class="steps">
+            <li [ngClass]="step >= 1 ? 'active ' : 'inactive'"></li>
+            <li [ngClass]="step >= 2 ? 'active' : 'inactive'"></li>
+            <li [ngClass]="step >= 3 ? 'active' : 'inactive'"></li>
+            <li [ngClass]="step == 4 ? 'active' : 'inactive'"></li>
+            <li [ngClass]="step == 5 ? 'active' : 'inactive'"></li>
+          </ul>
+
+          <!-- fieldsets -->
+          <fieldset *ngIf="step == 1">
+            <div class="container">
+              <h2>{{ "messages.selectsystemlang" | translate }}</h2>
+
+              <ul>
+                <li (click)="switchLocalization('en')">
+                  <input type="radio" id="f-option" name="selector" />
+                  <label for="f-option">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <span class="dropdown-item py-0 px-1" href="#"> English </span>
+                      <img src="assets/images/en.png" class="flag img-fluid mx-0" />
+                    </div>
+                  </label>
+
+                  <div class="check"></div>
+                </li>
+
+                <li (click)="switchLocalization('ar')">
+                  <input type="radio" id="s-option" name="selector" />
+                  <label for="s-option">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <span class="dropdown-item py-0 px-1"> العربيه </span>
+                      <img src="assets/images/ar.png" class="flag img-fluid mx-0" />
+                    </div>
+                  </label>
+
+                  <div class="check"><div class="inside"></div></div>
+                </li>
+
+                <li (click)="switchLocalization('tu')">
+                  <input type="radio" id="t-option" name="selector" />
+                  <label for="t-option">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <span class="dropdown-item py-0 px-1"> Türk</span>
+                      <img src="assets/images/tr.png" class="flag img-fluid mx-0" />
+                    </div>
+                  </label>
+
+                  <div class="check"><div class="inside"></div></div>
+                </li>
+
+                <li (click)="switchLocalization('fr')">
+                  <input type="radio" id="l-option" name="selector" />
+                  <label for="l-option">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <span class="dropdown-item py-0 px-1"> français </span>
+                      <img src="assets/images/fr2.png" class="flag img-fluid mx-0" />
+                    </div>
+                  </label>
+
+                  <div class="check"><div class="inside"></div></div>
+                </li>
+              </ul>
+              <input
+                (click)="next()"
+                type="button"
+                name="next"
+                class="next action-button"
+                value="{{ 'Shared.Next' | translate }}" />
+            </div>
+
+            <!--<h2 class="fs-title">البيانات الافتراضية </h2>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12"> 
+                                    <input  name="POSName"placeholder="نقطه البيع"
+                                    #POSName="ngModel" [(ngModel)]="responseobj.POSName" id="POSName_id"
+                                       class="form-control" disabled  />                          
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                    <input  name="OrderTypeNames"placeholder="أنواع الفواتير "
+                                    #OrderTypeNames="ngModel" [(ngModel)]="responseobj.OrderTypeNames" id="OrderTypeNames_id"
+                                       class="form-control" disabled  />  
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12col-lg-12">
+                                    <input  name="WorkTimeName"placeholder="ورديه العمل"
+                                    #WorkTimeName="ngModel" [(ngModel)]="responseobj.WorkTimeName" id="WorkTimeName_id"
+                                       class="form-control" disabled  />  
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                    <input  name="OrderPayTypeNames"placeholder="أنواع الدفع "
+                                    #OrderPayTypeNames="ngModel" [(ngModel)]="responseobj.OrderPayTypeNames" id="OrderPayTypeNames_id"
+                                       class="form-control" disabled  />  
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                                    <input  name="ProductTypeNames"placeholder="أنواع وجبات "
+                                    #ProductTypeNames="ngModel" [(ngModel)]="responseobj.ProductTypeNames" id="ProductTypeNames_id"
+                                       class="form-control" disabled  />  
+                                </div> 
+                            </div>
+                            <input (click)="next()" type="button" name="next" class="next action-button" value="التالي"/>-->
+          </fieldset>
+
+          <!-- add branch -->
+          <fieldset class="fieldsetDirection" *ngIf="step == 2">
+            <h2 class="fs-title">{{ "Screens.Branch" | translate }}</h2>
+            <div class="row">
+              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12 paddingLeftz">
+                                    <div class="input-group" >
+                                        <ejs-combobox name="Country" #Country="ngModel"
+                                            [(ngModel)]="Branchobj.Country" [allowFiltering]="true" [autofill]="true"
+                                            [dataSource]="CountriesList" 
+                                            placeholder="{{'Shared.Country'|translate}}"
+                                            [fields]="Fldscountry"  id="Country_id"
+                                            class="borderRadius"
+                                            style="border-bottom: none">
+                                        </ejs-combobox>
+                                        
+                                    </div>
+                                </div> -->
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="far fa-building"></i>
+                  </div>
+                  <div style="border-bottom: 1px solid #dee2e6" class="input-group">
+                    <ejs-combobox
+                      name="Country"
+                      #Country="ngModel"
+                      [(ngModel)]="Branchobj.Country"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="CountriesList"
+                      placeholder="{{ 'Shared.Country' | translate }}"
+                      [fields]="Fldscountry"
+                      id="Country_id"
+                      class="borderRadius form-control"
+                      style="border-bottom: none">
+                    </ejs-combobox>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="BranchName"
+                  name="BranchName"
+                  #BranchName="ngModel"
+                  [(ngModel)]="Branchobj.Name"
+                  placeholder="{{ 'Shared.BranchName' | translate }}"
+                  [required]="isRequired" />
+                <div *ngIf="(frmRef.submitted && BranchName.invalid) || (BranchName.invalid && BranchName.touched)">
+                  <div class="alert alert-danger editAlertCash" *ngIf="BranchName.errors.required">
+                    {{ "CashReceipt.validamount" | translate }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="BranchForeignName"
+                  name="BranchForeignName"
+                  #BranchForeignName="ngModel"
+                  [(ngModel)]="Branchobj.ForeignName"
+                  placeholder="{{ 'Shared.ForeignName' | translate }}" />
+              </div>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="TelephoneNumber"
+                  name="TelephoneNumber"
+                  #TelephoneNumber="ngModel"
+                  [(ngModel)]="Branchobj.TelephoneNumber"
+                  placeholder="{{ 'customer.Phone' | translate }}" />
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="FaxNumber"
+                  name="FaxNumber"
+                  #FaxNumber="ngModel"
+                  [(ngModel)]="Branchobj.FaxNumber"
+                  placeholder="{{ 'Shared.FaxNumber' | translate }}" />
+              </div>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="TaxNumber"
+                  name="TaxNumber"
+                  #TaxNumber="ngModel"
+                  [(ngModel)]="Branchobj.TaxNumber"
+                  placeholder="{{ 'Reports.Taxnumber' | translate }}" />
+              </div>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="CommercialRecord"
+                  name="CommercialRecord"
+                  #Name="ngModel"
+                  [(ngModel)]="Branchobj.CommercialRecord"
+                  placeholder="{{ 'Shared.CommercialRegistrationNo' | translate }}" />
+              </div>
+
+              <div class="col-md-8 paddingLeftz">
+                <div class="d-flex align-items-end">
+                  <input #file type="file" name="" id="upladeImg" (change)="uploadBranchImage($event)" />
+
+                  <div class="uplade__iamge mb-0">
+                    <img [src]="Branchobj.Logo" alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="col-lg-12">
+                                    <input  (click)="InsertBranch()" type="button" name="next" class="action-button-save" value="حفظ"/>
+                                </div> -->
+            </div>
+            <div class="row">
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  (click)="previous()"
+                  type="button"
+                  name="previous"
+                  class="previous action-button-previous form-control"
+                  value="{{ 'Shared.Previous' | translate }}" />
+              </div>
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  (click)="next()"
+                  type="button"
+                  name="next"
+                  class="next action-button"
+                  value="{{ 'Shared.Next' | translate }}" />
+              </div>
+            </div>
+          </fieldset>
+          <!-- Meal groups  -->
+          <fieldset class="fieldsetDirection" *ngIf="step == 3">
+            <h2 class="fs-title">{{ "Shared.productgroups" | translate }}</h2>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="Name"
+                  name="Name"
+                  #Name="ngModel"
+                  [(ngModel)]="ProductGroupobj.Name"
+                  placeholder="{{ 'Shared.Name' | translate }}" />
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="ForiegnName"
+                  name="ForiegnName"
+                  #ForiegnName="ngModel"
+                  [(ngModel)]="ProductGroupobj.ForiegnName"
+                  placeholder="{{ 'Shared.ForeignName' | translate }}" />
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="far fa-building"></i>
+                  </div>
+                  <div style="border-bottom: 1px solid #dee2e6" class="input-group">
+                    <ejs-combobox
+                      name="ProductTypeDocumentId"
+                      #ProductTypeDocumentId="ngModel"
+                      [(ngModel)]="ProductGroupobj.ProductTypeDocumentId"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="responseobj.productTypeList"
+                      placeholder="{{ 'Shared.producttype' | translate }}"
+                      [fields]="Flds"
+                      id="ProductTypeDocumentId_id"
+                      class="borderRadius form-control"
+                      [required]="isRequired"
+                      style="border-bottom: none">
+                    </ejs-combobox>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12 paddingLeftz">
+                                    <div class="input-group" >
+                                        <ejs-combobox name="ProductTypeDocumentId" #ProductTypeDocumentId="ngModel"
+                                            [(ngModel)]="ProductGroupobj.ProductTypeDocumentId" [allowFiltering]="true" [autofill]="true"
+                                            [dataSource]="responseobj.productTypeList" 
+                                            placeholder="{{'Shared.producttype'|translate}}"
+                                            [fields]="Flds"  id="ProductTypeDocumentId_id"
+                                            class="borderRadius"
+                                            [required]="isRequired"
+                                            style="border-bottom: none">
+                                        </ejs-combobox>
+                                    </div>
+                                </div> -->
+              <div class="col-md-8 paddingLeftz">
+                <div class="d-flex align-items-end">
+                  <input #file type="file" name="" id="upladeImg" (change)="uploadProductGroupImage($event)" />
+                  <div class="uplade__iamge mb-0">
+                    <img [src]="ProductGroupobj.PicturePath" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  (click)="SaveProductGroup()"
+                  type="button"
+                  name="next"
+                  class="action-button-save"
+                  value="{{ 'Shared.Save' | translate }}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  (click)="previous()"
+                  type="button"
+                  name="previous"
+                  class="previous action-button-previous"
+                  value="{{ 'Shared.Previous' | translate }}" />
+              </div>
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  (click)="SaveProductGroup(true)"
+                  type="button"
+                  name="next"
+                  class="next action-button"
+                  value="{{ 'Shared.Next' | translate }}" />
+              </div>
+            </div>
+          </fieldset>
+          <!-- Add Printer   -->
+          <fieldset class="fieldsetDirection" *ngIf="step == 4">
+            <div class="alert alert-warning" role="alert">
+              {{ "messages.printerasWindowsprinters" | translate }}
+            </div>
+            <h2 class="fs-title">{{ "Shared.printer" | translate }}</h2>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="Name"
+                  name="Name"
+                  #Name="ngModel"
+                  [(ngModel)]="Printerobj.Name"
+                  placeholder="{{ 'Printer.kitchenprinter' | translate }}" />
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="VirtualName"
+                  name="VirtualName"
+                  #VirtualName="ngModel"
+                  [(ngModel)]="Printerobj.cashierprinter"
+                  placeholder="{{ 'Printer.cashierprinter' | translate }}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  (click)="previous()"
+                  type="button"
+                  name="previous"
+                  class="previous action-button-previous"
+                  value="{{ 'Shared.Previous' | translate }}" />
+              </div>
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  (click)="SavePrinter()"
+                  type="button"
+                  name="next"
+                  class="next action-button"
+                  value="{{ 'Shared.Next' | translate }}" />
+              </div>
+            </div>
+          </fieldset>
+          <!-- Add meals   -->
+          <fieldset class="fieldsetDirection" *ngIf="step == 5">
+            <h2 class="fs-title">{{ "Shared.products" | translate }}</h2>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="Name"
+                  name="Name"
+                  #Name="ngModel"
+                  [(ngModel)]="Productobj.Name"
+                  placeholder="{{ 'Shared.productName' | translate }}" />
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12">
+                <input
+                  class="form-control"
+                  type="text"
+                  id="ForiegnName"
+                  name="ForiegnName"
+                  #ForiegnName="ngModel"
+                  [(ngModel)]="Productobj.ForiegnName"
+                  placeholder="{{ 'Shared.ForeignName' | translate }}" />
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                <input
+                  class="form-control"
+                  type="number"
+                  id="Price"
+                  name="Price"
+                  #Price="ngModel"
+                  [(ngModel)]="Productobj.Price"
+                  placeholder="{{ 'Shared.ProductPrice' | translate }}" />
+              </div>
+              <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                                    <input  class="form-control" type="text" 
+                                    id="TaxValue" name="TaxValue" #TaxValue="ngModel" [(ngModel)]="Productobj.TaxValue" placeholder="{{'Shared.TaxAmount'|translate}}"/>
+                                </div> -->
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="far fa-building"></i>
+                  </div>
+                  <div style="border-bottom: 1px solid #dee2e6" class="input-group">
+                    <ejs-combobox
+                      name="ProductGroupDocumentId"
+                      #ProductGroupDocumentId="ngModel"
+                      [(ngModel)]="Productobj.ProductGroupDocumentId"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="ProductGroupList"
+                      placeholder="{{ 'Shared.productgroups' | translate }}"
+                      [fields]="Flds"
+                      id="ProductGroupDocumentId_id"
+                      [required]="isRequired"
+                      style="border-bottom: none"
+                      class="borderRadius form-control">
+                    </ejs-combobox>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                                    <div class="mb-2">
+                                        <ejs-combobox name="ProductGroupDocumentId" #ProductGroupDocumentId="ngModel"
+                                        [(ngModel)]="Productobj.ProductGroupDocumentId" [allowFiltering]="true" [autofill]="true"
+                                        [dataSource]="ProductGroupList" 
+                                        placeholder="{{'Shared.productgroups'|translate}}"
+                                        [fields]="Flds"  id="ProductGroupDocumentId_id"
+                                        [required]="isRequired"
+                                        class="borderRadius">
+                                    </ejs-combobox>
+                                    </div>
+                                </div> -->
+              <div class="col-md-8 paddingLeftz">
+                <div class="d-flex align-items-end">
+                  <input #file type="file" name="" id="upladeImg" (change)="uploadProductImage($event)" />
+
+                  <div class="uplade__iamge mb-0">
+                    <img [src]="Productobj.PicturePath2" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                <input
+                  (click)="SaveProductobj()"
+                  type="button"
+                  name="next"
+                  class="action-button-save"
+                  value="{{ 'Shared.Save' | translate }}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  style="width: 150px"
+                  (click)="previous()"
+                  type="button"
+                  name="previous"
+                  class="previous action-button-previous form-control"
+                  value="{{ 'Shared.Previous' | translate }}" />
+              </div>
+              <div class="col-lg-6 d-flex justify-content-center">
+                <input
+                  style="width: 150px"
+                  (click)="SaveProductobj(true)"
+                  type="submit"
+                  name="submit"
+                  class="btn btn-primary submit action-button"
+                  value="{{ 'kds.GoToOrder' | translate }}" />
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

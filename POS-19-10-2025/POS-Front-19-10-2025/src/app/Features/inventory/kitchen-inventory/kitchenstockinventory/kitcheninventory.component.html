@@ -1,0 +1,297 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="inventoryform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (quickEvents)="quickEvents($event)"
+    (returnobjEvent)="returnobjEvent($event)"
+    (afterPag)="afterPag($event)"
+    (clearobjEvent)="clearobject()"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"
+    [request]="request">
+  </app-pagetransactions>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-5 col-md-5 col-sm-12">
+        <div class="group-section ms-panel-order">
+          <div class="tab-pane active show fade in" id="tab4" role="tabpanel">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <!-- *ngIf="!responseobj.Sent" -->
+                  <!-- <div class="col-md-5 col-xs-12  offset-md-7">
+                        <app-search-component [FilterOne]="itemsGroups" (returnedList)="updateFilterTwo($event)"></app-search-component> 
+                    </div> -->
+                  <div class="col-lg-12 col-md-12 col-12">
+                    <perfect-scrollbar [config]="true" id="itemScorll">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <ul
+                            id="GroupNav"
+                            class="nav nav-tabs d-flex has-gap nav-justified nav-tabs-editM groupsUl align-items-center group-section-item"
+                            role="tablist">
+                            <li
+                              class="col-lg-2"
+                              role="presentation"
+                              *ngFor="let itemgroup of filterdItemlistTwo; let i = index">
+                              <a
+                                class="rounded"
+                                [class.active]="i == 0"
+                                [class.disabled]="disableControlEdit"
+                                aria-controls="tab4"
+                                role="tab"
+                                (click)="loadItems(itemgroup)"
+                                data-toggle="tab">
+                                <!-- <p class="narrow breakAll m-0 p-0">{{ itemgroup.Name }} </p>   -->
+                                {{ itemgroup.Name }}
+                              </a>
+                            </li>
+
+                            <!-- [class.disabled]="disableControlEdit" -->
+                          </ul>
+                        </div>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="presentaion-section ms-panel-order">
+          <div class="col-lg-12 col-md-12 col-xs-12">
+            <app-search-component
+              [FilterOne]="itemlist"
+              (returnedList)="updateFilterOne($event)"></app-search-component>
+          </div>
+          <perfect-scrollbar [config]="true" class="mt-3 mb-3">
+            <div class="container-fluid">
+              <ul
+                id="ItemsNav"
+                class="row nav nav-tabs d-flex has-gap nav-justified nav-tabs-editM groupsUl align-items-center group-section-item"
+                role="tablist">
+                <li
+                  class="col-lg-2 col-md-2 col-sm-3 col-xs-3 col-3"
+                  role="presentation"
+                  *ngFor="let item of filterdItemlist; let i = index">
+                  <a
+                    [class.active]="i == 0"
+                    [class.disabled]="disableControlEdit || (item.GItemId !== undefined && item.GItemId !== null)"
+                    aria-controls="tab4"
+                    role="tab"
+                    data-toggle="tab"
+                    class="rounded"
+                    (click)="showUnits(item)">
+                    <!-- <p class="narrow breakAll m-0 p-0">  {{ item.Name }} </p> -->
+                    {{ item.Name }}
+                  </a>
+                </li>
+                <!-- [class.disabled]="disableControlEdit== 1" -->
+              </ul>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-12">
+        <div class="masterStyle">
+          <div class="col-lg-12">
+            <div class="row mb-1">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6 mb-3">
+                <label class="lable" for="">
+                  {{ "stock.Kitchen" | translate }}
+                </label>
+                <div>
+                  <ejs-combobox
+                    name="KitchenDocId"
+                    id="KitchenDocId"
+                    #KitchenDocId="ngModel"
+                    [(ngModel)]="responseobj.StockDocumentId"
+                    [allowFiltering]="true"
+                    [autofill]="true"
+                    [dataSource]="KitchenList"
+                    placeholder="{{ 'stock.Select TransferStock' | translate }}"
+                    [fields]="listfields"
+                    class="form-control borderRadius"
+                    id="kitchen_id"
+                    [enabled]="enableKitchenDocId"
+                    [required]="isRequired"></ejs-combobox>
+
+                  <div
+                    *ngIf="(frmRef.submitted && KitchenDocId.invalid) || (KitchenDocId.invalid && KitchenDocId.touched)"
+                    class="mt-2">
+                    <div class="alert alert-danger stockValidationError">
+                      {{ "Shared.required" | translate }}
+                    </div>
+                  </div>
+                </div>
+
+                <popover-content
+                  #storesPopover
+                  title="{{ 'stock.TransferStock' | translate }}"
+                  placement="bottom"
+                  [animation]="true"
+                  [closeOnClickOutside]="true">
+                  <ul
+                    class="row nav nav-tabs d-flex tab-pills has-gap nav-justified nav-tabs-editM align-items-center"
+                    role="tablist"></ul>
+                </popover-content>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6 mb-3">
+                <label class="lable"> {{ "stock.DocumentDate" | translate }}</label>
+                <ejs-datepicker
+                  class="pAsolute absolutePosition"
+                  format="MM/dd/yyyy"
+                  name="date"
+                  #date="ngModel"
+                  [(ngModel)]="responseobj.DocumentDate"
+                  [disabled]="true"
+                  [ngClass]="{
+                    'alert-danger': frmRef.submitted && date.invalid
+                  }"
+                  class="form-control borderRadius Prelative"
+                  id="date"
+                  placeholder="mm/dd/yyyy"
+                  required></ejs-datepicker>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-4">
+              <div class="form-group m-0 form-input">
+                <label class="lable m-0"> {{ "stock.DocumentNumber" | translate }}</label>
+                <input
+                  type="text"
+                  [(ngModel)]="responseobj.DocumentNumber"
+                  class="form-control"
+                  name="docno"
+                  readonly />
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-4">
+              <div class="form-group m-0">
+                <label class="lable m-0">{{ "stock.Description" | translate }}</label>
+                <input
+                  type="search"
+                  name="description"
+                  class="form-control"
+                  placeholder="{{ 'stock.Description' | translate }}"
+                  [(ngModel)]="responseobj.Description" />
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-4 mt-3">
+              <button
+                type="button"
+                data-toggle="modal"
+                class="btn btnEdit bg-maingreen m-0 has-icon py-1"
+                (click)="downloadStockItems()"
+                [disabled]="disableControlEdit">
+                <i class="fas fa-arrow-down fs-16 px-1"></i>{{ "stock.DownloadItems" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="ms-panel ms-panel-order Prelative panelDetails">
+          <div class="">
+            <perfect-scrollbar [config]="true" class="table-responsive mt-3">
+              <div class="container-fluid mt-2">
+                <div class="row">
+                  <div class="col-lg-12 col-12">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col">{{ "stock.Item" | translate }}</th>
+                          <th scope="col">{{ "stock.Unit" | translate }}</th>
+                          <th scope="col">
+                            {{ "stock.Quantity" | translate }}
+                          </th>
+                          <th *ngIf="responseobj.Type == 2" scope="col">
+                            {{ "stock.AlternativeItem" | translate }}
+                          </th>
+                          <th scope="col" *ngIf="!responseobj.Sent && !disableControlEdit">
+                            {{ "stock.Actions" | translate }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let detail of responseobj.InventoryDetails; let i = index">
+                          <td>
+                            <select
+                              name="itemselect{{ i }}"
+                              id="{{ i }}"
+                              class="form-control qty p-0"
+                              required
+                              disabled
+                              [(ngModel)]="detail.ItemId"
+                              (click)="checkDuplication(detail)">
+                              <option *ngFor="let item of items" [value]="item.Id" class="form-control qty">
+                                {{ item.Name }}
+                              </option>
+                            </select>
+                          </td>
+                          <td>
+                            <select
+                              name="unitselect{{ i }}"
+                              id="{{ i }}"
+                              class="form-control p-0"
+                              required
+                              [disabled]="responseobj.Sent || disableControlEdit"
+                              [(ngModel)]="detail.UnitId"
+                              (click)="checkDuplication(detail); setSizeFromMainUnit(detail)">
+                              <option *ngFor="let unit of gtSelectedUnits(detail)" [value]="unit.Id">
+                                {{ unit.Name }}
+                              </option>
+                            </select>
+                          </td>
+                          <td class="desc">
+                            <input
+                              name="qty{{ i }}"
+                              type="number"
+                              class="form-control borderRadius qty p-0"
+                              required
+                              [(ngModel)]="detail.Quantity"
+                              [disabled]="responseobj.Sent || disableControlEdit" />
+                          </td>
+                          <td *ngIf="responseobj.Type == 2">
+                            <select
+                              name="alternativeItems{{ i }}"
+                              id="{{ i }}"
+                              class="form-control p-0"
+                              [required]="responseobj.Type == 2 && detail.IsGeneral"
+                              [(ngModel)]="detail.AlternativeItemId"
+                              (click)="setAlternativeGSizeFromMainUnit(detail)"
+                              [disabled]="disableControlEdit || !detail.IsGeneral">
+                              <option
+                                *ngFor="let alternativeItem of getAlternativeItems(detail)"
+                                [value]="alternativeItem.Id"
+                                class="form-control qty">
+                                {{ alternativeItem.Name }}
+                              </option>
+                            </select>
+                          </td>
+
+                          <td *ngIf="!responseobj.Sent && !disableControlEdit">
+                            <div>
+                              <!-- <i class="far fa-edit  " style="font-size: 1.3rem; color:red;" data-placement="bottom"
+                              data-toggle="tooltip" role="presentation" title='{{"pagetransactions.Edit"| translate}}'></i> -->
+
+                              <i class="far fa-trash-alt" role="presentation" (click)="deleteRow(i)"> </i>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </perfect-scrollbar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

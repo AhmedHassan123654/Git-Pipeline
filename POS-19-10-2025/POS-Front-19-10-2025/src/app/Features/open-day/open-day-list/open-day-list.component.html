@@ -1,0 +1,81 @@
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #Grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [allowGrouping]="true">
+        <e-columns>
+          <e-column
+            field="SerialNumber"
+            headerText="{{ 'Reports.SerialNumber' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="DayDate"
+            headerText="{{ 'CashReceipt.Date' | translate }}"
+            [format]="format"
+            type="date"
+            textAlign="left"></e-column>
+          <e-column field="DayName" headerText="{{ 'Shared.DayName' | translate }}" textAlign="left"></e-column>
+          <e-column field="FromTime" headerText="{{ 'Shared.FromTime' | translate }}" textAlign="left"></e-column>
+          <e-column field="ToTime" headerText="{{ 'Shared.ToTime' | translate }}" textAlign="left"></e-column>
+
+          <e-column
+            field="Closed"
+            headerText="{{ 'Shared.Close' | translate }}"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <ng-template #template let-data>
+              <div>
+                <input type="checkbox" disabled name="Closed" id="Closed" [checked]="data.Closed" />
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column>
+            <ng-template #template let-data class="d-flex">
+              <div *ngIf="!data.Closed">
+                <button type="button" class="btn btn-success btnEdit m-0" (click)="CloseDay(data)">
+                  {{ "Shared.CloseDay" | translate }} 
+                </button>
+                &nbsp;
+              </div>
+              <div *ngIf="data.Closed">
+                <button type="button" class="btn btn-danger btnEdit m-0" (click)="OpenDay(data)">
+                  {{ "Shared.UnCloseDay" | translate }}
+                </button>
+                &nbsp;
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column>
+            <ng-template #template let-showdata>
+              <div>
+                <button type="button" class="btn btnEdit btn-success m-0" (click)="ShowReport(showdata)">
+                  {{ "Shared.ShowReport" | translate }}
+                </button>
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column>
+            <ng-template #template let-showdata>
+              <div>
+                <button type="button" class="btn btn-info btnEdit m-0" (click)="goToEndShift(showdata)">
+                  {{ "Dashboard.Shift" | translate }}                
+                </button>
+                &nbsp;
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

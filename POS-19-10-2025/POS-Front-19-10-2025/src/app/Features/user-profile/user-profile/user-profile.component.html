@@ -1,0 +1,387 @@
+<div class="col-md-12 col-xs-12">
+  <div class="modal-content">
+    <form (ngSubmit)="frmRef.form.valid && onSubmit()" #frmRef="ngForm" novalidate>
+      <div class="ms-card ms-widget ms-profile-widget ms-card-fh">
+        <div class="ms-card-img">
+          <img src="assets/images/banner-1000x370.jpg" class="img-fluid welcomeImg" alt="card_img" />
+          <button type="button" class="close closeBBtn p-2" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <img src="assets/images/user.png" class="ms-img-large ms-img-round ms-user-img" alt="people" />
+        <div class="ms-card-body">
+          <h4>Anny Farisha</h4>
+          <span>Quality Control Manager</span>
+        </div>
+      </div>
+      <!--header-->
+      <div class="modal-header">
+        <!-- <h5  class="modal-title has-icon ms-icon-round  text-disabled ml-3"> Profile</h5> -->
+      </div>
+      <!---body--->
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <!--nav-->
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a
+                    class="nav-item nav-link active edit"
+                    id="nav-personal-tab"
+                    data-toggle="tab"
+                    href="#nav-home"
+                    role="tab"
+                    aria-controls="nav-home"
+                    aria-selected="true"
+                    >{{ "UserProfile.PersonalInformation" | translate }}</a
+                  >
+
+                  <a
+                    class="nav-item nav-link edit"
+                    id="nav-security-tab"
+                    data-toggle="tab"
+                    href="#nav-security"
+                    role="tab"
+                    aria-controls="nav-security"
+                    aria-selected="false"
+                    >{{ "UserProfile.SecurityInformation" | translate }}</a
+                  >
+                </div>
+              </nav>
+              <!--content-->
+              <div class="tab-content pt-5 pb-3" id="nav-tabContent">
+                <!--personal-->
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-personal-tab">
+                  <!----->
+                  <div class="row">
+                    <!--userName -->
+                    <div class="col-md-6 col-sm-12">
+                      <div class="form-group row px-2">
+                        <label for="colFormLabel" class="col-sm-2 col-md-3 col-form-label labelUser">{{
+                          "UserProfile.UserNumber" | translate
+                        }}</label>
+                        <div class="col-sm-10 col-md-9">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-id-card"></i>
+                              </div>
+                            </div>
+                            <input
+                              name="UserNumber"
+                              #UserNumber="ngModel"
+                              [(ngModel)]="userprofileobj.UserNumber"
+                              class="form-control edit"
+                              placeholder="{{ 'UserProfile.UserNumber' | translate }}"
+                              disabled />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--Email-->
+                    <div class="col-md-6 col-sm-12">
+                      <div class="form-group row px-2">
+                        <label for="colFormLabel" class="col-sm-2 col-md-3 col-form-label labelUser">{{
+                          "Shared.Email" | translate
+                        }}</label>
+                        <div class="col-sm-10 col-md-9">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-at"></i>
+                              </div>
+                            </div>
+                            <input
+                              name="Email"
+                              #Email="ngModel"
+                              [(ngModel)]="userprofileobj.Email"
+                              class="form-control edit"
+                              placeholder="{{ 'Shared.Email' | translate }}"
+                              disabled />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--PhoneNumber-->
+                    <div class="col-md-6 col-sm-12">
+                      <div class="form-group row px-2">
+                        <label for="colFormLabel" class="col-sm-2 col-md-3 col-form-label labelUser">{{
+                          "UserProfile.PhoneNumber" | translate
+                        }}</label>
+                        <div class="col-sm-10 col-md-9">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-phone"></i>
+                              </div>
+                            </div>
+                            <input
+                              name="PhoneNumber"
+                              #PhoneNumber="ngModel"
+                              [(ngModel)]="userprofileobj.PhoneNumber"
+                              class="form-control edit"
+                              placeholder="Phone Number"
+                              disabled />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--CreatedOn-->
+                    <div class="col-md-6 col-sm-12">
+                      <div class="form-group row px-2">
+                        <label for="colFormLabel" class="col-sm-2 col-md-3 col-form-label labelUser">{{
+                          "UserProfile.CreatedOn" | translate
+                        }}</label>
+                        <div class="col-sm-10 col-md-9">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <i class="fas fa-calendar-alt"></i>
+                              </div>
+                            </div>
+                            <input
+                              name="CreatedOn"
+                              #CreatedOn="ngModel"
+                              [(ngModel)]="userprofileobj.CreatedOn"
+                              class="form-control edit"
+                              placeholder="Created On"
+                              disabled />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!----->
+                </div>
+
+                <!--security-->
+                <div class="tab-pane fade" id="nav-security" role="tabpanel" aria-labelledby="nav-security-tab">
+                  <nav class="mt-2">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                      <a
+                        class="nav-item nav-link active"
+                        id="nav-password2-tab"
+                        data-toggle="tab"
+                        href="#nav-home2"
+                        role="tab"
+                        aria-controls="nav-home2"
+                        aria-selected="true"
+                        >{{ "Shared.Password" | translate }}</a
+                      >
+                      <a
+                        class="nav-item nav-link"
+                        id="nav-pin2-tab"
+                        data-toggle="tab"
+                        href="#nav-profile2"
+                        role="tab"
+                        aria-controls="nav-profile2"
+                        aria-selected="false"
+                        >{{ "Shared.Pin" | translate }}</a
+                      >
+                    </div>
+                  </nav>
+                  <div class="tab-content" id="nav-tabContent">
+                    <!--password-->
+                    <div
+                      class="tab-pane fade show active row"
+                      id="nav-home2"
+                      role="tabpanel"
+                      aria-labelledby="nav-password2-tab">
+                      <!--old Password -->
+                      <div class="col-md-8 col-sm-12 pt-4 pb-2">
+                        <div class="form-group row">
+                          <!--label-->
+                          <label for="colFormLabel" class="col-md-3 col-form-label labelUser">{{
+                            "UserProfile.OldPassword" | translate
+                          }}</label>
+                          <!--input-->
+                          <div class="col-md-9">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <i class="fas fa-key"></i>
+                                </div>
+                              </div>
+                              <input
+                                type="password"
+                                autocomplete="new-password"
+                                name="CurrentPassword"
+                                #CurrentPassword="ngModel"
+                                [(ngModel)]="userprofileobj.CurrentPassword"
+                                class="form-control"
+                                placeholder="{{ 'UserProfile.OldPassword' | translate }}"
+                                required />
+                            </div>
+                            <!--alert-->
+                            <div
+                              *ngIf="
+                                (frmRef.submitted && CurrentPassword.invalid) ||
+                                (CurrentPassword.invalid && CurrentPassword.touched)
+                              ">
+                              <div class="alert alert-danger" *ngIf="CurrentPassword.errors.required">
+                                {{ "UserProfile.CurrentPasswordIsRequired" | translate }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--new password-->
+                      <div class="col-md-8 col-sm-12 pb-2">
+                        <div class="form-group row">
+                          <!--label-->
+                          <label for="colFormLabel" class="col-md-3 col-form-label labelUser">{{
+                            "UserProfile.NewPassword" | translate
+                          }}</label>
+                          <!--input-->
+                          <div class="col-md-9">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <i class="fas fa-key"></i>
+                                </div>
+                              </div>
+                              <input
+                                type="password"
+                                autocomplete="new-password"
+                                name="NewPassword"
+                                #NewPassword="ngModel"
+                                [(ngModel)]="userprofileobj.NewPassword"
+                                class="form-control edit"
+                                placeholder="{{ 'UserProfile.NewPassword' | translate }}"
+                                required />
+                            </div>
+                            <!--alert-->
+                            <div
+                              *ngIf="
+                                (frmRef.submitted && NewPassword.invalid) ||
+                                (NewPassword.invalid && NewPassword.touched)
+                              "
+                              class="alert alert-danger">
+                              <div *ngIf="NewPassword.errors.required">
+                                {{ "UserProfile.NewPasswordIsRequired" | translate }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--confirm password-->
+                      <div class="col-md-8 col-sm-12 pb-2">
+                        <div class="form-group row">
+                          <!--label-->
+                          <label for="colFormLabel" class="col-md-3 col-form-label labelUser">{{
+                            "Shared.ConfirmPassword" | translate
+                          }}</label>
+                          <!--input-->
+                          <div class="col-md-9">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <i class="fas fa-key"></i>
+                                </div>
+                              </div>
+                              <input
+                                type="password"
+                                autocomplete="new-password"
+                                name="ConfirmPassword"
+                                #ConfirmPassword="ngModel"
+                                [(ngModel)]="userprofileobj.ConfirmPassword"
+                                class="form-control edit"
+                                placeholder="{{ 'Shared.ConfirmPassword' | translate }}"
+                                required />
+                            </div>
+                            <!--alert-->
+                            <div
+                              *ngIf="
+                                (frmRef.submitted && ConfirmPassword.invalid) ||
+                                (ConfirmPassword.invalid && ConfirmPassword.touched)
+                              "
+                              class="alert alert-danger">
+                              <div *ngIf="ConfirmPassword.errors.required">
+                                {{ "Shared.ConfirmPasswordIsRequired" | translate }}
+                              </div>
+                              <div *ngIf="ConfirmPassword.errors.mustMatch">
+                                {{ "Shared.PasswordDoesNotMatch" | translate }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!---Pin-->
+                    <!--new Pin-->
+                    <div class="tab-pane fade" id="nav-profile2" role="tabpanel" aria-labelledby="nav-pin2-tab">
+                      <div class="col-md-8 col-sm-12 pt-4 pb-2">
+                        <div class="form-group row">
+                          <label for="colFormLabel" class="col-sm-2 col-md-2 col-form-label labelUser">{{
+                            "UserProfile.NewPin" | translate
+                          }}</label>
+                          <div class="col-sm-10 col-md-10">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <i class="fas fa-lock"></i>
+                                </div>
+                              </div>
+                              <input
+                                type="password"
+                                autocomplete="new-password"
+                                name="NewPin"
+                                #NewPin="ngModel"
+                                [(ngModel)]="userprofileobj.NewPin"
+                                class="form-control edit"
+                                placeholder="{{ 'UserProfile.NewPin' | translate }}" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--confirm pin-->
+                      <div class="col-md-8 col-sm-12 pb-2">
+                        <div class="form-group row">
+                          <label for="colFormLabel" class="col-sm-2 col-md-2 col-form-label labelUser">{{
+                            "UserProfile.ConfirmPin" | translate
+                          }}</label>
+                          <div class="col-sm-10 col-md-10">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                  <i class="fas fa-lock"></i>
+                                </div>
+                              </div>
+                              <input
+                                type="password"
+                                autocomplete="new-password"
+                                name="ConfirmPin"
+                                #ConfirmPin="ngModel"
+                                [(ngModel)]="userprofileobj.ConfirmPin"
+                                class="form-control edit"
+                                placeholder="{{ 'UserProfile.ConfirmPin' | translate }}" />
+                            </div>
+                            <!--alert-->
+                            <div
+                              *ngIf="
+                                (frmRef.submitted && ConfirmPin.invalid) || (ConfirmPin.invalid && ConfirmPin.touched)
+                              "
+                              class="alert alert-danger">
+                              <div *ngIf="ConfirmPin.errors.mustMatch">
+                                {{ "UserProfile.PinDoesNotMatch" | translate }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary shadow-none">
+                      {{ "Shared.Submit" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 20px !important;
+  height: 30px !important;
+}
+
+.form-check-input {
+  position: absolute;
+  margin-top: -0.3rem !important;
+  margin-left: -2rem !important;
+}
+.borderEdit {
+  border-right: 1px #ddd solid;
+}
+.editBtnDriver {
+  padding: 0.425rem 1rem !important;
+  min-width: 100px !important;
+}
+.label1 {
+  color: #333 !important;
+}
+.modal-header {
+  border: 1px solid #ddd !important;
+}
+.ms-btn-icon.editmsBtn {
+  width: 35px;
+  height: 35px;
+  color: #fff !important;
+}
+.e-grid.e-responsive .e-rowcell,
+.e-grid.e-responsive .e-headercelldiv {
+  text-overflow: ellipsis;
+  white-space: pre-wrap !important;
+}
+.ms-checkbox-wrap input[type="checkbox"] {
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+}
+.required-asterisk {
+  color: red !important;
+}
+span {
+  color: #333 !important;
+}
+i {
+  font-size: 18px !important;
+}
+.editText tr th,
+.editText tr td {
+  color: #333;
+}
+
+tr.thead-gray {
+  background-color: #e0e0e0 !important ;
+}

@@ -1,0 +1,133 @@
+<mat-list *ngIf="menuItem" class="cart-items">
+  <mat-list-item>
+    <div class="w-100 -3 headerCart">
+      <div class="d-flex editDirection justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <img
+            matListAvatar
+            [src]="menuItem.PicturePath ? imgURL + menuItem.PicturePath : defaultIm"
+            alt="image"
+            fxShow="false"
+            fxShow.gt-xs="true" />
+          <h3 mat-line class="secondary-font fw-500 title mx-2 m-0">
+            <a>{{ menuItem.Name }}</a>
+          </h3>
+        </div>
+        <div class="d-flex align-items-center flex-column">
+          <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center flex-column">
+              <h5 class="primary-color fw-500 my-0 mx-3">
+                {{ menuItem.Price | currency : " " : "symbol" : appService.fraction }}
+              </h5>
+              <!-- <app-quantity-counter [value]="menuItem.cartCount" [step]="1" [min]="1" [max]="1000" [small]="true" ></app-quantity-counter> -->
+            </div>
+            <button mat-icon-button (click)="hideSheet(false)" matTooltip="Hide">
+              <mat-icon color="primary" class="mat-icon-lg">arrow_drop_down_circle</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-list-item>
+  <mat-list-item>
+    <div class="w-100 divider"></div>
+  </mat-list-item>
+  <mat-accordion>
+    <!-- Voluems  -->
+    <mat-expansion-panel
+      *ngIf="menuItem.ProductVolumes && menuItem.ProductVolumes.length > 0"
+      [expanded]="true"
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <i class="fas fa-balance-scale mx-1"></i>
+          Volumes
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <section [perfectScrollbar]="psConfig" class="example-section editSize">
+        <mat-checkbox
+          *ngFor="let item of menuItem.ProductVolumes"
+          class="example-margin"
+          [(ngModel)]="item.SelectedVolum"
+          (change)="volumChecked($event, item)"
+          >{{ item.VolumeName }} ({{ item.Price }})</mat-checkbox
+        >
+      </section>
+    </mat-expansion-panel>
+    <!-- Sub Items -->
+    <mat-expansion-panel
+      *ngIf="menuItem.ProductSubItems && menuItem.ProductSubItems.length > 0"
+      (opened)="panelOpenState2 = true"
+      [expanded]="!menuItem.ProductVolumes || menuItem.ProductVolumes.length == 0"
+      (closed)="panelOpenState2 = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <i class="bi bi-plus-lg mx-1"></i>
+          Side Dishes
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <section [perfectScrollbar]="psConfig" class="example-section editSize">
+        <mat-checkbox
+          *ngFor="let item of menuItem.ProductSubItems"
+          class="example-margin"
+          [(ngModel)]="item.SideChecked"
+          (change)="sideDishesChecked($event, item)"
+          >{{ item.Name }}</mat-checkbox
+        >
+      </section>
+    </mat-expansion-panel>
+    <!-- Notes -->
+    <mat-expansion-panel
+      (opened)="panelOpenState3 = true"
+      [expanded]="
+        (!menuItem.ProductSubItems || menuItem.ProductSubItems.length == 0) &&
+        (!menuItem.ProductVolumes || menuItem.ProductVolumes.length == 0)
+      "
+      (closed)="panelOpenState3 = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <i class="bi bi-pencil-square mx-1"></i>
+          Notes
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <section class="example-section">
+        <form>
+          <div class="form-group">
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              name="NoteN"
+              [(ngModel)]="Note"
+              placeholder="Put this any other informations ..."
+              cols="50"
+              rows="3"></textarea>
+          </div>
+        </form>
+      </section>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-list-item>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="w-100 pt-3 divider cartFooter">
+      <a
+        *ngIf="isExist"
+        (click)="addToCart2()"
+        style="width: 100%"
+        mat-raised-button
+        color="primary"
+        class="transform-none redBtn"
+        >Edit Cart</a
+      >
+      <a
+        *ngIf="!isExist"
+        (click)="addToCart2()"
+        style="width: 100%"
+        mat-raised-button
+        color="primary"
+        class="transform-none redBtn"
+        >Add To Cart</a
+      >
+    </div>
+  </mat-list-item>
+</mat-list>

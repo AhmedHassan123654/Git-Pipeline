@@ -1,0 +1,40 @@
+<!-- Body Content Wrapper -->
+
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #Grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        (rowSelected)="onRowSelected($event)"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions">
+        <e-columns>
+          <e-column
+            field="Discription"
+            headerText="{{ 'Shared.Description' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="ForeignDescription"
+            headerText="{{ 'Shared.ForeignDescription' | translate }}"
+            textAlign="left"></e-column>
+          <e-column
+            field="CustomerPromoTypeName"
+            headerText="{{ 'Shared.PromoType' | translate }}"
+            textAlign="left"></e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<button type="button" class="btn-close close pull-left m-3" aria-label="Close" (click)="cancel()">
+  <span aria-hidden="true" class="visually-hidden">&times;</span>
+</button>
+<div class="container mt-5">
+  <mat-card class="menu-single my-5">
+    <div *ngIf="menuItem" class="flex-wrapper row">
+      <div style="position: relative" class="px-3">
+        <mat-chip-list *ngIf="menuItem.DiscountValue">
+          <mat-chip color="warn" selected="true">{{ menuItem.DiscountValue }}% OFF</mat-chip>
+        </mat-chip-list>
+        <img [src]="menuItem.PicturePath ? imgURL + menuItem.PicturePath : defaultIm" class="w-100" />
+      </div>
+      <div class="px-3">
+        <h3 class="secondary-font mainName">{{ menuItem.Name }}</h3>
+        <h1 *ngIf="!menuItem.DiscountValue" class="primary-color price py-3">
+          {{ menuItem.Price | currency : " " : "symbol" : appService.fraction }}
+        </h1>
+        <h1 *ngIf="menuItem.DiscountValue" class="py-3">
+          <span class="text-muted old-price">{{
+            menuItem.Price | currency : " " : "symbol" : appService.fraction
+          }}</span>
+          <span class="primary-color mx-2">{{
+            menuItem.Price - menuItem.Price * (menuItem.DiscountValue / 100)
+              | currency : " " : "symbol" : appService.fraction
+          }}</span>
+        </h1>
+        <div *ngIf="menuItem.Description">
+          <h3 class="Ingredients m-0">Description</h3>
+          <p>{{ menuItem.Description }}</p>
+        </div>
+        <div *ngIf="menuItem.allSubItems">
+          <h3 class="Ingredients m-0">Product Side Dishes</h3>
+          <p>{{ menuItem.allSubItems }}</p>
+        </div>
+        <div *ngIf="menuItem.allVolumes">
+          <h3 class="Ingredients m-0">Product Volumes</h3>
+          <p>{{ menuItem.allVolumes }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="cancel()">Close</button>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,233 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="driverform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="form-row pt-3">
+                        <!--employee-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="selectEmployee"> {{ "Shared.planName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-file" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    type="text"
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    id="Name_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="isRequired" />
+
+                                  <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Foreign name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="foreignname"> {{ "customer.ForeignName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-file" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    type="text"
+                                    name="ForiegnName"
+                                    #ForiegnName="ngModel"
+                                    [(ngModel)]="responseobj.ForiegnName"
+                                    id="ForiegnName_id"
+                                    class="form-control borderRadius"
+                                    disabled />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- meals Count per day -->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "Shared.mealsCountperday" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <img alt="" src="assets/images/sort (2).png" srcset="" />
+                                </div>
+                                <!-- [numbersOnly]="responseobj.MaxOrders"  -->
+                                <div class="input-group positionEdit">
+                                  <div class="input-group">
+                                    <input
+                                      [numbersOnly]="responseobj.CountMeals"
+                                      [allowDecimals]="false"
+                                      name="CountMeals"
+                                      #CountMeals="ngModel"
+                                      [(ngModel)]="responseobj.CountMeals"
+                                      id="CountMeals_id"
+                                      class="form-control borderRadius"
+                                      disabled
+                                      [required]="isRequired" />
+
+                                    <div
+                                      *ngIf="
+                                        (frmRef.submitted && CountMeals.invalid) ||
+                                        (CountMeals.invalid && CountMeals.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash" *ngIf="CountMeals.errors.required">
+                                        Count Meals Is required
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Numberofitemspermeal -->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18">
+                                {{ "Shared.Numberofitemspermeal" | translate }}
+                                :
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <img alt="" src="assets/images/sort (2).png" srcset="" />
+                                </div>
+                                <!-- [numbersOnly]="responseobj.MaxOrders"  -->
+                                <div class="input-group positionEdit">
+                                  <input
+                                    [numbersOnly]="responseobj.CountProducts"
+                                    [allowDecimals]="false"
+                                    name="CountProducts"
+                                    #CountProducts="ngModel"
+                                    [(ngModel)]="responseobj.CountProducts"
+                                    id="CountProducts_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="isRequired" />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && CountProducts.invalid) ||
+                                      (CountProducts.invalid && CountProducts.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="CountProducts.errors.required">
+                                      Count Products Is required
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Total Feed Amount per person today-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"
+                                >{{ "Shared.TotalFeedAmountperpersontoday" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-coins fs-16" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    [numbersOnly]="responseobj.AmountMeals"
+                                    [allowDecimals]="false"
+                                    name="AmountMeals"
+                                    #AmountMeals="ngModel"
+                                    [(ngModel)]="responseobj.AmountMeals"
+                                    id="AmountMeals_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="isRequired" />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && AmountMeals.invalid) ||
+                                      (AmountMeals.invalid && AmountMeals.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="AmountMeals.errors.required">
+                                      Amount Money Is required
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row my-1">
+                            <div class="col-md-4">
+                              <label>
+                                {{ "Shared.IsStopped" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8">
+                              <label class="ms-checkbox-wrap ms-todo-complete">
+                                <input
+                                  type="checkbox"
+                                  name="IsStopped"
+                                  #IsStopped="ngModel"
+                                  [(ngModel)]="responseobj.IsStopped"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

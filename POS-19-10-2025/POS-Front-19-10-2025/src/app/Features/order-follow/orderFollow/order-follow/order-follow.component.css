@@ -1,0 +1,74 @@
+.borderEdit {
+  border-right: 1px #ddd solid;
+}
+.editBtnDriver {
+  padding: 0.4rem 0.3rem !important;
+  min-width: 60px !important;
+}
+.label1 {
+  color: #333 !important;
+}
+.modal-header {
+  border: 1px solid #ddd !important;
+}
+.ms-btn-icon.editmsBtn {
+  width: 35px;
+  height: 35px;
+  color: #fff !important;
+}
+.e-grid.e-responsive .e-rowcell,
+.e-grid.e-responsive .e-headercelldiv {
+  text-overflow: ellipsis;
+  white-space: pre-wrap !important;
+}
+.ms-checkbox-wrap input[type="checkbox"] {
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+}
+.required-asterisk {
+  color: red !important;
+}
+span {
+  color: #333 !important;
+}
+i {
+  font-size: 18px !important;
+}
+
+.editpah label h6 {
+  color: #333;
+  font-weight: bold;
+}
+.editpah p {
+  color: #333;
+  margin: 0;
+}
+
+.custom-btn {
+  padding: 0.4rem 0.3rem !important;
+}
+.letter-content {
+  background: #9bcdd2;
+  text-align: center;
+  padding: 3px 6px 6px;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 7px;
+  border: 2px solid #9bcdd2;
+  border-radius: 7px;
+  margin-inline-end: 10px;
+  cursor: pointer;
+}
+.letter,
+.delete-letter-icon {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+.delete-letter-icon {
+  padding: 6px 5px 2px;
+}
+.custom-button:hover{
+  color: #b41919;
+}

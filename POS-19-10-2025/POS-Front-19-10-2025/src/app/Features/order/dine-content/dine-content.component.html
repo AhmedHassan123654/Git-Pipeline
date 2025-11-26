@@ -1,0 +1,357 @@
+<div class="dinein-component">
+  <!-- <div class="canvasContainer" id="{{dataTab}}">
+        <canvas #myCanvas id="{{canvasId}}" class="h"  ngDraggable ngResizable [handle]="DemoHandle"   ></canvas>
+     </div> -->
+
+  <!--sideNav-->
+  <div [ngStyle]="{ width: SideMenu ? ' 60px ' : '0' }" class="sidenav sidenavDine">
+    <!--close-->
+    <a
+      href="javascript:void(0)"
+      style="
+        position: absolute;
+        top: 0;
+        left: 0px;
+        font-size: 36px;
+        margin-left: 0rem;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        display: flexbox;
+        text-align: center;
+      "
+      class="closebtn closeEdit p-2"
+      (click)="closeNav()">
+      <img src="assets/images/cancel.png" alt="" srcset="" />
+    </a>
+    <!--shapes-->
+    <div
+      class="LinksDine"
+      [ngStyle]="{ right: SideMenu ? ' 0px ' : '-80px' }"
+      style="
+        position: absolute;
+        top: 20%;
+        right: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        width: 100%;
+      ">
+      <a class="btn" (click)="arrangeAllTablesForHall()">
+        <img class="img-fluid" src="assets/images/reset.png" alt="" />
+      </a>
+      <a class="btn" *ngIf="val || val == 0" (click)="openModal(template)">
+        <img class="img-fluid" src="assets/images/qr-code.png" alt="" />
+      </a>
+      <a class="btn" (click)="shapeElement()">
+        <img class="img-fluid" src="assets/images/shapes.png" alt="" />
+      </a>
+      <!--color-->
+      <a class="btn" id="colorLink" style="position: relative">
+        <!-- <i  class="flaticon-art"></i> -->
+        <!-- <input ejs-colorpicker type="color" id="element" value="#ba68c8" mode="Palette" [columns]="colCount"  [modeSwitcher]="false" [showButtons]="false"  (change)="onChange($event)" />` -->
+
+        <input
+          [presetColors]="customColors"
+          (beforeTileRender)="tileRender($event)"
+          ejs-colorpicker
+          type="color"
+          id="element"
+          mode="Palette"
+          [modeSwitcher]="false"
+          [showButtons]="false"
+          (change)="onChange($event)" />
+      </a>
+      <!-- <input   ejs-colorpicker type="color" id="element" value="#ba68c8" mode="Palette"
+                 [columns]="colCount" [inline]="true" [modeSwitcher]="false" [showButtons]="false"
+                 [presetColors]="customColors" (beforeTileRender)="tileRender($event)" (change)="onChange($event)"   /> -->
+
+      <!--chair-->
+      <!-- <a class="btn">
+                <img src="assets/images/group.png" alt="" srcset="">
+               </a> -->
+      <!--text-->
+      <a class="btn" (click)="openEditTablePopUp()">
+        <img src="assets/images/edit.png" alt="" srcset="" />
+      </a>
+      <!--Add-->
+      <a class="btn" (click)="copy()">
+        <img src="assets/images/plus.png" alt="" srcset="" />
+      </a>
+      <!--delete-->
+
+      <a class="btn" (click)="deleteItem()">
+        <img src="assets/images/bin.png" alt="" srcset="" />
+      </a>
+
+      <!--save-->
+      <a class="btn" (click)="UpdateHall()">
+        <img src="assets/images/save.png" alt="" srcset="" />
+      </a>
+    </div>
+  </div>
+  <!--editbtn-->
+  <button
+    style="position: fixed; top: 0; right: 0;z-index: 1000;"
+    type="button"
+    [disabled]="disableEditTables"
+    class="ms-btn-icon btn-square btn-primary"
+    (click)="openNav()">
+    <i class="flaticon-pencil"></i>
+  </button>
+
+  <div>
+    <button (click)="openSearchInput()" class="searchBtn btn-primary">
+      <i class="fas fa-search"></i>
+    </button>
+    <div *ngIf="showSearch">
+      <input type="text" id="searchTableName{{currentHall.Name}}" [(ngModel)]="searchTableName" (keyup)="searchTable()"
+      class="form-control searchText rounded" [placeholder]="'Shared.SearchName' | translate ">
+    </div>
+  </div>
+<perfect-scrollbar class="pS d-flex justify-content-center align-items-center">
+  <ul class="firstUl" id="{{ dataTab }}">
+    <li
+      id="liDrag{{ i }}{{ dataTab }}"
+      (click)="clickLi(i)"
+      *ngFor="let table of filtredTables; let i = index"
+      class="h"
+      [ngClass]="[
+        table.DocumentId == orderObj.TableId || i == val ? 'bg-successTable' : '',
+        table.Count > 0 ? 'TableBusy' : '',
+        isTimeGreaterThan30Minutes(table) ? ' TableTooBusy' : ''
+      ]"
+      ngDraggable
+      [ngDraggable]="SideMenu"
+      (started)="onDragBegin($event, i)"
+      [handle]="table.IsStopDrag"
+      [class.disabled]="table.IsStopDrag || !checkAnotherCaptainOrUser(table)"
+      (stopped)="onDragEnd($event, i)"
+      ngResizable
+      [ngResizable]="SideMenu"
+      (rzStart)="onResizeStart(i, $event)"
+      (rzStop)="onResizeStop($event, i)">
+      <!-- <p >Table:{{vv.value}}</p>  -->
+      <!-- <input style="width: 50px;" type="text" [value]="i+1" #vv  name="" id="">
+                <button #v (click)="RemoveTable(i)" [value]="i" type="button" class="ms-btn-icon btn-pill btn-danger"><i class="flaticon-trash editttrash"></i></button> -->
+      <!-- <button  style="min-width: 60px;   margin: 5px;" class="btn" > {{table.TableName}}</button> -->
+
+      <!-- (click)="RemoveTable(i)" -->
+      <div style="text-align: center; font-size: 0.9rem" class="m-0">
+        <div class="pull-left"
+        [ngStyle]="{ color: !table.Count ? ' black' : 'inherit' }" style="font-size: large;font-weight: 800;cursor: pointer;"
+         (click)="openEditTableNameForPerview($event,i)">{{
+          table.Count > 0  && table.TableName ? table.TableName : (table.Name  + (table.perviewName ? '/' + table.perviewName : '')) }}
+        </div>
+        &nbsp;
+        <span style="color: inherit" *ngIf="table.Count">{{ table.FromTime }}</span>
+
+        <span *ngIf="table.PersonsCount > 0" class="pull-right" style="color: inherit">&nbsp; : {{ table.PersonsCount }}</span>
+        <img
+          *ngIf="table.PersonsCount > 0"
+          class="pull-right"
+          style="width: 20px; height: 20px"
+          src="assets/images/group.png"
+          alt=""
+          srcset="" />
+      </div>
+
+      <hr [style.background-color]="isTimeGreaterThan30Minutes(table) ? ' #fff' : ''" *ngIf="table.CaptainName" class="m-1" />
+      <span style="color: inherit" *ngIf="table.CaptainName"> <i class="fa fa-user"></i> : {{ table.CaptainName }} </span>
+
+      <!-- <hr *ngIf="!table.CaptainName && table.CashierName" class="m-0" />
+      <span *ngIf="!table.CaptainName"> <i class="fa fa-user"></i> : {{ table.CashierName }} </span> -->
+
+      <hr [style.background-color]="isTimeGreaterThan30Minutes(table) ? ' #fff' : ''" class="m-1" />
+      <span style="color: inherit" *ngIf="table.Count > 1"> <i class="far fa-sticky-note"></i> : {{ table.Count }} </span>
+
+      <!-- Printed ✔ -->
+      <span *ngIf="table.OrderPrintCount" class="badge">
+        ✔ Printed
+      </span>
+      <span style="color: inherit" *ngIf="table.OrderPrintCount > 0"> <i class="fa fa-print"></i> : {{ table.OrderPrintCount }} </span>
+
+      <hr [style.background-color]="isTimeGreaterThan30Minutes(table) ? ' #fff' : ''" class="m-0" *ngIf="table.OrderPrintCount > 0" />
+      <span  style="color: inherit" *ngIf="table.Total && table.Total > 0 && checkAnotherCaptainOrUser(table)">
+        <i class="fas fa-money-bill-wave"></i>
+        {{ table.Total | currency : " " : "symbol" : fraction }}
+      </span>
+
+      <div class="table-actions" dropdown container="body">
+        <button id="tableActionsDropdown" type="button" class="btn" dropdownToggle
+          (click)="stopPropagation($event)" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-ellipsis-v"></i>
+          <span class="badge badge-pill badge-primary ml-2" *ngIf="table.CustomerOrdersCount > 0">
+            {{ table.CustomerOrdersCount }}
+          </span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="tableActionsDropdown" style="min-width: 160px;">
+          <li role="menuitem">
+            <a *ngIf="orderService.hasRole('CanAddCustomerOrderFromOrderScreen')"
+            class="dropdown-item py-2 px-3" href="javascript:;" (click)="customerOrderReservation($event, i)">
+              <i class="fa fa-clock-o menu-icon mr-2"></i>
+              {{'Shared.customerorders' | translate}}
+              <span class="badge badge-pill badge-primary ml-2" *ngIf="table.CustomerOrdersCount > 0">
+                {{ table.CustomerOrdersCount }}
+              </span>
+            </a>
+          </li>
+          <li role="separator" class="dropdown-divider my-0"></li>
+          <li role="menuitem">
+            <a class="dropdown-item py-2 px-3" href="javascript:;" (click)="openTableHistory($event, i)">
+              <i class="fas fa-history menu-icon mr-2"></i>
+              {{'Order.TableHistory' | translate}}
+            </a>
+          </li>
+        </ul>
+
+      </div>
+        <button *ngIf="showTableGame(table)" type="button"
+        style="min-width: fit-content; position: absolute; right: 5px; bottom: 5px; padding: 5px"
+        class="btn btn-warning m-0" (click)="tableGameModal($event, i, table)"><i class="fas fa-gamepad"></i></button>
+      <!-- </div> -->
+      <button
+        *ngIf="orderObj?.settings?.UseFirePrint && table?.NotPrinted > 0"
+        style="min-width: fit-content; position: absolute; right: 5px; bottom: 5px; padding: 5px"
+        class="btn btn-warning m-0">
+        <i class="fa fa-hand-o-right"> <i class="fa fa-print"> : {{ table?.NotPrinted }} </i></i>
+      </button>
+    </li>
+  </ul>
+</perfect-scrollbar>
+
+  <div [ngClass]="{ open: TableNameText }" class="prompt">
+    <div (click)="TableNameText = true" class="close-prompt open">
+      <i class="fas fa-times"></i>
+    </div>
+    <div *ngIf="currentHall && currentHall.Tables && currentHall.Tables[val]" class="field">
+      <div class="modal-header borderb mb-2">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <span class="p-1">
+            {{ "pagetransactions.Edit" | translate }}
+            {{ "Order.Table" | translate }} ( {{ TableName }} )
+          </span>
+        </h5>
+      </div>
+      <h3>{{ "Shared.Name" | translate }} :</h3>
+      <input [(ngModel)]="currentHall.Tables[val].Name" type="text" class="nameTable mt-2 mb-3" />
+
+      <h3>{{ "Reports.PersonCount" | translate }} :</h3>
+      <input [(ngModel)]="currentHall.Tables[val].Chairs" type="number" class="nameTable mt-2" />
+
+      <button (click)="updateName(currentHall.Tables[val].Name)" class="update-name">
+        {{ "Shared.Save" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- edit table name for preview only -->
+  <div [ngClass]="{ open: editTableNameForPerview }" class="prompt">
+    <div (click)="editTableNameForPerview = false" class="close-prompt open">
+      <i class="fas fa-times"></i>
+    </div>
+    <div *ngIf="filtredTables && filtredTables[val]" class="field">
+      <div class="modal-header borderb mb-2">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <span class="p-1">
+            ({{ filtredTables[val].Name + (filtredTables[val].perviewName ? '/' + filtredTables[val].perviewName : '') }})
+          </span>
+        </h5>
+      </div>
+      <h3>{{ "delivery.TableName" | translate }} :</h3>
+      <input [(ngModel)]="filtredTables[val].perviewName" type="text" class="nameTable mt-2 mb-3" />
+
+      <button (click)="editTableNameForPerview = false" class="update-name">
+        {{ "Shared.Save" | translate }}
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <img class="img-fluid" class="imgPrint" src="assets/images/qr-code.png" alt="" />
+    <h3 class="modal-title pull-left mx-1">Enter URL</h3>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="exampleEmail">Enter Url</label>
+        <div class="d-flex">
+          <input
+            type="email"
+            name="exampleEmail"
+            [(ngModel)]="Url"
+            style="width: 70%"
+            class="form-control"
+            id="exampleEmail"
+            placeholder="name@example.com" />
+          <button type="button" (click)="printTableQr()" class="ms-btn-icon btn-pill btn-success mx-5">
+            <img src="assets/images/printer.png" class="imgPrint" alt="" srcset="" />
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- Table History Modal -->
+<div *ngIf="showTableHistoryModal" class="modal fade show" [ngClass]="{'d-block': showTableHistoryModal}" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-history me-2"></i>
+          {{ 'Order.TableHistory' | translate }} - {{filtredTables[selectedTableIndex]?.Name || 'Table'}}
+        </h5>
+        <button type="button" class="close text-white" (click)="closeTableHistoryModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-0 m-2">
+        <div *ngIf="isLoadingTableHistory" class="text-center p-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">{{ 'Loading' | translate }}...</p>
+        </div>
+
+        <div *ngIf="!isLoadingTableHistory" class="table-responsive">
+          <table class="table table-hover mb-0 table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th>{{ 'Reports.OrderNumber' | translate }}</th>
+                <th>{{ 'Order.OpenedBy' | translate }}</th>
+                <th>{{ 'Reports.Creationtime' | translate }}</th>
+                <th>{{ 'manageorder.WaiterOrCaptain' | translate }}</th>
+                <th>{{ 'Order.ClosedBy' | translate }}</th>
+                <th>{{ 'Reports.CloseDate' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of tableHistoryData">
+                <td>{{ order.OrderNumber || '--' }}</td>
+                <td>{{ order.OpenedBy || '--' }}</td>
+                <td>{{ formatDateTime(order.CreationTime) }}</td>
+                <td>{{ order.WaiterOrCaptain || '--' }}</td>
+                <td>{{ order.ClosedBy || '--' }}</td>
+                <td>{{ order.Paid ? formatDateTime(order.CloseDate) : '--' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeTableHistoryModal()">
+          <i class="fas fa-times me-1"></i> {{ 'Shared.Close' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showTableHistoryModal"></div>

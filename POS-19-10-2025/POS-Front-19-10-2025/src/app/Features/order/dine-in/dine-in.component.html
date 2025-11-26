@@ -1,0 +1,120 @@
+<ul class="d-flex justify-content-between tabs" role="tablist">
+  <div class="col-10 d-flex" style="width: 90%; padding-left: 6px">
+    <ng-container *ngIf="halls.length > 0">
+      <li
+        (click)="listClick(hall.Name)"
+        [ngClass]="{ active: selectedTab == hall.Name }"
+        *ngFor="let hall of halls"
+        (dblclick)="EditHallPopUp()"
+        class="tab px-2 col d-flex justify-content-between">
+        <span>{{ getHallName(hall) }}</span>
+        <span
+          >{{ "Reports.Total" | translate }} ({{
+            ordersTotalByHall(hall) | currency : " " : "symbol" : fraction
+          }})</span
+        >
+      </li>
+    </ng-container>
+    <button [disabled]="disableEditHalls" (click)="addHallPopUp()" class="addTab">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+  <button (click)="cancel($event)" class="btn btn-primary m-0 btnEdit"><i class="far fa-times-circle"></i> Exit</button>
+
+  <div *ngIf="popupOpen" class="popup">
+    <div (click)="popupOpen = false" class="close-popup">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="field">
+      <h3 *ngIf="!hall.DocumentId" style="margin-bottom: 20px">{{"Order.AddNewHall" | translate}}:</h3>
+      <h3 *ngIf="hall.DocumentId" style="margin-bottom: 20px">{{"Order.EditHall" | translate}}:</h3>
+      <div class="row d-flex" >
+        <div class="col">
+          <label>{{"Shared.Name" | translate}}</label>
+          <input id="HallName" type="text" (keyup.enter)="addNewTab()" [(ngModel)]="hall.Name" class="nameTab" />
+        </div>
+        <div class="col">
+          <label>{{"Shared.ForeignName" | translate}}</label>
+          <input id="HallFName" type="text" (keyup.enter)="addNewTab()" [(ngModel)]="hall.ForeignName" class="nameTab" />
+        </div>
+      </div>
+      <div *ngIf="!hall.DocumentId">
+        <label>{{"Shared.GenerateTablesAutomatically" | translate}}</label>
+        <div class="row d-flex" >
+          <div class="col">
+            <label>{{"Shared.From" | translate}}</label>
+            <input id="From" type="number"  [(ngModel)]="hall.From" class="nameTab" />
+          </div>
+          <div class="col">
+            <label>{{"Shared.To" | translate}}</label>
+            <input id="To" type="number"  [(ngModel)]="hall.To" class="nameTab" />
+          </div>
+        </div>
+      </div>
+      <label>{{"Shared.PricingClass" | translate}}</label>
+      <ejs-combobox
+        class="form-control borderRadius"
+        name="PricingClassDocumentId"
+        #PricingClassDocumentId="ngModel"
+        [(ngModel)]="hall.PricingClassDocumentId"
+        [allowFiltering]="true"
+        [autofill]="true"
+        [dataSource]="pricingClasses"
+        [fields]="FLG">
+      </ejs-combobox>
+      <label>{{"Shared.Branch" | translate}}</label>
+      <ejs-combobox
+        class="form-control borderRadius"
+        name="BranchDocumentId"
+        #BranchDocumentId="ngModel"
+        [(ngModel)]="hall.BranchDocumentId"
+        [allowFiltering]="true"
+        [autofill]="true"
+        [dataSource]="Branches"
+        [fields]="FLG">
+      </ejs-combobox>
+      <div class="row d-flex mt-2" >
+        <div class="col">
+          <label>{{"products.ServeEntertainmentService" | translate}}</label>
+          <input type="checkbox" [(ngModel)]="hall.ServeEntertainmentServices" class="nameTab" />
+        </div>
+        <div class="col" *ngIf="hall.ServeEntertainmentServices">
+          <label>{{"products.EntertainmentServiceTime" | translate}}</label>
+          <ejs-combobox
+            class="form-control borderRadius"
+            name="EntertainmentServiceTime"
+            #EntertainmentServiceTime="ngModel"
+            [(ngModel)]="hall.EntertainmentServiceTime"
+            [allowFiltering]="true"
+            [autofill]="true"
+            [dataSource]="entertainmentServiceTimes"
+            [fields]="FLG">
+          </ejs-combobox>
+        </div>
+      </div>
+      
+      
+
+      <button *ngIf="!hall.DocumentId" (click)="addNewTab()" class="done-name">{{"pagetransactions.Add" | translate}}</button>
+      <button *ngIf="hall.DocumentId" (click)="EditHall()" class="done-name">{{"pagetransactions.Edit" | translate}}</button>
+      <button class="btn-danger Remove" *ngIf="hall.DocumentId" (click)="removeMe(hall)">
+        <span style="background-color: white" class="e-delete e-icons">
+          <i class="e-flat"></i>
+        </span>
+      </button>
+    </div>
+  </div>
+</ul>
+
+<ul class="contents" *ngFor="let tab of halls; let i = index">
+  <li class="content" [ngClass]="{ active: selectedTab == tab.Name }">
+    <app-dine-content
+      (CloseDin)="cancel($event)"
+      (CloseDinAndAddGame)="cancelAndAddGame($event)"
+      (GetAllHalls)="GetAllHalls()"
+      [currentHall]="tab"
+      [orderObj]="_orderobj"
+      [canvasId]="i"
+      [dataTab]="tab.DocumentId"></app-dine-content>
+  </li>
+</ul>

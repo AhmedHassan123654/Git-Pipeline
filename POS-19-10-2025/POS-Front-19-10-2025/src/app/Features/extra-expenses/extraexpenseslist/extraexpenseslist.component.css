@@ -1,0 +1,15 @@
+/* .disablegrid {
+    pointer-events: none;
+    opacity: 0.4;
+}
+.wrapper {
+    cursor: not-allowed;
+} */
+.e-summaryrow{
+    height: 8vh !important;
+    font-size: larger;
+  }
+  .e-summaryrow .e-templatecell {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+}

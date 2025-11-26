@@ -1,0 +1,584 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="cashreceiptform" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <div class="col-md-12">
+    <div class="row d-flex justify-content-between align-items-center px-3">
+      <div class="mb-1 d-flex align-items-start flex-column">
+        <nav class="navbar px-0 navbar-expand-md bg-transparent ms-btn-display">
+          <button
+            class="navbar-toggler ms-btn-icon btn-pill btn-danger p-1 m-2"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContentt"
+            aria-controls="navbarSupportedContentt"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fa fa-angle-down"></i>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel m-0">
+                  <div class="ms-panel-body py-3">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="form-row row editBorder">
+                        <div class="col-md-4">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> Name : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="request.Name"
+                                    class="form-control borderRadius"
+                                    disabled />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <img src="assets/images/amount (2).png" alt="" srcset="" />
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <input
+                                    name="VirtualName"
+                                    #VirtualName="ngModel"
+                                    [(ngModel)]="request.VirtualName"
+                                    disabled
+                                    class="form-control borderRadius" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="d-flex justify-content-center">
+                            <button
+                              type="submit"
+                              class="btn btn-outline-info btnNav"
+                              (click)="SaveProducts()"
+                              *ngIf="request.showEdit; else false">
+                              <i class="far fa-save pr-1"></i>{{ "Shared.Save" | translate }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0 pt-4" role="tablist">
+        <li class="px-2" id="tab30" role="presentation">
+          <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab" class="active basic-info">
+            {{ "Shared.productgroups" | translate }}
+          </a>
+        </li>
+        <li class="px-2" id="tab20" role="presentation">
+          <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab" class="basic-info">
+            {{ "Printer.Products" | translate }}
+          </a>
+        </li>
+        <li class="px-2" id="tab10" role="presentation">
+          <a href="#tab1" aria-controls="tab1" class="basic-info" role="tab" data-toggle="tab">
+            {{ "Printer.OrderTypes" | translate }}
+          </a>
+        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <!------------ Product Groups ---------------->
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab3">
+              <div class="col-xl-12 col-md-12">
+                <div class="ms-panel p-0">
+                  <div class="ms-panel-body p-0">
+                    <div class="ms-card mb-0">
+                      <!--table-->
+                      <div class="col-xl-12 col-md-12 p-0">
+                        <div class="">
+                          <div class="">
+                            <div class="table-responsive">
+                              <table class="table table-bordered text-dark table-striped">
+                                <thead>
+                                  <tr>
+                                    <th class="text-center" scope="col">
+                                      <input
+                                        type="checkbox"
+                                        class="editcheck"
+                                        id="activeAll"
+                                        name="IactiveAll"
+                                        [(ngModel)]="activeAll"
+                                        (change)="CheckAllProductGroups($event)" />
+                                      {{ "Printer.ProductGroup" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "Printer.NumberOfCopies" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "Printer.ReportName" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "Printer.PrintAnotherModel" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "Printer.NumberOfCopiesOfAnotherModel" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "Printer.ReportNameOfAnotherModel" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "Printer.PrinterOfAnotherModel" | translate }}
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let item of PrinterProductGroups; let i = index">
+                                    <td>
+                                      <div class="d-flex">
+                                        <div class="col-md-2 mx-3">
+                                          <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                            <input
+                                              type="checkbox"
+                                              class="form-control borderRadius"
+                                              name="IsSelected{{ i }}"
+                                              #IsSelected="ngModel"
+                                              [(ngModel)]="item.IsSelected"
+                                              (change)="SelectProductGroup(item, $event)" />
+
+                                            <i class="ms-checkbox-check"></i>
+                                          </label>
+                                        </div>
+                                        <label style="margin-right: 0.5rem;" for="validationCustom19">{{ item.ProductGroupName }}</label>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <input
+                                          type="text"
+                                          class="form-control borderRadius"
+                                          id="CopiesNumber_{{ i }}"
+                                          [numbersOnly]="item.CopiesNumber"
+                                          [allowDecimals]="false"
+                                          name="CopiesNumber_{{ i }}"
+                                          [(ngModel)]="item.CopiesNumber"
+                                          [disabled]="!item.IsSelected" />
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <div class="input-group editInputGroup">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-file"></i>
+                                          </div>
+                                          <div class="input-group positionEdit">
+                                            <ejs-combobox
+                                              class="form-control borderRadius"
+                                              [allowFiltering]="true"
+                                              [autofill]="true"
+                                              [dataSource]="ReportNameList"
+                                              placeholder="{{ 'Printer.ReportName' | translate }}"
+                                              [fields]="Reporfield"
+                                              id="ReportName_{{ i }}"
+                                              name="ReportName_{{ i }}"
+                                              [(ngModel)]="item.ReportName"
+                                              [disabled]="!item.IsSelected">
+                                            </ejs-combobox>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <label>
+                                        <input
+                                          type="checkbox"
+                                          class="editcheck"
+                                          id="AMPrinter_{{ i }}"
+                                          name="AMPrinter_{{ i }}"
+                                          [(ngModel)]="item.AMPrinter"
+                                          [disabled]="!item.IsSelected" />
+                                      </label>
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <input
+                                          name="AMCopiesNumber_{{ i }}"
+                                          [(ngModel)]="item.AMCopiesNumber"
+                                          id="AMCopiesNumber_{{ i }}"
+                                          class="form-control borderRadius"
+                                          [numbersOnly]="item.AMCopiesNumber"
+                                          [allowDecimals]="false"
+                                          [disabled]="!item.AMPrinter" />
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <div class="input-group editInputGroup">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-file"></i>
+                                          </div>
+                                          <div class="input-group positionEdit">
+                                            <ejs-combobox
+                                              class="form-control borderRadius"
+                                              [allowFiltering]="true"
+                                              [autofill]="true"
+                                              [dataSource]="ReportNameList"
+                                              placeholder="{{ 'Printer.ReportName' | translate }}"
+                                              [fields]="Reporfield"
+                                              id="AMReportName_{{ i }}"
+                                              name="AMReportName_{{ i }}"
+                                              [(ngModel)]="item.AMReportName"
+                                              [disabled]="!item.AMPrinter">
+                                            </ejs-combobox>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div class="input-group">
+                                        <ejs-combobox
+                                          #AMPrintrId
+                                          class="form-control borderRadius"
+                                          [allowFiltering]="true"
+                                          [autofill]="true"
+                                          [dataSource]="PrinterList"
+                                          placeholder="{{ 'Printer.slctprinter' | translate }}"
+                                          [fields]="Field"
+                                          id="AMPrinterId_{{ i }}"
+                                          name="AMPrinterId_{{ i }}"
+                                          [(ngModel)]="item.AMPrinterId"
+                                          #AMPrinterId="ngModel"
+                                          [disabled]="!item.AMPrinter"
+                                          required></ejs-combobox>
+                                        <div
+                                          *ngIf="
+                                            (frmRef.submitted && AMPrinterId.invalid) ||
+                                            (AMPrinterId.invalid && AMPrinterId.touched)
+                                          ">
+                                          <div
+                                            class="alert alert-danger editAlertCash"
+                                            *ngIf="AMPrinterId.errors.required">
+                                            {{ "Printer.validslctprinter" | translate }}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!------------ Products ---------------->
+            <div role="tabpanel" class="tab-pane fade" id="tab2">
+              <div class="col-xl-12 col-md-12">
+                <div class="ms-panel p-0">
+                  <div class="ms-panel-body p-0">
+                    <!-- <ejs-multiselect
+                            mode=CheckBox
+                            enableGroupCheckBox=true
+                            showSelectAll=true
+                            id="ProductGroup"
+                            [allowFiltering]="true"
+                            [dataSource]="comboboxProductGrouplist"
+                            placeholder="Product Group"
+                            [fields]="comboboxProductGroupfields"
+                            name="ProductGroup" [(ngModel)]="productGroupId" 
+                            [(value)]="productGroupId" 
+                            #ProductGroup="ngModel"
+                            (change)="selectProductGroup()"
+                            >
+                      </ejs-multiselect> -->
+                    <!--<div class="input-group positionEdit">
+                        <div class="px-2" *ngFor="let PG of printerobj.ProductGroupModels; let i=index;">
+                            <label class="ms-checkbox-wrap ms-todo-complete m-0">
+                              <input type="checkbox" value="" 
+                              class="form-control borderRadius" id="isChecked_{{i}}"
+                              name="IsChecked_{{i}}" [(ngModel)]="PG.IsChecked" 
+                              (click)="selectProductGroup(PG,i)">
+                              <i class="ms-checkbox-check"></i>
+                            </label>
+                            <span> {{PG.Name}} </span>
+                        </div>
+                    </div>
+                    <div class="input-group positionEdit">
+                      <div class="px-2">
+                          <label class="ms-checkbox-wrap ms-todo-complete m-0">
+                            <input type="checkbox" name="checkedAll" [(ngModel)]="checkedAll" 
+                            class="form-control borderRadius" id="all"
+                            (click)="getAllProducts()">
+                            <i class="ms-checkbox-check"></i>
+                          </label>
+                          <span> All </span>
+                      </div>
+                  </div>-->
+                    <div class="ms-card mb-0">
+                      <div class="col-xl-12 col-md-12 p-0">
+                        <div class="table-responsive">
+                          <table class="table table-bordered text-dark table-striped">
+                            <!--    <thead class="p-3">
+                                <tr class="" >
+                                  <th scope="col">
+                                    <div class="row d-flex">
+                                      <div class="col-md-6">{{"Printer.Product"| translate}}</div>
+                                      <div class="col-md-6 ">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                             <input class="editcheck" type="checkbox" [(ngModel)]="masterSelected" name="list_name"
+                                             value="m1" (change)="checkUncheckAll(masterSelected)"/> <strong class="px-2">Select/ Unselect All</strong>
+                                        </div>
+                                       
+                                      </div>
+                                    </div>
+                                  </th>
+                                </tr>
+                              </thead> -->
+                            <tbody>
+                              <tr class="TrEdit" *ngFor="let ProductGroup of PrinterProductGroups; let i = index">
+                                <td class="tdedit p-0">
+                                  <h5 class="text-center designNameGroup">
+                                    {{ ProductGroup.ProductGroupName }}
+                                  </h5>
+
+                                  <div
+                                    *ngFor="let it of getProductsInGroup(ProductGroup.ProductGroupDocumentId)"
+                                    class="BorderEdit px-2 py-1">
+                                    <div class="ms-switch col-md-2 mx-3">
+                                      <label>
+                                        <input
+                                          class="editcheck"
+                                          type="checkbox"
+                                          [(ngModel)]="it.IsSelected"
+                                          name="Selected{{ it.ProductDocumentId }}"
+                                          id="Selected{{ it.ProductDocumentId }}"
+                                          (change)="changeSelectedProduct(it, $event)" />
+                                      </label>
+                                    </div>
+                                    <label class="labelEdit" for="validationCustom19">{{ it.ProductName }}</label>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!------------ Order Types ---------------->
+            <div role="tabpanel" class="tab-pane fade" id="tab1">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel p-0">
+                  <div class="ms-panel-body p-0">
+                    <div class="ms-card mb-0">
+                      <div class="col-xl-12 col-md-12 p-0">
+                        <div class="table-responsive">
+                          <table class="table table-bordered text-dark table-striped">
+                            <thead>
+                              <tr>
+                                <th scope="col">
+                                  {{ "Printer.OrderType" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "Printer.CustomerReceipt" | translate }}
+                                </th>
+                                <th scope="col">Bundeled Receipt</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let OrderType of PrinterOrderTypes; let i = index">
+                                <td>
+                                  <div class="d-flex">
+                                    <div class="ms-switch col-md-2 mx-3">
+                                      <label>
+                                        <!-- <input type="checkbox" class="form-control" id="InActive"  name="InActive"
+                                              #InActive="ngModel" [(ngModel)]="userDetailsobj.InActive" /> -->
+                                        <input
+                                          type="checkbox"
+                                          class="editcheck"
+                                          id="IsSelect{{ OrderType.OrderTypeDocumentId }}"
+                                          name="IsSelect{{ OrderType.OrderTypeDocumentId }}"
+                                          [(ngModel)]="OrderType.IsSelected" />
+                                      </label>
+                                    </div>
+                                    <label for="validationCustom19">{{ OrderType.OrderTypeName }}</label>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="d-flex justify-content-between">
+                                    <div>
+                                      <label for="validationCustom19"
+                                        >{{ "Printer.NumberOfCopies" | translate }}:</label
+                                      >
+                                      <!-- <input [numbersOnly]="printer.PrinterOrderTypeSettings.CopiesNumberForCustomerReceipt" [allowDecimals]="false" name="CopiesNumberForCustomerReceipt"
+                                        #CopiesNumberForCustomerReceipt="ngModel" [(ngModel)]="printer.PrinterOrderTypeSettings.CopiesNumberForCustomerReceipt" 
+                                        id="CopiesNumberForCustomerReceipt_id" class="form-control borderRadius" /> -->
+                                      <input
+                                        type="text"
+                                        id="CopiesNumberForCustomerReceipt_{{ OrderType.OrderTypeDocumentId }}"
+                                        class="form-control borderRadius"
+                                        [numbersOnly]="OrderType.CRCopiesNumber"
+                                        [allowDecimals]="false"
+                                        name="CRCopiesNumber_{{ OrderType.OrderTypeDocumentId }}"
+                                        [(ngModel)]="OrderType.CRCopiesNumber"
+                                        [disabled]="!OrderType.IsSelected" />
+                                    </div>
+                                    <div>
+                                      <!--  #OrderTypeReportName="ngModel"
+                                      [(ngModel)]="printer.PrinterOrderTypeSettings.ReportName"  -->
+                                      <label for="validationCustom20" class=""
+                                        >{{ "Printer.ReportName" | translate }}:</label
+                                      >
+                                      <div class="input-group editInputGroup">
+                                        <div class="input-group-addon">
+                                          <i class="fa fa-file"></i>
+                                        </div>
+                                        <div class="input-group positionEdit">
+                                          <ejs-combobox
+                                            class="form-control borderRadius"
+                                            [allowFiltering]="true"
+                                            [autofill]="true"
+                                            [dataSource]="ReportNameList"
+                                            placeholder="{{ 'Printer.ReportName' | translate }}"
+                                            [fields]="Reporfield"
+                                            id="CRReportName_{{ OrderType.OrderTypeDocumentId }}"
+                                            name="CRReportName_{{ OrderType.OrderTypeDocumentId }}"
+                                            [(ngModel)]="OrderType.CRReportName"
+                                            [disabled]="!OrderType.IsSelected">
+                                          </ejs-combobox>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="d-flex justify-content-between">
+                                    <div>
+                                      <label for="validationCustom19"
+                                        >{{ "Printer.NumberOfCopies" | translate }}:</label
+                                      >
+                                      <!-- <input [numbersOnly]="printer.PrinterOrderTypeSettings.CopiesNumberForKitchenReceipt" [allowDecimals]="false" name="CopiesNumberForKitchenReceipt"
+                                      #CopiesNumberForKitchenReceipt="ngModel" [(ngModel)]="printer.PrinterOrderTypeSettings.CopiesNumberForKitchenReceipt" 
+                                      id="CopiesNumberForKitchenReceipt_id" class="form-control borderRadius" /> -->
+                                      <input
+                                        type="text"
+                                        id="CopiesNumberForKitchenReceipt_{{ OrderType.OrderTypeDocumentId }}"
+                                        class="form-control borderRadius"
+                                        name="kRCopiesNumber_{{ OrderType.OrderTypeDocumentId }}"
+                                        [(ngModel)]="OrderType.kRCopiesNumber"
+                                        [numbersOnly]="OrderType.kRCopiesNumber"
+                                        [allowDecimals]="false"
+                                        [disabled]="!OrderType.IsSelected" />
+                                    </div>
+                                    <div>
+                                      <!--  #OrderTypeReportName="ngModel"
+                                      [(ngModel)]="printer.PrinterOrderTypeSettings.ReportName"  -->
+                                      <label for="validationCustom20" class=""
+                                        >{{ "Printer.ReportName" | translate }}:</label
+                                      >
+                                      <div class="input-group editInputGroup">
+                                        <div class="input-group-addon">
+                                          <i class="fa fa-file"></i>
+                                        </div>
+                                        <div class="input-group positionEdit">
+                                          <ejs-combobox
+                                            class="form-control borderRadius"
+                                            [allowFiltering]="true"
+                                            [autofill]="true"
+                                            [dataSource]="ReportNameList"
+                                            placeholder="{{ 'Printer.ReportName' | translate }}"
+                                            [fields]="Reporfield"
+                                            id="KRReportName_{{ OrderType.OrderTypeDocumentId }}"
+                                            name="KRReportName_{{ OrderType.OrderTypeDocumentId }}"
+                                            [(ngModel)]="OrderType.KRReportName"
+                                            [disabled]="!OrderType.IsSelected">
+                                          </ejs-combobox>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

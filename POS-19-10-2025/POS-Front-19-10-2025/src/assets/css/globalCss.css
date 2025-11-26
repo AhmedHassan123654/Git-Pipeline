@@ -17263,3 +17263,8 @@ app-received-orders-notification mat-icon {
   user-select: none !important;
   background-color: #fff !important;
 }
+@media (max-width: 1000px) { 
+    .ms-aside-toggler {
+            margin-right: 16rem;
+        }
+}

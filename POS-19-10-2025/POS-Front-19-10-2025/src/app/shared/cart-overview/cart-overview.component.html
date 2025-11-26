@@ -1,0 +1,109 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   alt="spinner img" srcset="" width="150px" height="100px" />
+      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<mat-list *ngIf="orderobj.OrderDetails && orderobj.OrderDetails.length" class="cart-items">
+  <mat-list-item>
+    <div class="w-100 -3 headerCart">
+      <a mat-raised-button color="primary" class="transform-none redBtn"></a>
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="hideSheet(false)" matTooltip="Hide">
+          <mat-icon color="primary" class="mat-icon-lg">arrow_drop_down_circle</mat-icon>
+        </button>
+        <button mat-icon-button (click)="clearCart()" matTooltip="Clear Cart List">
+          <mat-icon color="warn" class="mat-icon-lg">remove_shopping_cart</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-list-item>
+  <mat-list-item>
+    <div class="w-100 divider"></div>
+  </mat-list-item>
+
+  <mat-list-item *ngFor="let menuItem of orderobj.OrderDetails">
+    <img
+      matListAvatar
+      [src]="menuItem.Product.PicturePath ? imgURL + menuItem.Product.PicturePath : defaultIm"
+      alt="image"
+      fxShow="false"
+      fxShow.gt-xs="true" />
+    <div class="px-2 d-flex flex-column flexAuto">
+      <h3 mat-line class="secondary-font fw-500 m-0 title">
+        <a>{{ menuItem.ProductName }}</a>
+      </h3>
+      <p *ngIf="menuItem.SideDishesValue" class="m-0 px-1">
+        Side Dishes Value :
+        {{ menuItem.SideDishesValue | currency : " " : "symbol" : appService.fraction }}
+      </p>
+      <p *ngIf="menuItem.TaxAmount" class="m-0 px-1">
+        Tax Amount :
+        {{ menuItem.TaxAmount | currency : " " : "symbol" : appService.fraction }}
+      </p>
+    </div>
+
+    <span class="primary-color fw-500 mx-3">
+      {{ menuItem.Total | currency : " " : "symbol" : appService.fraction }}
+    </span>
+    <!-- <span *ngIf="menuItem.DiscountAmount" class="fw-500 mx-3">  
+            <span class="text-muted old-price">{{menuItem.ProductPrice | currency:' ':'symbol':appService.fraction}}</span> 
+            <span class="primary-color mx-2">{{ (menuItem.ProductPrice - (menuItem.ProductPrice * (menuItem.DiscountAmount / 100))) | currency:' ':'symbol':appService.fraction}}</span>
+        </span>  -->
+    <div class="px-2" fxShow="false" fxShow.gt-xs="true">
+      <div class="quantity-counter" [class.sm]="small">
+        <button type="button" class="ProductQuantitybtn" (click)="incrementProductQuantity(menuItem)">
+          <mat-icon class="text-muted">keyboard_arrow_down</mat-icon>
+        </button>
+        <input
+          type="number"
+          class="ProductQuantity text-center"
+          name="ProductQuantity"
+          ngDefaultControl
+          [(ngModel)]="menuItem.ProductQuantity" />
+        <button type="button" class="ProductQuantitybtn" (click)="decrementProductQuantity(menuItem)">
+          <mat-icon class="text-muted ProductQuantitybtn">keyboard_arrow_up</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button
+      mat-icon-button
+      color="warn"
+      class="remove"
+      (click)="remove(menuItem, $event)"
+      matTooltip="Remove"
+      matTooltipPosition="after">
+      <mat-icon class="mat-icon-sm">close</mat-icon>
+    </button>
+  </mat-list-item>
+  <mat-list-item>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="w-100 pt-3 divider cartFooter">
+      <button (click)="checkout()" mat-raised-button color="primary" class="transform-none redBtn">Checkout</button>
+      <div fxLayout="row wrap" class="innerDiv" fxLayoutAlign="end center">
+        <h4 class="fw-500 secondary-font px-3 m-0">Total:</h4>
+        <h4 class="primary-color m-0 price">
+          {{ orderobj.SubTotal | currency : " " : "symbol" : appService.fraction }}
+        </h4>
+      </div>
+    </div>
+  </mat-list-item>
+</mat-list>
+<div *ngIf="!orderobj.OrderDetails || !orderobj.OrderDetails.length" class="py-3 text-center">
+  <p>You have no items in your shopping cart.</p>
+  <!-- <a routerLink="/cart" (click)="hideSheet(true)" mat-raised-button color="primary" class="transform-none">View Cart</a>  -->
+</div>

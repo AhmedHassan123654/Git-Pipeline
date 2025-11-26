@@ -1,0 +1,78 @@
+.example-card {
+  max-width: 500px;
+}
+
+h3.secondary-font {
+  font-size: 23px !important;
+  font-weight: 600 !important;
+}
+
+.material-icons {
+  font-size: 34px !important;
+  color: #c62828;
+}
+
+.divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.mat-list-item-content {
+  padding: 8px 0px !important;
+}
+
+.redBtn {
+  background: #c62828 !important;
+}
+
+.mat-list-base .mat-list-item {
+  height: auto;
+}
+
+i {
+  color: #c62828 !important;
+}
+
+.mat-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-panel-title {
+  color: #c62828 !important;
+  font-size: 19px;
+}
+
+.mat-expansion-panel-body {
+  padding: 24px 16px !important;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 44px !important;
+  border-bottom: 1px solid #ccc !important;
+}
+
+label {
+  font-size: 1rem !important;
+}
+
+.mat-radio-label-content {
+  font-size: 1rem !important;
+}
+
+.editDirection {
+  flex-direction: row;
+}
+
+@media screen and (max-width: 992px) {
+  .editDirection {
+    flex-direction: column;
+  }
+}
+.editSize {
+  height: 150px;
+  width: 20rem;
+} /*# sourceMappingURL=additions-cart.component.css.map */

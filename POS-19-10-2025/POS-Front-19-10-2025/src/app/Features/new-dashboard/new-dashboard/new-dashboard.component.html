@@ -1,0 +1,170 @@
+﻿<!-- reload -->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+  <section class="flex flex-wrap items-center gap-3 p-4 bg-gray-200">
+    <div class="flex items-center gap-2">
+      <label for="filterType" class="font-semibold"> {{ "Dashboard.FilterType" | translate }}:</label>
+      <select id="filterType" name="filterType" class="p-2 rounded border border-gray-300"
+              [(ngModel)]="filters.FilterType">
+        <option [ngValue]="'daily'">{{ "Dashboard.Daily" | translate }}</option>
+        <option [ngValue]="'weekly'">{{ "Dashboard.Weekly" | translate }}</option>
+        <option [ngValue]="'monthly'">{{ "Dashboard.Monthly" | translate }}</option>
+      </select>
+    </div>
+
+    <!-- Daily -->
+    <div id="dateFilter" class="flex items-center gap-2" *ngIf="filters.FilterType === 'daily'">
+      <label for="dateInput" class="font-semibold">{{ "Reports.Date" | translate }}:</label>
+      <input type="date" id="dateInput" name="dateInput" class="p-2 rounded border border-gray-300"
+             [(ngModel)]="filters.Date">
+    </div>
+
+    <!-- Weekly -->
+    <div id="weekFilter" class="flex items-center gap-2" *ngIf="filters.FilterType === 'weekly'">
+      <label for="weekInput" class="font-semibold">{{ "Dashboard.Week" | translate }}:</label>
+      <input type="week" id="weekInput" name="weekInput" class="p-2 rounded border border-gray-300"
+             [(ngModel)]="filters.Week">
+    </div>
+
+    <!-- Monthly -->
+    <div id="monthFilter" class="flex items-center gap-2" *ngIf="filters.FilterType === 'monthly'">
+      <label for="monthInput" class="font-semibold">{{ "Dashboard.Month" | translate }}:</label>
+      <input type="month" id="monthInput" name="monthInput" class="p-2 rounded border border-gray-300"
+             [(ngModel)]="filters.Month">
+    </div>
+
+    <button id="applyFilter" class="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800"
+            (click)="applyFilters()">
+      {{ "Dashboard.ApplyFilter" | translate }}
+    </button>
+  </section>
+  <ng-container >
+    <!-- KPI CARDS -->
+    <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
+      <ng-container *ngFor="let kpi of dashboardData?.Kpis || []">
+        <div class="card2 border-t-4" [class]="kpi.BorderClass">
+          <div class="kpi-title">{{ kpi.Name }}</div>
+          <div class="kpi-value text-blue-800">{{ kpi.TotalAmount | number:fraction}}</div>
+          <div class="mini-line">
+            <ng-container *ngFor="let payment of kpi.Payments || []">
+              <span> {{ payment.Icon }} {{ payment.PayName }}: {{ payment.Amount | number:fraction }} </span>
+              <span *ngIf="!isLastPayment(kpi.Payments, payment)">|</span>
+            </ng-container>
+          </div>
+          <div *ngIf="kpi.Type != 3" class="mini-line">📦 {{'Shared.count' | translate}} : {{ kpi.Count }}</div>
+        </div>
+      </ng-container>
+    </section>
+
+    <!-- COMPARISON TABLES -->
+    <section class="grid grid-cols-1 gap-4 p-4" [ngClass]="useSalesTarget ? 'md:grid-cols-3' : 'md:grid-cols-2'">
+      <div class="card">
+        <h2 class="font-bold mb-2">📈 {{comparisonPaymentTitle}}</h2>
+        <table class="w-full text-sm text-right border">
+          <thead class="bg-blue-100">
+            <tr><th class="p-2">{{'Shared.type' | translate}}</th><th class="p-2">{{periodTitle}}</th><th class="p-2">{{lastPeriodTitle}}</th><th class="p-2">{{"Dashboard.Differance"| translate}}%</th><th class="p-2">{{"Shared.status"| translate}}</th></tr>
+          </thead>
+          <tbody>
+            <tr class="border-b" *ngFor="let compar of dashboardData.OrdersCompare || []">
+              <td class="p-2">{{compar.Name}}</td>
+              <td class="p-2">{{compar.OrdersForPerid | number:fraction}}</td>
+              <td class="p-2">{{compar.OrdersLastPerid | number:fraction}}</td>
+              <td class="p-2" [ngClass]="compar.Color">{{compar.Percentage | number:'1.0' }}%</td>
+              <td class="p-2" [ngClass]="compar.Color">{{compar.Icon}}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Sales Target KPI -->
+      <div *ngIf="useSalesTarget" class="card">
+        <h2 class="font-bold mb-2">🚀 {{'Dashboard.TargetForMonth' | translate }} ' {{dashboardData.SalesTarget.PeriodName}} '</h2>
+        <table class="w-full text-sm text-right border">
+          <thead class="bg-blue-100">
+            <tr><th class="p-2">{{ "Layout.Branch" | translate }}</th><th class="p-2">{{ "Shared.SalesTarget" | translate }}</th>
+              <th class="p-2">{{ "Reports.ActualAmount" | translate }}</th><th class="p-2">{{ "Shared.Percentage" | translate }}</th></tr>
+          </thead>
+          <tbody>
+            <!-- Repeat/add rows for each branch -->
+            <tr class="border-b" *ngFor="let targetBranch of dashboardData.SalesTarget?.SalesTargetBranchs || []">
+              <td class="p-2">{{targetBranch.BranchName}}</td>
+              <td class="p-2">{{targetBranch.TargetAmount | number:fraction }}</td>
+              <td class="p-2">{{targetBranch.TargetActualAmount | number:fraction }}</td>
+              <td class="p-2" [ngClass]="{'text-end text-success': targetBranch.Percentage >= 100}">{{targetBranch.Percentage | number:'1.0' }}%</td>
+            </tr>
+        </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2 class="font-bold mb-2">🧾 {{comparisonOrderTypeTitle}}</h2>
+        <table class="w-full text-sm text-right border">
+          <thead class="bg-green-100">
+            <tr><th class="p-2">{{'Shared.type' | translate}}</th><th class="p-2">{{periodTitle}}</th><th class="p-2">{{lastPeriodTitle}}</th><th class="p-2">{{"Dashboard.Differance"| translate}}%</th><th class="p-2">{{"Shared.status"| translate}}</th></tr>
+          </thead>
+          <tbody>
+            <tr class="border-b" *ngFor="let compar of dashboardData.OrderTypesCompare || []">
+              <td class="p-2">{{compar.Name}}</td>
+              <td class="p-2">{{compar.OrdersForPerid | number:fraction}}</td>
+              <td class="p-2">{{compar.OrdersLastPerid | number:fraction}}</td>
+              <td class="p-2" [ngClass]="compar.Color">{{compar.Percentage}}%</td>
+              <td class="p-2" [ngClass]="compar.Color">{{compar.Icon}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CHARTS -->
+    <section class="p-4">
+      <h2 class="section-title text-lg mb-3">📊 {{'Dashboard.AnalyticalCharts' | translate}}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="card"><h3 class="font-bold mb-2">{{'Dashboard.OrdersPerHour' | translate}}</h3><canvas id="ordersHourChart"></canvas></div>
+        <div class="card"><h3 class="font-bold mb-2">{{'Dashboard.OrdersAmountPerHour' | translate}}</h3><canvas id="hourlySalesChart"></canvas></div>
+        <div class="card"><h3 class="font-bold mb-2">{{'manageorder.Order Pay Types' | translate}}</h3><canvas id="paymentChart"></canvas></div>
+        <div class="card"><h3 class="font-bold mb-2">{{'Dashboard.Discounts' | translate}}</h3><canvas id="discountChart"></canvas></div>
+        <div class="card"><h3 class="font-bold mb-2">{{'Dashboard.OrderTypesPercentages' | translate}}</h3><canvas id="invoiceTypeChart"></canvas></div>
+        <div class="card lg:col-span-3 bg-gray-50 pl-4">
+          <h3 class="font-bold mb-2">🔔 {{'Dashboard.SmartInsights' | translate}}</h3>
+          <ul id="insightsList" class="list-disc pr-6 text-sm leading-7">
+            <li *ngFor="let insight of dashboardData?.SmartInsights || []">{{ insight }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOP SECTIONS -->
+    <section class="p-4">
+      <h2 class="section-title text-lg mb-3">🏆 {{'Dashboard.BestPerformance' | translate}}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="card"><h3 class="font-bold mb-2">{{'Dashboard.BestPerformanceProducts' | translate}}</h3><canvas id="topProductsChart"></canvas></div>
+        <div class="card"><h3 class="font-bold mb-2">{{'Dashboard.TopPaymentMethods' | translate}}</h3><canvas id="topPaymentsChart"></canvas></div>
+        <div class="card"><h3 class="font-bold mb-2">{{'Dashboard.TopBranches' | translate}}</h3><canvas id="topBranchesChart"></canvas></div>
+        <div class="card">
+          <h3 class="font-bold mb-2">{{'Dashboard.TopSellingUsers' | translate}}</h3>
+          <canvas id="topUsersChart"></canvas>
+          <div id="userPercentages" class="mt-3 text-sm text-gray-700 leading-6"></div>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+  

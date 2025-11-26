@@ -1,0 +1,84 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="usersgroupsPermission" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber">
+  </app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-header p-2">
+                    <div class="col-md-12">
+                      <div class="row align-items-center editBorder">
+                        <div class="col-md-4">
+                          <div class="row my-1">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label>
+                                {{ "Shared.Name" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="grname"
+                                    type="text"
+                                    class="form-control"
+                                    [(ngModel)]="responseobj.Name"
+                                    disabled
+                                    required />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="row my-1">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label>
+                                {{ "Shared.ForeignName" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="grfname"
+                                    type="text"
+                                    class="form-control"
+                                    disabled
+                                    [(ngModel)]="responseobj.ForeignName" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

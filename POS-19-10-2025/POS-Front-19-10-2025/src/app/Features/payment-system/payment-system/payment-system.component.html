@@ -1,0 +1,216 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="PaymentSystemform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div style="background: #fff" class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--System-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.paymentSys" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-combobox
+                                  name="PaymentSystem"
+                                  #PaymentSystem="ngModel"
+                                  [(ngModel)]="responseobj.PaymentSystem"
+                                  [allowFiltering]="true"
+                                  [autofill]="true"
+                                  [dataSource]="paymentSystems"
+                                  placeholder="Select PaymentSystem"
+                                  [fields]="Flds"
+                                  class="form-control borderRadius"
+                                  id="PaymentSystem_id"
+                                  [enabled]="false"
+                                  [required]="isRequired"></ejs-combobox>
+                              </div>
+                              <div
+                                class=""
+                                *ngIf="
+                                  (frmRef.submitted && PaymentSystem.invalid) ||
+                                  (PaymentSystem.invalid && PaymentSystem.touched)
+                                ">
+                                <div class="alert alert-danger editAlertCash" *ngIf="PaymentSystem.errors.required">
+                                  {{ "Shared.IntegrationIsrequired" | translate }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Name-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pl-xs-0 pl-sm-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom18"> {{ "Shared.Name" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <img alt="" src="assets/images/sort (2).png" srcset="" />
+                              </div>
+
+                              <div class="input-group positionEdit">
+                                <div class="input-group">
+                                  <input
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    id="Name_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    required />
+                                  <div
+                                    class=""
+                                    *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                      Name Is required
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Port-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pl-xs-0 pl-sm-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom18"> {{ "setting.Port" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <img alt="" src="assets/images/sort (2).png" srcset="" />
+                              </div>
+
+                              <div class="input-group positionEdit">
+                                <div class="input-group">
+                                  <input
+                                    name="Port"
+                                    #Port="ngModel"
+                                    [(ngModel)]="responseobj.Port"
+                                    id="Port_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    required />
+                                  <div
+                                    class=""
+                                    *ngIf="(frmRef.submitted && Port.invalid) || (Port.invalid && Port.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Port.errors.required">
+                                      Port Is required
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="ms-panel BlueBg">
+                      <div class="ms-panel-header px-2 py-3">
+                        <h6>{{ "Shared.paymentsystem" | translate }}</h6>
+                      </div>
+                      <div class="ms-panel-body p-2">
+                        <button
+                          (click)="addSystemPayments()"
+                          [disabled]="!enableChiled"
+                          class="btn btn-success ml-3 mr-3">
+                          {{ "pagetransactions.Add" | translate }}
+                        </button>
+                        <div class="col-md-12">
+                          <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+                            <thead>
+                              <tr>
+                                <th class="d-flex justify-content-center" scope="col">
+                                  {{ "Shared.PaymentTypesForTheSystem" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "permission.PayTypes" | translate }}
+                                </th>
+                                <th scope="col">
+                                  {{ "delivery.Actions" | translate }}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                class="p-1"
+                                *ngFor="let pay of responseobj.SystemPayments; let i = index"
+                                data-dismiss="modal">
+                                <td>
+                                  <ejs-combobox
+                                    class="form-control borderRadius"
+                                    name="{{ 'SystemPaymentType' + i }}"
+                                    id="{{ 'SystemPaymentType' + i }}"
+                                    [(ngModel)]="pay.SystemPaymentType"
+                                    [allowFiltering]="true"
+                                    [fields]="Flds"
+                                    [enabled]="enableChiled"
+                                    [autofill]="true"
+                                    [dataSource]="ingenicoPaymentTypes"></ejs-combobox>
+                                </td>
+                                <td>
+                                  <ejs-combobox
+                                    class="form-control borderRadius"
+                                    name="{{ 'PayTypeDocumentId' + i }}"
+                                    id="{{ 'PayTypeDocumentId' + i }}"
+                                    [(ngModel)]="pay.PayTypeDocumentId"
+                                    [allowFiltering]="true"
+                                    [fields]="Flld"
+                                    [enabled]="enableChiled"
+                                    [autofill]="true"
+                                    [dataSource]="orderPayTypes"></ejs-combobox>
+                                </td>
+                                <td>
+                                  <button
+                                    [disabled]="!enableChiled"
+                                    (click)="deleteSystemPayments(i)"
+                                    class="btn-count far fa-trash-alt text-crosss p-0"
+                                    style="font-size: 1.1rem"></button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

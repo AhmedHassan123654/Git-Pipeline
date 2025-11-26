@@ -1,0 +1,860 @@
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      
+      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<tabset class="Tabset">
+  <tab #TabA="tab" heading="Main">
+    <div class="col-md-12">
+      <div class="ms-panel">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="form-row pt-3">
+              <div class="col-md-4 mb-3">
+                <div class="row pr-xs-0">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Shared.branch" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="far fa-building" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="BranchDocumentIdList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.BranchDocumentIdList"
+                          [dataSource]="BranchList"
+                          [fields]="BrancheFlds"
+                          placeholder="Branch Name"
+                          id="Branch_Document_Id_List"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center justify-content-start">
+                  <div class="col-md-4">
+                    <label> {{ "Shared.fromdata" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          class="form-control"
+                          format="dd/MM/yyyy"
+                          name="date"
+                          #date="ngModel"
+                          [(ngModel)]="responseobj.FromDate"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.todata" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          class="form-control"
+                          format="dd/MM/yyyy"
+                          name="date2"
+                          #date2="ngModel"
+                          [(ngModel)]="responseobj.ToDate"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center justify-content-start">
+                  <div class="col-md-4">
+                    <label> {{ "Shared.FromTime" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          class="form-control borderRadius"
+                          class="form-control"
+                          type="time"
+                          id="FromTime"
+                          name="FromTime"
+                          #FromTime="ngModel"
+                          [(ngModel)]="responseobj.FromTime" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.ToTime" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          class="form-control borderRadius"
+                          class="form-control"
+                          type="time"
+                          id="ToTime"
+                          name="ToTime"
+                          #ToTime="ngModel"
+                          [(ngModel)]="responseobj.ToTime" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "permission.User" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="UsersList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.UsersList"
+                          [dataSource]="UserList"
+                          [fields]="UserFlds"
+                          placeholder="Users"
+                          id="users_list"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Order.OrderType" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="OrderTypeList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.OrderTypeList"
+                          [dataSource]="OrderTypeList"
+                          [fields]="OrderTypeFlds"
+                          placeholder="Order Types"
+                          id="order_type_list"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label>
+                      {{ "pointofsale.pointofsales" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          class="form-control borderRadius"
+                          name="PointOfSaleList"
+                          [(ngModel)]="responseobj.PointOfSaleList"
+                          [dataSource]="POSList"
+                          [fields]="POSFlds"
+                          placeholder="Points Of Sales"
+                          id="pos_list"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.PaymentType" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="PaymentTypeList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.PaymentTypeList"
+                          [dataSource]="PaymentTypeList"
+                          [fields]="PaymentTypeFlds"
+                          placeholder="Payment Types"
+                          id="Payment_Type_List"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "Shared.Tables" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-multiselect
+                          name="TableDocumentIdList"
+                          class="form-control borderRadius"
+                          [(ngModel)]="responseobj.TableDocumentIdList"
+                          [dataSource]="TableList"
+                          [fields]="TableFlds"
+                          placeholder="Tables"
+                          id="Table_Document_Id_List"></ejs-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <div class="row align-items-center">
+                  <div class="col-md-4 justify-content-start align-items-center">
+                    <label> {{ "pointofsale.Year" | translate }} </label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-file" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-combobox
+                          name="Year"
+                          [(ngModel)]="responseobj.Year"
+                          [dataSource]="YearList"
+                          [fields]="fields"
+                          placeholder="Year"
+                          class="form-control borderRadius"
+                          id="Year_id"></ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-12">
+                <h5>{{ "Shared.ReportTypes" | translate }} :</h5>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-10">
+                    <ul class="nav nav-pills bg-white mb-3" id="pills-tab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <a
+                          class="nav-link active reportTypeBtn"
+                          id="pills-home-tab"
+                          data-toggle="pill"
+                          href="#pills-home"
+                          role="tab"
+                          aria-controls="pills-home"
+                          aria-selected="true">
+                          <button class="btn btnEdit m-1" (click)="selectLang();printflag = 1">
+                            {{ "Layout.Hour" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a
+                          class="nav-link active reportTypeBtn"
+                          id="pills-home-tab"
+                          data-toggle="pill"
+                          href="#pills-home"
+                          role="tab"
+                          aria-controls="pills-home"
+                          aria-selected="true">
+                          <button class="btn btnEdit m-1" (click)="selectLang();printflag = 2">
+                            {{ "Layout.Month" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a
+                          class="nav-link active reportTypeBtn"
+                          id="pills-home-tab"
+                          data-toggle="pill"
+                          href="#pills-home"
+                          role="tab"
+                          aria-controls="pills-home"
+                          aria-selected="true">
+                          <button class="btn btnEdit m-1" (click)="selectLang();printflag = 3">
+                            {{ "Layout.Product" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a
+                          class="nav-link active reportTypeBtn"
+                          id="pills-home-tab"
+                          data-toggle="pill"
+                          href="#pills-home"
+                          role="tab"
+                          aria-controls="pills-home"
+                          aria-selected="true">
+                          <button class="btn btnEdit m-1" (click)="selectLang();printflag = 4">
+                            {{ "Reports.OrdersReports" | translate }}
+                          </button>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tab>
+  <tab
+    *ngFor="let tabz of tabs"
+    [heading]="tabz.title"
+    [active]="tabz.active"
+    (selectTab)="selectTab(tabz)"
+    (deselect)="tabz.active = false"
+    [disabled]="tabz.disabled"
+    [removable]="tabz.removable"
+    (removed)="removeTabHandler(tabz)"
+    [customClass]="tabz.customClass">
+  </tab>
+</tabset>
+<div class="container">
+  <div [hidden]="TabA && TabA.active" id="container">
+    <button class="btn btn-danger mt-2 mb-3" *ngIf="ShowChartbtn" (click)="ShowChart()">
+      <div class="d-flex justify-content-around">
+        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+        <i class="fa fa-eye" aria-hidden="true"></i>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- ShowHourSalseChart modal -->
+<div class="modal fade" id="modal-1" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+      c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+      S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+      c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+      S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+      c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+      H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+      c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+        M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+      H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> {{ "Reports.Totalsalesreportbyhours" | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <button id="print" (click)="printchartHour()" class="btn btn-warning">طباعة</button>
+        <ejs-chart
+          #Hourchart
+          id="chart-container"
+          [primaryXAxis]="HourChartXAxis"
+          [primaryYAxis]="primaryYAxis"
+          [title]="title">
+          <e-series-collection>
+            <e-series [dataSource]="chartHourList" type="Column" xName="Hour" yName="SubTotal" name="Sales"></e-series>
+          </e-series-collection>
+        </ejs-chart>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Detail Model -->
+<!-- ShowMonthSalseChart modal -->
+<div class="modal fade" id="modal-2" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="100%"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+        c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+        S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+        c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+        S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+        c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+        H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+        c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+          M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+        H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> {{ "Reports.Totalsalesreportbymonths" | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <button id="print" (click)="printchartMonth()" class="btn btn-warning">طباعة</button>
+        <ejs-chart
+          #Monthchart
+          id="chart-container"
+          [primaryXAxis]="MonthChartXAxis"
+          [primaryYAxis]="primaryYAxis"
+          [title]="title">
+          <e-series-collection>
+            <e-series
+              [dataSource]="chartMonthList"
+              type="Column"
+              xName="Month"
+              yName="SubTotal"
+              name="Sales"></e-series>
+          </e-series-collection>
+        </ejs-chart>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Detail Model -->
+
+<!-- ShowProductsSalseChart modal -->
+<div class="modal fade" id="modal-3" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+      c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+      S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+      c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+      S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+      c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+      H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+      c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+        M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+      H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> {{ "Reports.Totalmealsperhourreport" | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <button id="print" (click)="printchartProduct()" class="btn btn-warning">طباعة</button>
+        <ejs-chart
+          #Productchart
+          id="chart-container"
+          [primaryXAxis]="ProductChartXAxis"
+          [primaryYAxis]="primaryYAxis"
+          [title]="title">
+          <e-series-collection>
+            <e-series
+              [dataSource]="chartProductList"
+              type="Column"
+              xName="ProductName"
+              yName="SubTotal"
+              name="Products"></e-series>
+          </e-series-collection>
+        </ejs-chart>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Detail Model -->
+
+
+<!-- print modal -->
+<div class="modal fade" id="modal-4" tabindex="-1" role="dialog" aria-labelledby="modal-4">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+      c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+      S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+      c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+      S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+      c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+      H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+      c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+        M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+      H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> {{ "setting.PrinterSettings" | translate }}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form #frmPrint="ngForm" (ngSubmit)="Print()">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-10 py-2">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                  <span class="required-asterisk" style="font-size: 22px; font-weight: bold"> * </span>
+                  <label for="language" style="margin-left: 6px">
+                    <h6 class="m-0">{{ "Layout.Language" | translate }}</h6>
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <ejs-combobox
+                    name="LanguageId"
+                    #LanguageId="ngModel"
+                    [(ngModel)]="printDetailobj.LanguageId"
+                    id="language_id"
+                    [dataSource]="languages"
+                    [autofill]="true"
+                    [allowFiltering]="true"
+                    required
+                    placeholder="Select Language"
+                    [fields]="fields"
+                    [(value)]="combovalLanguage">
+                  </ejs-combobox>
+                </div>
+                <div
+                  class="alert text-danger"
+                  *ngIf="(!LanguageId.valid && LanguageId.touched) || (frmPrint.submitted && LanguageId.invalid)">
+                  <div class="alert-danger" *ngIf="LanguageId.errors.required">
+                    {{ "Shared.LanguageisRequired" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer p-1">
+            <button type="submit" class="btn btn-primary shadow-none mt-0 btnEdit">
+              {{ "Shared.Ok" | translate }}
+            </button>
+            <button type="button" class="btn btn-light mt-0 btnEdit" data-dismiss="modal">
+              {{ "Shared.Close" | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<ng-container
+  class="new-icon"
+  *ngIf="(mobileOrdersCount > 0 || callCenterOrdersCount > 0 || allYemekOrdersLength > 0) && intervalOfNotification">
+  <mat-icon (click)="gotToOrders()">fiber_new</mat-icon>
+</ng-container>

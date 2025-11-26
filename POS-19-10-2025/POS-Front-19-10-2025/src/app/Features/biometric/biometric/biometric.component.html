@@ -1,0 +1,145 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- Biometric -->
+    <div class="col-md-7">
+      <div class="ms-card">
+        <div class="ms-card-header">
+          <h5 class="m-0">{{ "Shared.BiometricConnection" | translate }}</h5>
+        </div>
+        <div class="ms-card-body">
+          <div class="row">
+            <div class="col-md-3 ml-3">
+              <select name="ConfigDocumentId" [(ngModel)]="ConfigDocument" class="form-control" required>
+                // value is a string or number
+                <option *ngFor="let Config of BiometricConfigList" [ngValue]="Config">
+                  {{ Config.Name }} >> {{ Config.Ip }}
+                </option>
+              </select>
+            </div>
+            <button
+              style="margin: 15px; top: -14px"
+              class="btn btn-circle bg-defualt form-control col-md-1"
+              (click)="PingBiometricDevice()">
+              {{ "Shared.Ping" | translate }}
+            </button>
+            <button
+              style="margin: 15px; top: -14px"
+              class="btn btn-circle bg-defualt form-control col-md-1 text-white"
+              [ngClass]="{ Connect: !Connected, Disconnect: Connected }"
+              (click)="ConnectDevice()">
+              <span *ngIf="!Connected">{{ "Shared.connect" | translate }}</span>
+              <span *ngIf="Connected">{{ "Shared.DisConnect" | translate }}</span>
+            </button>
+            <button
+              [disabled]="!Connected"
+              style="margin: 15px; top: -14px"
+              class="btn btn-circle bg-blue form-control col-md-2"
+              (click)="GetData()">
+              {{ "Shared.getdata" | translate }}
+            </button>
+            <button
+              *ngIf="LogDataList.length > 0 && Connected"
+              style="margin: 15px; top: -14px"
+              class="btn btn-circle bg-success form-control col-md-2 text-white"
+              (click)="SaveBiometricLogData()">
+              SaveData
+            </button>
+          </div>
+
+          <ejs-grid
+            #grid2
+            id="Grid2"
+            [dataSource]="LogDataList"
+            [allowPaging]="true"
+            [pageSettings]="pageSettings2"
+            [allowSorting]="true"
+            [allowFiltering]="true"
+            [filterSettings]="filterOptions2"
+            [toolbar]="toolbarOptions2"
+            [allowGrouping]="true"
+            [allowPdfExport]="true"
+            [allowExcelExport]="true"
+            [editSettings]="editOptions2"
+            (actionBegin)="actionBegin($event)">
+            <h1>Halaaaaaaaaaa!</h1>
+            <e-columns class="d-flex">
+              <e-column
+                field="MachineNumber"
+                headerText="{{ 'Shared.Machinenumber' | translate }}"
+                textAlign="center"></e-column>
+              <e-column
+                field="IndRegID"
+                headerText="{{ 'Shared.EnrollNumber' | translate }}"
+                textAlign="center"></e-column>
+              <e-column field="EmployeeName" headerText="{{ 'Shared.Name' | translate }}" textAlign="center"></e-column>
+              <e-column
+                field="DateTimeRecord"
+                headerText="{{ 'CashReceipt.Date' | translate }}"
+                textAlign="center"
+                type="date"
+                [format]="DateFormat"></e-column>
+              <e-column
+                field="DateTimeRecord"
+                headerText="{{ 'setting.Time' | translate }}"
+                textAlign="center"
+                type="date"
+                [format]="TimeFormat"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+    <!-- Biometric Configuration -->
+    <div class="col-md-5">
+      <div class="ms-card">
+        <div class="ms-card-header">
+          <h5 class="m-0">{{ "Shared.BiometricConfiguration" | translate }}</h5>
+        </div>
+        <div class="ms-card-body">
+          <div class="d-flex">
+            <!-- search feild -->
+            <div class="ml-auto">
+              <button
+                style="margin: 15px; top: -14px"
+                class="btn btn-circle bg-blue form-control col-md-2"
+                (click)="AddNewBioConfig()">
+                {{ "Shared.AddDevice" | translate }}
+              </button>
+            </div>
+            <!--search Start-->
+          </div>
+          <ejs-grid
+            #grid
+            id="Grid"
+            [dataSource]="BiometricConfigList"
+            [allowPaging]="true"
+            [pageSettings]="pageSettings"
+            [allowSorting]="true"
+            [allowFiltering]="true"
+            [filterSettings]="filterOptions"
+            [toolbar]="toolbarOptions"
+            [allowGrouping]="true"
+            [allowPdfExport]="true"
+            [allowExcelExport]="true"
+            [editSettings]="editOptions"
+            (actionBegin)="actionBegin($event)">
+            <h1>Halaaaaaaaaaa!</h1>
+            <e-columns class="d-flex">
+              <e-column field="Name" headerText="{{ 'Shared.deviceName' | translate }}" textAlign="center"> </e-column>
+              <e-column field="Ip" headerText="IP" textAlign="center"></e-column>
+              <e-column field="Port" headerText="Port" textAlign="center"></e-column>
+              <e-column
+                field="MachineNo"
+                headerText="{{ 'Shared.Machinenumber' | translate }}"
+                textAlign="center"></e-column>
+              <e-column
+                headerText="{{ 'delivery.Actions' | translate }}"
+                [commands]="commands"
+                textAlign="center"></e-column>
+            </e-columns>
+          </ejs-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+.dashboard-saleOfPoints {
+  .card {
+    box-shadow: 1px 2px 3px 1px #ddd;
+    transition: all 0.5s ease-in-out;
+    height: auto;
+    .title-card {
+      margin-bottom: 25px;
+    }
+    .card-icon {
+      margin-inline: 10px;
+      i {
+        vertical-align: middle;
+        padding: 14px;
+        font-size: 24px;
+        border-radius: 4px;
+      }
+      .fa-cogs {
+        color: #3475a3;
+        background-color: #3475a345;
+      }
+      .fa-line-chart {
+        color: rgb(9, 189, 9);
+        background-color: rgba(9, 189, 9, 0.26);
+      }
+    }
+    .card-content {
+      margin-bottom: 10px;
+      .meal-details {
+        img {
+          width: 44px;
+          height: 40px;
+          border-radius: 6px;
+        }
+      }
+      .meal-name {
+        display: grid;
+        padding-inline: 5px;
+        .name {
+          font-weight: 600;
+        }
+        .amount {
+          color: rgba(0, 0, 0, 0.52);
+          padding-inline: 3px;
+        }
+        .quantity {
+          font-weight: 600;
+          color: #0f0fed;
+        }
+      }
+      .meal-price {
+        color: #1bcf31;
+      }
+    }
+  }
+  ejs-chart {
+    border-radius: 8px;
+  }
+  .input-group-addon {
+    background-color: #fff;
+    padding: 4px;
+    color: #323a67;
+    width: 40px;
+    height: 36px;
+    .fa-user{
+      padding: 7px;
+      font-size: 14px;
+    }
+  }
+  .form-control{
+    border-color: transparent;
+  }
+  .btn-filter{
+    margin-top: 0px;
+  }
+}
+@media screen and(min-width: 768px) and (max-width: 992px) {
+  p {
+    font-size: 14px;
+  }
+  .dashboard-saleOfPoints {
+    .card {
+      .card-icon {
+        i {
+          padding: 9px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { AppLayoutComponent } from "src/app/shared/app-layout/app-layout.component";
+import { AuthGuard } from "src/app/core/Helper/auth-guard";
+import { HomeComponent } from "./home/home.component";
+const routes: Routes = [{ path: "", component: HomeComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class HomeRoutingModule {}

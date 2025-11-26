@@ -1,0 +1,192 @@
+.btn-group {
+  display: inline-block;
+  white-space: unset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+}
+.btn-group label {
+  margin: 0;
+  border-radius: 0;
+}
+
+.btn-redd {
+  background-color: none;
+}
+
+.btn-redd:not(:disabled):not(.disabled).active,
+.btn-redd:not(:disabled):not(.disabled):active,
+.show > .btn-redd.dropdown-toggle {
+  color: #fff;
+  background-color: #c62828;
+  border-color: #c62828;
+}
+
+.mat-button-toggle-group .mat-button-toggle-checked {
+  background: #c62828 !important;
+  color: white;
+}
+
+.categories-toogle-group.mat-button-toggle-group .mat-button-toggle-checked {
+  background: #c62828 !important;
+  color: white;
+}
+
+.categories-toogle-group {
+  background-color: white;
+}
+
+.mat-button-toggle-group .mat-button-toggle-checked {
+  background: #c62828 !important;
+  color: white !important;
+  cursor: pointer;
+}
+
+.mat-button-toggle-checked {
+  background-color: #c62828;
+}
+
+.mat-raised-button.mat-primary {
+  background-color: #c62828;
+}
+
+.example-card {
+  max-width: 500px;
+}
+
+h3.secondary-font {
+  font-size: 23px !important;
+  font-weight: 600 !important;
+}
+
+.material-icons {
+  font-size: 34px !important;
+  color: #c62828;
+}
+
+.divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.mat-list-item-content {
+  padding: 8px 0px !important;
+}
+
+.redBtn {
+  background: #c62828 !important;
+}
+
+.mat-list-base .mat-list-item {
+  height: auto;
+}
+
+i {
+  color: #c62828 !important;
+}
+
+.mat-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-panel-title {
+  color: #c62828 !important;
+  font-size: 19px;
+}
+
+.mat-expansion-panel-body {
+  padding: 24px 16px !important;
+}
+
+.mat-expansion-panel-header.mat-expanded {
+  height: 44px !important;
+  border-bottom: 1px solid #ccc !important;
+}
+
+label {
+  font-size: 1rem !important;
+}
+
+.mat-radio-label-content {
+  font-size: 1rem !important;
+}
+
+.editDirection {
+  flex-direction: row;
+}
+
+@media screen and (max-width: 992px) {
+  .editDirection {
+    flex-direction: column;
+  }
+}
+.editSize {
+  height: 150px;
+  width: 20rem;
+}
+
+/* Track */
+::-webkit-scrollbar {
+  width: 22px;
+  height: 14px;
+}
+
+/* Buttons */
+::-webkit-scrollbar-button {
+  border-style: solid;
+  height: 20px;
+  width: 20px;
+}
+
+/* Up */
+::-webkit-scrollbar-button:vertical:decrement {
+  border-width: 0 7px 14px 7px;
+  border-color: transparent transparent #404040 transparent;
+}
+
+::-webkit-scrollbar-button:vertical:decrement:hover {
+  border-color: transparent transparent #505050 transparent;
+}
+
+/* Down */
+::-webkit-scrollbar-button:vertical:increment {
+  border-width: 14px 7px 0 7px;
+  border-color: #404040 transparent transparent transparent;
+}
+
+::-webkit-scrollbar-button:vertical:increment:hover {
+  border-color: #505050 transparent transparent transparent;
+}
+
+/* Left */
+::-webkit-scrollbar-button:horizontal:decrement {
+  border-width: 7px 14px 7px 0;
+  border-color: transparent #404040 transparent transparent;
+}
+
+::-webkit-scrollbar-button:horizontal:decrement:hover {
+  border-color: transparent #c62828 transparent transparent;
+}
+
+/* Right */
+::-webkit-scrollbar-button:horizontal:increment {
+  border-width: 7px 0 7px 14px;
+  border-color: transparent transparent transparent #404040;
+}
+
+::-webkit-scrollbar-button:horizontal:increment:hover {
+  border-color: transparent transparent transparent #c62828;
+}
+
+.mat-button-toggle-button {
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+}
+
+.mat-button-toggle-button {
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+} /*# sourceMappingURL=menu.component.css.map */

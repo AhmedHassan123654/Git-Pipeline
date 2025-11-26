@@ -1,0 +1,346 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid kds" style="background-color: #001d3d; height: 100vh">
+  <div class="kds">
+    <div class="row">
+      <div style="width: 100%" id="main">
+        <div class="ms-panel ms-widget ms-email-widget mb-2">
+          <div class="ms-panel-header p-2">
+            <div class="media">
+              <div class="d-flex px-3 align-items-center">
+                <div class="mx-2" id="ToggleBtn">
+                  <div (click)="openNav()" class="hamburger"></div>
+                </div>
+                <div class="mx-2 align-self-center">
+                  <img src="assets/images/cooking.svg" class="ms-img-small ms-img-round" alt="people" />
+                </div>
+                <div class="mx-2 media-body">
+                  <h4 class="m-0 restaurantName4 orangeColor">
+                    {{ "kds.kds" | translate }}
+                  </h4>
+                </div>
+              </div>
+              <div class="">
+                <button style="font-size: 25px" type="button" class="btn btn-square btn_Light p-1 mx-2">
+                  <img src="assets/images/dining-table.svg" alt="" srcset="" />
+                  {{ "kds.dinein" | translate }}
+                </button>
+                <button style="font-size: 25px" type="button" class="btn btn-square btn-warning p-1 mx-2">
+                  <img src="assets/images/delivery-man.svg" alt="" srcset="" />
+                  {{ "kds.delivery" | translate }}
+                </button>
+                <!-- <button style="font-size: 25px;" type="button" class="btn btn-square btn_yellow p-1 mx-2"><span style="font-size: 1.7rem;">5</span> خارجي</button> -->
+                <button style="font-size: 25px" type="button" class="btn btn-square btn_danger p-1 mx-2">
+                  <img src="assets/images/take-away.svg" alt="" srcset="" />
+                  {{ "kds.takeaway" | translate }}
+                </button>
+                <button
+                  style="font-size: 25px"
+                  type="button"
+                  class="btn btn-square link_blue p-1 mx-2"
+                  (click)="setAllOrderDone()">
+                  {{ "kds.alldone" | translate }}
+                </button>
+              </div>
+              <div>
+                <ul class="ms-email-options d-flex px-4">
+                  <li>
+                    <input type="text" class="h-50 form-control" [(ngModel)]="searchProduct"
+                     placeholder="{{'kds.SearchProduct' | translate}}..." aria-label="Search">
+                  </li>
+                  <li>
+                    <input type="number" class="h-50 form-control" [(ngModel)]="searchOrderNumber" (ngModelChange)="searchForOrderNumber()"
+                    (keyup.enter)="selectOrderNumber()" placeholder="{{'products.SearchWithOrderNumber' | translate}}..." aria-label="Search">
+                    
+                  </li>
+                  <li>
+                    <a class="text-disabled">
+                      <span>{{ orders?.length }}</span>
+                      {{ "kds.orders" | translate }}
+                    </a>
+                  </li>
+                  <li (click)="openFullscreen()">
+                    <a >
+                      <!-- {{ "kds.fullscreen" | translate }} -->
+                      <i class="fas fa-expand" style="font-size: 1.2rem"></i>
+                    </a>
+                  </li>
+                  <li (click)="Resort()">
+                    <a class="sortOrder">
+                      <!-- {{ "kds.sortorders" | translate }} -->
+                      <i *ngIf="Sortorder" style="font-size: 1.4rem" class="fas fa-sort-numeric-up"></i>
+                      <i *ngIf="!Sortorder" style="font-size: 1.4rem" class="fa fa-sort-numeric-down"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height: 100%" class="containerh editGrid">
+          <div #childRef class="itemh ms-card" *ngFor="let item of orders">
+            <div>
+              <i class="popubtn fa fa-expand"></i>
+              <div class="ms-card-header p-2 d-flex justify-content-between align-items-center {{ item.class }}">
+                <div class="d-flex flex-column getName">
+                  <span class="py-1"># {{ item.OrderNumber }}</span>
+                  <span class="py-1 badge badge-pill badge_danger p-2">
+                    {{ item.OrderTypeName }}
+                  </span>
+                  <span class="py-1 badge badge-pill badge_danger p-2 mb-2" *ngIf="item.TableName">
+                    {{ item.TableName }}
+                  </span>
+                </div>
+                <div class="d-flex flex-column">
+                  <!-- <p class="m-0">الوقت المتبقي</p>
+                                        <span style="border-radius: 5px;  font-size: 1.1rem;" class="badge badge-pill badge_danger p-1">
+                                          <i style="font-weight: 700;
+                                          font-size: 20px;
+                                          color: #1272d6;" class="material-icons">access_time</i>
+                                           {{item.RemainingTime}}
+                                        </span> -->
+                  <span *ngIf="item.CustomerName" class="badge badge-pill badge_danger py-2">{{
+                    item.CustomerName
+                  }}</span>
+                  <span class="badge badge-pill badge_danger py-2">{{
+                    item.ModificationTime  | date:'shortTime' 
+                  }}</span>
+                  <span
+                    *ngIf="isDelayed(item.ModificationTime)&&settingobj.DefaultOrderPreparationTimeInMinutes"
+                    class="badge badge-pill badge_danger py-2"
+                  >
+                    ⚠️ {{ "kds.orderlate" | translate }}
+                  </span>
+                </div>
+              </div>
+
+              <perfect-scrollbar [ngStyle]="{ height: perfectScroll ? '28rem' : '' }">
+                <div class="ms-card-body py-1">
+                  <ul class="ms-list ms-task-block">
+                    <ng-container *ngFor="let detail of item.OrderDetails">
+                      <li
+                        [ngClass]="isFiltteredProduct(detail) ? 'searchedProduct' : ''"
+                        *ngIf="!detail.ProductDone && groupIds.includes(detail.ProductGroupDocumentId)"
+                        class="ms-list-item ms-to-do-task ms-deletable py-1">
+                        <div 
+                           class="d-flex justify-content-between align-items-center">
+                          <p >{{ getName(detail.Product) }}</p>
+                          <span> {{ detail.ProductQuantity }} </span>
+                        </div>
+                        <ul class="editulStyle">
+                          <li
+                            *ngFor="let subItem of detail.OrderDetailSubItems"
+                            class="d-flex sideDishesLi justify-content-between align-items-center">
+                            <span
+                              ><img src="assets/images/nachos.svg" />
+                              {{ subItem.ProductSubItemName }}
+                            </span>
+                            <span>{{ subItem.Quantity }}</span>
+                          </li>
+
+                          <li *ngFor="let note of detail.OrderDetailNotes" class="note">
+                            <img src="assets/images/notes.svg" />
+                            {{ note.NoteName }}
+                          </li>
+                        </ul>
+                      </li>
+                    </ng-container>
+                  </ul>
+                </div>
+                <span *ngIf="item.WaiterName">{{ "manageorder.Waiter" | translate }} : {{ item.WaiterName }}</span>
+              </perfect-scrollbar>
+
+              <div class="ms-card-footer p-2 text-center">
+                <a (click)="setOrderDone(item)" class="btn link_blue btn-block m-0">{{ "kds.done" | translate }}</a>
+              </div>
+              <div class="text-center">
+                <h5 *ngIf="item.NoteForOrder" style="color: #d9534f !important" class="">
+                  {{ item.NoteForOrder }}
+                </h5>
+              </div>
+            </div>
+          </div>
+
+          <span class="itemh break"></span>
+          <span class="itemh break"></span>
+          <span class="itemh break"></span>
+          <span class="itemh break Add-display-none"></span>
+        </div>
+      </div>
+      <div id="mySidenav" class="sidenav" style="border-right: #ccc 1px solid">
+        <perfect-scrollbar style="height: 850px" class="ms-panel ms-widget">
+          <div></div>
+          <!-- <div class="ms-panel-header p-2 d-flex justify-content-center text-center">
+                   <h4 class="m-0" style="font-weight: 700;">Pending Items Summary</h4>
+                </div> -->
+          <div class="ms-panel-body p-0">
+            <div class="table-responsive">
+              <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <h4 style="font-weight: 700">
+                        {{ "kds.itemname" | translate }}
+                      </h4>
+                    </th>
+                    <th scope="col">
+                      <h4 style="font-weight: 700">
+                        {{ "kds.pending" | translate }}
+                      </h4>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody style="background-color: #01497c; color: #fff; font-size: 1.3rem; font-weight: 600">
+                  <tr *ngFor="let item of finalSummarylist">
+                    <td>{{ item.Name }}</td>
+                    <td>{{ item.Qty }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--EMPLOYEES MODAL-->
+<div class="modal fade" id="modal-kds" tabindex="-1" role="dialog" aria-labelledby="modal-kds">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <!--header-->
+      <div class="modal-header" style="padding: 0.5rem 1rem 0 0; border: 0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--body-->
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <div class="row d-flex pr-xs-0">
+              <div class="col-md-12 d-flex justify-content-center align-items-center label1">
+                <label class="restaurantName4" for="validationCustom20">
+                  {{ "kds.selectKitchenSection" | translate }}</label
+                >
+              </div>
+              <div class="col-md-12 pt-3">
+                <perfect-scrollbar [config]="config" class="table-responsive nav-pills ManageOrderScroll">
+                  <!-- <table class="table table-bordered table-striped text-center">
+                  <thead class="bg-maingreen">
+                    <tr>
+                      <th scope="col">قسم المطبخ	 </th>
+                      <th scope="col">العمليات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let chefScreen of chefScreens">
+                      <th scope="row">{{chefScreen.VirtualName}}</th>
+                      <td>
+                        <button data-toggle="modal" data-target="#modal-3" class="btn btn-success dispalyInline py-1 px-3 m-0"  type="button" (click)="SelectChefScreen(chefScreen,true)"> اختيار  </button>
+                        <button *ngIf="chefScreen.IsSelected" class="btn btn-success dispalyInline py-1 px-3 m-0"  type="button" (click)="SelectChefScreen(chefScreen,false)"> إلغاء الإختيار </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div style="display: inline-block" class="nav d-flex p-2">
+                        <a
+                          [ngClass]="{ active: selectedIdx == i }"
+                          (click)="SelectChefScreen(chefScreen, true)"
+                          class="nav-link bg-Orange m-2 text-center btn"
+                          style="font-weight: bold; font-size: 1.5rem"
+                          *ngFor="let chefScreen of chefScreens; let i = index">
+                          {{ chefScreen.VirtualName }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </perfect-scrollbar>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--footer-->
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-primary btnEdit mt-0 shadow-none" data-dismiss="modal">
+          {{ "Shared.Ok" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end EMPLOYEES MODAL-->
+<!--password modal-->
+<div
+  class="modal fade"
+  id="modal-3"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-3"
+  style="background: rgba(0, 0, 0, 0.4)">
+  <div class="modal-dialog modal-dialog-password modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title has-icon ms-icon-round">
+          <i class="flaticon-security bg-primary text-white"></i>{{ "Shared.Password" | translate }}
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form method="post">
+          <div class="ms-form-group has-icon">
+            <!-- <label>ادخل الرقم السري</label> -->
+            <input
+              type="password"
+              placeholder="{{ 'Shared.Password' | translate }}"
+              class="form-control"
+              value=""
+              id="ChiefPassword"
+              name="ChiefPassword"
+              required
+              [(ngModel)]="ChiefPassword" />
+            <i class="flaticon-security"></i>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light btnEdit m-0 mx-1" data-dismiss="modal">
+          {{ "Shared.Cancel" | translate }}
+        </button>
+        <button
+          type="button"
+          (click)="CheckPassword(ChiefPassword)"
+          class="btn btn-primary shadow-none mx-1 btnEdit m-0">
+          {{ "Shared.Submit" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end password modal-->

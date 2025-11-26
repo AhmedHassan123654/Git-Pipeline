@@ -1,0 +1,17 @@
+<form class="d-flex justify-content-center align-items-center searchInputForm">
+  <input
+    [(ngModel)]="value"
+    (input)="searchInOrders(value)"
+    name="ctrl"
+    #ctrl="ngModel"
+    ngModel
+    class="form-control searchInput2 form-control-sm mr-1"
+    type="search" />
+  <i class="fas fa-search" aria-hidden="true"></i>
+</form>
+
+<!-- 
+ <div class="d-flex justify-content-center align-items-center searchInputForm">
+    <input autocomplete="off" [(ngModel)]="searchOrders" (input)="searchInOrders(searchOrders)" placeholder="Search ..." class="form-control searchInput2 p-2" id="name" name="Name" type="search" aria-label="Search"  />
+    <i class="fas fa-search" aria-hidden="true"></i>
+</div> -->

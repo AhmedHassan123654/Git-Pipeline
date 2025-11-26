@@ -1,0 +1,335 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="Productform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="form-row pt-3">
+                        <!--name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Name" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="Name"
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    [required]="isRequired" />
+                                  <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Sortnumber-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Sortnumber" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="number"
+                                    disabled
+                                    id="Sortnumber"
+                                    name="Sortnumber"
+                                    #Sortnumber="ngModel"
+                                    [(ngModel)]="responseobj.Sortnumber"/>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!--Foreign Name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.ForeignName" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="ForiegnName"
+                                    name="ForiegnName"
+                                    #ForiegnName="ngModel"
+                                    [(ngModel)]="responseobj.ForiegnName" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Code-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Code" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <input
+                                    class="form-control borderRadius"
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    id="Code"
+                                    name="Code"
+                                    #Code="ngModel"
+                                    [(ngModel)]="responseobj.Code"
+                                    [required]="isRequired" />
+                                  <div *ngIf="(frmRef.submitted && Code.invalid) || (Code.invalid && Code.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Code.errors.required">
+                                      {{ "Shared.CodeIsReqired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Product Type-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.producttype" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="ProductTypeDocumentId"
+                                    #ProductTypeDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.ProductTypeDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="ProductTypeList"
+                                    placeholder="Select Product Type"
+                                    [fields]="ProductTypeFlds"
+                                    class="form-control borderRadius"
+                                    id="ProductTypeDocument_Id"
+                                    [enabled]="false"
+                                    [required]="isRequired"></ejs-combobox>
+                                </div>
+                              </div>
+                              <div
+                                class=""
+                                *ngIf="
+                                  (frmRef.submitted && ProductTypeDocumentId.invalid) ||
+                                  (ProductTypeDocumentId.invalid && ProductTypeDocumentId.touched)
+                                ">
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="ProductTypeDocumentId.errors.required">
+                                  Product Type is required
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Default Stock-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "stock.Stock" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="StockDocumentId"
+                                    #StockDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.StockDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="StockList"
+                                    placeholder="Select Stock"
+                                    [fields]="StockFlds"
+                                    class="form-control borderRadius"
+                                    id="StockDocument_Id"
+                                    [enabled]="false"></ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Pricing class-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.pricingclasses" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="PricingClassDocumentId"
+                                    #PricingClassDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.PricingClassDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="PricingClassList"
+                                    placeholder="Select Pricing Class"
+                                    [fields]="PricingClassFlds"
+                                    class="form-control borderRadius"
+                                    id="PricingClassDocument_Id"
+                                    [enabled]="false"></ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="row my-1">
+                            <div class="col-md-8">
+                              <label>
+                                {{ "Shared.IsStopped" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="ms-checkbox-wrap ms-todo-complete">
+                                <input
+                                  type="checkbox"
+                                  name="IsStopped"
+                                  #IsStopped="ngModel"
+                                  [(ngModel)]="responseobj.IsStopped"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </label>
+                            </div>
+                          </div>
+                          <br />
+
+                          <div class="row my-1">
+                            <div class="col-md-8">
+                              <label>{{ "Shared.Print In Cashier Printer" | translate }}</label>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="ms-checkbox-wrap ms-todo-complete">
+                                <input
+                                  type="checkbox"
+                                  name="PrintInCashierPrinter"
+                                  #PrintInCashierPrinter="ngModel"
+                                  [(ngModel)]="responseobj.PrintInCashierPrinter"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </label>
+                            </div>
+                          </div>
+                          <br />
+                          <!-- SyncToOrderOnline -->
+                          <div class="row my-1">
+                            <div class="col-md-8">
+                              <label>
+                                {{ "Shared.SyncToOrderOnline" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="ms-checkbox-wrap ms-todo-complete">
+                                <input
+                                  type="checkbox"
+                                  name="SyncToOrderOnline"
+                                  #SyncToOrderOnline="ngModel"
+                                  [(ngModel)]="responseobj.SyncToOrderOnline"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <!--product Group picture-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.productGrouppicture" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="d-flex align-items-end">
+                                <div class="uplade__iamge mb-0">
+                                  <label id="uplade_Img" for="upladeImg" class="uplade__iamge--label mb-0" translate>
+                                    <i class="flaticon-pencil uplade__iamge--icon"></i>
+                                  </label>
+                                  <input
+                                    class="d-none"
+                                    #file
+                                    type="file"
+                                    name=""
+                                    id="upladeImg"
+                                    (change)="uploadImage($event)"
+                                    [disabled]="showUploader" />
+                                  <div id="upladDone" class="uplade__iamge--img d-none">
+                                    <label for="editImg" class="uplade__iamge--img--edit">
+                                      <i class="flaticon-pencil uplade__iamge--icon"></i>
+                                    </label>
+                                    <input
+                                      class="d-none"
+                                      type="file"
+                                      #file
+                                      name=""
+                                      id="editImg"
+                                      (change)="uploadImage($event)"
+                                      [disabled]="showUploader" />
+                                    <button
+                                      type="button"
+                                      class="uplade__iamge--img--delete"
+                                      (click)="removeImage()"
+                                      [disabled]="showUploader">
+                                      <i class="flaticon-trash uplade__iamge--icon"></i>
+                                    </button>
+                                    <img [src]="responseobj.PicturePath" alt="" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

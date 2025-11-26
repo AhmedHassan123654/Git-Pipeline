@@ -1,0 +1,26 @@
+<section class="d-flex">
+  <div class="perpare-section">
+    <h1><i class="fas fa-fire px-2"></i>Preparing . .</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-3" *ngFor="let num of PreparingList; index as i">
+          <h2>
+            <span class="num">{{ num }}</span>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ready-section">
+    <h1><i class="fas fa-utensils px-2"></i> Ready</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-3" *ngFor="let Rnum of ReadingList; index as i">
+          <h2>
+            <span class="num">{{ Rnum }}</span>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,9 @@
 {
   "Shared": {
+    "Get":"Get",
+    "Take":"Take",
+    "ProductWithoutSideDish":"Product Without Side Dish",
+    "Unassigned":"Unassigned",
     "MyPoints":"My Points",
     "Default":"Default",
     "SubNumber":"Sub-number",
@@ -661,6 +665,7 @@
     "Taxnumber": "Numéro d'identification fiscale"
   },
   "products": {
+    "GroupMealName":"Group Product Name",
     "AsGroupMeal":"As Group Product",
     "IncludedProducts":"Included Products",
     "Mandatory":"Mandatory",
@@ -1087,6 +1092,7 @@
 
   },
   "setting": {
+    "CannotUpdateAfterAssignDriver":"Cannot Update Order After Assign Driver",
     "DonotUsePOSInIncomingUser":"Does not depend on the point of sale in opening the shift.",
     "DefaultOrderPreparationTimeInMinutes":"Default Order Preparation Time In Minutes",
     "AllowAdminAccessPOSTransactons":"Allow Admin User Access POS Order",
@@ -1618,6 +1624,7 @@
     "CanNotEditOrderForAnotherUser": "Ne pas autoriser la modification des factures d'un autre utilisateur"
   },
   "Reports": {
+    "showssalesonlyreturnnotincluded": "Note: These values are calculated based on the quantity of sales only.",
     "Redeem":"Redeem",
     "FinalSummary":"Final Summary",
     "returnTime":"Return Time",
@@ -2078,5 +2085,12 @@
     "missingPrinter":"Error Happens Make Sure There Is Printer Selected At the POS",
     "missingKOTPrinter":"Error Happens Make Sure There Is Printer Selected"
 
-  }
+  },
+  "Admin":"Admin",
+  "Employee":"Employee",
+  "Cashier":"Cashier",
+  "Driver":"Driver",
+  "Waiter":"Waiter",
+  "Chief":"Chief",
+  "Captain":"Captain"
 }

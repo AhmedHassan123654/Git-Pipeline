@@ -1,0 +1,10 @@
+.navbar {
+  border: 1px solid transparent !important;
+}
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.modal-backdrop.show {
+  opacity: 0;
+}

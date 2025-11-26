@@ -1,0 +1,41 @@
+.mat-button.mat-accent,
+.app.red .mat-icon-button.mat-accent,
+.app.red .mat-stroked-button.mat-accent {
+  color: #43a047;
+}
+.mat-button.mat-accent .mat-button-focus-overlay,
+.app.red .mat-icon-button.mat-accent .mat-button-focus-overlay,
+.app.red .mat-stroked-button.mat-accent .mat-button-focus-overlay {
+  background-color: #43a047;
+}
+.imgCol {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+h1.signIn {
+  font-family: "Lora", sans-serif;
+}
+@media only screen and (max-width: 768px) {
+  .dnone {
+    display: none;
+  }
+  .d-flexhalf {
+    flex: 1 1 50%;
+    box-sizing: border-box;
+    max-width: 50%;
+  }
+}
+
+.d-flexhalf {
+  flex: 1 1 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.btn-success {
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: #43a047 !important;
+}

@@ -1,0 +1,275 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="IntegrationSystemform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions (afterPag)="afterPag($event)" (quickEvents)="quickEvents($event)" [request]="request"
+                        [form]="frmRef" [service]="service" [formobj]="responseobj" [pagename]="pagename"
+                        [pageNumber]="pageNumber">
+  </app-pagetransactions>
+
+  <div class="container-fluid">
+    <div style="background:#fff" class="tab-content ms-panel">
+      <!------------ first form ---------------->
+      <div class="p-3">
+        <div class="row align-items-center">
+          <!-- Integration Type -->
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19">
+                  {{ "Shared.Name" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user fs-16"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-combobox name="Integration" #Integration="ngModel" [(ngModel)]="responseobj.Integration"
+                                  [allowFiltering]="true" [autofill]="true" [dataSource]="IntegrationSystemsList"
+                                  placeholder="Select Integration" [fields]="Flds" class="form-control borderRadius"
+                                  id="Integration_id" [enabled]="false" [required]="isRequired"></ejs-combobox>
+                  </div>
+                  <div class=""
+                       *ngIf="(frmRef.submitted && Integration.invalid) || (Integration.invalid && Integration.touched)">
+                    <div class="alert alert-danger editAlertCash" *ngIf="Integration.errors.required">
+                      {{ "Shared.IntegrationIsrequired" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Order type field555 -->
+          <div class="col-md-6 mb-3" >
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19" *ngIf="responseobj.Integration === 4">
+                  {{ "Shared.TakeawayOrderType" | translate }}
+                </label>
+                <label for="validationCustom19" *ngIf="responseobj.Integration != 4">
+                  {{ "Shared.OrderType" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user fs-16"></i>
+                  </div>
+                  <!--  -->
+                  <div class="input-group">
+                    <ejs-combobox name="OrderTypeDocumentId" #OrderTypeDocumentId="ngModel" [required]="true"
+                                  [(ngModel)]="responseobj.OrderTypeDocumentId" [allowFiltering]="true"
+                                  [autofill]="true"
+                                  [dataSource]="responseobj.OrderTypeList" placeholder="Select Order Type"
+                                  [fields]="Flld"
+                                  class="form-control borderRadius" id="OrderTypeDocument_id"
+                                  [enabled]="false"></ejs-combobox>
+                    <div
+                      *ngIf="(frmRef.submitted && OrderTypeDocumentId.invalid) || (OrderTypeDocumentId.invalid && OrderTypeDocumentId.touched)">
+                      <div class="alert alert-danger editAlertCash" *ngIf="OrderTypeDocumentId.errors.required">
+                        {{ "Shared.Required" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Order type delivery -->
+          <div class="col-md-6 mb-3" *ngIf="responseobj.Integration === 4">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19">
+                  {{ "Shared.DeliveryOrderType" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user fs-16"></i>
+                  </div>
+                  <!--  -->
+                  <div class="input-group">
+                    <ejs-combobox name="OrderTypeDeliveryDocumentId" #OrderTypeDeliveryDocumentId="ngModel" [required]="true"
+                                  [(ngModel)]="responseobj.OrderTypeDeliveryDocumentId" [allowFiltering]="true"
+                                  [autofill]="true"
+                                  [dataSource]="responseobj.OrderTypeList" placeholder="Select Order Type"
+                                  [fields]="Flld"
+                                  class="form-control borderRadius" id="OrderTypeDeliveryDocumentId_id"
+                                  [enabled]="false"></ejs-combobox>
+                    <div
+                      *ngIf="(frmRef.submitted && OrderTypeDeliveryDocumentId.invalid) || (OrderTypeDeliveryDocumentId.invalid && OrderTypeDeliveryDocumentId.touched)">
+                      <div class="alert alert-danger editAlertCash" *ngIf="OrderTypeDeliveryDocumentId.errors.required">
+                        {{ "Shared.Required" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integration Customer Id -->
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19">
+                  {{ "Shared.selectCustomer" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user fs-16"></i>
+                  </div>
+                  <!--  -->
+                  <div class="input-group">
+                    <ejs-combobox name="CustomerDocumentId" #CustomerDocumentId="ngModel"
+                                  [(ngModel)]="responseobj.CustomerDocumentId" [allowFiltering]="true" [autofill]="true"
+                                  [dataSource]="responseobj.CustomerList"
+                                  [placeholder]="'Shared.customerlist' | translate "
+                                  [fields]="Flld" class="form-control borderRadius" id="CustomerDocumentId_id"
+                                  [enabled]="false"
+                                  [required]="true"
+                                  (ngModelChange)="setCommission(responseobj.CustomerDocumentId)">
+                    </ejs-combobox>
+                    <div
+                      *ngIf="(frmRef.submitted && CustomerDocumentId.invalid) || (CustomerDocumentId.invalid && CustomerDocumentId.touched)">
+                      <div class="alert alert-danger editAlertCash" *ngIf="CustomerDocumentId.errors.required">
+                        {{ "Shared.Required" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integration Payment Type fo online payments -->
+          <div class="col-md-6 mb-3">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="paymentType">
+                  {{ "Shared.paymenttype" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user fs-16"></i>
+                  </div>
+                  <!--  -->
+                  <div class="input-group">
+                    <ejs-combobox name="PayTypeDocumentId" #PayTypeDocumentId="ngModel"
+                                  [(ngModel)]="responseobj.PayTypeDocumentId" [allowCustom]="false"
+                                  [allowFiltering]="false" [autofill]="true"
+                                  [dataSource]="paymentTypes"
+                                  [placeholder]="'Shared.paymenttype' | translate "
+                                  [fields]="Flld" class="form-control borderRadius" id="paymentType"
+                                  [enabled]="false"
+                                  [required]="true">
+                    </ejs-combobox>
+                    <div
+                      *ngIf="(frmRef.submitted && PayTypeDocumentId.invalid) || (PayTypeDocumentId.invalid && PayTypeDocumentId.touched)">
+                      <div class="alert alert-danger editAlertCash" *ngIf="PayTypeDocumentId.errors.required">
+                        {{ "Shared.Required" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integration specific fields -->
+          <div class="col-md-6 mb-3" *ngFor="let field of fields[responseobj.Integration]">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label [for]="field.name"> {{ field.label | translate }}:</label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user fs-16"></i>
+                  </div>
+                  <div class="input-group">
+                    <input type="text" [name]="field.name" #fieldRef="ngModel" [(ngModel)]="responseobj[field.name]"
+                           [id]="field.name" [required]="field.required !== false" [disabled]="!enableChiled"
+                           class="form-control borderRadius" />
+                  </div>
+                  <div *ngIf="(frmRef.submitted && fieldRef.invalid) || (fieldRef.invalid && fieldRef.touched)">
+                    <div class="alert alert-danger editAlertCash" *ngIf="fieldRef.errors.required">
+                      {{ "Shared.Required" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Commmission Rate % -->
+          <div class="col-md-6 mb3">
+            <div class="row">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="Commission">{{ "Shared.CommissionRate" | translate }}:</label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-percentage fs-16"></i>
+                  </div>
+                  <input type="number" name="Commission" #Commission="ngModel" [(ngModel)]="responseobj.Commission"
+                         id="Commission" [required]="true" [disabled]="!enableChiled"
+                         class="form-control borderRadius" />
+                  <div class=""
+                       *ngIf="(frmRef.submitted && Commission.invalid) || (Commission.invalid && Commission.touched)">
+                    <div class="alert alert-danger editAlertCash" *ngIf="Commission.errors.required">
+                      {{ "Shared.Required" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Actions-->
+          <div class="col-12 mt-3 mb-3 d-flex justify-content-start align-items-center" style="gap:0.5rem" *ngIf="responseobj.Integration != 4">
+            <button type="button" [disabled]="!responseobj.DocumentId" name="pull"
+                    class="btn bg-blue shadow-none btnWA my-0" (click)="pullProdutsFromServer()">
+              <i class="fas fa-arrow-down"></i>
+              {{ "Shared.PullProducts" | translate }}
+            </button>
+            <button *ngIf="responseobj.Integration != 3" [disabled]="!responseobj.DocumentId" type="button" name="pull"
+                    class="btn bg-blue shadow-none btnWA my-0" (click)="pullPaymentsFromServer()">
+              <i class="fas fa-arrow-down"></i>
+              {{ "Shared.PullPayments" | translate }}
+            </button>
+
+            <div class="d-flex align-items-center pl-3 border" style="background:#EEE;border-radius: 50rem">
+              <div><b class="mr-2">{{ "integration.RestaurantStatus" | translate}}</b></div>
+              <div role="switch" (click)="toggleRestaurantStatus()"
+                   [style]="'--open-text:'+openText+'; --close-text:'+closeText" class="button r" id="button-1"
+                   [class.checked]="restaurantStatus">
+                <div class="knobs"></div>
+                <div class="layer"></div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-12 mt-3 mb-3 d-flex justify-content-start align-items-center" style="gap:0.5rem" *ngIf="responseobj.Integration === 4">
+            <button type="button" [disabled]="!responseobj.DocumentId || start" name="pushToServer"  class="btn bg-blue shadow-none btnWA my-0" (click)="pushToServer()">
+              <i class="fas fa-arrow-up"></i>
+              {{ "Shared.PushToServer" | translate }}
+            </button>
+          </div>
+
+
+          <!-- Restaurant status error -->
+          <div class="col-12 text-danger" *ngIf="responseobj.DocumentId && restaurantStatusError" >
+            <i class="fa fa-exclamation-triangle mr-2"></i> {{ "Shared.CannotRetrieveRestaurantStatus" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

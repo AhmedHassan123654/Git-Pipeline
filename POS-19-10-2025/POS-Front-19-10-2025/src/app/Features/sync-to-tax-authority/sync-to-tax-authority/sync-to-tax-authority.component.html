@@ -1,0 +1,428 @@
+<!-- reload -->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="ms-panel">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form-row pt-3">
+          <div class="col-md-4 mb-3">
+            <div class="row pr-xs-0">
+              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                <label for="validationCustom19"> {{ "Shared.branch" | translate }}</label>
+              </div>
+              <div class="col-md-8 paddingLeftz">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="far fa-building" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-multiselect
+                      name="BranchDocumentIds"
+                      class="form-control borderRadius"
+                      #BranchDocumentIds="ngModel"
+                      [(ngModel)]="responseobj.BranchDocumentIds"
+                      [dataSource]="BranchList"
+                      [allowFiltering]="true"
+                      [fields]="BrancheFlds"
+                      placeholder="{{ 'Shared.BranchName' | translate }}"
+                      [sortOrder]="sorting">
+                    </ejs-multiselect>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="row align-items-center justify-content-start">
+              <div class="col-md-4">
+                <label> {{ "Shared.fromdata" | translate }} </label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-datepicker
+                      class="form-control"
+                      format="dd/MM/yyyy"
+                      name="FromDate"
+                      #FromDate="ngModel"
+                      [(ngModel)]="responseobj.FromDate"></ejs-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="row align-items-center">
+              <div class="col-md-4 justify-content-start align-items-center">
+                <label> {{ "Shared.todata" | translate }} </label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-datepicker
+                      class="form-control"
+                      format="dd/MM/yyyy"
+                      name="ToDate"
+                      #ToDate="ngModel"
+                      [(ngModel)]="responseobj.ToDate"></ejs-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <div class="row align-items-center">
+              <div class="col-md-4 justify-content-start align-items-center">
+                <label> {{ "Reports.status" | translate }} </label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-combobox
+                      class="form-control"
+                      name="Status"
+                      #Status="ngModel"
+                      [(ngModel)]="responseobj.Status"
+                      id="Status_id"
+                      [dataSource]="StatusList"
+                      [autofill]="true"
+                      [allowFiltering]="true"
+                      [fields]="flds">
+                    </ejs-combobox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="row align-items-center">
+              <div class="col-md-4 justify-content-start align-items-center">
+                <label> {{ "permission.User" | translate }} </label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-multiselect
+                      name="UsersList"
+                      class="form-control borderRadius"
+                      [(ngModel)]="responseobj.UsersList"
+                      [dataSource]="UserList"
+                      [fields]="UserFlds"
+                      placeholder="Users"
+                      id="users_list"></ejs-multiselect>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3" *ngIf="!RTOrders">
+            <div class="row align-items-center">
+              <div class="col-md-4 justify-content-start align-items-center">
+                <label> {{ "permission.OrderTypes" | translate }} </label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-combobox
+                      class="form-control borderRadius"
+                      id="OrderTypeId"
+                      name="OrderTypeId"
+                      #OrderTypeId="ngModel"
+                      [(ngModel)]="responseobj.OrderTypeId"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="orderTypes"
+                      [fields]="orderTypesFlds"></ejs-combobox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="form-row">
+          <div class="col-md-12">
+            <!-- <h5> {{'Shared.ReportTypes' | translate}} :</h5>  -->
+          </div>
+          <!--tabs & print-->
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-10">
+                <ul class="nav nav-pills bg-white mb-3" id="pills-tab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link reportTypeBtn">
+                      <button (click)="GetNonSyncedTaxOrders()" class="btn btnEdit m-1">
+                        {{ "delivery.ShowOrders" | translate }}
+                      </button>
+                    </a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link reportTypeBtn">
+                      <button (click)="GetNonSyncedTaxRTOrders()" class="btn btnEdit m-1">
+                        {{ "delivery.ShowRTOrders" | translate }}
+                      </button>
+                    </a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link reportTypeBtn">
+                      <button (click)="SyncOrdersToTaxAuthority()" class="btn btnEdit m-1">
+                        {{ "Shared.PushToServer" | translate }}
+                      </button>
+                    </a>
+                  </li>
+
+                  <li class="nav-item" role="presentation" *ngIf="settingobj?.CountryType == 3">
+                    <a class="nav-link reportTypeBtn">
+                      <button (click)="updateSubmissionStatues()" class="btn btnEdit m-1">
+                        {{ "Shared.RefreshStatus" | translate }}
+                        <i class="fa fa-refresh" ></i>
+                      </button>
+                    </a>
+                  </li>
+
+                  <li class="nav-item mr-5" role="presentation">
+                    <a class="nav-link reportTypeBtn">
+                      <h2 *ngIf="this.Orders?.length">{{ "Screens.Orders" | translate }}</h2>
+                      <h2 *ngIf="this.RTOrders?.length">{{ "Screens.ReturnOrders" | translate }}</h2>
+                    </a>
+                  </li>
+                  <li class="nav-item mr-5" role="presentation">
+                    <a class="nav-link reportTypeBtn">
+                      <div class="row mb-3" *ngIf="Orders">
+                        <div class="col-md-12">
+                          <div class="card shadow-sm">
+                            <div class="card-body p-2">
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex">
+                                  <div class="text-center px-4 border-right">
+                                    <div class="text-muted small">{{ 'Shared.countOrders' | translate }}</div>
+                                    <div class="h5 mb-0 font-weight-bold">{{selectedOrdersSummary.ordersCount}}</div>
+                                  </div>
+                                  <div class="text-center px-4">
+                                    <div class="text-muted small">{{ 'Reports.TotalTax' | translate }}</div>
+                                    <div class="h5 mb-0 font-weight-bold">{{selectedOrdersSummary.totalTax | number:'1.2-2'}}</div>
+                                  </div>
+                                  <div class="text-center px-4 border-right">
+                                    <div class="text-muted small">{{ 'Reports.SubTotal' | translate }}</div>
+                                    <div class="h5 mb-0 font-weight-bold">{{selectedOrdersSummary.totalAmount | number:'1.2-2'}}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!--Orders-->
+          <div class="col-md-12" *ngIf="Orders">
+            <div class="tab-content" id="pills-tabContent">
+              <div class="col-lg-12" *ngIf="Orders">
+                <div class="ms-card">
+                  <div class="ms-card-body">
+                    <ejs-grid
+                      #gird
+                      id="Order"
+                      [dataSource]="Orders"
+                      [allowPaging]="true"
+                      [pageSettings]="pageSettings"
+                      [allowSorting]="true"
+                      [allowFiltering]="true"
+                      [filterSettings]="filterOptions"
+                      [toolbar]="toolbarOptions"
+                      [allowGrouping]="true"
+                      [allowPdfExport]="true"
+                      [allowExcelExport]="true"
+                      (toolbarClick)="toolbarClickOrders($event)"
+                      (rowSelecting)="ChangeAllSelections($event)"
+                      (rowDeselecting)="ChangeAllSelections($event)">
+                      <e-columns>
+                        <e-column
+                          field="IsSelected"
+                          textAlign="center"
+                          headerText="{{ 'Shared.Select' | translate }}"
+                          type="checkbox"
+                          [allowFiltering]="false"
+                          [allowSorting]="false"></e-column>
+                        <e-column field="SerialNumber" headerText="{{ 'Reports.SerialNumber' | translate }}" ></e-column>
+                        <e-column *ngIf="settingobj?.CountryType != 3" field="OrderNumber" headerText="{{ 'Reports.OrderNumber' | translate }}" ></e-column>
+                        <!-- <e-column field="SerialNumber" headerText="{{ 'Reports.SerialNumber' | translate }}" *ngIf="!settingobj.DeleteOrderAfterSynced"></e-column> -->
+                        <e-column
+                          field="CloseDate"
+                          type="date"
+                          format="dd-MM-yyyy"
+                          headerText="{{ 'Shared.CloseTime' | translate }}"></e-column>
+                        <!-- <e-column field='OrderNumber' headerText="{{'delivery.orderNumber' | translate }}"   ></e-column> -->
+                        <e-column
+                          field="OrderTypeName"
+                          headerText="{{ 'permission.OrderTypes' | translate }}"></e-column>
+                        <e-column
+                          field="DiscountAmount"
+                          format="0.00"
+                          headerText="{{ 'Shared.DiscountAmount' | translate }}"></e-column>
+                        <e-column
+                          field="TotalTaxAmount"
+                          format="0.00"
+                          headerText="{{ 'Shared.TaxAmount' | translate }}"></e-column>
+                        <e-column
+                          field="ServiceChargeValue"
+                          format="0.00"
+                          headerText="{{ 'Shared.servicecharge' | translate }}"></e-column>
+                        <!-- <e-column
+                          field="DeliveryPrice"
+                          format="0.00"
+                          headerText="{{ 'Shared.DeliveryPrice' | translate }}"></e-column> -->
+                        <e-column
+                          field="SubTotal"
+                          format="0.00"
+                          headerText="{{ 'delivery.Subtotal' | translate }}"></e-column>
+
+                        <e-column
+                          field="SubmissionStatus"
+                          headerText="{{ 'Shared.SubmissionStatus' | translate }}"></e-column>
+                        <!-- <e-column
+                          field="CustomerName"
+                          headerText="{{ 'returninsurance.CustomerName' | translate }}"></e-column> -->
+                        <!-- <e-column  headerText="{{'delivery.Actions'|translate}}" >
+                                    <ng-template #template let-data>
+                                        <div class="d-flex justify-content-start align-items-start">
+                                            <button  type="button" (click)="PrintOrder(data)"class="btn btn-info btnFit m-0">{{'Shared.Show'|translate}}</button>
+                                            &nbsp;
+                                            
+                                        </div>
+                                    </ng-template>
+                                    </e-column> -->
+
+                        <e-column headerText="{{ 'delivery.Actions' | translate }}" textAlign="center">
+                          <ng-template #template let-data>
+                            <div class="d-flex justify-content-center align-items-center">
+                              <button
+                                style="min-width: 40px !important"
+                                type="button"
+                                (click)="Print(data)"
+                                class="btn btn-info btnEdit m-0">
+                                {{ "Shared.Show" | translate }}
+                              </button>
+                            </div>
+                          </ng-template>
+                        </e-column>
+                      </e-columns>
+                    </ejs-grid>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--RTOrders-->
+          <div class="col-md-12" *ngIf="RTOrders">
+            <div class="tab-content" id="pills-tabContent">
+              <div class="col-lg-12" *ngIf="RTOrders">
+                <div class="ms-card">
+                  <div class="ms-card-body">
+                    <ejs-grid
+                      #gird
+                      id="RTOrder"
+                      [dataSource]="RTOrders"
+                      [allowPaging]="true"
+                      [pageSettings]="pageSettings"
+                      [allowSorting]="true"
+                      [allowFiltering]="true"
+                      [filterSettings]="filterOptions"
+                      [toolbar]="toolbarOptions"
+                      [allowGrouping]="true"
+                      [allowPdfExport]="true"
+                      [allowExcelExport]="true"
+                      (toolbarClick)="toolbarClickOrders($event)"
+                      (rowSelecting)="ChangeAllSelections($event)"
+                      (rowDeselecting)="ChangeAllSelections($event)">
+                      <e-columns>
+                        <e-column
+                          field="IsSelected"
+                          textAlign="center"
+                          headerText="{{ 'Shared.Select' | translate }}"
+                          type="checkbox"
+                          [allowFiltering]="false"
+                          [allowSorting]="false"></e-column>
+                        <e-column field="SerialNumber" headerText="{{ 'Reports.SerialNumber' | translate }}"></e-column>
+                        <e-column
+                          field="ReturnDate"
+                          type="date"
+                          format="dd-MM-yyyy"
+                          headerText="{{ 'Shared.CloseTime' | translate }}"></e-column>
+                        <e-column
+                          field="TotalDiscountAmount"
+                          format="0.00"
+                          headerText="{{ 'Shared.DiscountAmount' | translate }}"></e-column>
+                        <e-column
+                          field="TotalTaxAmount"
+                          format="0.00"
+                          headerText="{{ 'Shared.TaxAmount' | translate }}"></e-column>
+                        <e-column
+                          field="ServiceChargeValue"
+                          format="0.00"
+                          headerText="{{ 'Shared.servicecharge' | translate }}"></e-column>
+                        <e-column
+                          field="DeliveryPrice"
+                          format="0.00"
+                          headerText="{{ 'Shared.DeliveryPrice' | translate }}"></e-column>
+                        <e-column
+                          field="SubTotal"
+                          format="0.00"
+                          headerText="{{ 'delivery.Subtotal' | translate }}"></e-column>
+                        <!-- <e-column field='CustomerName' headerText="{{'returninsurance.CustomerName' | translate }}" ></e-column> -->
+                        <e-column
+                          width="200"
+                          field="SubmissionStatus"
+                          headerText="{{ 'Shared.SubmissionStatus' | translate }}"></e-column>
+                      </e-columns>
+                    </ejs-grid>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

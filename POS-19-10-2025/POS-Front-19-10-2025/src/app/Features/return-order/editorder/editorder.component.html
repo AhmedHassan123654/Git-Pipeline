@@ -1,0 +1,154 @@
+<!-- breadcrumbs -->
+<ol class="breadcrumb breadcrumb-arrow-sep py-0">
+  <li class="breadcrumb-item">
+    <a href="#"><i class="material-icons" style="font-size: 1.2rem">home</i> orderList</a>
+  </li>
+
+  <li class="breadcrumb-item active" aria-current="page">Edit Orders</li>
+</ol>
+
+<div class="col-md-12">
+  <div class="ms-panel-fh">
+    <div class="">
+      <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0 pt-4 pl-2" role="tablist">
+        <li class="px-2" id="tab1" role="presentation">
+          <a href="#tab13" aria-controls="tab13" class="active basic-info" role="tab" data-toggle="tab"
+            >Order Pay Types</a
+          >
+        </li>
+
+        <li id="tab2" role="presentation">
+          <a href="#tab14" aria-controls="tab14" role="tab" data-toggle="tab" class="basic-info">Other </a>
+        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <div class="cont">
+      <div class="ms-panel-body-1 clearfix">
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active show fade in" id="tab13">
+            <div class="col-xl-12 col-md-12 col-xs-12">
+              <div class="ms-panel ms-panel-fh">
+                <div class="ms-panel-body">
+                  <div class="col-md-12">
+                    <div class="ms-panel-fh">
+                      <div class="ms-panel-body clearfix">
+                        <ul
+                          class="nav borderNone nav-tabs navtabs-Edit d-flex tab-pills has-gap nav-justified mb-4"
+                          role="tablist">
+                          <li role="presentation">
+                            <a href="#tab4" aria-controls="tab4" class="active" role="tab" data-toggle="tab">Cash</a>
+                          </li>
+                          <li role="presentation">
+                            <a href="#tab5" aria-controls="tab5" role="tab" data-toggle="tab">Credit </a>
+                          </li>
+                          <li role="presentation">
+                            <a href="#tab6" aria-controls="tab6" role="tab" data-toggle="tab">Visa </a>
+                          </li>
+                          <li role="presentation">
+                            <a href="#tab7" aria-controls="tab6" role="tab" data-toggle="tab">Visa & Credit </a>
+                          </li>
+                        </ul>
+                        <div class="tab-content">
+                          <div role="tabpanel" class="tab-pane active show fade in" id="tab4">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="subTotal">Sub Total</label>
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    id="subTotal"
+                                    placeholder="subTotal"
+                                    value="153.25"
+                                    readonly />
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="payAmount">Pay Amount</label>
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    id="payAmount"
+                                    placeholder="Pay Amount"
+                                    value="153.25"
+                                    readonly />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div role="tabpanel" class="tab-pane fade" id="tab5">
+                            <p>
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam urna nunc, congue nec
+                              laoreet sed, maximus non massa. Fusce vestibulum vel risus vitae tincidunt.
+                            </p>
+                            <p>
+                              Cras egestas nisi vel tempor dignissim. Ut condimentum iaculis ex nec ornare. Vivamus sit
+                              amet elementum ante. Fusce eget erat volutpat
+                            </p>
+                            <p>
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam urna nunc, congue nec
+                              laoreet sed, maximus non massa. Fusce vestibulum vel risus vitae tincidunt.
+                            </p>
+                          </div>
+                          <div role="tabpanel" class="tab-pane fade" id="tab6">
+                            <p>
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam urna nunc, congue nec
+                              laoreet sed, maximus non massa. Fusce vestibulum vel risus vitae tincidunt.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--footer-->
+                  <div class="ms-card-footer p-0 clearfix">
+                    <div class="float-right">
+                      <button type="button" class="btn btn-light has-icon mr-2">Back</button>
+                      <button type="button" class="btn btn-primary has-icon">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!------------ second form---------------->
+          <div role="tabpanel" class="tab-pane fade" id="tab14">
+            <div class="col-xl-12 col-md-12">
+              <div class="ms-panel ms-panel-fh px-4">
+                <div class="ms-panel-body">
+                  <!--second-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">..111.</div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">.222..</div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">..333.</div>
+</div> -->

@@ -1,0 +1,53 @@
+﻿// Styles for the UserType selection panel above the grid
+:host {
+  display: block;
+}
+
+.type-panel {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+}
+
+.type-panel-title {
+  font-weight: 600;
+  color: #495057;
+}
+
+.type-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  margin: 0.25rem 0.5rem 0 0;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 1rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.type-item:hover {
+  border-color: #ced4da;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.type-item:focus-within {
+  outline: none;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+.type-item ejs-checkbox {
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .type-item ejs-checkbox {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+.type-label {
+  color: #495057;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}

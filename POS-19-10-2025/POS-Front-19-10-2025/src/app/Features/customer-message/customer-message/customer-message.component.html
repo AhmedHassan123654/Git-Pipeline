@@ -1,0 +1,149 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="customerMessageForm" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="form-row pt-3">
+                        <!--Discription-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.Description" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <textarea
+                                    class="form-control"
+                                    name="Discription"
+                                    id="Discription"
+                                    #Discription="ngModel"
+                                    [(ngModel)]="responseobj.Discription"
+                                    [disabled]="disableFlag"
+                                    [required]="isRequired" ></textarea>
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && Discription.invalid) ||
+                                      (Discription.invalid && Discription.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Discription.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--ForeignDescription-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.ForeignDescription" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <textarea
+                                    class="form-control"
+                                    type="text"
+                                    name="ForeignDescription"
+                                    id="ForeignDescription"
+                                    #ForeignDescription="ngModel"
+                                    [(ngModel)]="responseobj.ForeignDescription"
+                                    [disabled]="disableFlag"
+                                    [required]="isRequired" ></textarea>
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && ForeignDescription.invalid) ||
+                                      (ForeignDescription.invalid && ForeignDescription.touched)
+                                    ">
+                                    <div
+                                      class="alert alert-danger editAlertCash"
+                                      *ngIf="ForeignDescription.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--CustomerGroupsList-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.customergrouplist" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz" *ngIf="responseobj?.CustomerGroupList">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <ejs-multiselect
+                                    name="CustomerGroupsList"
+                                    #CustomerGroupsList="ngModel"
+                                    class="form-control borderRadius"
+                                    [(ngModel)]="responseobj.CustomerGroupsListDocIds"
+                                    [dataSource]="responseobj.CustomerGroupList"
+                                    [fields]="Fld"
+                                    placeholder="Select Customer Groups"
+                                    id="CustomerGroupsList-id"
+                                    [disabled]="disableFlag"
+                                    [required]="true"></ejs-multiselect>
+                                </div>
+                              </div>
+                              <div
+                                class=""
+                                *ngIf="
+                                  (frmRef.submitted && CustomerGroupsList.invalid) ||
+                                  (CustomerGroupsList.invalid && CustomerGroupsList.touched)
+                                ">
+                                <div
+                                  class="alert alert-danger editAlertCash"
+                                  *ngIf="CustomerGroupsList.errors.required">
+                                  Customer Groups List is required
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3 mb-4">
+                            <button
+                              type="submit"
+                              [disabled]="!responseobj.CustomerGroupsListDocIds?.length || disableFlag"
+                              (click)="GetCustomersCount()"
+                              class="enabled btn btn-primary mt-0">
+                              {{ "Order.Send" | translate }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,47 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #Grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        (rowSelected)="onRowSelected($event)"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions">
+        <e-columns>
+          <!-- <e-column field='DocumentId' headerText='CashReciept ID' [isPrimaryKey]='true' textAlign='center'></e-column> -->
+          <e-column field="Name" headerText="{{ 'Shared.Name' | translate }}" textAlign="center"></e-column>
+          <e-column
+            field="ForiegnName"
+            headerText="{{ 'customer.ForeignName' | translate }}"
+            textAlign="left"></e-column>
+
+          <e-column field="PayTypeName" headerText="{{ 'Shared.paymenttype' | translate }}" textAlign="left"></e-column>
+          <e-column
+            field="IsStopped"
+            headerText="{{ 'Shared.IsStopped' | translate }}"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <ng-template #template let-data>
+              <div>
+                <input type="checkbox" disabled name="IsStopped" id="IsStopped" [checked]="data.IsStopped" />
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

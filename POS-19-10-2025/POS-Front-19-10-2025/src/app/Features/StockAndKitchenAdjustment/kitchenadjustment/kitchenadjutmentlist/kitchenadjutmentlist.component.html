@@ -1,0 +1,68 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        [editSettings]="editOptions"
+        (rowSelected)="onRowSelected($event)"
+        (toolbarClick)="toolbarClick($event)">
+        <e-columns>
+          <e-column field="DocumentNumber" headerText="Document Number" textAlign="center"></e-column>
+          <e-column
+            field="DocumentDate"
+            type="date"
+            format="yMd"
+            headerText="Document Date"
+            textAlign="center"></e-column>
+          <e-column field="InventoryDocumentNumber" headerText="Inventory Number" textAlign="center"></e-column>
+          <e-column field="Description" headerText="Description" textAlign="center"></e-column>
+          <e-column
+            field="IsSync"
+            headerText="IsSync"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <ng-template #template let-data>
+              <div>
+                <input type="checkbox" disabled name="IsSync" id="IsSync" [checked]="data.IsSync" />
+              </div>
+            </ng-template>
+          </e-column>
+          <!--        <e-column headerText='Actions' textAlign='center'>
+                 <ng-template #template let-data>
+                  <div class="center d-flex  align-items-center">
+                    <div *ngIf="showEdit else false">
+                    <a (click)="onResourceEdit($event)" title="Edit">
+                      <span class="e-edit e-icons">
+                        <i class="e-flat"></i>
+                      </span>
+                    </a>
+                  </div>
+                  <div *ngIf="!data.IsSync && showDelete else false">
+                    <a (click)="onResourceDelete($event)" title="Delete">
+                      <span class="e-delete e-icons">
+                        <i class="e-flat"></i>
+                      </span>
+                    </a>
+                  </div>
+                  </div>
+                </ng-template>
+              </e-column>  -->
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

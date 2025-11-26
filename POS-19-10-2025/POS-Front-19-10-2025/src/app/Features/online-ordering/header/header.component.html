@@ -1,0 +1,57 @@
+<header id="top-toolbar">
+  <nav [ngClass]="isBottom ? 'bottom' : 'top'" class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand m-0">
+      <img
+        style="max-width: 100%; width: 100%"
+        class="img-fluid logo"
+        src="assets/images/Resturant logo-AE1931.png"
+        alt="" />
+    </a>
+    <!-- <h3 *ngIf="appService.orderobj && appService.orderobj.CustomerName">Welcome </h3>
+    <h3 *ngIf="appService.orderobj && !appService.orderobj.CustomerName">Welcome guest</h3> -->
+    <div class="IconsN d-flex">
+      <button *ngIf="CheckUrl()" (click)="openCart()" mat-icon-button matTooltip="Cart list">
+        <mat-icon
+          *ngIf="appService.orderobj && appService.orderobj.OrderDetails && appService.orderobj.OrderDetails.length"
+          [matBadge]="appService.orderobj.OrderDetails.length"
+          [matBadgeHidden]="appService.orderobj.OrderDetails.length == 0"
+          matBadgeSize="small"
+          matBadgeColor="warn"
+          >shopping_cart</mat-icon
+        >
+      </button>
+      <div class="d-flex align-items-center justify-content-center">
+        <i class="bi bi-person-fill"></i>
+        <h6 *ngIf="appService.orderobj && !appService.orderobj.CustomerName" class="m-0 CustomerName">Guest</h6>
+
+        <h6 *ngIf="appService.orderobj && appService.orderobj.CustomerName" class="m-0 CustomerName">
+          {{ appService.orderobj.CustomerName }}
+        </h6>
+      </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <!-- <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Pricing</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown link
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+      </ul> -->
+    </div>
+  </nav>
+</header>

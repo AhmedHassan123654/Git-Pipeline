@@ -1,0 +1,59 @@
+.navbar {
+  border: 1px solid transparent !important;
+}
+
+.restaurantName4 svg {
+  fill: #ff0018 !important;
+}
+.borderEditPagetrans {
+  border-radius: 7px;
+  border: 1px solid #dfdfdf;
+}
+
+.group-section {
+  background: #b0bcd9;
+  padding: 4px;
+  box-shadow: 0 1px 6px 1px rgba(176, 188, 217, 0.53);
+  max-height: 32vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+col-lg-2 {
+  width: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+a {
+  font-size: 11px !important;
+  height: 58px;
+  width: 95%;
+  font-weight: 100;
+  background-color: #fff;
+}
+
+.nav-tabs-editM > li > a {
+  font-size: 13px !important;
+  height: 58px;
+  width: 97%;
+  font-weight: 200;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#copyModal .modal-body {
+  height: 85vh;
+  overflow: auto;
+}
+
+#copyModal .stock-row {
+  height: 5vh;
+}
+
+#copyModal a {
+  font-size: 11px !important;
+  height: unset;
+  width: unset;
+  font-weight: 100;
+  background-color: #fff;
+}

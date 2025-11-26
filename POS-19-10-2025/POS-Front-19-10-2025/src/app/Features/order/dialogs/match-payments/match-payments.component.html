@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ "integration.Match Payment Methods" | translate }}</h5>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+
+<div class="modal-body">
+
+  <div class="alert-info p-3 mb-3">
+    {{'integration.paymentMatchWarning' | translate}}
+  </div>
+
+  <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+    <thead>
+    <tr>
+      <th>{{'integration.Integration Payment Method' | translate}}</th>
+      <th>{{'integration.Order Payment Method' | translate}}</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr *ngFor="let integrationPaymentMethod of integrationPaymentMethods">
+      <td>{{integrationPaymentMethod.Name}}</td>
+      <td>
+        <ejs-combobox
+          class="form-control borderRadius"
+          [(ngModel)]="integrationPaymentMethod.OrderPayTypeDocumentId"
+          [allowFiltering]="true"
+          [fields]="comboBoxFields"
+          [autofill]="true"
+          [dataSource]="orderPayTypes"></ejs-combobox>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">
+    {{ "Shared.Cancel" | translate }}
+  </button>
+  <button type="button" class="btn btn-primary" (click)="save()">
+    {{ "Shared.Save" | translate }}
+  </button>
+</div>

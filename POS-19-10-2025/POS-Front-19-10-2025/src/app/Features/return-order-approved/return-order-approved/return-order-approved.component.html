@@ -1,0 +1,97 @@
+<div class="col-md-12">
+  <div class="ms-card">
+    <div class="ms-card-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-start align-items-center">
+          <!--    <div class="col-md-3  d-flex justify-content-start align-items-center">
+                      <label  for="FromDate"> {{'CashReceipt.Date'|translate}}  </label>
+                    </div> -->
+          <!--     <div class=" col-md-9">
+                      <div class="input-group editInputGroup">                       
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <ejs-datepicker
+                      class="pAsolute absolutePosition"
+                      format='dd/MM/yyyy'
+                      #date="ngModel"
+                      [(ngModel)]="responseobj.Date"
+                      name="date"
+                      class="form-control borderRadius Prelative"
+                      id="date"
+                      placeholder='mm/dd/yyyy'
+                    ></ejs-datepicker> 
+                    </div>
+                    </div> -->
+        </div>
+        <div class="">
+          <!--    -->
+          <button type="button" (click)="Save()" class="btn btn-secondary m-0 btnEdit">
+            {{ "ReturnOrder.ApprovedAll" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="ms-card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered BottomTableReturnOrder">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <!--  <th scope="col">{{'ReturnOrder.EnteredDate'|translate}}</th> -->
+              <th scope="col">{{ "ReturnOrder.EnteredTime" | translate }}</th>
+              <th scope="col">{{ "ReturnOrder.EnteredPerson" | translate }}</th>
+              <th scope="col">{{ "ReturnOrder.ReturnDate" | translate }}</th>
+              <th scope="col">{{ "ReturnOrder.SubTotal" | translate }}</th>
+              <th scope="col">
+                {{ "ReturnOrder.SelectedReturnDate" | translate }}
+              </th>
+              <th scope="col">
+                {{ "ReturnOrder.SelectedCashier" | translate }}
+              </th>
+              <th scope="col">{{ "ReturnOrder.Approved" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let R of ReturnOrders; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <!--  <td>{{R.Creationdate}}</td> -->
+              <td>{{ R.CreationTime | date : "fullDate" }}</td>
+              <td>{{ R.CreatorUser }}</td>
+              <td>{{ R.ReturnDate | date : "fullDate" }}</td>
+              <td>{{ R.SubTotal }}</td>
+
+              <td>
+                <ejs-combobox
+                  name="ReturnOrderDateEnum{{ i }}"
+                  #ReturnOrderDateEnum{{i}}="ngModel"
+                  [(ngModel)]="R.ReturnOrderDateEnum"
+                  [allowFiltering]="true"
+                  [autofill]="true"
+                  [dataSource]="ReturnOrderEnumList"
+                  [fields]="Flds"
+                  class="form-control borderRadius"
+                  id="ReturnOrderDateEnum{{ i }}_Id"></ejs-combobox>
+              </td>
+              <td>
+                <ejs-combobox
+                  name="CashierId{{ i }}"
+                  #CashierId{{i}}="ngModel"
+                  [(ngModel)]="R.CashierId"
+                  [allowFiltering]="true"
+                  [autofill]="true"
+                  [dataSource]="UserList"
+                  [fields]="UserFlds"
+                  class="form-control borderRadius"
+                  id="CashierId{{ i }}_Id"></ejs-combobox>
+              </td>
+              <td>
+                <input type="checkbox" name="Approved{{ i }}" #Approved{{i}}="ngModel" [(ngModel)]="R.Approved" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+<!--start language-->
+<li #changeLang class="ms-nav-item dropdown tooltipContainer px-0">
+  <!-- <div class="tooltipContainer_content">
+        Change Language
+      </div>
+      <div class="tooltipContainer_arrow"></div> -->
+  <span
+    class="dropdown-toggle dropdown-toggle-languages justify-content-center d-flex align-items-center"
+    id="navbarDropdown"
+    role="button"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false">
+    <div *ngIf="setLang == 'en'" style="cursor: pointer;"class="d-flex justify-content-center align-items-center">
+      <span class="dropdown-item py-0 px-1" href="#">
+        {{ "Layout.English" | translate }}
+      </span>
+      <img src="assets/images/en.png" class="flag img-fluid mx-0" />
+    </div>
+    <div *ngIf="setLang == 'ar'" style="cursor: pointer;"class="d-flex justify-content-center align-items-center">
+      <span class="dropdown-item py-0 px-1">
+        {{ "Layout.Arabic" | translate }}
+      </span>
+      <img src="assets/images/ar.png" class="flag img-fluid mx-0" />
+    </div>
+    <div *ngIf="setLang == 'tu'" style="cursor: pointer;"class="d-flex justify-content-center align-items-center">
+      <span class="dropdown-item py-0 px-1"> Turkish </span>
+      <img src="assets/images/tr.png" class="flag img-fluid mx-0" />
+    </div>
+    <div *ngIf="setLang == 'fr'" style="cursor: pointer;"class="d-flex justify-content-center align-items-center">
+      <span class="dropdown-item py-0 px-1"> Français </span>
+      <img src="assets/images/fr2.png" class="flag img-fluid mx-0" />
+    </div>
+  </span>
+
+  <div style="padding: 0.7rem 0" class="dropdown-menu dropdown-menu-language" aria-labelledby="navbarDropdown">
+    <div
+      style="
+        background-color: rgb(255, 255, 255);
+        border-left: 1px solid rgba(0, 0, 0, 0.3);
+        border-top: 1px solid rgba(0, 0, 0, 0.3);
+        height: 16px;
+        position: absolute;
+        right: calc(50% - 16px);
+        top: 0px;
+        transform: translate(-50%, -50%) rotate(45deg);
+        width: 16px;
+      "></div>
+    <div
+      *ngIf="setLang != 'en'"
+      (click)="switchLocalization('en')"
+      class="d-flex ctt p-2 justify-content-around align-items-center dropdown-menu-languageLi">
+      <span class="dropdown-item text-center p-0">
+        {{ "Layout.English" | translate }}
+      </span>
+      <img src="assets/images/en.png" class="flag img-fluid mx-0" />
+    </div>
+    <div
+      *ngIf="setLang != 'ar'"
+      (click)="switchLocalization('ar')"
+      class="d-flex ctt p-2 justify-content-around align-items-center dropdown-menu-languageLi">
+      <span class="dropdown-item p-0 text-center">{{ "Layout.Arabic" | translate }} </span>
+      <img src="assets/images/ar.png" class="flag img-fluid mx-0" />
+    </div>
+    <div
+      *ngIf="setLang != 'tu'"
+      (click)="switchLocalization('tu')"
+      class="d-flex ctt p-2 justify-content-around align-items-center dropdown-menu-languageLi">
+      <span class="dropdown-item p-0 text-center">Turkish </span>
+      <img src="assets/images/tr.png" class="flag img-fluid mx-0" />
+    </div>
+    <div
+      *ngIf="setLang != 'fr'"
+      (click)="switchLocalization('fr')"
+      class="d-flex justify-content-around ctt p-2 align-items-center dropdown-menu-languageLi">
+      <span class="dropdown-item p-0 text-center">Français </span>
+      <img src="assets/images/fr2.png" class="flag img-fluid mx-0" />
+    </div>
+  </div>
+</li>
+<!--end language-->

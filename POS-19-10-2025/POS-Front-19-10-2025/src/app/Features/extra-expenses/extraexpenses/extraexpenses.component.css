@@ -1,0 +1,13 @@
+.navbar {
+  border: 1px solid transparent !important;
+}
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.e-input-group {
+  font-size: 17px;
+}
+#extraExpensesModal {
+  max-height: 95%;
+  overflow-y: auto;
+}

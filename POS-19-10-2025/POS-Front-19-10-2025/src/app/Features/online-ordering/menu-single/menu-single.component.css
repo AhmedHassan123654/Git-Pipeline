@@ -1,0 +1,98 @@
+.flex-wrapper {
+  flex-flow: row wrap;
+  box-sizing: border-box;
+  display: flex;
+  margin: 0 -16px;
+}
+.flex-wrapper > div {
+  flex: 1 1 50%;
+  box-sizing: border-box;
+  max-width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  .flex-wrapper div {
+    flex: 1 1 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+}
+.mainName {
+  font-family: Montserrat;
+  font-weight: 700;
+}
+
+.price {
+  font-weight: bold;
+}
+
+.mat-chip-list {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  pointer-events: none;
+}
+
+span.mat-button-wrapper {
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.flexcenterStart {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: center flex-start;
+  align-items: center;
+}
+
+.mat-icon-button .mat-icon.mat-icon-lg,
+.mat-icon.mat-icon-lg {
+  font-size: 36px !important;
+  line-height: 36px;
+  height: 36px;
+  width: 36px;
+  vertical-align: middle;
+}
+
+.mat-icon {
+  font-size: 18px !important;
+}
+
+.mat-raised-button.mat-primary {
+  background-color: #c62828;
+}
+
+.mat-icon.mat-primary {
+  color: #c62828;
+}
+
+h3.Ingredients {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 16.38px;
+  font-family: Montserrat;
+  font-weight: 600;
+}
+
+.mat-card {
+  font-family: Montserrat;
+}
+
+.mat-button-wrapper {
+  font-family: Montserrat !important;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mat-raised-button {
+  font-family: Montserrat !important;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.menu-single {
+  margin-top: 5rem !important;
+} /*# sourceMappingURL=menu-single.component.css.map */

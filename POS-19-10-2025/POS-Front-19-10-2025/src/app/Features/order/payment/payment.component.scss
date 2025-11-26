@@ -1,0 +1,421 @@
+/* MyPoint style */
+$c1: OrangeRed;
+$c2: SeaShell;
+$g1: linear-gradient(to bottom, $c1, $c2);
+
+.my-points-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: hidden;
+  gap: 2rem;
+  justify-content: start;
+  align-items: start;
+  padding: 0 1rem;
+  margin: 2rem 0;
+}
+.total-box {
+  border: 1px solid #4f8dca;
+  padding: 5px;
+}
+.total-box .row {
+  padding: 0;
+  margin: 0;
+  font-size: 1.6rem;
+}
+.point-card {
+  display: flex;
+  align-items: end;
+  max-width: 12rem;
+  min-width: auto;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.5rem;
+  background-color: #fff;
+
+  .point-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    margin: 0;
+    text-align: center;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: $g1;
+    color: #333;
+    border-radius: 0.5rem 0.5rem 0 0;
+
+    .point-coins {
+      font-weight: bold;
+      font-size: 1.75rem;
+      color: #000;
+    }
+
+    .point-count {
+      font-weight: bold;
+      font-size: 1.75rem;
+      transform: scale(1, 2);
+      letter-spacing: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .point-currency {
+      font-size: 0.875rem;
+      letter-spacing: 0.25rem;
+    }
+
+    .point-price {
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: 0.25rem;
+    }
+
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      opacity: 0.2;
+      animation: ripple 15s infinite;
+      width: 150%;
+      height: 100%;
+      left: -25%;
+      top: -50%;
+    }
+  }
+  &.default-card {
+    background: #e7f1ff;
+    box-shadow: 0 0 8px rgba(47, 128, 237, 0.3);
+    .point-card-top {
+      display: flex;
+      flex-direction: column ;
+      gap: 0.25rem;
+      padding: 1rem .5rem;
+      margin: 0;
+      text-align: center;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      background: gold;
+      color: #333;
+      border-radius: 0.5rem 0.5rem 0 0;
+    }  
+    .point-count {
+      font-weight: 700;
+    }
+
+    .edit-btn {
+      color: #2f80ed;
+    }
+  }
+
+  .point-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    text-align: right;
+  }
+}
+.hotel-modal {
+  .modal-title {
+    padding-inline-start: 8px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #595959;
+    margin: 0px;
+  }
+  .modal-body {
+    max-height: 520px;
+    overflow-y: auto;
+    .search-section {
+      margin-bottom: 14px;
+    }
+    .col-md-2,
+    .col-sm-4,
+    .col-12 {
+      padding-right: 3px !important;
+      padding-left: 3px !important;
+    }
+    .room-card {
+      background-color: rgb(204, 224, 246);
+      border-radius: 4px;
+      height: 45px;
+      padding: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      .hotel-icon {
+        position: absolute;
+        top: -24px;
+        img {
+          background-color: rgb(204, 224, 246);
+          padding: 6px 6px 0px 6px;
+          border-top-right-radius: 30px;
+          border-top-left-radius: 30px;
+        }
+        .selected-room__img {
+          background-color: #07be6e;
+        }
+      }
+      .room-info {
+        .num {
+          font-size: 14px;
+          background: #fff;
+          padding: 1px 4px;
+          border-radius: 12px;
+          font-weight: 600;
+        }
+      }
+      &:hover {
+        background-color: #07be6e;
+        color: #fff;
+        .hotel-icon {
+          img {
+            background-color: #07be6e;
+          }
+        }
+        .room-info {
+          .num {
+            background: #fff;
+            color: #07be6e;
+          }
+        }
+      }
+      img {
+        position: absolute;
+        inset-inline-end: 10px;
+        width: 21px;
+        inset-block-start: 9px;
+      }
+    }
+    .selected-room__info {
+      background-color: #07be6e;
+    }
+  }
+}
+.remove {
+  font-size: 17px;
+  text-decoration: underline;
+  color: red;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200;300&display=swap");
+@media (max-width: 1300px) {
+  #paymentAndButtons {
+    display: block !important;
+  }
+  #CloseWithoutPrint {
+    margin-left: 0 !important;
+  }
+}
+.payment .content .container {
+  width: 100%;
+}
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+.payment {
+  font-family: "Cairo", sans-serif;
+}
+.spin::before {
+  animation: 1.5s linear infinite spinner;
+  animation-play-state: inherit;
+  border: solid 5px #cfd0d1;
+  border-bottom-color: #1c87c9;
+  border-radius: 50%;
+  content: "";
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+}
+
+.msPanelE {
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.form-control {
+  border-radius: 0.25rem;
+}
+.ms-panel.ms-panel-fh {
+  height: calc(100vh - 1.5rem) !important;
+}
+.border-b {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.MarkText:first-line {
+  background-color: #2c87f0;
+  width: 300px;
+  color: #fff !important;
+  min-width: 300px;
+}
+.PayKeyboard.hg-theme-default.hg-layout-numeric .hg-button {
+  height: 50px;
+}
+.btn-print {
+  width: 90%;
+}
+.btn-print:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+.simple-key {
+  width: 90% !important;
+}
+.total {
+  margin: 8px auto;
+  border: 1px solid #dddd;
+  padding: 16px;
+  /* background: #103961;
+  color: #fff; */
+}
+.fa-percent {
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
+  padding-inline: 2px;
+}
+.btn-actions {
+  margin-top: 0px;
+  position: relative;
+  bottom: -21px;
+}
+.btn-actions button {
+  width: 24%;
+  font-size: 18px;
+  padding: 10px 0px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  border-radius: 40px;
+  -webkit-border-radius: 40px;
+  -moz-border-radius: 40px;
+  -ms-border-radius: 40px;
+  -o-border-radius: 40px;
+}
+.btn-actions button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.notes-text {
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+  /*direction: rtl;*/
+  font-size: 14px;
+}
+.textarea-notes::placeholder {
+  font-size: 18px;
+  color: #000;
+  font-family: "Cairo", sans-serif;
+  font-weight: 800;
+}
+.total-info {
+  margin-top: 0px;
+  background: transparent;
+  padding: 12px 14px 0px;
+  border-radius: 12px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Cairo", sans-serif;
+  font-weight: 600;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  /*direction: rtl;*/
+}
+.total-info .total-title {
+  font-size: 17px;
+  padding: 10px 7px;
+  font-weight: bolder;
+  -webkit-border-end: none;
+  border-inline-end: none;
+}
+.total-info .total-price {
+  font-size: 22px;
+  padding: 8px 6px;
+  background: #17a2b8;
+  color: #fff;
+}
+.voucher-title {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+.cairo-font {
+  font-family: "Cairo", sans-serif;
+}
+.discount {
+  color: #58ff00;
+}
+.c-red {
+  color: red;
+}
+.w-30 {
+  width: 30%;
+}
+
+.discount-input {
+  width: 16% !important;
+  height: 85%;
+  margin-inline: 4px;
+  border-radius: 8px;
+  text-align: center;
+  padding: 4px 0px;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.paid-num {
+  margin-inline: 6px;
+  border: 1px solid #ddd;
+  font-size: 43px;
+  padding: 2px 10px;
+  background: #17a2b8;
+  color: #fff;
+}
+.paid-title {
+  font-size: 20px;
+  padding: 17px 7px;
+  font-weight: bolder;
+  border: 2px double #17a2b8;
+  border-inline-start: none;
+}
+.table-content {
+  height: 46vh;
+  overflow-y: auto;
+}
+.card {
+  min-width: unset !important;
+  margin: 0 10px !important;
+}
+
+.search:hover .bi-search {
+  transition: all 0.5s ease-in-out;
+  color: #17a2b8;
+}
+.bi-check-circle {
+  color: #198754;
+}
+::ng-deep .mat-slide-toggle-label{
+  font-size: .9rem !important;
+  font-weight: 800  !important;
+}

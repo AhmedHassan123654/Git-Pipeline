@@ -1,0 +1,709 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="Promoform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--name-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.Description" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder=""
+                                  name="Discription"
+                                  #Discription="ngModel"
+                                  [(ngModel)]="responseobj.Discription"
+                                  id="Discription_id"
+                                  class="form-control borderRadius"
+                                  disabled
+                                  required />
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && Discription.invalid) ||
+                                    (Discription.invalid && Discription.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Discription.errors.required">
+                                    {{ "pointofsale.DiscriptionsIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--ForeignName-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.ForeignDescription" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  placeholder="Foreign Name"
+                                  placeholder=" "
+                                  name="ForeignDescription"
+                                  #ForeignDescription="ngModel"
+                                  [(ngModel)]="responseobj.ForeignDescription"
+                                  id="ForeignDescription_id"
+                                  disabled
+                                  class="form-control borderRadius" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--PromoValueType-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.PromoType" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <!-- [enabled]="false" -->
+                              <div class="input-group">
+                                <ejs-combobox
+                                  name="ValueType"
+                                  #ValueType="ngModel"
+                                  [(ngModel)]="responseobj.ValueType"
+                                  [allowFiltering]="true"
+                                  [autofill]="true"
+                                  [dataSource]="responseobj.PromoValueList"
+                                  placeholder=""
+                                  [fields]="Flds"
+                                  class="form-control borderRadius"
+                                  id="ValueType_id"
+                                  (change)="setPromoType($event)"
+                                  [enabled]="false"
+                                  required></ejs-combobox>
+                              </div>
+                              <div
+                                class=""
+                                *ngIf="
+                                  (frmRef.submitted && ValueType.invalid) || (ValueType.invalid && ValueType.touched)
+                                ">
+                                <div class="alert alert-danger editAlertCash" *ngIf="ValueType.errors.required">
+                                  {{ "Shared.Promotypeisrequired" | translate }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Value-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.Percentage" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  [numbersOnly]="responseobj.Value"
+                                  [allowDecimals]="false"
+                                  name="Value"
+                                  #Value="ngModel"
+                                  [(ngModel)]="responseobj.Value"
+                                  id="value_id"
+                                  disabled
+                                  class="form-control borderRadius"
+                                  required />
+
+                                <div *ngIf="(frmRef.submitted && Value.invalid) || (Value.invalid && Value.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Value.errors.required">
+                                    {{ "Shared.Percentagerequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Fromdate-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Reports.Fromdate" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-calendar-check"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  class="pAsolute absolutePosition"
+                                  format="dd/MM/yyyy"
+                                  name="FromDate"
+                                  #FromDate="ngModel"
+                                  [(ngModel)]="responseobj.FromDate"
+                                  [ngClass]="{
+                                    'is-invalid': frmRef.submitted && FromDate.invalid
+                                  }"
+                                  class="form-control borderRadius Prelative"
+                                  id="FromDate"
+                                  placeholder="mm/dd/yyyy"
+                                  [enabled]="false"></ejs-datepicker>
+                              </div>
+                              <div
+                                class=""
+                                *ngIf="
+                                  (frmRef.submitted && FromDate.invalid) || (FromDate.invalid && FromDate.touched)
+                                ">
+                                <div class="alert alert-danger editAlertCash" *ngIf="FromDate.errors.required">
+                                  {{ "ExtraExpenses.DateIsRequired" | translate }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- ToDate -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Reports.Todate" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-calendar-check"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-datepicker
+                                  class="pAsolute absolutePosition"
+                                  format="dd/MM/yyyy"
+                                  name="ToDate"
+                                  #ToDate="ngModel"
+                                  [(ngModel)]="responseobj.ToDate"
+                                  [ngClass]="{
+                                    'is-invalid': frmRef.submitted && ToDate.invalid
+                                  }"
+                                  class="form-control borderRadius Prelative"
+                                  id="ToDate"
+                                  placeholder="mm/dd/yyyy"
+                                  [enabled]="false"
+                                  [required]="isRequired"></ejs-datepicker>
+                              </div>
+                              <div
+                                class=""
+                                *ngIf="(frmRef.submitted && ToDate.invalid) || (ToDate.invalid && ToDate.touched)">
+                                <div class="alert alert-danger editAlertCash" *ngIf="ToDate.errors.required">
+                                  {{ "ExtraExpenses.DateIsRequired" | translate }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--FromTime-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Reports.FromTime" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-clock"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="time"
+                                  class="form-control borderRadius"
+                                  disabled
+                                  required
+                                  name="FromTime"
+                                  #FromTime="ngModel"
+                                  placeholder="FromTime"
+                                  [(ngModel)]="responseobj.FromTime" />
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && FromTime.invalid) || (FromTime.invalid && FromTime.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="FromTime.errors.required">
+                                    {{ "setting.TimeISRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- ToTime -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Reports.ToTime" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-clock"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  type="time"
+                                  class="form-control borderRadius"
+                                  disabled
+                                  required
+                                  name="ToTime"
+                                  #ToTime="ngModel"
+                                  placeholder="ToTime"
+                                  [(ngModel)]="responseobj.ToTime" />
+                                <div *ngIf="(frmRef.submitted && ToTime.invalid) || (ToTime.invalid && ToTime.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="ToTime.errors.required">
+                                    {{ "setting.TimeISRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--PaymentTypes-->
+                      <!-- <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.effectedForPaymentTypes" | translate }}
+                              :
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-credit-card-2-back-fill"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-multiselect
+                                  name="PayTypesList"
+                                  #PayTypesList="ngModel"
+                                  [(ngModel)]="responseobj.PayTypesList"
+                                  [dataSource]="responseobj.PayTypeList"
+                                  [fields]="Flds"
+                                  class="form-control"
+                                  placeholder=""
+                                  [enabled]="false"
+                                  required></ejs-multiselect>
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && PayTypesList.invalid) ||
+                                    (PayTypesList.invalid && PayTypesList.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="PayTypesList.errors.required">
+                                    {{ "setting.PaymentTypeIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!--OrderTypes'-->
+                      <div class="col-md-6" *ngIf="OrderTypeList">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.effectedForOrderTypes" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-credit-card-2-back-fill"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-multiselect
+                                  name="OrderTypesList"
+                                  #OrderTypesList="ngModel"
+                                  [(ngModel)]="responseobj.OrderTypesList"
+                                  [dataSource]="OrderTypeList"
+                                  [fields]="Flds"
+                                  class="form-control"
+                                  placeholder=""
+                                  [enabled]="false"
+                                  required></ejs-multiselect>
+                                <div
+                                  *ngIf="
+                                    (frmRef.submitted && OrderTypesList.invalid) ||
+                                    (OrderTypesList.invalid && OrderTypesList.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="OrderTypesList.errors.required">
+                                    {{ "setting.OrderTypeIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--Branches'-->
+                      <div class="col-md-6 mb-3" *ngIf="BranchList">
+                        <div class="row">
+                          <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.effectedForBranches" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="bi bi-credit-card-2-back-fill"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-multiselect name="BranchesList" #BranchesList="ngModel"
+                                  [(ngModel)]="responseobj.BranchesList" [dataSource]="BranchList"
+                                  [fields]="PaymentTypeFld" class="form-control" placeholder="" 
+                                  [enabled]="false" required></ejs-multiselect>
+                                  <div
+                                  *ngIf="(frmRef.submitted && BranchesList.invalid) || (BranchesList.invalid && BranchesList.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="BranchesList.errors.required">
+                                    {{ "setting.BranchIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--btn Applied To All Product-->
+                      <div class="col-md-6 mb-6">
+                        <div class="row align-items-end mb-3 pb-3">
+                          <div class="col-md-6">
+                            <div class="col-md-12 mt-2">
+                              <div class="d-flex delivery-section">
+                                <label class="form-label">{{ "Shared.OfferAppliesToProducts" | translate }}</label>
+                                <div class="toggle-btn">
+                                  <label class="switch">
+                                    <input
+                                      type="checkbox"
+                                      name="checkReturnDelivery"
+                                      (ngModelChange)="appliedToAllProducts($event)"
+                                      [(ngModel)]="responseobj.IsAppliedToProducts"
+                                      [disabled]="!disableflage" />
+                                    <span class="slider round"></span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--btn PromoDays-->
+                          <div class="col-md-4">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <button class="btn btn-primary" (click)="CheckPromoDays()" [disabled]="!disabledflag">
+                                  {{ "Shared.CheckPromoDays" | translate }}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12" *ngIf="responseobj.IsAppliedToProducts">
+                    <accordion [isAnimated]="true">
+                      <!--Products Groups-->
+                      <accordion-group
+                        class="mb-3"
+                        heading="{{ 'Shared.productgroups' | translate }}"
+                        [panelClass]="customClass">
+                        <div class="row">
+                          <div *ngFor="let group of ProductGroups; index as i" class="col-md-3">
+                            <div class="flexStart">
+                              <input
+                                type="checkbox"
+                                name="ProductGroupChecked{{ i }}"
+                                #ProductGroupChecked="ngModel"
+                                id="ProductGroupChecked"
+                                [(ngModel)]="group.Checked"
+                                class="form-control borderRadius"
+                                (change)="checkProductsOfCheckedGroup($event, group)"
+                                style="width: 2rem"
+                                [disabled]="!disabledflag" />
+                              <p>{{ group.Name }}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Products-->
+                        <div class="col-md-12">
+                          <div class="table-section">
+                            <div class="input-group editInputGroup">
+                              <div class="modal-body">
+                                <div class="col-md-12 paddingLeftz">
+                                  <table class="table returnOrderTable table-bordered m-0 meals-table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">{{ "Shared.isActive" | translate }}</th>
+                                        <th scope="col">{{ "products.Product" | translate }}</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr *ngFor="let product of Products; index as j">
+                                        <td scope="row">
+                                          {{ j + 1 }}
+                                        </td>
+
+                                        <td>
+                                          <label class="ms-checkbox-wrap ms-todo-complete">
+                                            <input
+                                              type="checkbox"
+                                              name="Checked{{ j }}"
+                                              #Checked="ngModel"
+                                              id="Checked"
+                                              (ngModelChange)="ProductCheckboxChanged($event,product)"
+                                              [(ngModel)]="product.Checked"
+                                              class="form-control borderRadius"
+                                              [disabled]="!disabledflag" />
+                                          </label>
+                                        </td>
+                                        <td>
+                                          <input
+                                            type="text"
+                                            class="form-control borderRadius"
+                                            name="Name{{ j }}"
+                                            [value]="product?.Name"
+                                            readonly />
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </accordion-group>
+                    </accordion>
+                  </div>
+                  <div class="col-md-12">
+                    <accordion [isAnimated]="true">
+                      <!--first main data-->
+                      <accordion-group
+                        class="mb-3"
+                        heading="{{ 'Shared.customergroup' | translate }}"
+                        [panelClass]="customClass"
+                        [isDisabled]="!disabledflag">
+                        <div class="paddingLeftz">
+                          <div class="input-group editInputGroup">
+                            <div class="modal-body">
+                              <div class="col-md-12 paddingLeftz">
+                                <table class="table returnOrderTable table-bordered m-0 meals-table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">
+                                        {{ "Shared.SelectAll" | translate }}
+                                      </th>
+                                      <th scope="col">
+                                        {{ "Shared.customergroup" | translate }}
+                                      </th>
+                                      <th scope="col">
+                                        {{ "manageorder.Customers" | translate }}
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <input
+                                          type="checkbox"
+                                          [disabled]="!disabledflag"
+                                          name="SelectAll"
+                                          #SelectAll="ngModel"
+                                          id="SelectAll"
+                                          [(ngModel)]="responseobj.SelectAll"
+                                          (change)="SelectAllEvent($event)"
+                                          class="form-control borderRadius" />
+                                      </td>
+                                      <td>
+                                        <input
+                                          type="text"
+                                          [disabled]="!disabledflag"
+                                          name="SelectCustomerGroups"
+                                          #SelectCustomerGroups="ngModel"
+                                          id="SelectCustomerGroups"
+                                          (keyup)="searchCustomers(SelectCustomerGroups.value, SelectCustomers.value)"
+                                          [(ngModel)]="responseobj.SelectCustomerGroups"
+                                          class="form-control borderRadius" />
+                                      </td>
+                                      <td>
+                                        <input
+                                          type="text"
+                                          [disabled]="!disabledflag"
+                                          name="SelectCustomers"
+                                          #SelectCustomers="ngModel"
+                                          id="SelectCustomers"
+                                          (keyup)="searchCustomers(SelectCustomerGroups.value, SelectCustomers.value)"
+                                          [(ngModel)]="responseobj.SelectCustomers"
+                                          class="form-control borderRadius" />
+                                      </td>
+                                    </tr>
+                                    <tr *ngFor="let detail of paginatedData; index as i">
+                                      <td>
+                                        <label class="ms-checkbox-wrap ms-todo-complete">
+                                          <input
+                                            type="checkbox"
+                                            [disabled]="!disabledflag"
+                                            name="IsChecked{{ i }}"
+                                            #IsChecked="ngModel"
+                                            id="IsChecked"
+                                            [(ngModel)]="detail.IsChecked"
+                                            class="form-control borderRadius" />
+                                        </label>
+                                      </td>
+                                      <td>
+                                        <input
+                                          type="text"
+                                          class="form-control borderRadius"
+                                          name="CustomerGroupName{{ i }}"
+                                          [value]="detail.CustomerGroupName"
+                                          readonly />
+                                      </td>
+                                      <td>
+                                        <input
+                                          type="text"
+                                          class="form-control borderRadius"
+                                          name="CustomerName{{ i }}"
+                                          [value]="detail.CustomerName"
+                                          readonly />
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <div class="row d-flex align-items-baseline">
+                                <div class="form-group col-3 d-flex align-items-baseline">
+                                  <label class="col-7" for="itemsPerPage">{{"Shared.ItemsPerPage" | translate}}</label>
+                                  <select class="form-control col-5" id="itemsPerPage" [(ngModel)]="itemsPerPage"
+                                    [ngModelOptions]="{standalone: true}" (ngModelChange)="setCurrentPage()">
+                                    <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+                                  </select>
+                                </div>
+                                <pagination style="justify-content: flex-end" [maxSize]="6" (pageChanged)="pageChanged($event)"
+                                  [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="newCustomerList.length"
+                                  previousText="{{ 'Shared.Previous' | translate }}" nextText="{{ 'Shared.Next' | translate }}"
+                                  firstText="{{ 'Shared.First' | translate }}" lastText="{{ 'Shared.Last' | translate }}">
+                                </pagination>
+                              </div>
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </accordion-group>
+                    </accordion>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- WorkDays -->
+
+<div class="modal fade" id="modal-WorkDays" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="ms-card-title m-0">
+          {{ "Shared.CheckPromoDays" | translate }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Table -->
+        <div class="col-md-12 paddingLeftz days-table">
+          <table class="table returnOrderTable table-bordered m-0">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{ "Shared.isActive" | translate }}</th>
+                <th scope="col">{{ "Shared.Day" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detail of responseobj.WorkDays; index as i">
+                <td scope="row">
+                  {{ i + 1 }}
+                </td>
+
+                <td>
+                  <label class="ms-checkbox-wrap ms-todo-complete">
+                    <input
+                      type="checkbox"
+                      name="IsWork{{ i }}"
+                      #IsWork="ngModel"
+                      id="IsWork"
+                      [(ngModel)]="detail.IsWork"
+                      class="form-control borderRadius"
+                      [disabled]="!disabledflag" />
+                  </label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control borderRadius"
+                    name="Name{{ i }}"
+                    [value]="detail.Name"
+                    readonly />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light my-0" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

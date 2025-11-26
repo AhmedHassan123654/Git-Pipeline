@@ -1,0 +1,6 @@
+label {
+  margin-bottom: 0 !important;
+}
+.requiredBorder {
+  border: 1px solid red !important;
+}

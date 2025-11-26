@@ -1,0 +1,285 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="stockadjutmentform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (quickEvents)="quickEvents($event)"
+    (returnobjEvent)="returnobjEvent($event)"
+    (afterPag)="afterPag($event)"
+    (clearobjEvent)="clearobject()"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"
+    [request]="request">
+  </app-pagetransactions>
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <div class="master">
+        <!-- <div class="row   my-1">           
+           
+              <div class="col-md-2 d-flex justify-content-start align-items-center">
+              <input style="height: 1.2rem; width: 1.2rem;" class="checkedN mx-1" type="radio" name="inventory" required #inventory = "ngModel"
+                [disabled] ="disableControlEdit || disableStockType()"
+                   id="inventory" [(ngModel)]="responseobj.Type" [value]="1" (click)="filterBasedType(inventory)">
+                <label class="form-check-label my-0" for="">
+                  {{'stock.Stock'|translate}}
+                </label>
+              </div>
+
+              <div class="col-md-2 d-flex justify-content-start align-items-center">
+                <input style="height: 1.2rem; width: 1.2rem;" class="checkedN mx-1" type="radio" name="kitchen" required #kitchen="ngModel"
+                [disabled] ="disableControlEdit || disableStockType()"
+                   id="kitchen" [(ngModel)]="responseobj.Type" [value]="2" (click)="filterBasedType(kitchen)">
+                <label class="form-check-label my-0" for="">
+                  {{'stock.Kitchen'|translate}}
+                </label>
+              </div>
+
+        </div> -->
+        <div class="container-fluid">
+          <div class="row my-1 content">
+            <div class="col">
+              <label class="lable"> {{ "stock.DocumentDate" | translate }}</label>
+              <ejs-datepicker
+                class="pAsolute absolutePosition"
+                format="MM/dd/yyyy"
+                name="date"
+                #date="ngModel"
+                [(ngModel)]="responseobj.DocumentDate"
+                [disabled]="true"
+                [ngClass]="{ 'alert-danger': frmRef.submitted && date.invalid }"
+                class="form-control borderRadius Prelative"
+                id="date"
+                placeholder="mm/dd/yyyy"
+                required></ejs-datepicker>
+            </div>
+            <div class="col">
+              <div class="form-group form-input">
+                <label class="lable"> {{ "stock.DocumentNumber" | translate }}</label>
+                <input
+                  type="text"
+                  [(ngModel)]="responseobj.DocumentNumber"
+                  class="form-control"
+                  name="docno"
+                  readonly />
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="lable">{{ "stock.Description" | translate }}</label>
+                <input
+                  name="description"
+                  class="form-control"
+                  [disabled]="disableControlEdit"
+                  placeholder="{{ 'stock.Description' | translate }}"
+                  [(ngModel)]="responseobj.Description" />
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+
+            <div class="col" *ngIf="disableControlEdit">
+              <label class="lable">{{ "stock.InventoryNubmer" | translate }}</label>
+              <ejs-combobox
+                name="choiceInventoryList"
+                id="choiceInventoryList"
+                #choiceInventoryList="ngModel"
+                [(ngModel)]="responseobj.InventoryDocumentId"
+                [allowFiltering]="true"
+                [autofill]="true"
+                [dataSource]="responseobj.InventoriesList"
+                (change)="fillDetailsBasedOnInventory(responseobj.InventoryDocumentId)"
+                placeholder="{{ 'stock.Select TransferStock' | translate }}"
+                [enabled]="false"
+                [fields]="inventorylistFlds"
+                class="form-control borderRadius"
+                id="kitchen_id"
+                [required]="isRequired"></ejs-combobox>
+
+              <div
+                *ngIf="
+                  (frmRef.submitted && choiceInventoryList.invalid) ||
+                  (choiceInventoryList.invalid && choiceInventoryList.touched)
+                ">
+                <div class="alert alert-danger stockValidationError">
+                  {{ "Shared.required" | translate }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col" *ngIf="!disableControlEdit">
+              <label class="lable">{{ "stock.InventoryNubmer" | translate }}</label>
+              <ejs-combobox
+                name="choiceInventory2List"
+                id="choiceInventory2List"
+                #choiceInventory2List="ngModel"
+                [(ngModel)]="responseobj.InventoryDocumentId"
+                [allowFiltering]="true"
+                [autofill]="true"
+                [dataSource]="responseobj.InventoriesList"
+                (ngModelChange)="fillDetailsBasedOnInventory(responseobj.InventoryDocumentId)"
+                placeholder="{{ 'stock.Select TransferStock' | translate }}"
+                [fields]="inventorylistFlds"
+                class="form-control borderRadius"
+                id="kitchen_id"
+                [required]="isRequired"></ejs-combobox>
+
+              <div
+                *ngIf="
+                  (frmRef.submitted && choiceInventory2List.invalid) ||
+                  (choiceInventory2List.invalid && choiceInventory2List.touched)
+                ">
+                <div class="alert alert-danger stockValidationError">
+                  {{ "Shared.required" | translate }}
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <label class="lable">{{ "stock.CreditedToAccount" | translate }}</label>
+              <ejs-combobox
+                name="AccountsList"
+                id="AccountsList"
+                #AccountsList="ngModel"
+                [(ngModel)]="responseobj.AccountDocumentId"
+                [allowFiltering]="true"
+                [autofill]="true"
+                [dataSource]="responseobj.AccountsList"
+                [disabled]="disableControlEdit"
+                required
+                placeholder="{{ 'stock.Select Account' | translate }}"
+                [fields]="listFlds"
+                class="form-control borderRadius"
+                (change)="assignAccountId(responseobj.AccountDocumentId)"
+                [required]="isRequired">
+              </ejs-combobox>
+              <div *ngIf="(frmRef.submitted && AccountsList.invalid) || (AccountsList.invalid && AccountsList.touched)">
+                <div class="alert alert-danger stockValidationError">
+                  {{ "Shared.required" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ms-panel ms-panel-fh22 ms-panel-order Prelative panelDetails">
+        <perfect-scrollbar [config]="true" class="table-responsive">
+          <div class="container-fluid p-2">
+            <table class="table table-bordered text-dark table-striped">
+              <thead>
+                <tr>
+                  <th>{{ "stock.Item" | translate }}</th>
+                  <th>{{ "stock.Unit" | translate }}</th>
+                  <th colspan="1">{{ "stock.Quantity" | translate }}</th>
+                  <th>{{ "stock.AvailableQuantity" | translate }}</th>
+                  <th>{{ "stock.Cost" | translate }}</th>
+                  <th>{{ "Shared.deficiencyexcess" | translate }}</th>
+                  <!-- <th scope="col" *ngIf="!responseobj.Sent && !disableControlEdit">{{"stock.Actions"| translate}}</th>     -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of responseobj.POSStockAdjustmentDetails; let i = index">
+                  <td>
+                    <div class="input-group editInputGroup">
+                      <select
+                        name="itemselect{{ i }}"
+                        id="{{ i }}"
+                        class="form-control qty"
+                        required
+                        disabled
+                        [(ngModel)]="detail.ItemId">
+                        <option *ngFor="let item of items" [value]="item.Id" class="form-control qty">
+                          {{ item.Name }}
+                        </option>
+                      </select>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <div class="input-group editInputGroup">
+                        <div class="input-group">
+                          <select
+                            name="unitselect{{ i }}"
+                            id="{{ i }}"
+                            class="form-control"
+                            required
+                            readonly
+                            [(ngModel)]="detail.UnitId">
+                            <option *ngFor="let unit of gtSelectedUnits(detail)" [value]="unit.Id">
+                              {{ unit.Name }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="quantity">
+                    <div>
+                      <input
+                        name="qty{{ i }}"
+                        type="number"
+                        class="form-control editInputGroup qty"
+                        readonly
+                        [(ngModel)]="detail.Quantity" />
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group editInputGroup">
+                      <input
+                        name="avqty{{ i }}"
+                        type="number"
+                        class="form-control"
+                        readonly
+                        [(ngModel)]="detail.AvailableQuantity" />
+                    </div>
+                  </td>
+                  <td class="quantity">
+                    <div>
+                      <input
+                        name="cost{{ i }}"
+                        type="number"
+                        class="form-control borderRadius qty"
+                        readonly
+                        [(ngModel)]="detail.CostAverage" />
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <input
+                        name="deficit{{ i }}"
+                        type="number"
+                        class="form-control borderRadius qty"
+                        required
+                        readonly
+                        [(ngModel)]="detail.Deficit" />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="fa-pull-left">
+              <table class="table table-responsive table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center">
+                      {{ "stock.IncreaseTotal" | translate }}
+                    </th>
+                    <th class="text-center">
+                      {{ "stock.DeficitTotal" | translate }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">{{ responseobj.TotalIncrease }}</td>
+                    <td class="text-center">{{ responseobj.TotalDeficit }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+</form>

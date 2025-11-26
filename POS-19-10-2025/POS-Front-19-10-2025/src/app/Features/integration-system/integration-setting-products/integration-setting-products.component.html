@@ -1,0 +1,75 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-md-12">
+  <div class="pb-1 d-flex justify-content-start align-items-center">
+    <button
+      type="submit"
+      class="btn btn-outline-info btnNav"
+      (click)="SaveProducts()"
+      *ngIf="request.showEdit; else false">
+      <i class="far fa-save pr-1"></i>{{ "pagetransactions.Save" | translate }}
+    </button>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="ms-panel">
+    <div class="ms-panel-body">
+      <div class="row">
+        <!--name-->
+        <div class="col-md-6 mb-3">
+          <div class="row d-flex pr-xs-0">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="validationCustom19">{{ "Shared.Name" | translate }} </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-user" aria-hidden="true"></i>
+                </div>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    placeholder="IntegrationSystemsName"
+                    [(ngModel)]="data.IntegrationSystemsName"
+                    name="Name"
+                    #IntegrationSystemsName="ngModel"
+                    id="IntegrationSystemsName_id"
+                    class="form-control borderRadius"
+                    readonly />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+    <thead>
+      <tr>
+        <th class="d-flex justify-content-center" scope="col">
+          {{ "products.YemekProducts" | translate }}
+        </th>
+        <th scope="col">{{ "products.Products" | translate }}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr class="p-1" *ngFor="let product of yemekSepetiProducts; let i = index" data-dismiss="modal">
+        <td>{{ product.Name }}</td>
+        <td class="d-flex justify-content-center">
+          <ejs-combobox
+            class="form-control borderRadius"
+            name="{{ 'ProductDocumentId' + i }}"
+            id="{{ 'ProductDocumentId' + i }}"
+            [(ngModel)]="product.ProductDocumentId"
+            [allowFiltering]="true"
+            [fields]="flds"
+            [autofill]="true"
+            [dataSource]="productList"></ejs-combobox>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,436 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="paymentvoucherform" class="" id="myForm" #frmRef="ngForm">
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    (openModal)="openModal($event)"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [request]="request"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh mt-2">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="">
+                        <!--Branch Name-->
+                        <div class="col-md-12 mb-3">
+                          <div class="row">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "Shared.BranchName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-code-branch"></i>
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    name="BranchName"
+                                    #BranchName="ngModel"
+                                    [(ngModel)]="responseobj.BranchName"
+                                    id="BranchName_id"
+                                    class="form-control borderRadius"
+                                    readonly="true" />
+
+                                  <!-- <div *ngIf="
+                                        (frmRef.submitted && Amount.invalid) ||
+                                        (Amount.invalid && Amount.touched)
+                                      ">
+                                      <div class="alert alert-danger editAlertCash mt-2" *ngIf="Amount.errors.required">
+                                        {{'CashReceipt.validamount'|translate}}
+                                      </div>
+                                    </div> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Select Pay Type-->
+                        <div class="col-md-12 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "permission.PayTypes" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="PayTypeDocumentId"
+                                    #PayTypeDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.PayTypeDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="orderPayTypes"
+                                    placeholder="{{ 'Dashboard.SelectPayType' | translate }}"
+                                    [fields]="payFlds"
+                                    class="form-control borderRadius"
+                                    id="customer_id"
+                                    [enabled]="false"
+                                    [required]="true"></ejs-combobox>
+                                </div>
+
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (frmRef.submitted && PayTypeDocumentId.invalid) ||
+                                    (PayTypeDocumentId.invalid && PayTypeDocumentId.touched)
+                                  ">
+                                  <div
+                                    class="alert alert-danger editAlertCash"
+                                    *ngIf="PayTypeDocumentId.errors.required">
+                                    PayType is required
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Amount-->
+                        <div class="col-md-12 mb-3">
+                          <div class="row">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "CashReceipt.lblamount" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <!-- <img src="assets/images/amount (2).png" alt="" srcset="" /> -->
+                                  <i class="fa fa-line-chart fa-sm" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="input-group">
+                                  <input
+                                    [numbersOnly]="responseobj.Amount"
+                                    [allowDecimals]="true"
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                                    name="Amount"
+                                    disabled
+                                    #Amount="ngModel"
+                                    [(ngModel)]="responseobj.Amount"
+                                    id="amount_id"
+                                    (keyup.enter)="foucsNextInput($event,'amount_id')"
+                                    class="form-control borderRadius"
+                                    required />
+                                </div>
+                                <div
+                                  *ngIf="(frmRef.submitted && Amount.invalid) || (Amount.invalid && Amount.touched)"
+                                  class="mt-2">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Amount.errors.required">
+                                    {{ "CashReceipt.validamount" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+
+                        <!--Description-->
+                        <div class="col-md-12 mb-3">
+                          <div class="row">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "CashReceipt.lbldescription" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <!-- <img src="assets/images/amount (2).png" alt="" srcset="" /> -->
+                                  <i class="fa fa-line-chart fa-sm" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="input-group">
+                                  <input
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                                    name="Description"
+                                    disabled
+                                    #Description="ngModel"
+                                    [(ngModel)]="responseobj.Description"
+                                    id="description_id"
+                                    (keyup.enter)="foucsNextInput($event,'description_id')"
+                                    class="form-control borderRadius"/>
+                                </div>
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--2-->
+                        <!--order Date-->
+                        <div class="col-md-12 mb-3">
+                          <div class="row">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "CashReceipt.Date" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-datepicker
+                                    id="date"
+                                    (keyup.enter)="foucsNextInput($event,'date')"
+                                    [enabled]="false"
+                                    [readonly]="true"
+                                    class="pAsolute absolutePosition"
+                                    format="dd/MM/yyyy"
+                                    name="date"
+                                    #date="ngModel"
+                                    [(ngModel)]="responseobj.Date"
+                                    [ngClass]="{
+                                      'is-invalid': frmRef.submitted && date.invalid
+                                    }"
+                                    class="form-control borderRadius Prelative"
+                                    placeholder="dd/mm/yyyy"
+                                    required></ejs-datepicker>
+                                  <!--<input (click)="openCalender()" (keydown)="$event.preventDefault()" (change)="changeDate(date.value)" [(ngModel)]="responseobj .Date" #date="ngModel"
+                                      type="date" class="form-control borderRadius Prelative "  name="date" id="date" required />
+                                        <div *ngIf="CalenderOpened">
+                                          <ejs-calendar class="pAsolute absolutePosition " id="calendar" #calendar (change)="selectDate()" (click)="selectDate()"   [value]="calenderValue"></ejs-calendar>
+                                        </div>-->
+                                  <!-- <div *ngIf="f.submitted && date.invalid" class="invalid-feedback" > </div> -->
+                                </div>
+                                <div
+                                  *ngIf="(frmRef.submitted && date.invalid) || (date.invalid && date.touched)"
+                                  class="">
+                                  <div class="alert alert-danger editAlert" *ngIf="date.errors.required">
+                                    {{ "ExtraExpenses.DateIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                          <div class="row">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">
+                                {{ "Shared.Expensetype" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <!--  [enabled]="false" -->
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="ExtraExpensesTypeDocumentId"
+                                    #ExtraExpensesTypeDocumentId="ngModel"
+                                    [enabled]="false"
+                                    [(ngModel)]="responseobj.ExtraExpensesTypeDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="ExtraExpensesTypeList"
+                                    placeholder=""
+                                    [fields]="ExtraExpensesTypeFlds"
+                                    class="form-control borderRadius"
+                                    id="ExtraExpensesTypeDocument_Id"
+                                    (keyup.enter)="foucsNextInput($event,'ExtraExpensesTypeDocument_Id')"
+                                    (change)="compoCahnge($event)"
+                                    required>
+                                  </ejs-combobox>
+                                </div>
+
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (frmRef.submitted && ExtraExpensesTypeDocumentId.invalid) ||
+                                    (ExtraExpensesTypeDocumentId.invalid && ExtraExpensesTypeDocumentId.touched)
+                                  ">
+                                  <div
+                                    class="alert alert-danger editAlertCash"
+                                    *ngIf="ExtraExpensesTypeDocumentId.errors.required">
+                                    {{ "Shared.ExtraExpensesTypeisrequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Select Vendor-->
+                        <div class="col-md-12 mb-3" *ngIf="VendorCompo">
+                          <div class="row">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "Shared.Selectavendor" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <!--  [enabled]="false" -->
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="ExtraExpensesTypeDetailDocumentId"
+                                    #ExtraExpensesTypeDetailDocumentId="ngModel"
+                                    [enabled]="false"
+                                    [(ngModel)]="responseobj.ExtraExpensesTypeDetailDocumentId"
+                                    (ngModelChange)="setExtraExpensesTypeDetailName(1)"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="VendorList"
+                                    [placeholder]="'Shared.Selectavendor' | translate"
+                                    [fields]="VendorFlds"
+                                    class="form-control borderRadius"
+                                    id="ExtraExpensesTypeDetailDocument_Id"
+                                    (keyup.enter)="foucsNextInput($event,'ExtraExpensesTypeDetailDocument_Id')"
+                                    [enabled]="disabledflage"
+                                    required></ejs-combobox>
+                                </div>
+
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (frmRef.submitted && ExtraExpensesTypeDetailDocumentId.invalid) ||
+                                    (ExtraExpensesTypeDetailDocumentId.invalid &&
+                                      ExtraExpensesTypeDetailDocumentId.touched)
+                                  ">
+                                  <div
+                                    class="alert alert-danger editAlertCash"
+                                    *ngIf="ExtraExpensesTypeDetailDocumentId.errors.required">
+                                    {{ "Shared.VendorNameisrequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Select Employee-->
+                        <div class="col-md-12 mb-3" *ngIf="EmpCompo">
+                          <div class="row">
+                            <div class="col-md-2 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "CashReceipt.Employee" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-combobox
+                                    name="ExtraExpensesTypeDetailDocumentId"
+                                    #ExtraExpensesTypeDetailDocumentId="ngModel"
+                                    [enabled]="disabledflage"
+                                    [(ngModel)]="responseobj.ExtraExpensesTypeDetailDocumentId"
+                                    (ngModelChange)="setExtraExpensesTypeDetailName(2)"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="EmpList"
+                                    placeholder="اخنر موظف"
+                                    [fields]="EmpFlds"
+                                    class="form-control borderRadius"
+                                    id="ExtraExpensesTypeDetailDocument_Id"
+                                    (keyup.enter)="foucsNextInput($event,'ExtraExpensesTypeDetailDocument_Id')"
+                                    required></ejs-combobox>
+                                </div>
+
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (frmRef.submitted && ExtraExpensesTypeDetailDocumentId.invalid) ||
+                                    (ExtraExpensesTypeDetailDocumentId.invalid &&
+                                      ExtraExpensesTypeDetailDocumentId.touched)
+                                  ">
+                                  <div
+                                    class="alert alert-danger editAlertCash"
+                                    *ngIf="ExtraExpensesTypeDetailDocumentId.errors.required">
+                                    {{ "Shared.Nameisrequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div *ngIf="showModel"
+  id="extraExpensesModal"
+  class="modal fade tracking-order-modal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between">
+        <div class="modal-title fs-5 d-flex">
+          <span>Extra Expenses Report</span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <app-pos-report 
+          (extraExpensesResponse)="getExtraExpensesResponse($event)"
+          ></app-pos-report>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="closeReport()" type="button" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <app-pos-report 
+(extraExpensesResponse)="getExtraExpensesResponse($event)"
+></app-pos-report> -->
+
+<!-- <div class="tab-pane fade" id="pills-profile24" role="tabpanel" aria-labelledby="pills-profile-tab">
+  <div class="col-lg-12" *ngIf="ExtraExpenses">
+    <div class="ms-card">
+      <div class="ms-card-body">
+        <ejs-grid
+          #ExtraExpense
+          id="ExtraExpense"
+          [dataSource]="ExtraExpenses"
+          [allowPaging]="true"
+          [pageSettings]="pageSettings"
+          [allowSorting]="true"
+          [allowFiltering]="true"
+          [filterSettings]="filterOptions"
+          [toolbar]="toolbarOptions"
+          [allowGrouping]="true"
+          [allowPdfExport]="true"
+          [allowExcelExport]="true"
+          (toolbarClick)="toolbarClickExtraExpenses($event)">
+          <e-columns>
+            <e-column field="Description" headerText="{{ 'Reports.Description' | translate }}"></e-column>
+            <e-column field="Amount" headerText="{{ 'CashReceipt.Amount' | translate }}"></e-column>
+            <e-column field="CashierName" headerText="{{ 'Shared.CreatorUserName' | translate }}"></e-column>
+            <e-column field="Recipient" headerText="{{ 'Reports.CreatorUserName' | translate }}"></e-column>
+            <e-column field="Date" headerText="{{ 'Shared.Creationdate' | translate }}"></e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -1,0 +1,135 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-md-12">
+  <div class="pb-1 d-flex justify-content-start align-items-center">
+    <button [disabled]="disableSave" type="submit" class="btn btn-outline-info btnNav" (click)="insertOrUpdateProductTaxes()">
+      <i class="far fa-save pr-1"></i>{{ "pagetransactions.save" | translate }}
+    </button>
+  </div>
+</div>
+
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-12">
+      <accordion [isAnimated]="true">
+        <accordion-group class="mb-3" heading="{{ 'Shared.Taxesaddedtomeals' | translate }}" [panelClass]="customClass">
+          <div class="row">
+            <div class="col-md-12 align-items-center d-flex">
+              <!-- <i class="bi bi-plus-lg accordion__icon"></i> -->
+              <input
+                type="checkbox"
+                (change)="toggleAllGroups($event)"
+                style="width: 1.5rem"
+                name="ISActiveGroups"
+                #ISActiveGroups="ngModel"
+                [(ngModel)]="SelectAllgroups"
+                class="form-control borderRadius" />
+              <p class="mx-1 my-0">
+                {{ "tax.SelectAllProductGroups" | translate }}
+              </p>
+            </div>
+          </div>
+          <hr class="m-1 p-1" />
+          <div class="row">
+            <div *ngFor="let group of productGroups" class="col-md-3 d-flex align-items-center">
+              <input
+                type="checkbox"
+                (change)="filterProductsBySelectedgroups()"
+                style="width: 1.5rem"
+                name="Selected"
+                #Selected="ngModel"
+                [(ngModel)]="group.Selected"
+                class="form-control borderRadius" />
+              <p class="mx-1 my-0">{{ group.Name }}</p>
+            </div>
+          </div>
+        </accordion-group>
+
+        <accordion-group
+          heading="{{ 'products.Products' | translate }}"
+          class="EditingCustomClass"
+          [panelClass]="customClass"
+          [isOpen]="isFirstOpen">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="btn-group justify-content-start align-items-center d-flex p-1">
+                <p class="m-0 px-1">{{ "Shared.ItemsPerPage" | translate }}</p>
+                <select
+                  (change)="onChange($event.target.value)"
+                  style="width: 5rem"
+                  name="NumberItems"
+                  id="aantal"
+                  class="form-control"
+                  [(ngModel)]="NumberItems">
+                  <option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-12 p-0">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+                  <thead>
+                    <tr>
+                      <th class="d-flex justify-content-center" scope="col">
+                        <input
+                          type="checkbox"
+                          (change)="toggleAllProducts($event)"
+                          style="width: 1.5rem"
+                          name="ISActiveProducts"
+                          #ISActiveProducts="ngModel"
+                          [(ngModel)]="SelectAllproducts"
+                          class="form-control borderRadius" />
+                      </th>
+                      <th scope="col">{{ "Shared.Name" | translate }}</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr class="p-1" *ngFor="let product of finalProductList; let i = index" data-dismiss="modal">
+                      <td class="d-flex justify-content-center">
+                        <input
+                          type="checkbox"
+                          (change)="addProductTaxes(product)"
+                          style="width: 1.5rem"
+                          name="Selected"
+                          #Selected="ngModel"
+                          [(ngModel)]="product.Selected"
+                          class="form-control borderRadius" />
+                      </td>
+                      <td>{{ product.Name }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <pagination [(ngModel)]="currentPage" (numPages)="smallnumPages = $event" [maxSize]="10" style="
+                  justify-content: flex-end;
+              " class="pagination paginationEdit " [itemsPerPage]="NumberItems" [totalItems]="filtredProducts.length" (pageChanged)="pageChanged($event)"></pagination>  -->
+                <div *ngIf="filtredProducts" class="d-flex justify-content-between row align-items-center">
+                  <div class="col-md-8 col-sm-12">
+                    <pagination
+                      [boundaryLinks]="true"
+                      [(ngModel)]="currentPage"
+                      (numPages)="smallnumPages = $event"
+                      [maxSize]="10"
+                      [itemsPerPage]="NumberItems"
+                      [totalItems]="filtredProducts.length"
+                      (pageChanged)="pageChanged($event)"
+                      previousText="&lsaquo;"
+                      nextText="&rsaquo;"
+                      firstText="&laquo;"
+                      lastText="&raquo;">
+                    </pagination>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <div class="PageNumberAccord">The selected page no: {{ currentPage }}/{{ smallnumPages }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>
+  </div>
+</div>

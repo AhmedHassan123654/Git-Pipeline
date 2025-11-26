@@ -1,0 +1,120 @@
+﻿<app-breadcrumbs></app-breadcrumbs>
+<div class="col-md-3 py-2 d-flex">
+  <button type="submit" [disabled]="disableEditPermission" class="btn btn-outline-danger btnNav" (click)="save()">
+    <i class="far fa-save pr-1"></i>
+    {{ "pagetransactions.save" | translate }}
+  </button>
+  <br /><br />
+</div>
+
+<form name="SetUsers" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-header p-2">
+                    <div class="col-md-12">
+                      <div class="row align-items-center editBorder">
+                        <div class="col-md-4">
+                          <div class="row my-1">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label>
+                                {{ "Shared.Name" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="grname"
+                                    type="text"
+                                    class="form-control"
+                                    [(ngModel)]="responseobj.Name"
+                                    disabled
+                                    required />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="ms-card">
+      <div class="ms-card-body">
+        <div class="type-panel mb-2 d-flex flex-wrap align-items-center">
+          <span class="type-panel-title me-2">{{ 'Shared.employeeTypes' | translate }}:</span>
+          <ng-container *ngFor="let t of userTypes">
+            <div class="type-item me-3 d-flex align-items-center">
+              <ejs-checkbox
+                [checked]="isGroupAllSelected(t.key)"
+                [indeterminate]="isGroupIndeterminate(t.key)"
+                (change)="onToggleGroupSelect(t.key, $event)">
+              </ejs-checkbox>
+              <span class="type-label ms-1 pr-1">{{ t.key | translate }} ({{ t.selected }}/{{ t.total }})</span>
+            </div>
+          </ng-container>
+        </div>
+        <ejs-grid
+          #grid
+          id="grid"
+          [dataSource]="userGroupList"
+          [allowPaging]="true"
+          [pageSettings]="pageSettings"
+          [allowSorting]="true"
+          [allowFiltering]="true"
+          [filterSettings]="filterOptions"
+          [allowGrouping]="true">
+          <e-columns>
+            <e-column field="UserName" headerText="{{ 'Shared.Name' | translate }}" textAlign="center"></e-column>
+            <e-column field="UserType" headerText="{{ 'Shared.employeeTypes' | translate }}"
+              textAlign="Center">
+              <ng-template #template let-data>
+                {{ data.UserType | translate }}
+              </ng-template>
+            </e-column>
+            <e-column
+              field="IsSelected"
+              textAlign="center"
+              headerText="{{ 'Shared.Select' | translate }}"
+              type="boolean"
+              editType="booleanedit"
+              [allowFiltering]="false"
+              [allowSorting]="false"
+              [headerTemplate]="selectAllHeader">
+              <ng-template #selectAllHeader>
+                <ejs-checkbox
+                  [checked]="allSelected"
+                  [indeterminate]="indeterminate"
+                  (change)="onToggleSelectAll($event)">
+                </ejs-checkbox>
+              </ng-template>
+              <ng-template #template let-data>
+                <div>
+                  <ejs-checkbox #checkbox [checked]="data.IsSelected" (change)="ChangeUsersList($event)">
+                  </ejs-checkbox>
+                </div>
+              </ng-template>
+            </e-column>
+          </e-columns>
+        </ejs-grid>
+      </div>
+    </div>
+  </div>
+</form>

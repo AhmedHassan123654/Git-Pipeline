@@ -1,0 +1,223 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 4rem" class="px-3 py-5">
+  <div class="theme-container">
+    <mat-sidenav-container class="checkout">
+      <mat-sidenav-content [class.distance]="sidenavOpen">
+        <mat-card
+          *ngIf="!sidenavOpen"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          class="space-betweencenter mb-3">
+          <h4 class="secondary-font">Order Summary</h4>
+          <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon class="text-muted">more_vert</mat-icon>
+          </button>
+        </mat-card>
+
+        <mat-accordion [formGroup]="checkoutForm" hideToggle>
+          <mat-expansion-panel
+            [expanded]="step === 1"
+            (opened)="setStep(1)"
+            [disabled]="!checkoutForm.get('paymentMethod')!.valid">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon color="primary">check_circle</mat-icon>
+                <span class="mx-2">Payment Method</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <label class="d-flex justify-content-center" id="example-radio-group-label"
+              ><h4>Pick your favorite Payment Method</h4>
+            </label>
+            <mat-radio-group
+              aria-labelledby="example-radio-group-label"
+              class="example-radio-group"
+              [(ngModel)]="favoriteSeason"
+              [ngModelOptions]="{ standalone: true }">
+              <mat-radio-button
+                (click)="clickedInCashierFun(season)"
+                class="example-radio-button"
+                *ngFor="let season of seasons"
+                [value]="season">
+                {{ season }}
+              </mat-radio-button>
+            </mat-radio-group>
+
+            <form formGroupName="paymentMethod" fxLayout="row wrap" class="flex-wrapper">
+              <!-- <div fxFlex="100" class="px-3 mb-4">
+                                <h4 class="fw-500 text-center secondary-font">Payment Method</h4>
+                            </div> -->
+              <ng-container *ngIf="favoriteSeason == 'OnLine Payment'">
+                <div fxFlex="100" fxLayout="column" fxLayoutAlign="" class="startstartc p-3">
+                  <span class="text-muted">Credit Card</span>
+                  <img src="assets/images/payments.png" alt="" />
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="50" class="px-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Card holder name</mat-label>
+                    <input matInput placeholder="Card holder name" formControlName="cardHolderName" required />
+                    <mat-error *ngIf="checkoutForm.get('paymentMethod.cardHolderName')!.errors?.required"
+                      >Card holder name name is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="50" class="px-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Card number</mat-label>
+                    <input matInput placeholder="Card number" formControlName="cardNumber" required />
+                    <mat-error *ngIf="checkoutForm.get('paymentMethod.cardNumber')!.errors?.required"
+                      >Card number is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Expired month</mat-label>
+                    <mat-select placeholder="Expired month" formControlName="expiredMonth">
+                      <mat-option> month </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="checkoutForm.get('paymentMethod.expiredMonth')!.errors?.required"
+                      >Expired month is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Expired year</mat-label>
+                    <mat-select placeholder="Expired year" formControlName="expiredYear">
+                      <mat-option> year </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="checkoutForm.get('paymentMethod.expiredYear')!.errors?.required"
+                      >Expired year is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>CVV</mat-label>
+                    <input matInput placeholder="CVV" formControlName="cvv" required maxlength="3" />
+                    <!-- <mat-error *ngIf="checkoutForm.get('paymentMethod.cvv')!.errors?.required">CVV is required</mat-error> -->
+                    <!-- <mat-error *ngIf="checkoutForm.get('paymentMethod.cvv')!.hasError('minlength')">CVV isn't long enough, minimum of 3 characters</mat-error> -->
+                  </mat-form-field>
+                </div>
+              </ng-container>
+              <div fxFlex="100" class="mt-3 p-2 d-flex" fxLayoutAlign="space-between center">
+                <button
+                  class="ml-auto"
+                  mat-raised-button
+                  color="primary"
+                  fxLayout="row"
+                  (click)="onSubmitForm('paymentMethod')"
+                  fxLayoutAlign="center center"
+                  type="submit">
+                  <!-- <span class="mx-1 uppercase">Next</span>   -->
+                  <span class="mx-1 uppercase">Place Order Now </span>
+                  <mat-icon>navigate_next</mat-icon>
+                </button>
+              </div>
+            </form>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" [disabled]="!orderCompleted">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon [class.text-muted]="!orderCompleted" color="primary">check_circle</mat-icon>
+
+                <span class="mx-2">Confirmation</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="column" fxLayoutAlign="center center" class="px-3 pb-3 text-center">
+              <h1 class="secondary-font mb-3">Thank You!</h1>
+              <h2 class="my-3">Your order has been processed</h2>
+              <!-- <p class="text-muted">We are getting started on your order right away and you will receive an order confirmation email shortly to <b>{{orderEmail}}</b>. If the email hasn't arrived within two minutes, please check your spam folder to see if the email was routed there. In the meantime explore the others items and get inspired by new products just head over to <a routerLink="/" class="primary-color">Restaurant</a>.</p> -->
+              <!-- <a [routerLink]="['/menu']" mat-raised-button color="primary">Return to Shop</a>    -->
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-sidenav-content>
+
+      <mat-sidenav #sidenav position="end" [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'">
+        <mat-card style="height: 100%">
+          <div class="flexstart">
+            <button fxHide="false" fxHide.gt-sm mat-mini-fab color="warn" class="close" (click)="sidenav.toggle()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <div class="flexstart">
+              <mat-icon class="text-muted">receipt_long</mat-icon>
+              <h4 class="secondary-font mx-2">Order Summary</h4>
+            </div>
+          </div>
+          <div class="divider my-3"></div>
+          <div *ngIf="appService.orderobj && appService.orderobj.OrderDetails">
+            <div
+              *ngFor="let menuItem of appService.orderobj.OrderDetails"
+              fxLayout="row"
+              fxLayoutAlign="space-between start"
+              class="mb-3 space-betweenstart">
+              <div fxLayout="row" class="startstart" fxLayoutAlign="start start">
+                <img
+                  [src]="menuItem.Product.PicturePath ? imgURL + menuItem.Product.PicturePath : defaultIm"
+                  width="60"
+                  alt="item" />
+                <a class="menu-item-name px-2">{{ menuItem.ProductName }}</a>
+              </div>
+              <div fxLayout="column" class="endend" fxLayoutAlign="end end">
+                <span class="fw-500">
+                  {{ menuItem.Price | currency : " " : "symbol" : appService.fraction }}
+                </span>
+                <small class="text-muted ws-nowrap fw-500">Qty: {{ menuItem.ProductQuantity }}</small>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              !appService.orderobj || !appService.orderobj.OrderDetails || appService.orderobj.OrderDetails.length == 0
+            "
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            class="text-center py-2">
+            <svg viewBox="0 0 24 24" class="mat-icon mat-icon-xlg primary-color">
+              <path
+                d="M19 20C19 21.11 18.11 22 17 22C15.89 22 15 21.1 15 20C15 18.89 15.89 18 17 18C18.11 18 19 18.9 19 20M7 18C5.89 18 5 18.89 5 20C5 21.1 5.89 22 7 22C8.11 22 9 21.11 9 20S8.11 18 7 18M7.2 14.63L7.17 14.75C7.17 14.89 7.28 15 7.42 15H19V17H7C5.89 17 5 16.1 5 15C5 14.65 5.09 14.32 5.24 14.04L6.6 11.59L3 4H1V2H4.27L5.21 4H20C20.55 4 21 4.45 21 5C21 5.17 20.95 5.34 20.88 5.5L17.3 11.97C16.96 12.58 16.3 13 15.55 13H8.1L7.2 14.63M8.5 11H10V9H7.56L8.5 11M11 9V11H14V9H11M14 8V6H11V8H14M17.11 9H15V11H16L17.11 9M18.78 6H15V8H17.67L18.78 6M6.14 6L7.08 8H10V6H6.14Z" />
+            </svg>
+            <h3 class="secondary-font mt-3">Your Cart Is Currently Empty!</h3>
+            <p class="text-muted">Before proceed to checkout you must add some items to your shopping cart.</p>
+            <a (click)="routTo('firstHome')" mat-raised-button color="primary" class="mt-2 mb-3">Return To Shop</a>
+          </div>
+          <div fxLayout="row" class="space-betweenstart divider pt-2">
+            <div fxLayout="column" class="startstartc">
+              <h6>Grand total:</h6>
+            </div>
+            <div fxLayout="column" class="endend">
+              <h6 *ngIf="appService.orderobj" class="primary-color">
+                {{ appService.orderobj.SubTotal | currency : " " : "symbol" : appService.fraction }}
+              </h6>
+            </div>
+          </div>
+          <!-- <button mat-raised-button color="primary" type="button" class="mt-2 w-100" 
+                    [disabled]="!appService.orderobj || !appService.orderobj.OrderDetails|| appService.orderobj.OrderDetails.length == 0" >
+                    Place Order Now</button>            -->
+        </mat-card>
+      </mat-sidenav>
+    </mat-sidenav-container>
+  </div>
+</div>

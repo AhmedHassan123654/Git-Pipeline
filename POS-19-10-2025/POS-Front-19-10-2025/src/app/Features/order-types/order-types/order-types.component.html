@@ -1,0 +1,773 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="ordertypeform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [breakSave]="breakSave"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel rounded">
+          <div class="ms-panel-body clearfix">
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active show fade in">
+                <div class="col-xl-12 col-md-12 col-xs-12">
+                  <div class="p-2">
+                    <div class="col-md-12">
+                      <div class="row align-items-center">
+                        <!--first col-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">
+                                {{ "Shared.Name" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="material-icons fs-16">input</i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    id="name_id"
+                                    placeholder="Name"
+                                    class="form-control borderRadius"
+                                    [required]="isRequired"
+                                    disabled />
+                                  <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "customer.ForeignName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="material-icons fs-16">input</i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="ForeignName"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.ForeignName"
+                                    id="ForeignName_id"
+                                    placeholder="Foreign Name"
+                                    class="form-control borderRadius"
+                                    disabled />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">
+                                {{ "Shared.ordertype" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <ejs-combobox
+                                    name="Value"
+                                    #Value="ngModel"
+                                    [(ngModel)]="responseobj.Value"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="OrderTypeList"
+                                    placeholder="Select OrderType"
+                                    [fields]="Flds"
+                                    class="form-control borderRadius"
+                                    id="Value_id"
+                                    [enabled]="false"
+                                    [required]="isRequired"></ejs-combobox>
+                                </div>
+                              </div>
+                              <div
+                                class=""
+                                *ngIf="(frmRef.submitted && Value.invalid) || (Value.invalid && Value.touched)">
+                                <div class="alert alert-danger editAlertCash" *ngIf="Value.errors.required">
+                                  Order Type is required
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">
+                                {{ "Shared.pricingclasses" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <ejs-combobox
+                                    name="PricingClassDocumentId"
+                                    #PricingClassDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.PricingClassDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="PricingClassList"
+                                    placeholder="Select OrderType"
+                                    [enabled]="false"
+                                    [fields]="PricingClassFlds"
+                                    class="form-control borderRadius"
+                                    id="PricingClassDocument_Id"></ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">
+                                {{ "ReturnOrder.PayType" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group positionEdit">
+                                  <ejs-combobox
+                                    name="OrderPayTypeDocumentId"
+                                    #OrderPayTypeDocumentId="ngModel"
+                                    [(ngModel)]="responseobj.OrderPayTypeDocumentId"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="OrderPayTypeList"
+                                    placeholder="Select Order Pay Type"
+                                    [enabled]="false"
+                                    [fields]="OrderPayTypeFlds"
+                                    class="form-control borderRadius"
+                                    id="OrderPayTypeDocument_Id"></ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row align-items-center">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center">
+                              <label>{{ "tax.servicecharge" | translate }}: </label>
+                            </div>
+                            <div class="col-md-8">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="far fa-user"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-multiselect
+                                    [(ngModel)]="responseobj.TaxeIDs"
+                                    [dataSource]="OrderTypeTaxesList"
+                                    [fields]="OrderTypeTaxFlds"
+                                    name="OrderTypeTaxesList"
+                                    class="form-control"
+                                    placeholder="Order Type Taxes"
+                                    [enabled]="false"></ejs-multiselect>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row align-items-center">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center">
+                              <label>{{ "tax.Printakitchenreporttoaspecificprinter" | translate }}: </label>
+                            </div>
+                            <div class="col-md-8">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="far fa-user"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-multiselect
+                                    [(ngModel)]="responseobj.PrintKOTToAnotherPrinter"
+                                    [dataSource]="PrinterList"
+                                    [fields]="PrinterFlds"
+                                    name="PrinterList"
+                                    class="form-control"
+                                    placeholder="Printers"
+                                    [enabled]="false"></ejs-multiselect>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "manageorder.MandatoryToSelectThisType" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="MandatoryToSelectThisType"
+                                      #MandatoryToSelectThisType="ngModel"
+                                      [(ngModel)]="responseobj.MandatoryToSelectThisType"
+                                      class="form-control borderRadius"
+                                      disabled />
+
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "manageorder.Waiter" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="SelectWaiterInOrder"
+                                      #SelectWaiterInOrder="ngModel"
+                                      [(ngModel)]="responseobj.SelectWaiterInOrder"
+                                      class="form-control borderRadius"
+                                      disabled />
+
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"
+                                >{{ "tax.Donotprintakitchenreporttothistype" | translate }}:</label
+                              >
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="preventPrintKOT"
+                                      #preventPrintKOT="ngModel"
+                                      [(ngModel)]="responseobj.preventPrintKOT"
+                                      class="form-control borderRadius"
+                                      disabled />
+
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.NotesisRequired" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="NoteIsRequired"
+                                      #NoteIsRequired="ngModel"
+                                      [(ngModel)]="responseobj.NoteIsRequired"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"
+                                >{{ "Shared.PrintReportForOrderNumber" | translate }} :</label
+                              >
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="PrintReportForOrderNumber"
+                                      #PrintReportForOrderNumber="ngModel"
+                                      [(ngModel)]="responseobj.PrintReportForOrderNumber"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.NotAllowReturnOrder" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="NotAllowReturnOrder"
+                                      #NotAllowReturnOrder="ngModel"
+                                      [(ngModel)]="responseobj.NotAllowReturnOrder"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.IsHasDiscount" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <!-- -->
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="IsHasDiscount"
+                                      #IsHasDiscount="ngModel"
+                                      [(ngModel)]="responseobj.IsHasDiscount"
+                                      class="form-control borderRadius"
+                                      (change)="show($event.target)"
+                                      disabled />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="showDiscount" class="col-md-12 mb-3">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="row">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">
+                                    {{ "Shared.Discount" | translate }}
+                                  </label>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-clipboard-list fs-16"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        type="text"
+                                        name="Discount"
+                                        [numbersOnly]="responseobj.Discount"
+                                        [allowDecimals]="false"
+                                        #Discount="ngModel"
+                                        [(ngModel)]="responseobj.Discount"
+                                        id="Discount_id"
+                                        class="form-control borderRadius"
+                                        [disabled]="!CompoFlag"
+                                        [required]="isRequired"
+                                        (keyup)="keyFunc($event)" />%
+                                      <div
+                                        *ngIf="
+                                          (frmRef.submitted && Discount.invalid) ||
+                                          (Discount.invalid && Discount.touched)
+                                        ">
+                                        <div class="alert alert-danger editAlertCash" *ngIf="Discount.errors.required">
+                                          {{ "Shared.DiscountisrequiredAndlessthan100" | translate }}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="row">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="">
+                                    {{ "Shared.DiscountAcount" | translate }}
+                                  </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="input-group positionEdit">
+                                      <ejs-combobox
+                                        name="DiscountAccountDocumentId"
+                                        #DiscountAccountDocumentId="ngModel"
+                                        [(ngModel)]="responseobj.DiscountAccountDocumentId"
+                                        [allowFiltering]="true"
+                                        [autofill]="true"
+                                        [dataSource]="AccountList"
+                                        placeholder="Select Discount Account"
+                                        [enabled]="CompoFlag"
+                                        [fields]="AccountFlds"
+                                        class="form-control borderRadius"
+                                        id="DiscountAccountDocument_Id"
+                                        [required]="isRequired"></ejs-combobox>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class=""
+                                    *ngIf="
+                                      (frmRef.submitted && DiscountAccountDocumentId.invalid) ||
+                                      (DiscountAccountDocumentId.invalid && DiscountAccountDocumentId.touched)
+                                    ">
+                                    <div
+                                      class="alert alert-danger editAlertCash"
+                                      *ngIf="DiscountAccountDocumentId.errors.required">
+                                      {{ "Shared.DiscountAccountisrequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.IsStopped" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="IsStopped"
+                                      #IsStopped="ngModel"
+                                      [(ngModel)]="responseobj.IsStopped"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"
+                                >{{ "Shared.WillBeUsedForMobileApp" | translate }} :</label
+                              >
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="WillBeUsedForMobileApp"
+                                      #WillBeUsedForMobileApp="ngModel"
+                                      [(ngModel)]="responseobj.WillBeUsedForMobileApp"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                    <i class="ms-checkbox-check"></i>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Shared.PaymentByAnotherUser" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="PaymentByAnotherUser"
+                                      #PaymentByAnotherUser="ngModel"
+                                      [(ngModel)]="responseobj.PaymentByAnotherUser"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3" *ngIf="responseobj.Value == '4'">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Order.MustHavePersons" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="MustHavePersons"
+                                      #MustHavePersons="ngModel"
+                                      [(ngModel)]="responseobj.MustHavePersons"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Order.UseCardInOrder" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="UseCard"
+                                      #UseCard="ngModel"
+                                      [(ngModel)]="responseobj.UseCard"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- MustHaveCustomer -->
+                        <div class="col-md-6 mb-3" *ngIf="responseobj.Value != '2'">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Order.MustHaveCustomer" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="MustHaveCustomer"
+                                      #MustHaveCustomer="ngModel"
+                                      [(ngModel)]="responseobj.MustHaveCustomer"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- DontShowAtOnlineOrder -->
+                        <div class="col-md-6 mb-3" >
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Order.DontShowAtOnlineOrder" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="DontShowAtOnlineOrder"
+                                      #DontShowAtOnlineOrder="ngModel"
+                                      [(ngModel)]="responseobj.DontShowAtOnlineOrder"
+                                      class="form-control borderRadius"
+                                      disabled/>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- UseKiosk -->
+                        <div class="col-md-6 mb-3" *ngIf="responseobj.Value && responseobj.Value == 1">
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "PosSettings.UseKiosk" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="UseKiosk"
+                                      #UseKiosk="ngModel"
+                                      [(ngModel)]="responseobj.UseKiosk"
+                                      class="form-control borderRadius"
+                                      disabled/>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- VerifiedOrderByPinBeforeSave -->
+                        <div class="col-md-6 mb-3" >
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Options.VerifiedOrderByPinBeforeSave" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input
+                                      type="checkbox"
+                                      name="VerifiedOrderByPinBeforeSave"
+                                      #VerifiedOrderByPinBeforeSave="ngModel"
+                                      [(ngModel)]="responseobj.VerifiedOrderByPinBeforeSave"
+                                      class="form-control borderRadius"
+                                      disabled/>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- ForStaff -->
+                        <div *ngIf="responseobj.Value == 1 || responseobj.Value == 4" class="col-md-6 mb-3" >
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Options.ForStaff" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input type="checkbox" name="ForStaff" #ForStaff="ngModel"
+                                      [(ngModel)]="responseobj.ForStaff"
+                                      class="form-control borderRadius" disabled/>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- DirectPayment -->
+                        <div *ngIf="responseobj.Value == 4" class="col-md-6 mb-3" >
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Order.DirectPayment" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input type="checkbox" name="DirectPayment" #DirectPayment="ngModel"
+                                      [(ngModel)]="responseobj.DirectPayment"
+                                      class="form-control borderRadius" disabled/>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- DoesNotUseTax -->
+                        <!-- <div class="col-md-6 mb-3" >
+                          <div class="row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "Order.DoesNotUseTax" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <label class="ms-checkbox-wrap ms-todo-complete borderRadius">
+                                    <input type="checkbox" name="DoesNotUseTax" #DoesNotUseTax="ngModel"
+                                      [(ngModel)]="responseobj.DoesNotUseTax"
+                                      class="form-control borderRadius" disabled/>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

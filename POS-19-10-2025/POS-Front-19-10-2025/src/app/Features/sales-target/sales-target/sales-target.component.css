@@ -1,0 +1,16 @@
+.add-row .btn {
+  font-size: 17px;
+  font-weight: 600;
+  padding: 0.5rem;
+  min-width: 43px;
+  margin-top: 0rem;
+}
+
+.delete-row {
+  margin-top: 0rem;
+}
+.delete-row i {
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+} /*# sourceMappingURL=sales-target.component.css.map */

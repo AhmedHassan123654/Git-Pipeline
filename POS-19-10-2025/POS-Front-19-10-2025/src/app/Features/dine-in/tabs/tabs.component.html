@@ -1,0 +1,42 @@
+<ul class="tabs">
+  <ng-container *ngIf="tabs.length > 0">
+    <li
+      class="tab"
+      *ngFor="let tab of tabs"
+      [ngClass]="{ active: selectedTab == tab.Name }"
+      (dblclick)="removeMe(tab)"
+      (click)="listClick(tab.Name)">
+      {{ tab.Name }}
+    </li>
+  </ng-container>
+
+  <button (click)="popupOpen = true; hall = {}" class="addTab">
+    <i class="fas fa-plus"></i>
+  </button>
+  <div *ngIf="popupOpen" class="popup">
+    <div (click)="popupOpen = false" class="close-popup">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="field">
+      <h3 style="margin-bottom: 20px">Add New Tab:</h3>
+      <label>Name</label>
+      <input id="HallName" type="text" (keyup.enter)="addNewTab()" [(ngModel)]="hall.Name" class="nameTab" />
+      <label>ForiegnName</label>
+      <input id="HallFName" type="text" (keyup.enter)="addNewTab()" [(ngModel)]="hall.ForeignName" class="nameTab" />
+      <label>PricingClass</label>
+      <select name="PricingClassId" [(ngModel)]="hall.PricingClassId" class="nameTab" required>
+        // value is a string or number
+        <option *ngFor="let pricing of pricingClasses" [ngValue]="pricing.Id">
+          {{ pricing.Name }}
+        </option>
+      </select>
+      <button (click)="addNewTab()" class="done-name">Add</button>
+    </div>
+  </div>
+</ul>
+
+<ul class="contents">
+  <li class="content" [ngClass]="{ active: selectedTab == tab.Name }" *ngFor="let tab of tabs; let i = index">
+    <app-tables [CurrHall]="tab" [canvasId]="i" [dataTab]="tab.id"></app-tables>
+  </li>
+</ul>

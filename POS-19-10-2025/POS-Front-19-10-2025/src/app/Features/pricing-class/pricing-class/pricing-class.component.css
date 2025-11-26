@@ -1,0 +1,14 @@
+.e-grid .e-rowcell:not(.e-editedbatchcell),
+.e-grid .e-detailrowcollapse:not(.e-editedbatchcell),
+.e-grid .e-detailrowexpand:not(.e-editedbatchcell),
+.e-grid .e-gridcontent .e-rowdragdrop:not(.e-editedbatchcell),
+.e-grid .e-gridheader .e-rowdragdrop:not(.e-editedbatchcell),
+.e-grid .e-emptyrow:not(.e-editedbatchcell) {
+  color: #000;
+  opacity: 1 !important;
+}
+
+td.e-detailrowexpand {
+  max-width: 12px !important;
+  width: 12px !important;
+} /*# sourceMappingURL=pricing-class.component.css.map */

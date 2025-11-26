@@ -1,0 +1,88 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="CustomerOrderform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div style="background: #fff" class="tab-content ms-panel">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--Name-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="TelephoneNumber">{{ "Shared.Name" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-phone"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  class="form-control borderRadius"
+                                  [(ngModel)]="responseobj.Name"
+                                  id="Name"
+                                  name="Name"
+                                  #Name="ngModel"
+                                  disabled
+                                  required />
+
+                                <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                    {{ "pointofsale.NameIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--ForeignName-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="TelephoneNumber">{{ "customer.ForeignName" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-phone"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  class="form-control borderRadius"
+                                  [(ngModel)]="responseobj.ForeignName"
+                                  id="ForeignName"
+                                  name="ForeignName"
+                                  #ForeignName="ngModel"
+                                  disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

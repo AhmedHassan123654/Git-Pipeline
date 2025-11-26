@@ -1,0 +1,1 @@
+{"version":3,"sources":["email-setting.component.scss","email-setting.component.css"],"names":[],"mappings":"AAAA;EACE,gBAAA;EACA,aAAA;EACA,gBAAA;EACA,qBAAA;ACCF;ADAE;EACE,2BAAA;UAAA,0BAAA;EACA,iBAAA;ACEJ;ADDI;EACE,2BAAA;UAAA,0BAAA;EACA,iBAAA;ACGN;;ADCA;EACE,UAAA;EACA,YAAA;EACA,qBAAA;ACEF;;ADAA;EACE,iBAAA;ACGF;ADFE;EACE,eAAA;EACA,eAAA;ACIJ","file":"email-setting.component.css"}

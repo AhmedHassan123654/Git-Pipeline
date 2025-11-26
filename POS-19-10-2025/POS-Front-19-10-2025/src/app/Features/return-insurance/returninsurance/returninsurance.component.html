@@ -1,0 +1,269 @@
+<div class="col-md-12">
+  <div class="row mx-1 shadow-sm mb-2 bg-white rounded align-items-center">
+    <div class="col-md-6 col-sm-12">
+      <!-- breadcrumbs -->
+
+      <ol class="breadcrumb bg-white my-0 breadcrumb-arrow-sep">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="styleAll"
+            ><i class="material-icons" style="font-size: 1.2rem">home</i>
+            {{ "ReturnOrder.Home" | translate }}
+          </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+          <i class="material-icons" style="font-size: 1.2rem"></i>
+          {{ "Layout.Return Insurance" | translate }}
+        </li>
+
+        <li class="breadcrumb-item">
+          <a class="styleAll" [routerLink]="['/returninsurancelist']" routerLinkActive="router-link-active"
+            ><i class="material-icons" style="font-size: 1.2rem"></i>
+            {{ "ReturnOrder.All" | translate }}
+          </a>
+        </li>
+      </ol>
+    </div>
+    <div class="col-md-6 col-sm-12 d-flex">
+      <!-- Search form -->
+      <!-- <form class="form-inline d-flex justify-content-center searchInputForm">
+        <input
+          class="form-control searchInput2 form-control-sm mr-3 w-75"
+          type="text"
+          placeholder=" {{
+            'ReturnOrder.Search' | translate
+          }}  "
+          aria-label="Search"
+        />
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </form> -->
+    </div>
+  </div>
+</div>
+
+<form name="returnInsuranceForm" class="" #f="ngForm" (ngSubmit)="f.form.valid && Save($event)" novalidate>
+  <div class="px-0 col-md-12" style="top: -40px">
+    <div class="ms-panel-fh">
+      <div class="">
+        <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0 pt-4" role="tablist">
+          <li class="px-2" role="tab">
+            <a href="#tab223" aria-controls="tab223" class="active basic-info" role="tab" data-toggle="tab"
+              >Return Insurance</a
+            >
+          </li>
+          <li class="px-2" role="tab">
+            <a href="#tab224" aria-controls="tab224" class="basic-info" role="tab" data-toggle="tab"
+              >Return Insurance Details</a
+            >
+          </li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <!-- first -->
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab223">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <!--1-->
+
+                    <div class="form-row pt-xs-0 pt-3">
+                      <!--order Date-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0 p-right">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">{{ "ReturnOrder.OrderDate" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <p class="pargReturnOrder">
+                              {{ returnInsuranceObj.CloseDate }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="false">
+                        <ejs-calendar class="pAsolute" id="calendar" #calendar [value]="calenderValue"></ejs-calendar>
+                      </div>
+
+                      <!--order Number-->
+                      <!-- <div class="col-md-6 form-group mb-3">
+                        <div class="row pl-xs-0 pl-sm-0 p-left">
+                          <div
+                            class="col-md-4 d-flex justify-content-start align-items-center label1"
+                          >
+                            <label for="validationCustom18">Order Number</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <img
+                                  src="assets/images/sort (2).png"
+                                  alt=""
+                                  srcset=""
+                                />
+                              </div>
+
+                              <div class="input-group positionEdit">
+
+                                <ejs-combobox
+                                name="OrderId"
+                                #OrderId="ngModel"
+                                [(ngModel)]="returnInsuranceObj.OrderNumber"
+                                [allowFiltering]="true"
+                                [autofill]="true"
+                                [dataSource]="comboboxordernumberslist"
+                                placeholder="OrderNumber"
+                                [fields]="comboboxordernumbersfields"
+                                class="form-control borderRadius"
+                                id="order_id"
+                                [(value)]="orderval"
+                                (focus)="onOrderInputFocuscombo($event)" (focusout)="closekeyboard()"
+                                (change)="OrderChange($event)"
+                                required>
+                                </ejs-combobox>
+
+                                <div class="" *ngIf="f.submitted && (OrderId.invalid) || (OrderId.invalid && OrderId.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="OrderId.errors.required">
+                                    {{'ReturnOrder.OrderNumberIsRequired'|translate}}
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0 pr-3">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom20"> {{ "ReturnOrder.OrderNumber" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 pl-0">
+                            <p class="pargReturnOrder">
+                              {{ returnInsuranceObj.OrderNumber }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-row pt-xs-0 pt-3">
+                      <!--Net Amount-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0 p-right">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"
+                              >{{ "returninsurance.InsuranceAmount" | translate }} :</label
+                            >
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <p class="pargReturnOrder">
+                              {{ returnInsuranceObj.TotalInsuranceAmount }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Net Amount-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row d-flex pr-xs-0 p-right">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "returninsurance.CustomerName" | translate }}
+                              :</label
+                            >
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <p class="pargReturnOrder">
+                              {{ returnInsuranceObj.Customer.Name }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--second-->
+            <div role="tabpanel" class="tab-pane fade" id="tab224">
+              <div class="col-xl-12 col-md-12">
+                <div class="ms-panel px-4">
+                  <div class="ms-panel-body">
+                    <!--second-->
+                    <div class="ms-card mb-0">
+                      <div class="">
+                        <!--table-->
+                        <div class="col-xl-12 col-md-12">
+                          <div class="">
+                            <div class="">
+                              <div class="table-responsive">
+                                <table class="table text-center table-bordered text-dark table-striped">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Insurances</th>
+                                      <th scope="col">Quantity</th>
+                                      <th scope="col">Quantity Returned before</th>
+                                      <th scope="col">Price</th>
+                                      <th scope="col">Returned Quantity</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let item of insurenceDetailList; let i = index">
+                                      <td scope="row">
+                                        {{ item.InsuranceName }}
+                                      </td>
+                                      <td>{{ item.Quantity }}</td>
+                                      <td>{{ item.OldReturnedQuantity }}</td>
+                                      <td>{{ item.Price }}</td>
+                                      <td>
+                                        <input
+                                          type="text"
+                                          class="form-control"
+                                          id="ReturnedQuantity_{{ i }}"
+                                          name="ReturnedQuantity_{{ i }}"
+                                          #ReturnedQuantity="ngModel"
+                                          [(ngModel)]="item.ReturnedQuantity"
+                                          [numbersOnly]="item.ReturnedQuantity"
+                                          required />
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      name="save"
+                      class="btn btn-danger ml-auto"
+                      [disabled]="!insurenceDetailList || insurenceDetailList.length == 0">
+                      save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

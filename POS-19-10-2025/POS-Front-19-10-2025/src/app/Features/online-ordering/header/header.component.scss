@@ -1,0 +1,55 @@
+.bg-light {
+  background-color: white !important;
+}
+.top {
+  //  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+}
+.logo {
+  width: 12rem !important;
+}
+@media (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+    justify-content: center;
+  }
+}
+.nav-link {
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000de !important;
+  text-transform: uppercase;
+}
+.nav-item.active {
+  background: rgba(0, 0, 0, 0.04);
+  a {
+    color: #c62828 !important;
+  }
+}
+.mat-icon {
+  background-repeat: no-repeat;
+  display: inline-block;
+  fill: #000000de;
+  height: 24px;
+  width: 24px;
+  color: #000000de;
+  font-size: 24px;
+}
+
+@media screen and (min-width: 992px) {
+  .IconsN {
+    order: 2;
+  }
+}
+@media screen and (max-width: 992px) {
+  .maxCL {
+    display: none;
+  }
+}
+h6 {
+  font-family: Montserrat;
+  text-transform: capitalize;
+}

@@ -1,0 +1,30 @@
+.widget {
+  background: #fff;
+  padding: 27px;
+  min-height: 80vh;
+  margin: 5px auto 10px;
+}
+.widget .content {
+  -webkit-padding-start: 31px;
+  padding-inline-start: 31px;
+  padding-top: 17px;
+}
+.widget .content .sub-menu {
+  -webkit-padding-start: 12px;
+  padding-inline-start: 12px;
+  padding-top: 12px;
+}
+
+.content-img {
+  width: 96%;
+  height: 100%;
+  padding: 6px 0px 40px;
+}
+
+.back {
+  margin: 15px auto;
+}
+.back i {
+  font-size: 26px;
+  cursor: pointer;
+} /*# sourceMappingURL=email-setting.component.css.map */

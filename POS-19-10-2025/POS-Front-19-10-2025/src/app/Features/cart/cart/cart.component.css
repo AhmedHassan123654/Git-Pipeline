@@ -1,0 +1,121 @@
+svg {
+  height: 150px;
+  width: 150px;
+  fill: #c62828 !important;
+}
+
+h1.secondary-font {
+  font-family: "lora";
+  font-weight: 600;
+  font-size: 1.9rem;
+  letter-spacing: 0.5px;
+}
+
+.redbtn {
+  background: #c62828 !important;
+}
+
+.main-content-header {
+  border-top: 5px solid #c62828;
+}
+
+.mat-header-row {
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  display: flex;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+  min-width: 870px;
+}
+
+.mat-header-cell {
+  flex: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+  padding: 6px 8px;
+  font-weight: 500;
+}
+
+.theme-table.mat-table {
+  display: block;
+  overflow-x: auto;
+}
+
+.mat-row {
+  display: flex;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+  min-width: 870px !important;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
+.mat-cell.image {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 170px;
+  padding: 6px 8px;
+}
+.mat-cell.image img {
+  width: 80px;
+  display: block;
+}
+
+.mat-cell,
+.mat-footer-cell {
+  color: rgba(0, 0, 0, 0.87);
+  flex: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+  padding: 6px 8px;
+  font-weight: 500;
+}
+
+.mat-icon {
+  font-size: 24px;
+}
+
+.mat-header-cell.image {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 170px;
+}
+
+.mat-header-cell {
+  flex: 1;
+  overflow: hidden;
+  word-wrap: break-word;
+  padding: 6px 8px;
+  font-weight: 500;
+}
+
+.mat-table::-webkit-scrollbar {
+  width: 12px;
+}
+
+.mat-table::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.mat-table::-webkit-scrollbar-thumb {
+  background-color: #666; /* color of the scroll thumb */
+  border-radius: 10px;
+}
+
+.mat-header-cell {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-cell a {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 16px;
+  font-family: Montserrat;
+  font-weight: 500;
+  word-wrap: break-word;
+} /*# sourceMappingURL=cart.component.css.map */

@@ -1,0 +1,102 @@
+section {
+  background: #2a3549;
+  text-transform: capitalize;
+  height: 100vh;
+  overflow-y: scroll;
+}
+section .preparing,
+section .ready {
+  height: 100vh;
+}
+section .ready {
+  -webkit-border-start: 2px solid #9fb3df;
+  border-inline-start: 2px solid #9fb3df;
+}
+section h2 {
+  padding: 19px 0px 30px;
+  font-size: 42px;
+  text-shadow: 0px 3px rgba(211, 224, 255, 0.2509803922);
+  color: #d3e0ff;
+}
+section .content {
+  margin-top: 22px;
+}
+section .content .order {
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #b7c3e0;
+  background: #b7c3e0;
+  box-shadow: 0px 1px 4px 1px rgba(183, 195, 224, 0.3215686275);
+  color: #000;
+  cursor: pointer;
+}
+section .content .order span {
+  font-size: 22px;
+  font-weight: 600;
+}
+section .content .order i {
+  font-size: 20px;
+}
+section .content .row .col-2 {
+  margin: 22px auto;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.modal-dialog {
+  position: absolute;
+  right: 0px;
+  width: 40%;
+  top: 0px;
+  margin: 0px;
+}
+.modal-dialog .modal-content {
+  height: 100vh;
+  border-radius: 0px;
+}
+.modal-dialog .modal-content .modal-body {
+  padding: 0.5rem 1rem;
+  background: rgba(241, 241, 241, 0.8666666667);
+  text-transform: capitalize;
+}
+.modal-dialog .modal-content .modal-body .widget {
+  background: #fff;
+  border-radius: 4px;
+  padding: 8px;
+  margin: 5px auto;
+}
+.modal-dialog .modal-content .modal-body .widget .item {
+  padding: 4px 6px;
+}
+.modal-dialog .modal-content .modal-body .total {
+  padding: 4px 0px;
+}
+.modal-dialog .modal-content .modal-body .total .total-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+.modal-dialog .modal-content .btn-primary {
+  background-color: green;
+  border-color: transparent;
+  color: #fff;
+}
+.modal-dialog .modal-content .btn-primary i {
+  color: #fff !important;
+}
+.modal-dialog .modal-content .btn-primary,
+.modal-dialog .modal-content .btn-secondary {
+  font-size: 17px;
+}
+.modal-dialog .modal-footer {
+  padding: 0rem 0.6rem 1rem;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.active {
+  background: #4f8dca;
+  color: #fff;
+  border-color: #4f8dca;
+} /*# sourceMappingURL=prepaing-order.component.css.map */

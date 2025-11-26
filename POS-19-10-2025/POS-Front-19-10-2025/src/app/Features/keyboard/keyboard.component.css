@@ -1,0 +1,178 @@
+.key-boeard {
+  position: fixed;
+  bottom: 0px;
+  background: #ddd;
+  width: 100%;
+  height: 38vh;
+}
+
+ul {
+  text-align: center;
+}
+
+input {
+  width: 50.8%;
+  height: 49px;
+  padding: 20px;
+  font-size: 20px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  border-bottom: none;
+}
+
+.content {
+  background: #ddd;
+  height: auto;
+}
+
+.keyboardContainer {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0);
+  justify-content: center;
+  width: 88%;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding-top: 18px;
+  direction: rtl !important;
+}
+
+.simple-keyboard.hg-theme-default {
+  display: inline-block;
+}
+
+.simple-keyboard-main.simple-keyboard {
+  width: 100%;
+  min-width: 200px;
+  background: #ededed;
+  border-radius: 0px;
+  /* height: 30vh; */
+}
+
+.simple-keyboard-main.simple-keyboard .hg-row:first-child {
+  margin-bottom: 10px;
+}
+
+.simple-keyboard-arrows.simple-keyboard {
+  align-self: flex-end;
+  background: none;
+}
+
+.simple-keyboard .hg-button.selectedButton {
+  background: rgba(5, 25, 70, 0.53);
+  color: white;
+}
+
+.simple-keyboard .hg-button.emptySpace {
+  pointer-events: none;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.simple-keyboard-arrows .hg-row {
+  justify-content: center;
+}
+
+.simple-keyboard-arrows .hg-button {
+  height: 7vh;
+  width: 4vw;
+  flex-grow: 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 6vh;
+}
+
+.controlArrows {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: column;
+}
+
+.simple-keyboard-control.simple-keyboard {
+  background: none;
+}
+
+.simple-keyboard-control.simple-keyboard .hg-row:first-child {
+  margin-bottom: 10px;
+}
+
+.simple-keyboard-control .hg-button {
+  height: 7vh;
+  width: 4vw;
+  flex-grow: 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.numPad {
+  display: flex;
+  align-items: flex-end;
+}
+
+.simple-keyboard-numpad.simple-keyboard {
+  background: none;
+}
+
+.simple-keyboard-numpad.simple-keyboard {
+  width: 160px;
+}
+
+.simple-keyboard-numpad.simple-keyboard .hg-button {
+  height: 7vh;
+  width: 4vw;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.simple-keyboard-numpadEnd.simple-keyboard {
+  height: 7vh;
+  width: 4vw;
+  background: none;
+  margin: 0;
+  padding: 5px 5px 5px 0;
+}
+
+.simple-keyboard-numpadEnd.simple-keyboard .hg-button {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.simple-keyboard-numpadEnd .hg-button.hg-standardBtn.hg-button-plus {
+  height: 85px;
+}
+
+.simple-keyboard-numpadEnd.simple-keyboard .hg-button.hg-button-enter {
+  height: 85px;
+}
+
+.simple-keyboard.hg-theme-default .hg-button.hg-selectedButton {
+  background: rgba(5, 25, 70, 0.53);
+  color: white;
+}
+
+.hg-button.hg-functionBtn.hg-button-space {
+  width: 350px;
+}
+
+.hg-theme-default .hg-row .hg-button:not(:last-child) {
+  margin-left: 2px !important;
+  margin-right: 0;
+  height: 8vh;
+  width: 6vw;
+  font-size: 22px;
+}
+
+.fa-times {
+  position: absolute;
+  top: -66px;
+  right: 1px;
+  font-size: 40px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.4509803922);
+  padding: 12px;
+} /*# sourceMappingURL=keyboard.component.css.map */

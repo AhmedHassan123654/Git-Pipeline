@@ -1,0 +1,112 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="driverform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <!-- [hideEditDelete]="driverobj.IsSync" -->
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <div class="form-row pt-3">
+                        <!--name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="driverName"> {{ "pointofsale.Name" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i _ngcontent-all-c1="" class="fas fa-motorcycle fs-16 main"></i>
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    class="form-control borderRadius"
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    id="name"
+                                    required
+                                    disabled />
+
+                                  <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                      {{ "pointofsale.NameIsRequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Foreign name-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="foreignname"> {{ "pointofsale.ForeignName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    disabled
+                                    class="form-control borderRadius"
+                                    name="ForeignName"
+                                    #ForeignName="ngModel"
+                                    [(ngModel)]="responseobj.ForeignName"
+                                    id="ForeignName_id" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--IsStopped-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row my-1">
+                            <div class="col-md-8">
+                              <label> {{ "Shared.isActive" | translate }}</label>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="ms-checkbox-wrap ms-todo-complete">
+                                <input
+                                  type="checkbox"
+                                  name="IsStopped"
+                                  #IsStopped="ngModel"
+                                  [(ngModel)]="responseobj.IsStopped"
+                                  class="form-control borderRadius"
+                                  disabled />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

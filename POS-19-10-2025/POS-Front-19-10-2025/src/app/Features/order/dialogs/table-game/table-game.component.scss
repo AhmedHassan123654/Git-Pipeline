@@ -1,0 +1,48 @@
+.fs-2 {
+    font-size: 24px;
+}
+.fs-3 {
+    font-size: 20px;
+}
+.fs-4 {
+    font-size: 18px;
+}
+.fs-5 {
+    font-size: 12px;
+}
+.fs-6 {
+    font-size: 6px;
+}
+.btn-play {
+    background-color: green;
+    color: white;
+    border-radius: 36px;
+    border: 7px solid #e7e7e7e6;
+    font-family: cursive;
+}
+.btn-stop {
+    background-color: red;
+    color: white;
+    border-radius: 36px;
+    border: 7px solid #c2303078;
+    font-family: cursive;
+}
+.modal-title {
+    span {
+        background: linear-gradient(red, #ffae00, blue);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+}
+.gameList {
+    max-height: 365px;
+    overflow-y: auto;
+    height: 365px;
+}
+.table-actions {
+    transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+}

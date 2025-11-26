@@ -1,0 +1,126 @@
+.containerh {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: space-between;
+  /* Your container needs a fixed height, and it 
+   * needs to be taller than your tallest column. */
+  height: 100%;
+  /* Optional */
+  background-color: #cce0f6;
+  border-radius: 3px;
+  padding: 20px;
+  width: 100%;
+  margin: 1px auto;
+  counter-reset: items;
+}
+
+.itemh {
+  width: 24%;
+  /* Optional */
+  position: relative;
+  margin-bottom: 2%;
+  border-radius: 3px;
+  border: 1px solid #4290e2;
+  box-shadow: 0 2px 2px rgba(0, 90, 250, 0.05), 0 4px 4px rgba(0, 90, 250, 0.05), 0 8px 8px rgba(0, 90, 250, 0.05),
+    0 16px 16px rgba(0, 90, 250, 0.05);
+  color: #fff;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+/* Just to print out numbers */
+/* Re-order items into 3 rows */
+.itemh:nth-of-type(4n + 1) {
+  order: 1;
+}
+
+.itemh:nth-of-type(4n + 2) {
+  order: 2;
+}
+
+.itemh:nth-of-type(4n + 3) {
+  order: 3;
+}
+
+.itemh:nth-of-type(4n) {
+  order: 4;
+}
+
+/* Force new columns */
+.break {
+  flex-basis: 100%;
+  width: 0;
+  border: 1px solid #ddd;
+  margin: 0;
+  content: "";
+  padding: 0;
+}
+
+@media (max-width: 869px) {
+  .break {
+    display: none;
+  }
+
+  .containerh {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: space-between;
+    /* Your container needs a fixed height, and it 
+     * needs to be taller than your tallest column. */
+    height: 100%;
+    /* Optional */
+    padding: 5px;
+    width: 100%;
+    counter-reset: items;
+  }
+
+  .itemh {
+    width: 32%;
+    /* Optional */
+    position: relative;
+    margin-bottom: 2%;
+    border-radius: 3px;
+    border: 1px solid #4290e2;
+    box-shadow: 0 2px 2px rgba(0, 90, 250, 0.05), 0 4px 4px rgba(0, 90, 250, 0.05), 0 8px 8px rgba(0, 90, 250, 0.05),
+      0 16px 16px rgba(0, 90, 250, 0.05);
+    color: #fff;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  /* Re-order items into 3 rows */
+  .itemh:nth-child(3n + 1) {
+    order: 1;
+  }
+
+  .itemh:nth-child(3n + 2) {
+    order: 2;
+  }
+
+  .itemh:nth-child(3n) {
+    order: 3;
+  }
+
+  /* Force new columns */
+  .containerh::before,
+  .containerh::after {
+    content: "";
+    flex-basis: 100%;
+    width: 0;
+    order: 2;
+  }
+}
+@media (max-width: 600px) {
+  .itemh {
+    width: 42%;
+  }
+
+  /* Re-order items into 3 rows */
+  .itemh:nth-child(2n + 1) {
+    order: 1;
+  }
+
+  .itemh:nth-child(2n) {
+    order: 2;
+  }
+}

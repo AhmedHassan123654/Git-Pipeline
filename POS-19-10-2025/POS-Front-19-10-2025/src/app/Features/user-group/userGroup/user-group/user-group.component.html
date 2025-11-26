@@ -1,0 +1,191 @@
+<div class="col-md-12">
+  <div class="row mx-1 shadow-sm mb-2 bg-white rounded align-items-center">
+    <div class="col-md-6 col-sm-12">
+      <!-- breadcrumbs -->
+      <ol class="breadcrumb bg-white my-0 breadcrumb-arrow-sep">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="styleAll"
+            ><i class="material-icons" style="font-size: 1.2rem">home</i>
+            {{ "ReturnOrder.Home" | translate }}
+          </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ "permission.UsersGroups" | translate }}
+        </li>
+
+        <!--   <li class="breadcrumb-item">
+          <a class="styleAll" [routerLink]="['usergrouplist']" routerLinkActive="router-link-active"><i
+              class="material-icons" style="font-size: 1.2rem;"></i> {{'ReturnOrder.All'|translate}} </a>
+        </li> -->
+      </ol>
+    </div>
+    <div class="col-md-6 col-sm-12 d-flex">
+      <!-- Search form -->
+      <!-- <form class="form-inline d-flex justify-content-center searchInputForm">
+        <input class="form-control searchInput2 form-control-sm mr-3 w-75" type="text" placeholder=" {{
+              'ReturnOrder.Search' | translate
+            }}  " aria-label="Search" />
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </form> -->
+    </div>
+  </div>
+</div>
+
+<form name="usersgroupsform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber">
+  </app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-header p-2">
+                    <div class="col-md-12">
+                      <div class="row align-items-center editBorder">
+                        <div class="col-md-4">
+                          <div class="row my-1">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label>
+                                {{ "Shared.Name" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="grname"
+                                    type="text"
+                                    class="form-control"
+                                    [(ngModel)]="responseobj.Name"
+                                    disabled
+                                    required />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="row my-1">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label>
+                                {{ "Shared.ForeignName" | translate }}
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="grfname"
+                                    type="text"
+                                    class="form-control"
+                                    disabled
+                                    [(ngModel)]="responseobj.ForeignName" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-4">
+                          <div class="row my-1 justify-content-center align-items-center ">
+
+                            <div class="col-md-3 ">
+                              <span> Active: </span>
+                            </div>
+                            <div class="col-md-4">
+                              <label class="ms-checkbox-wrap ms-todo-complete">
+                                <input type="checkbox" class="form-control borderRadius">
+                              </label>
+                            </div>
+
+                          </div>
+
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- (actionBegin)='onResource($event)' -->
+                  <!-- <e-column headerText='تسديد' field='Checked' type='checkbox' width='200'>
+                          تسديد</e-column> -->
+                  <!-- <Script>
+                    var gridObj = $("#Grid").data("ejGrid");
+                   
+                    gridObj.startEdit($(".gridcontent tr").first());
+
+                  </Script> -->
+                  <div class="ms-panel-body">
+                    <ejs-grid
+                      #grid
+                      id="Grid"
+                      [dataSource]="userGroupList"
+                      [allowPaging]="true"
+                      [pageSettings]="pageSettings"
+                      [allowSorting]="true"
+                      [allowFiltering]="true"
+                      [filterSettings]="filterOptions"
+                      [allowGrouping]="true"
+                      [allowPdfExport]="true"
+                      [allowExcelExport]="true"
+                      (toolbarClick)="toolbarClick($event)"
+                      [editSettings]="editOptions">
+                      <e-columns>
+                        <e-column
+                          field="UserName"
+                          headerText="{{ 'Shared.UserName' | translate }}"
+                          isPrimaryKey="true"
+                          textAlign="center">
+                        </e-column>
+                        <!-- <e-column headerText='{{"Shared.Select"|translate}}' field='Checked' MappingName="Checked"
+                          UpdateMode="PropertyChanged" type='checkbox' width='200' AllowEditing="True">
+                        </e-column> -->
+
+                        <!--  <e-column field='Checked' textAlign='center' headerText='{{"Shared.Select"|translate}}'
+                          type="boolean" editType='booleanedit' [allowFiltering]='false' [allowSorting]='false'
+                          displayAsCheckBox='true'>
+                        </e-column> -->
+
+                        <e-column
+                          field="IsSelected"
+                          textAlign="center"
+                          headerText="{{ 'Shared.Select' | translate }}"
+                          type="boolean"
+                          editType="booleanedit"
+                          [allowFiltering]="false"
+                          [allowSorting]="false">
+                          <ng-template #template let-data>
+                            <ejs-checkbox
+                              #checkbox
+                              [checked]="data.IsSelected"
+                              (change)="ChangeSelectedUser($event)"
+                              [disabled]="MygridFlag"></ejs-checkbox>
+                          </ng-template>
+                        </e-column>
+                      </e-columns>
+                    </ejs-grid>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

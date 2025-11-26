@@ -1,0 +1,1228 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="branchform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    (isGridFlag)="isGridFlag($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <!-- [formobj]="branchobj" [pagename]="pagename" [pageNumber]="pageNumber" -->
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <accordion [isAnimated]="true">
+                        <!--first main data-->
+                        <accordion-group
+                          class="mb-3" [isOpen]="true"
+                          heading="{{ 'Shared.mainData' | translate }}"
+                          [panelClass]="customClass">
+                          <div class="row">
+                            <!--name-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Name" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <!-- <p class="pargReturnOrder">
+                                                  {{ branchobj.Name }}
+                                              </p> -->
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-user" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        id="Name"
+                                        name="Name"
+                                        #Name="ngModel"
+                                        [(ngModel)]="responseobj.Name"
+                                        required
+                                        [disabled]="gridFlage.getValue() === true" />
+                                      <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                        <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                          Name Is required
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!--Foreign Name-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.ForeignName" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-user" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        id="ForeignName"
+                                        name="ForeignName"
+                                        #ForeignName="ngModel"
+                                        [(ngModel)]="responseobj.ForeignName"
+                                        [disabled]="gridFlage.getValue() === true" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--phone-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "UserProfile.PhoneNumber" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-phone" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="TelephoneNumber"
+                                        name="TelephoneNumber"
+                                        #TelephoneNumber="ngModel"
+                                        [(ngModel)]="responseobj.TelephoneNumber"
+                                        [ngClass]="registerBranchRequired(responseobj.TelephoneNumber) ? 'requiredBorder' : ''"  />
+                                        
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Fax Number  -->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.FaxNumber" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <!-- <p class="pargReturnOrder">
+                                      {{ branchobj.FaxNumber }}
+                                    </p> -->
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-fax" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        id="FaxNumber"
+                                        name="FaxNumber"
+                                        #FaxNumber="ngModel"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        [(ngModel)]="responseobj.FaxNumber" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--logo-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">Logo:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="d-flex align-items-end">
+                                    <div class="uplade__iamge mb-0">
+                                      <label
+                                        id="uplade_Img"
+                                        for="upladeImg"
+                                        class="uplade__iamge--label mb-0"
+                                        translate>
+                                        <i class="flaticon-pencil uplade__iamge--icon"></i>
+                                        shared.uploadImage.name
+                                      </label>
+                                      <input
+                                        class="d-none"
+                                        #file
+                                        type="file"
+                                        name=""
+                                        id="upladeImg"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        (change)="uploadImage($event)" />
+                                      <div id="upladDone" class="uplade__iamge--img d-none">
+                                        <label for="editImg" class="uplade__iamge--img--edit">
+                                          <i class="flaticon-pencil uplade__iamge--icon"></i>
+                                        </label>
+                                        <!-- (change)="uploadImage($event)" -->
+                                        <input
+                                          class="d-none"
+                                          type="file"
+                                          #file
+                                          name=""
+                                          id="editImg"
+                                          [disabled]="gridFlage.getValue() === true"
+                                          (change)="uploadImage($event)" />
+                                        <button
+                                          type="button"
+                                          class="uplade__iamge--img--delete"
+                                          [disabled]="gridFlage.getValue() === true"
+                                          (click)="removeImage()">
+                                          <i class="flaticon-trash uplade__iamge--icon"></i>
+                                        </button>
+                                        <img [src]="responseobj.Logo" alt="" />
+                                      </div>
+                                    </div>
+                                    <!-- <button class="btn btn-outline-primary btnEdit mx-1"(click)="uploadFile()" >Upload</button>  -->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.IsMain" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group">
+                                    <input
+                                      type="checkbox"
+                                      name="IsMain"
+                                      #IsMain="ngModel"
+                                      [(ngModel)]="responseobj.IsMain"
+                                      class="form-control borderRadius"
+                                      [disabled]="gridFlage.getValue() === true" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </accordion-group>
+                        <!--address-->
+                        <accordion-group
+                          class="mb-3"
+                          heading="{{ 'Shared.Addressdata' | translate }}"
+                          [panelClass]="customClass">
+                          <div class="row">
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Country" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        [required]="settingobj?.CountryType === 2"
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="CountryName"
+                                        name="CountryName"
+                                        #CountryName="ngModel"
+                                        [pattern]="settingobj?.CountryType === 2 ? '^[A-Za-z\u0600-\u06FF ]{3,100}$' : null"
+                                        [(ngModel)]="responseobj.CountryName" />
+                                    </div>
+                                    <div class="alert alert-danger editAlertCash"
+                                      *ngIf="settingobj?.CountryType === 2 &&((frmRef.submitted && CountryName.invalid) || (CountryName.invalid && CountryName.touched))">
+                                      <div *ngIf="CountryName.errors.required">{{ "Shared.Required" | translate }}</div>
+                                      <div *ngIf="CountryName.errors?.pattern">invalid  </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Governorate-->
+                            <div class="col-md-6 mb-3" *ngIf="settingobj?.CountryType !== 2">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Governorate" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="GovernmentName"
+                                        name="GovernmentName"
+                                        #GovernmentName="ngModel"
+                                        [(ngModel)]="responseobj.GovernmentName" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--City-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.City" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        [required]="settingobj?.CountryType === 2"
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="CityName"
+                                        name="CityName"
+                                        #CityName="ngModel"
+                                        [pattern]="settingobj?.CountryType === 2 ? '^[A-Za-z\u0600-\u06FF ]{3,100}$' : null"
+                                        [(ngModel)]="responseobj.CityName" />
+                                    </div>
+                                    <div class="alert alert-danger editAlertCash"
+                                      *ngIf="settingobj?.CountryType === 2 &&((frmRef.submitted && CityName.invalid) || (CityName.invalid && CityName.touched))">
+                                      <div *ngIf="CityName.errors.required">{{ "Shared.Required" | translate }}</div>
+                                      <div *ngIf="CityName.errors?.pattern">invalid  </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--region-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.District" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        [required]="settingobj?.CountryType === 2"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="RegionName"
+                                        name="RegionName"
+                                        #RegionName="ngModel"
+                                        [pattern]="settingobj?.CountryType === 2 ? '^[A-Za-z\u0600-\u06FF ]{3,100}$' : null"
+                                        [(ngModel)]="responseobj.RegionName" />
+                                    </div>
+                                    <div class="alert alert-danger editAlertCash"
+                                      *ngIf="settingobj?.CountryType === 2 &&((frmRef.submitted && RegionName.invalid) || (RegionName.invalid && RegionName.touched))">
+                                      <div *ngIf="RegionName.errors.required">{{ "Shared.Required" | translate }}</div>
+                                      <div *ngIf="RegionName.errors?.pattern">invalid  </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--street-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "delivery.street" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        [required]="settingobj?.CountryType === 2"
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="StreetNumber"
+                                        name="StreetNumber"
+                                        #StreetNumber="ngModel"
+                                        [pattern]="settingobj?.CountryType === 2 ? '^[A-Za-z\u0600-\u06FF ]{3,100}$' : null"
+                                        [(ngModel)]="responseobj.StreetNumber" />
+                                    </div>
+                                    <div class="alert alert-danger editAlertCash"
+                                      *ngIf="settingobj?.CountryType === 2 &&((frmRef.submitted && StreetNumber.invalid) || (StreetNumber.invalid && StreetNumber.touched))">
+                                      <div *ngIf="StreetNumber.errors.required">{{ "Shared.Required" | translate }}</div>
+                                      <div *ngIf="StreetNumber.errors?.pattern">invalid  </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Building-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "delivery.Building" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        [required]="settingobj?.CountryType === 2"
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="buildingNumber"
+                                        name="buildingNumber"
+                                        #buildingNumber="ngModel"
+                                        [(ngModel)]="responseobj.buildingNumber" 
+                                        [pattern]="settingobj?.CountryType === 2 ? '^[0-9]{4}$' : null"/>
+                                    </div>
+                                    <div class="alert alert-danger editAlertCash"
+                                      *ngIf="settingobj?.CountryType === 2 &&((frmRef.submitted && buildingNumber.invalid) || (buildingNumber.invalid && buildingNumber.touched))">
+                                      <div *ngIf="buildingNumber.errors.required">{{ "Shared.Required" | translate }}</div>
+                                      <div *ngIf="buildingNumber.errors?.pattern">{{ "messages.invalidBuldingNumber" | translate }}  </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--PostalZone-->
+                            <div class="col-md-6 mb-3" *ngIf="settingobj?.CountryType === 2">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.PostalZone" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        [required]="settingobj?.CountryType === 2"
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="PostalZone"
+                                        name="PostalZone"
+                                        #PostalZone="ngModel"
+                                        [pattern]="settingobj?.CountryType === 2 ? '^[0-9]{5}$' : null"
+                                        [(ngModel)]="responseobj.PostalZone" />
+                                    </div>
+                                    <div class="alert alert-danger editAlertCash"
+                                      *ngIf="settingobj?.CountryType === 2 &&((frmRef.submitted && PostalZone.invalid) || (PostalZone.invalid && PostalZone.touched))">
+                                      <div *ngIf="PostalZone.errors.required">{{ "Shared.Required" | translate }}</div>
+                                      <div *ngIf="PostalZone.errors?.pattern">{{ "messages.invalidPostalZone" | translate }}  </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--SubNumber-->
+                            <div class="col-md-6 mb-3" *ngIf="settingobj?.CountryType === 2">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.SubNumber" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        [required]="settingobj?.CountryType === 2"
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="SubNumber"
+                                        name="SubNumber"
+                                        #SubNumber="ngModel"
+                                        [pattern]="settingobj?.CountryType === 2 ? '^[0-9]{4}$' : null"
+                                        [(ngModel)]="responseobj.SubNumber" />
+                                    </div>
+                                    <div class="alert alert-danger editAlertCash"
+                                      *ngIf="settingobj?.CountryType === 2 &&((frmRef.submitted && SubNumber.invalid) || (SubNumber.invalid && SubNumber.touched))">
+                                      <div *ngIf="SubNumber.errors.required">{{ "Shared.Required" | translate }}</div>
+                                      <div *ngIf="SubNumber.errors?.pattern">{{ "messages.invalidSubNumber" | translate }}  </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <!--Address Details-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.AddressDetails" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <!-- <p class="pargReturnOrder">
+                                      {{ branchobj.AddressDetails }}
+                                    </p> -->
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        id="AddressDetails"
+                                        name="AddressDetails"
+                                        #AddressDetails="ngModel"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        [(ngModel)]="responseobj.AddressDetails" 
+                                        [ngClass]="registerBranchRequired(responseobj.AddressDetails) ? 'requiredBorder' : ''"  />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </accordion-group>
+                        <!--TaxData-->
+                        <accordion-group
+                          class="mb-3"
+                          heading="{{ 'Shared.TaxData' | translate }}"
+                          [panelClass]="customClass">
+                          <div class="row">
+                            <!--Taxnumber-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Reports.Taxnumber" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-money-bill-wave-alt"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        id="TaxNumber"
+                                        name="TaxNumber"
+                                        #TaxNumber="ngModel"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        [(ngModel)]="responseobj.TaxNumber"
+                                        [ngClass]="registerBranchRequired(responseobj.TaxNumber) ? 'requiredBorder' : ''"  />
+                                        
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Taxactivitynumber-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Taxactivitynumber" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-sort-numeric-up"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        id="TaxActiveNumber"
+                                        name="TaxActiveNumber"
+                                        #TaxActiveNumber="ngModel"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        [(ngModel)]="responseobj.TaxActiveNumber" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--CommercialRegistrationNo-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19"
+                                    >{{ "Shared.CommercialRegistrationNo" | translate }}
+                                  </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-sort-numeric-up"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="CommercialRecord"
+                                        name="CommercialRecord"
+                                        #CommercialRecord="ngModel"
+                                        [(ngModel)]="responseobj.CommercialRecord" 
+                                        [ngClass]="registerBranchRequired(responseobj.CommercialRecord) ? 'requiredBorder' : ''"  />
+                                        
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!--Statisticalnumber-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Statisticalnumber" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="StatisticalNumber"
+                                        name="StatisticalNumber"
+                                        #StatisticalNumber="ngModel"
+                                        [(ngModel)]="responseobj.StatisticalNumber" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Bankaccountnumber-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Bankaccountnumber" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="BankAccount"
+                                        name="BankAccount"
+                                        #BankAccount="ngModel"
+                                        [(ngModel)]="responseobj.BankAccount" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--TaxArticleNo-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.TaxArticleNo" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="TaxArticleNumber"
+                                        name="TaxArticleNumber"
+                                        #TaxArticleNumber="ngModel"
+                                        [(ngModel)]="responseobj.TaxArticleNumber" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Email-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Email" | translate }} : </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="email"
+                                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                        id="Email"
+                                        name="Email"
+                                        #Email="ngModel"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        [(ngModel)]="responseobj.Email" />
+                                        <div class="alert alert-danger editAlertCash" *ngIf="Email.invalid && (Email.dirty || Email.touched)">
+                                          <div *ngIf="Email?.errors?.pattern">
+                                            {{ "ForgetPassword.PleaseEnterAValidEmailAddress" | translate }}
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--UserName-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.UserName" | translate }} : </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="password"
+                                        id="UserName"
+                                        name="UserName"
+                                        #UserName="ngModel"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        [(ngModel)]="responseobj.UserName" 
+                                        [ngClass]="registerBranchRequired(responseobj.UserName) ? 'requiredBorder' : ''"  />
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!--Password-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Password" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-university"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="password"
+                                        id="Password"
+                                        name="Password"
+                                        #Password="ngModel"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        [(ngModel)]="responseobj.Password"
+                                        [ngClass]="registerBranchRequired(responseobj.Password) ? 'requiredBorder' : ''"  />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <button
+                              *ngIf="!responseobj.registerBranchClicked && settingobj?.CountryType === 2 && responseobj.DocumentId"
+                              type="button" style="line-height: normal;"
+                              class="btn-pill btn-info p-1"
+                              (click)="registerBranch()">
+                              <i class="fas fa-check-double"></i>
+                              {{ "Shared.RegisterBranch" | translate }}
+                            </button>
+
+                          </div>
+                        </accordion-group>
+                        <!--dataappearsinareportorder-->
+                        <accordion-group
+                          class="mb-3"
+                          heading="{{ 'Shared.dataappearsinareportorder' | translate }}"
+                          [panelClass]="customClass">
+                          <div class="row">
+                            <!--header 1-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.HeaderOne" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-heading"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        id="HeaderOne"
+                                        name="HeaderOne"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        #HeaderOne="ngModel"
+                                        [(ngModel)]="responseobj.HeaderOne" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--header 2-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.HeaderTwo" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <!-- <p class="pargReturnOrder">
+                                      {{ branchobj.HeaderTwo }}
+                                    </p> -->
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-heading"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="HeaderTwo"
+                                        name="HeaderTwo"
+                                        #HeaderTwo="ngModel"
+                                        [(ngModel)]="responseobj.HeaderTwo" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--footer 1-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.FooterOne" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <!-- <p class="pargReturnOrder">
+                                      {{ branchobj.FooterOne }}
+                                    </p> -->
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="FooterOne"
+                                        name="FooterOne"
+                                        #FooterOne="ngModel"
+                                        [(ngModel)]="responseobj.FooterOne" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--footer 2-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.FooterTwo" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <!-- <p class="pargReturnOrder">
+                                      {{ branchobj.FooterTwo }}
+                                    </p> -->
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="FooterTwo"
+                                        name="FooterTwo"
+                                        #FooterTwo="ngModel"
+                                        [(ngModel)]="responseobj.FooterTwo" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </accordion-group>
+                        <!--Mobileappdata-->
+                        <accordion-group
+                          class="mb-3"
+                          heading="{{ 'Shared.Mobileappdata' | translate }}"
+                          [panelClass]="customClass">
+                          <div class="row">
+                            <!--longitude-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.longitude" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-arrows-alt-v"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="Longitude"
+                                        name="Longitude"
+                                        #Longitude="ngModel"
+                                        [(ngModel)]="responseobj.Longitude" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Latitude-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Latitude" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fas fa-arrows-alt-h"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <input
+                                        class="form-control borderRadius"
+                                        class="form-control"
+                                        type="text"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        id="Latitude"
+                                        name="Latitude"
+                                        #Latitude="ngModel"
+                                        [(ngModel)]="responseobj.Latitude" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--Aboutus-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.Aboutus" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <textarea
+                                      class="form-control"
+                                      rows="2"
+                                      id="AboutUs"
+                                      name="AboutUs"
+                                      #AboutUs="ngModel"
+                                      [disabled]="gridFlage.getValue() === true"
+                                      [(ngModel)]="responseobj.AboutUs">
+                                    </textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--TermsConditions-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "Shared.TermsConditions" | translate }} </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <textarea
+                                      class="form-control"
+                                      rows="2"
+                                      [disabled]="gridFlage.getValue() === true"
+                                      id="FAQ"
+                                      name="FAQ"
+                                      #FAQ="ngModel"
+                                      [(ngModel)]="responseobj.FAQ">
+                                    </textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </accordion-group>
+                        <!--Mobileappdata-->
+                        <accordion-group
+                          class="mb-3"
+                          heading="{{ 'Shared.StockData' | translate }}"
+                          [panelClass]="customClass">
+                          <div class="row">
+                            <!-- Default Stock-->
+                            <div class="col-md-6 mb-3">
+                              <div class="row d-flex pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">{{ "stock.Stock" | translate }}:</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="far fa-building"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <ejs-combobox
+                                        name="StockDocumentId"
+                                        #StockDocumentId="ngModel"
+                                        [(ngModel)]="responseobj.StockDocumentId"
+                                        [allowFiltering]="true"
+                                        [autofill]="true"
+                                        [dataSource]="StockList"
+                                        placeholder=""
+                                        [fields]="Flds"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        class="form-control borderRadius"
+                                        id="stockDocument_Id"></ejs-combobox>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </accordion-group>
+                        <!--Relate with Online Order-->
+                        <accordion-group *ngIf="pos?.LinkWithOnlineOrder"
+                          class="mb-3"
+                          heading="{{ 'Shared.branchOrderTypes' | translate }}"
+                          [panelClass]="customClass">
+                          <div class="col row d-flex pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19">{{ "PosSettings.UseKiosk" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group">
+                                <input
+                                  type="checkbox"
+                                  name="UseKiosk"
+                                  #UseKiosk="ngModel"
+                                  [(ngModel)]="responseobj.UseKiosk"
+                                  class="form-control borderRadius"
+                                  [disabled]="gridFlage.getValue() === true" />
+                              </div>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col row d-flex pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">{{ "kds.takeaway" | translate }}:</label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group">
+                                  <input
+                                    type="checkbox"
+                                    name="IsTakeAway"
+                                    #IsTakeAway="ngModel"
+                                    [(ngModel)]="responseobj.IsTakeAway"
+                                    class="form-control borderRadius"
+                                    [checked]="responseobj.IsTakeAway"
+                                    (change)="filterOrderTypes(1, $event)"
+                                    [disabled]="gridFlage.getValue() === true" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col row d-flex pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">{{ "kds.dinein" | translate }}:</label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group">
+                                  <input
+                                    type="checkbox"
+                                    name="IsDineIn"
+                                    #IsDineIn="ngModel"
+                                    [(ngModel)]="responseobj.IsDineIn"
+                                    class="form-control borderRadius"
+                                    [checked]="responseobj.IsDineIn"
+                                    (change)="filterOrderTypes(4, $event)"
+                                    [disabled]="gridFlage.getValue() === true" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col row d-flex pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">{{ "Screens.Delivery" | translate }}:</label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group">
+                                  <input
+                                    type="checkbox"
+                                    name="IsDelivery"
+                                    #IsDelivery="ngModel"
+                                    [(ngModel)]="responseobj.IsDelivery"
+                                    class="form-control borderRadius"
+                                    [checked]="responseobj.IsDelivery"
+                                    (change)="filterOrderTypes(2, $event)"
+                                    [disabled]="gridFlage.getValue() === true" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col row d-flex pr-xs-0">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">{{ "kds.DriveThru" | translate }}:</label>
+                              </div>
+                              <div class="col-md-8 paddingLeftz">
+                                <div class="input-group">
+                                  <input
+                                    type="checkbox"
+                                    name="IsDriveThru"
+                                    #IsDriveThru="ngModel"
+                                    [(ngModel)]="responseobj.IsDriveThru"
+                                    class="form-control borderRadius"
+                                    [checked]="responseobj.IsDriveThru"
+                                    (change)="filterOrderTypes(1, $event)"
+                                    [disabled]="gridFlage.getValue() === true" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div style="justify-content: flex-end; display: flex" class="col-md-1">
+                            <button
+                              type="button"
+                              [disabled]="gridFlage.getValue() === true"
+                              class="ms-btn-icon btn-pill btn-info"
+                              (click)="insertRow()">
+                              <i class="fas fa-plus"></i>
+                            </button>
+                          </div>
+
+                          <div class="col-md-12 paddingLeftz p-0">
+                            <table class="table returnOrderTable table-bordered m-0">
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">{{ "Shared.ordertypelist" | translate }}</th>
+                                  <th scope="col">{{ "Shared.pricingclasslist" | translate }}</th>
+                                  <th scope="col">{{ "Actions" | translate }}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of responseobj.branchOrderTypesPrices; let i = index">
+                                  <td scope="row">{{ i + 1 }}</td>
+                                  <td>
+                                    <div class="input-group">
+                                      <ejs-combobox
+                                        name="OrderTypeDocumentId{{ i }}"
+                                        #OrderTypeDocumentId{{i}} = "ngModel"
+                                        [(ngModel)]="item.OrderTypeDocumentId"
+                                        [allowFiltering]="true"
+                                        [autofill]="true"
+                                        [allowCustom]="false"
+                                        [dataSource]="filterdOrderTypes"
+                                        placeholder=""
+                                        [fields]="branchFlds"
+                                        (ngModelChange)="checkDuplicateOT(item,responseobj.branchOrderTypesPrices,i)"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        class="form-control borderRadius"
+                                        [id]="'OrderTypeDocumentId' + i"></ejs-combobox>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="input-group">
+                                      <ejs-combobox
+                                        name="PricingClassDocumentId{{ i }}"
+                                        #PricingClassDocumentId{{i}}="ngModel"
+                                        [(ngModel)]="item.PricingClassDocumentId"
+                                        [allowFiltering]="true"
+                                        [autofill]="true"
+                                        [allowCustom]="false"
+                                        [dataSource]="pricingClasses"
+                                        placeholder=""
+                                        [fields]="branchFlds"
+                                        [disabled]="gridFlage.getValue() === true"
+                                        class="form-control borderRadius"
+                                        [id]="'PricingClassDocumentId' + i"></ejs-combobox>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <button
+                                      (click)="deleteRow(i)"
+                                      class="btn btn-count far fa-trash-alt text-crosss p-0 bg-transparent"
+                                      style="
+                                        background-color: transparent !important;
+                                        border-color: transparent !important;
+                                      "
+                                      [disabled]="gridFlage.getValue() === true"></button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </accordion-group>
+                      </accordion>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

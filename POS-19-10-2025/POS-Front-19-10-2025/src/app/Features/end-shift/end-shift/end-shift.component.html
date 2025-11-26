@@ -1,0 +1,698 @@
+<div class="col-md-12">
+  <div class="ms-panel-fh">
+    <div class="cont">
+      <div class="ms-panel rounded">
+        <div class="ms-panel-body clearfix">
+          <div class="tab-content">
+            <div class="row">
+              <!-- <div class="col-lg-3 col-md-4 mb-1">
+                <div class="row">
+                  <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                    <label for="FromDate">
+                      {{ "Shared.fromdata" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-9 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="bi bi-calendar-check-fill"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          [(ngModel)]="fDate"
+                          class="form-control borderRadius"
+                          format="dd/MM/yyyy"
+                          name="fDate"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 mb-1">
+                <div class="row">
+                  <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                    <label for="FromDate">
+                      {{ "Shared.todata" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-9 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="bi bi-calendar-check-fill"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          [(ngModel)]="toDate"
+                          class="form-control borderRadius"
+                          format="dd/MM/yyyy"
+                          name="toDate"></ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="col-lg-3 col-md-4 mb-1">
+                <div class="row">
+                  <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                    <label for="UserName">
+                      {{ "Layout.User" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-9 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-combobox
+                          name="UserId"
+                          [(ngModel)]="UserId"
+                          [allowFiltering]="true"
+                          [autofill]="true"
+                          [dataSource]="users"
+                          placeholder="{{ 'CashReceipt.Employee' | translate }}"
+                          [fields]="fields"
+                          class="form-control borderRadius"
+                          id="User_Id"></ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!--Fromdate-->
+              <div class="col-md-4 mb-1" *ngIf="!incomingDate?.DayDate">
+                <div class="row">
+                  <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19"> {{ "Reports.Fromdate" | translate }} : </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="bi bi-calendar-check"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          class="pAsolute absolutePosition"
+                          format="dd/MM/yyyy"
+                          name="FromDate"
+                          #FromDate="ngModel"
+                          [(ngModel)]="fromDate"                 
+                          class="form-control borderRadius Prelative"
+                          id="FromDate"
+                          placeholder="mm/dd/yyyy">
+                        </ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- ToDate -->
+              <div class="col-md-4 mb-1" *ngIf="!incomingDate?.DayDate">
+                <div class="row">
+                  <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19"> {{ "Reports.Todate" | translate }} : </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="bi bi-calendar-check"></i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-datepicker
+                          class="pAsolute absolutePosition"
+                          format="dd/MM/yyyy"
+                          name="ToDate"
+                          #ToDate="ngModel"
+                          [(ngModel)]="toDate"
+                          class="form-control borderRadius Prelative"
+                          id="ToDate"
+                          placeholder="mm/dd/yyyy">
+                        </ejs-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-lg-3 col-md-4 mb-1">
+                <div class="d-flex justify-content-center">
+                  <button (click)="firstOpen()" class="btn btnEdit btn-primary m-0">
+                    {{ "ReturnOrder.Search" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--grid-->
+<div class="col-md-12">
+  <div class="ms-card">
+    <div class="ms-card-body" >
+      <ejs-grid
+        #grid
+        id="grid"
+        [dataSource]="updatedArr"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)">
+        <e-columns>
+          <e-column
+            field="CreationTime"
+            headerText="{{ 'CashReceipt.Date' | translate }}"
+            type="date"
+            [format]="dateFormat"
+            textAlign="center"></e-column>
+          <e-column field="UserName" headerText="{{ 'Shared.UserName' | translate }}"></e-column>
+          <e-column field="WorkTimeName" headerText="{{ 'Shared.WorkTimeName' | translate }}"></e-column>
+          <e-column field="OpenBalance" headerText="{{ 'Shared.OpenBalance' | translate }}"></e-column>
+          <e-column field="EndCashAmount" headerText="{{ 'Reports.Cash+OpenBalance' | translate }}" width="120"></e-column>
+          <e-column field="EndCreditAmount" headerText="{{ 'Shared.EndCreditAmount' | translate }}"></e-column>
+          <e-column field="EndVisaAmount" headerText="{{ 'Shared.EndVisaAmount' | translate }}"></e-column>
+          <e-column field="Amount" headerText="{{ 'Shared.CashAmount' | translate }}"></e-column>
+          <e-column field="CreditAmount" headerText="{{ 'Shared.CreditAmount' | translate }}"></e-column>
+          <e-column field="VisaAmount" headerText="{{ 'Shared.VisaAmount' | translate }}"></e-column>
+          <e-column
+            field="DeficitOrIncreaseAmount"
+            headerText="{{ 'Shared.DeficitOrIncreaseAmount' | translate }}"
+            [format]="priceFormat"
+            ></e-column>
+          <e-column
+            field="Closed"
+            headerText="{{ 'Shared.Closed' | translate }}"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <ng-template #template let-data>
+              <div>
+                <input type="checkbox" disabled name="Closed" id="Closed" [checked]="data.Closed" />
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column headerText="{{ 'delivery.Actions' | translate }}" textAlign="center" width="130">
+            <ng-template #template let-data>
+              <div class="row justify-content-around d-flex align-items-center">
+                <!-- <button [disabled]="!data.Closed" (click)="SetDayOpend(data.DocumentId)" type="button" class="btn btn-pill btn-info has-icon my-0 mx-1 p-1"><i class="fas fa-door-open"></i>{{'Dashboard.ShiftOpen'|translate}}</button> -->
+                <button
+                  style="min-width: fit-content !important"
+                  [disabled]="!data.Closed || data.IsSync"
+                  (click)="SetDayOpend(data)"
+                  type="button"
+                  class="btn btn-pill btn-info has-icon my-0 p-1">
+                  {{ "Dashboard.ShiftOpen" | translate }}
+                </button>
+                <button
+                  style="min-width: fit-content !important"
+                  type="button"
+                  (click)="PrintCashierEndShift(data.DocumentId)"
+                  class="btn btn-pill btn-success p-1 has-icon m-0">
+                  <i class="fas fa-print m-0"></i>
+                </button>
+              </div>
+            </ng-template>
+          </e-column>
+          <e-column headerText="{{ 'delivery.Actions' | translate }}" textAlign="center" width="130">
+            <ng-template #template let-data>
+              <button
+                *ngIf="!setting.ShowEndShiftReportpasedOnPayType"
+                type="button"
+                class="btn btnEdit btn-success m-0"
+                data-toggle="modal"
+                [disabled]="!data.Closed || data.IsSync || disableEdit"
+                (click)="GetshiftData(data)"
+                data-target="#endshiftmodal">
+                {{ "pagetransactions.Edit" | translate }}
+              </button>
+              <button
+                *ngIf="setting.ShowEndShiftReportpasedOnPayType"
+                type="button"
+                class="btn btnEdit btn-success m-0"
+                data-toggle="modal"
+                [disabled]="!data.Closed || data.IsSync || disableEdit"
+                (click)="GetPayList(data.DocumentId)"
+                data-target="#endshiftmodal2">
+                {{ "pagetransactions.Edit" | translate }}
+              </button>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>
+
+<!-- modal of shift End 1-->
+<div class="modal fade" id="endshiftmodal" tabindex="-1" role="dialog" aria-labelledby="endshiftmodal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-2">
+      <div class="modal-header">
+        <h3 class="modal-title has-icon ms-icon-round">
+          <i class="fas fa-hourglass-end orangeColor mx-0"></i>
+          <span class="text-darkgray">
+            {{ "Dashboard.EditShift" | translate }}
+          </span>
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="form-row pt-3" style="text-align: center; padding: 10px">
+        <!--userName-->
+
+        <div class="col-md-4 mb-2">
+          <div class="row pl-xs-0 pl-sm-0">
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-user" aria-hidden="true"></i>
+                </div>
+
+                <div class="input-group positionEdit">
+                  <input
+                    [(ngModel)]="incominguserobj.UserName"
+                    name="userName"
+                    id="user_id"
+                    class="form-control borderRadius"
+                    disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Date-->
+
+        <div class="col-md-4 mb-2">
+          <div class="row pl-xs-0 pl-sm-0">
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                </div>
+
+                <div class="input-group positionEdit">
+                  <input [(ngModel)]="date" name="date" id="date" class="form-control borderRadius" disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Shift-->
+
+        <div class="col-md-4 mb-2">
+          <div class="row pl-xs-0 pl-sm-0">
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-receipt" aria-hidden="true"></i>
+                </div>
+
+                <div class="input-group positionEdit">
+                  <input
+                    [(ngModel)]="incominguserobj.WorkTimeName"
+                    name="WorkTimeName"
+                    id="WorkTimeName"
+                    class="form-control borderRadius"
+                    disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+        <div class="col-10"></div>
+
+        <div class="col-2">
+          <button
+            type="button"
+            class="btn btn-outline-danger btnNav"
+            style="max-width: 300px; width: 110px"
+            (click)="addFieldValue()"
+          >
+            {{ 'pagetransactions.Add' | translate }}
+          </button>
+        </div>
+      </div> -->
+      <br />
+
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>{{ "Dashboard.CashType" | translate }}</th>
+            <th>{{ "CashReceipt.lblamount" | translate }}</th>
+            <th>{{ "delivery.details" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cash</td>
+            <td>
+              <input
+                [(ngModel)]="incominguserobj.Amount"
+                class="form-control"
+                type="number"
+                [name]="'Amount' + i"
+                [disabled]="incominguserobj.CategoryDetails && incominguserobj.CategoryDetails.length > 0" />
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-outline-danger btnNav"
+                style="max-width: 300px; width: 110px"
+                data-toggle="modal"
+                (click)="addCategoryDetail()">
+                {{ "stock.Add" | translate }}&nbsp;{{ "delivery.details" | translate }}
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="incominguserobj.CategoryDetails && incominguserobj.CategoryDetails.length > 0">
+            <td colspan="4">
+              <table>
+                <thead>
+                  <tr>
+                    <th>{{ "Dashboard.CashCategory" | translate }}</th>
+                    <th>{{ "stock.Quantity" | translate }}</th>
+                    <th>
+                      <button class="btn btn-outline-danger btnNav" type="button" (click)="addCategoryDetail()">
+                        {{ "pagetransactions.Add" | translate }}
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tr *ngFor="let detail of incominguserobj.CategoryDetails; let j = index">
+                  <td>
+                    <div class="input-group">
+                      <select
+                        style="width: 10rem"
+                        class="form-control"
+                        type="text"
+                        [(ngModel)]="detail.CategoryId"
+                        name="CategoryId-{{ j }}"
+                        required>
+                        <option *ngFor="let category of categories" [ngValue]="category.Id">
+                          {{ category.Value }}
+                        </option>
+                      </select>
+                    </div>
+                  </td>
+
+                  <td>
+                    <input
+                      class="form-control"
+                      name="Quantity-{{ j }}"
+                      [(ngModel)]="detail.Quantity"
+                      type="number"
+                      [numbersOnly]="detail.Quantity"
+                      [allowDecimals]="false"
+                      (keyup)="CheckCashAmount(j)" />
+                  </td>
+                  <td>
+                    <i
+                      class="far fa-trash-alt"
+                      style="font-size: 1.3rem; color: red; text-align: center"
+                      role="presentation"
+                      (click)="deleteCategoryDetail(j)"></i>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>Visa</td>
+            <td>
+              <input [(ngModel)]="incominguserobj.VisaAmount" class="form-control" type="number" [name]="VisaAmount" />
+            </td>
+            <td>
+              <input
+                class="form-control"
+                type="text"
+                id="VisaDescription"
+                [(ngModel)]="incominguserobj.VisaDescription"
+                name="VisaDescription" />
+            </td>
+          </tr>
+          <tr>
+            <td>Credit</td>
+            <td>
+              <input
+                [(ngModel)]="incominguserobj.CreditAmount"
+                class="form-control"
+                type="number"
+                [name]="CreditAmount" />
+            </td>
+            <td>
+              <input
+                class="form-control"
+                type="text"
+                id="CreditDescription"
+                [(ngModel)]="incominguserobj.CreditDescription"
+                name="CreditDescription" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!--   {{incominguserArray|json}} -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary shadow-none mt-0" (click)="UpdateEndShift()">Submit</button>
+        <button type="button" class="btn btn-light mt-0" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modal-->
+
+<!-- modal of shift End 2-->
+<div class="modal fade" id="endshiftmodal2" tabindex="-1" role="dialog" aria-labelledby="endshiftmodal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-2">
+      <div class="modal-header">
+        <h3 class="modal-title has-icon ms-icon-round">
+          <i class="fas fa-hourglass-end orangeColor mx-0"></i>
+          <span class="text-darkgray">
+            {{ "Dashboard.EndShift" | translate }}
+          </span>
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="form-row pt-3" style="text-align: center; padding: 10px">
+        <!--userName-->
+
+        <div class="col-md-4 mb-2">
+          <div class="row pl-xs-0 pl-sm-0">
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-user" aria-hidden="true"></i>
+                </div>
+
+                <div class="input-group positionEdit">
+                  <input
+                    [(ngModel)]="MyIncomingUserObj.UserName"
+                    name="userName"
+                    id="user_id"
+                    class="form-control borderRadius"
+                    disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Date-->
+
+        <div class="col-md-4 mb-2">
+          <div class="row pl-xs-0 pl-sm-0">
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                </div>
+
+                <div class="input-group positionEdit">
+                  <input
+                    [(ngModel)]="MyIncomingUserObj.Date"
+                    name="Date"
+                    id="Date"
+                    class="form-control borderRadius"
+                    disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Shift-->
+
+        <div class="col-md-4 mb-2">
+          <div class="row pl-xs-0 pl-sm-0">
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="fas fa-receipt" aria-hidden="true"></i>
+                </div>
+
+                <div class="input-group positionEdit">
+                  <input
+                    [(ngModel)]="MyIncomingUserObj.WorkTimeName"
+                    name="WorkTimeName"
+                    id="WorkTimeName"
+                    class="form-control borderRadius"
+                    disabled />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+
+      <table class="table table-striped table-bordered">
+        <thead>
+          <th>{{ "Reports.PayType" | translate }}</th>
+          <th>{{ "Reports.InputAmount" | translate }}</th>
+          <!-- <th>{{ 'Reports.ActualAmount' | translate }}</th>
+          <th>{{ 'Shared.DeficitOrIncreaseAmount' | translate }}</th> -->
+        </thead>
+        <tbody>
+          <tr *ngFor="let Pay of MyIncomingUserObj.PaymentDetail; let i = index">
+            <td>{{ Pay.PayTypeName }}</td>
+            <td>
+              <input [(ngModel)]="Pay.InputAmount" class="form-control" type="number" name="InputAmount{{ i }}" />
+            </td>
+            <!--  <td> {{Pay.ActualAmount}} </td>
+              <td>{{Pay.InputAmount-Pay.ActualAmount}}</td> -->
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary shadow-none mt-0" (click)="UpdateIncomingUser()">Submit</button>
+        <button type="button" class="btn btn-light mt-0" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end modal-->
+
+<!-- Report modal -->
+<div class="modal fade" id="modal-5" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+      c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+      S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+      c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+      S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+      c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+      H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+      c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+        M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+      H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> Printer Setting</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-10 py-2">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-md-3 d-flex justify-content-start align-items-center label1"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div id="myviewer"></div>
+
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>

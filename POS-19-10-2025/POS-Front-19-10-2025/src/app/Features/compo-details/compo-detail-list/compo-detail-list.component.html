@@ -1,0 +1,31 @@
+<app-breadcrumbs></app-breadcrumbs>
+
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        (rowSelected)="onRowSelected($event)"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions">
+        <e-columns>
+          <e-column
+            field="ProductName"
+            headerText="{{ 'products.ComboProduct' | translate }}"
+            textAlign="center"></e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

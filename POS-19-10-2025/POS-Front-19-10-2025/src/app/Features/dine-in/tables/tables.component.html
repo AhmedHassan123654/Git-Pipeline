@@ -1,0 +1,85 @@
+<div class="dinein-component">
+  <div class="container-canvas" id="{{ dataTab }}">
+    <canvas id="{{ canvasId }}"></canvas>
+  </div>
+
+  <div class="container-ctrl">
+    <button (click)="saveTable(canvasId)"><i class="far fa-save"></i></button>
+    <div class="show-hide-ctrl">
+      <button class="showHideCtrl"><i class="fas fa-pencil-alt"></i></button>
+    </div>
+    <div class="ctrl ctrl-hide">
+      <button class="createRect"><i class="fas fa-plus"></i></button>
+
+      <button class="duplicateItem"><i class="far fa-copy"></i></button>
+
+      <button class="openPrompt"><i class="fas fa-font"></i></button>
+
+      <button class="IsActive">Active</button>
+
+      <button class="UnActive">UnActive</button>
+
+      <button class="square-circle"><i class="far fa-square"></i></button>
+
+      <button class="ctrl-colors-list">
+        <i class="fas fa-tint"></i>
+      </button>
+
+      <div class="colors-list">
+        <ul>
+          <li>
+            <label class="changeColor" data-color="#ffffff" data-background="#ff0000"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#ffffff" data-background="#00af37"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#ffffff" data-background="#fc19de"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#ffffff" data-background="#ac51b5"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#333333" data-background="#ffd260"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#ffffff" data-background="#007bff"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#333333" data-background="#78dbd9"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#000000" data-background="#ff856d"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#000000" data-background="#8595ad"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#000000" data-background="#fff600"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#000000" data-background="#9dff00"></label>
+          </li>
+          <li>
+            <label class="changeColor" data-color="#000000" data-background="#f1d6e1"></label>
+          </li>
+        </ul>
+      </div>
+
+      <button class="clearCanvas"><i class="fas fa-trash-alt"></i></button>
+
+      <button class="restorCanvas"><i class="fas fa-recycle"></i></button>
+    </div>
+  </div>
+
+  <div class="prompt">
+    <div class="close-prompt">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="field">
+      <h3>name of table:</h3>
+      <input type="text" class="nameTable" />
+      <button class="update-name">add name</button>
+    </div>
+  </div>
+</div>

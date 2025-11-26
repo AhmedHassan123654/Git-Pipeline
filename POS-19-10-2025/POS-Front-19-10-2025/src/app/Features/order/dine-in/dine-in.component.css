@@ -1,0 +1,358 @@
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #ebebeb;
+
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+.closebtn.closeEdit {
+  position: absolute;
+  top: 0;
+  left: 0px !important;
+  font-size: 36px;
+  margin-left: 0rem;
+}
+
+.sidenav a {
+  border-bottom: 1px solid #818181;
+}
+
+[class^="flaticon-art"]:before {
+  font-size: 25px !important;
+}
+.resize {
+  border: 1px solid #dddddd;
+  padding: 20px;
+  width: 300px;
+  resize: both;
+  overflow: auto;
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196f3;
+  color: #fff;
+}
+.ResizeAll {
+  position: absolute;
+  z-index: 9;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+.BorderRadius {
+  border-radius: 50% !important;
+}
+.editCardDrag {
+  background-color: cornflowerblue;
+  width: 10% !important;
+  min-width: 5rem !important;
+}
+[class^="flaticon-trash"]:before {
+  font-size: 25px !important;
+}
+.editttrash:before {
+  font-size: 20px !important;
+}
+.card-header.edit-header {
+  background-color: lightgoldenrodyellow !important;
+}
+
+.editCardDrag {
+  border: 2px solid #ff0018 !important;
+}
+
+#container {
+  visibility: hidden;
+}
+
+#loader {
+  color: #008cff;
+  height: 40px;
+  left: 45%;
+  position: absolute;
+  top: 45%;
+  width: 30%;
+}
+
+.wrap {
+  margin: 0 auto;
+  width: 300px;
+  text-align: center;
+}
+
+#preview {
+  border: 1px solid;
+  background-color: #ba68c8;
+  height: 40px;
+  width: 100%;
+}
+
+/* Tile customization styles */
+#element + .e-container {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+#element + .e-container .e-custom-palette.e-palette-group {
+  height: 182px;
+}
+
+#element + .e-container .e-palette .e-custom-tile {
+  border: 0;
+  color: #fff;
+  height: 36px;
+  font-size: 18px;
+  width: 36px;
+  line-height: 36px;
+  border-radius: 50%;
+  margin: 2px 5px;
+}
+
+/* Selected state icon */
+#element + .e-container .e-palette .e-custom-tile.e-selected::before {
+  content: "\e933";
+}
+
+#element + .e-container .e-palette .e-custom-tile.e-selected {
+  outline: none;
+}
+
+h4 {
+  font-family: "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+  font-size: 14px;
+}
+.e-container.e-color-palette {
+  position: absolute;
+  right: 100%;
+  top: 0px;
+}
+.e-custom-palette.e-palette-group {
+  background-color: #dfdfdf;
+}
+
+.e-palette .e-row:nth-last-of-type(5) {
+  display: none !important;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.e-container .e-palette .e-tile {
+  width: 40px;
+  height: 40px;
+}
+/****************************/
+/* start tabs */
+.tabs {
+  position: fixed;
+  z-index: 999;
+  background-color: #f0f0fa;
+  width: 100%;
+  top: 0;
+  left: 0px;
+  padding: 0 5px;
+  list-style: none;
+  border-bottom: #ddd solid 1px;
+  margin: 0;
+  padding-top: 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.tabs .tab {
+  display: inline-block;
+  padding: 5px 18px;
+  margin: 0 5px;
+  font-family: sans-serif;
+  border-radius: 7px 7px 0 0;
+  background: #e4e3e8;
+  font-size: 1rem;
+  color: gray;
+  font-weight: bold;
+  cursor: pointer;
+}
+.tabs .tab.active {
+  background: #ff0018;
+  color: #fff !important;
+}
+/* end tabs */
+
+/* start contents */
+.contents {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+.contents .content {
+  z-index: -99;
+  position: absolute;
+  background: #fff;
+  top: 40px;
+  left: 0;
+  right: 0;
+  transform: scale(0);
+}
+.contents .content.active {
+  z-index: 99;
+  transform: scale(1);
+}
+/* end contents */
+
+/* start popup */
+.addTab {
+  width: 30px;
+  height: 30px;
+  line-height: 28px;
+  background: #444;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 100%;
+  text-align: center;
+  border: 1px solid #fefefe;
+}
+.addTab:hover {
+  background: #333;
+  color: #fff;
+  border-color: #444;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.65);
+  width: 100vw;
+  height: 100vh;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.popup .close-popup {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+.popup .close-popup i {
+  padding: 10px;
+  color: #ccc;
+  cursor: pointer;
+}
+.popup .close-popup i:hover {
+  color: #fff;
+}
+.popup .field {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px 25px 35px 25px;
+  width: 100%;
+  max-width: 400px;
+  font-family: sans-serif;
+}
+.popup .field h3 {
+  text-transform: capitalize;
+  font-size: 22px;
+  color: #333;
+  margin: 0;
+  font-weight: normal;
+}
+.popup .field .nameTab {
+  width: 100%;
+  height: 50px;
+  line-height: 55px;
+  color: #333;
+  font-weight: bold;
+  border: 1px solid #aaa;
+  border-radius: 7px;
+  text-indent: 15px;
+  /* margin-top: 25px; */
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+.popup .field .nameTab:focus {
+  outline-color: orange;
+}
+.popup .field .done-name {
+  background: orange;
+  color: #fff;
+  font-size: 20px;
+  margin: 25px 0 0;
+  float: right;
+  display: block;
+  width: 175px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px;
+}
+/* end popup */
+/* .e-palette .e-row span.e-title:nth-child(2){
+display: none !important;
+}  */
+.e-container .e-palette span.e-tile[role="gridcell"] {
+  display: none !important;
+}
+.Remove {
+  font-size: 20px;
+  margin: 25px 0 0;
+  float: left;
+  display: block;
+  width: 70px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px;
+}

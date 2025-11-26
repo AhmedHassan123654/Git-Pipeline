@@ -1,0 +1,37 @@
+<div class="col-xl-12 col-md-12">
+  <div class="ms-panel">
+    <div class="ms-panel-header">
+      <h6 class="digram"><i class="fas fa-print"></i> Printer Settings</h6>
+    </div>
+    <div class="ms-panel-body">
+      <form (submit)="save()" class="needs-validation clearfix" novalidate>
+        <div *ngFor="let Printer of serverPrinters; let i = index" class="form-row">
+          <!--1-->
+          <div class="col-md-7 mb-3">
+            <div class="row justify-content-start align-items-center">
+              <div class="col-md-4 digram">
+                <label class="digram" for="validationCustom22">
+                  <i class="fas fa-print"></i> {{ Printer.VirtualName }}</label
+                >
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <select name="Name {{ i }}" [(ngModel)]="Printer.Name" class="form-control" required>
+                    // value is a string or number
+                    <option *ngFor="let nPrinter of networkPrinters" [value]="nPrinter">
+                      {{ nPrinter }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback">Please select a Printer.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end-->
+        </div>
+
+        <button class="btn btn-primary d-block float-right" type="submit">Save</button>
+      </form>
+    </div>
+  </div>
+</div>

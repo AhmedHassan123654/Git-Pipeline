@@ -1,0 +1,133 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />
+      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <!-- <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div> -->
+  </div>
+</div>
+
+<div class="col-md-12">
+  <div class="ms-card">
+    <div class="ms-card-header">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="d-flex justify-content-around align-items-center">
+            <div class="d-flex justify-content-start align-items-center">
+              <button type="button" (click)="Save()" class="btn btn-secondary m-0 btnEdit">
+                {{ "Shared.Save" | translate }}
+              </button>
+            </div>
+            <div class="">
+              <button type="button" (click)="GetDate()" class="btn btn-success m-0 btnEdit">
+                {{ "Shared.Refresh" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--Branches'-->
+        <div class="col-md-6 mb-3">
+          <div class="row">
+            <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+              <label for="validationCustom19"> {{ "Shared.effectedForBranches" | translate }} : </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="bi bi-credit-card-2-back-fill"></i>
+                </div>
+                <div class="input-group">
+                  <ejs-multiselect name="branchesList" #branchesList="ngModel"
+                    [(ngModel)]="selectedBranches" [dataSource]="branches"
+                    [fields]="Fld" class="form-control" placeholder="" ></ejs-multiselect>
+                    <div *ngIf="submitted && (!selectedBranches || !selectedBranches.length)">
+                    <div class="alert alert-danger editAlertCash">
+                      {{ "setting.BranchIsRequired" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ms-card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered BottomTableReturnOrder">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">{{ "Shared.Select" | translate }}</th>
+              <th scope="col">{{ "Shared.productName" | translate }}</th>
+              <th scope="col">{{ "stock.AvailableQuantity" | translate }}</th>
+              <th scope="col">{{ "Reports.status" | translate }}</th>
+              <th scope="col">{{ "products.StopDurationType" | translate }}</th>
+              <th scope="col">{{ "products.StopDuration" | translate }}</th>
+              <th scope="col">{{ "Shared.Remainder" | translate }}</th>
+              <th scope="col">{{ "Reports.Branches" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of Products; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>
+                <input
+                  type="checkbox"
+                  name="IsSelected{{ i }}"
+                  #IsSelected{{i}}="ngModel"
+                  [(ngModel)]="product.IsSelected" />
+              </td>
+              <td>{{ product.Name }}</td>
+              <td>{{ product.AvailableQuantity }}</td>
+              <td>{{ product.Status ? ("stock." + product.Status | translate ): product.Status}}</td>
+              <td>
+                <ejs-combobox
+                  name="StopDurationType{{ i }}"
+                  #StopDurationType{{i}}="ngModel"
+                  [(ngModel)]="product.StopDurationType"
+                  [allowFiltering]="true"
+                  [autofill]="true"
+                  [dataSource]="StopDurationList"
+                  [enabled]="product.IsSelected"
+                  [fields]="Flds"
+                  class="form-control borderRadius"
+                  id="StopDurationType{{ i }}_Id"></ejs-combobox>
+              </td>
+
+              <td scope="col">
+                <input
+                  name="StopDuration{{ i }}"
+                  [numbersOnly]="product.StopDuration"
+                  [allowDecimals]="false"
+                  #StopDuration="ngModel"
+                  [(ngModel)]="product.StopDuration"
+                  id="StopDuration_id{{ i }}"
+                  class="form-control borderRadius"
+                  [disabled]="!product.IsSelected" />
+              </td>
+              <td scope="col">
+                {{ product.Reminder }}
+              </td>
+              <td scope="col">
+                {{ getProperityBranches(product) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">
+    <span> <i class="fas fa-users px-2"></i></span>{{ tableInfo.Name | uppercase }}
+  </h5>
+
+  <button type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="gameList">
+        <button
+          *ngFor="let game of gameList; let i = index"
+          class="btn w-100 mb-2 py-3 fs-3"
+          (click)="selectGameType(game)"
+          [ngClass]="selectedGame?.DocumentId === game.DocumentId ? 'btn-success ' : 'btn-primary'">
+          {{ game.Name }}
+        </button>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <section class="d-flex justify-content-around">
+        <button class="btn btn-play fs-2" [disabled]="!selectedGame || isRunning" (click)="startTimer(selectedGame)">
+          {{ "Order.Start" | translate }}<i class="fas fa-play px-2"></i>
+        </button>
+        <div class="fs-2 d-flex align-items-center">{{ formattedTime }} <i class="fas fa-clock px-2"></i></div>
+        <button class="btn btn-stop fs-2" (click)="stopTimer()" [disabled]="!isRunning">
+          {{ "Order.End" | translate }}<i class="fas fa-pause px-2"></i>
+        </button>
+      </section>
+      <table
+        class="table table-bordered table-play__info w-100 mt-3"
+        style="border-inline-start: 1px solid #aab1b7">
+        <thead class="bg-maingreen text-center">
+          <tr>
+            <th scope="col">
+              {{ "Shared.Name" | translate }}
+            </th>
+
+            <th scope="col">
+              {{ "Order.StartTime" | translate }}
+            </th>
+            <th scope="col">
+              {{ "Order.EndTime" | translate }}
+            </th>
+            <!-- <th scope="col">
+              {{ "Order.Price" | translate }}
+            </th> -->
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr *ngFor="let detail of gameDetails">
+            <td>{{ detail?.ProductName }}</td>
+            <td>
+              {{ detail?.StartTime }}
+            </td>
+            <td>{{ detail?.EndTime }}</td>
+            <!-- <td><span *ngIf="detail?.EndTime"> {{ detail?.ProductFinalPrice * detail?.ProductQuantity | currency : " " : "symbol" : fraction }}</span></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer d-flex justify-content-between w-100">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">
+    {{ "Shared.Cancel" | translate }}
+  </button>
+  <button type="submit" class="btn btn-success" (click)="SaveTableGame()">
+    {{ "Shared.Save" | translate }}
+  </button>
+</div>

@@ -1,0 +1,351 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="incomingform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (quickEvents)="quickEvents($event)"
+    (returnobjEvent)="returnobjEvent($event)"
+    (afterPag)="afterPag($event)"
+    (clearobjEvent)="clearobject()"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"
+    [request]="request"
+    [breakSave]="breakSave">
+  </app-pagetransactions>
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-12">
+        <div class="group-section ms-panel-order">
+          <div class="tab-pane active show fade in" id="tab4" role="tabpanel">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <!-- <div class="col-sm-12">
+                    <div class="row justify-content-between align-items-center">
+                        <app-search-component [FilterOne]="itemsGroups" (returnedList)="updateFilterone($event)"></app-search-component>
+                    </div>
+                  </div> -->
+                  <div class="col-lg-12 col-md-12 col-12">
+                    <perfect-scrollbar [config]="true" id="itemScorll" *ngIf="!responseobj.Sent">
+                      <div class="container-fluid">
+                        <div class="row">
+                          <ul
+                            id="GroupNav"
+                            class="nav nav-tabs d-flex has-gap nav-justified nav-tabs-editM groupsUl align-items-center group-section-item"
+                            role="tablist">
+                            <li
+                              class="col-lg-3"
+                              role="presentation"
+                              *ngFor="let itemgroup of filterdItemlist; let i = index">
+                              <a
+                                class="rounded"
+                                [class.disabled]="disableControlEdit"
+                                [class.active]="i == 0"
+                                aria-controls="tab4"
+                                role="tab"
+                                (click)="loadItems(itemgroup)"
+                                data-toggle="tab">
+                                {{ itemgroup.Name }}
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="presentaion-section ms-panel-order">
+          <!--  Right details -->
+          <!-- search feild -->
+          <div class="col-lg-12 col-md-12 col-xs-12" id="searchFeild">
+            <!-- <div class="form-group  has-search">
+              <span class="fa fa-search form-control-feedback"></span>
+              <input id="searchOrder" name="ctrlItem" #ctrlItem="ngModel" style="border-radius: 1rem;" ngModel type="text"
+              [(ngModel)]="searchItem" class="form-control FControlSearch fa fa-search" placeholder="Search By Name ...">
+            </div>       -->
+            <app-search-component [FilterOne]="itemlist" (returnedList)="updateFilterTwo($event)" class="mt-3 mb-3">
+            </app-search-component>
+          </div>
+          <!--search Start-->
+          <!--end search -->
+          <!-- show details -->
+          <div class="col-lg-12 col-xs-12">
+            <perfect-scrollbar [config]="true">
+              <div class="">
+                <ul
+                  id="ItemsNav"
+                  class="nav nav-tabs d-flex tab-pills has-gap nav-justified nav-tabs-editM align-items-center"
+                  role="tablist">
+                  <!-- <ng-container *ngIf="!ctrlItem.value"> -->
+                  <li class="col-lg-3" role="presentation" *ngFor="let item of filterdItemlistTwo; let i = index">
+                    <a
+                      class="rounded"
+                      [class.active]="i == 0"
+                      [class.disabled]="disableControlEdit"
+                      aria-controls="tab4"
+                      role="tab"
+                      data-toggle="tab"
+                      (click)="addDetail(item)">
+                      {{ item.Name }}
+                    </a>
+                  </li>
+                  <!-- </ng-container> -->
+                  <!-- <ng-container *ngIf="ctrlItem.value" >
+                    <li class="Pl25"  role="presentation" *ngFor="let item of itemlistFilter; let i = index"
+                    >
+                    <a [class.active]="i == 0" aria-controls="tab4" role="tab" data-toggle="tab" (click)="addDetail(item)">{{ item.Name }}</a>
+                  </li>
+             </ng-container> -->
+                </ul>
+              </div>
+            </perfect-scrollbar>
+          </div>
+          <!--End show details -->
+        </div>
+      </div>
+      <!--End Right details -->
+      <!-- Start left Details -->
+
+      <div class="col-lg-9 col-md-9 col-sm-12">
+        <!-- List Details -->
+        <!-- <form > -->
+        <div class="masterStyle mb-2">
+          <div class="row">
+            <!-- <div class="col-6">
+                <select name="stock" #stock="ngModel" class="form-control" required [(ngModel)]="responseobj.StockId" option
+                  disabled [value]="" [ngClass]="{'is-invalid':frmRef.submitted && stock.invalid}">
+    
+                  <option *ngFor="let stock of StockList; let i=index;" [ngValue]="stock.DocumentId">{{stock.Name}}
+                  </option>
+                </select>             
+              </div> -->
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3 mb-3">
+              <div class="">
+                <label class="lable"> {{ "stock.DocumentNumber" | translate }}</label>
+                <input type="text" [value]="responseobj.DocumentNumber" class="form-control" readonly />
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3 mb-3">
+              <label class="lable">{{ "stock.DocumentDate" | translate }}</label>
+              <ejs-datepicker
+                class="pAsolute absolutePosition"
+                format="MM/dd/yyyy"
+                name="date"
+                #date="ngModel"
+                required
+                [(ngModel)]="responseobj.DocumentDate"
+                [disabled]="responseobj.Sent"
+                [ngClass]="{
+                  'alert-danger': frmRef.submitted && date.invalid
+                }"
+                class="form-control borderRadius Prelative"
+                id="date"
+                placeholder="mm/dd/yyyy"
+                required>
+              </ejs-datepicker>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3 mb-3">
+              <div class="">
+                <label class="lable">{{ "stock.Reference" | translate }}</label>
+                <input
+                  name="reference"
+                  class="form-control"
+                  [disabled]="responseobj.Sent"
+                  placeholder="{{ 'stock.Reference' | translate }}"
+                  [(ngModel)]="responseobj.Reference" />
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-3 mb-3">
+              <div class="">
+                <label class="lable">{{ "stock.Description" | translate }}</label>
+                <input
+                  name="description"
+                  class="form-control"
+                  [disabled]="responseobj.Sent"
+                  placeholder="{{ 'stock.Description' | translate }}"
+                  [(ngModel)]="responseobj.Description" />
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- </form> -->
+
+        <div class="ms-panel ms-panel-order Prelative panelDetails">
+          <perfect-scrollbar [config]="true" class="table-responsive mt-3">
+            <div class="container-fluid mt-2">
+              <div class="row">
+                <div class="col-lg-12">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr class="">
+                        <th>{{ "stock.Item" | translate }}</th>
+                        <th scope="col">{{ "stock.Unit" | translate }}</th>
+                        <th scope="col">
+                          {{ "stock.AvailableQuantity" | translate }}
+                        </th>
+                        <th scope="col">{{ "stock.Kitchen" | translate }}</th>
+                        <th scope="col">
+                          {{ "stock.KAvailableQuantity" | translate }}
+                        </th>
+                        <th>{{ "stock.Quantity" | translate }}</th>
+                        <th scope="col">
+                          {{ "stock.GeneralItem" | translate }}
+                        </th>
+                        <th scope="col">{{ "stock.Quantity" | translate }} ({{ "stock.GeneralItem" | translate }})</th>
+                        <th scope="col" *ngIf="!responseobj.Sent && !disableControlEdit">
+                          {{ "stock.Actions" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let detail of responseobj.POSIncomingDetails; let i = index"
+                        [ngClass]="{
+                          validationError: detail.errorDuplication || detail.quantityError
+                        }">
+                        <td class="item-name">
+                          <div>
+                            <select
+                              name="itemselect{{ i }}"
+                              id="{{ i }}"
+                              class="form-control"
+                              required
+                              disabled
+                              [(ngModel)]="detail.ItemId">
+                              <option *ngFor="let item of items" [value]="item.Id" class="form-control">
+                                {{ item.Name }}
+                              </option>
+                            </select>
+                          </div>
+                        </td>
+                        <td class="unit">
+                          <div class="item">
+                            <select
+                              name="unitselect{{ i }}"
+                              id="{{ i }}"
+                              class="form-control"
+                              required
+                              [disabled]="responseobj.Sent || disableControlEdit"
+                              [(ngModel)]="detail.UnitId"
+                              (change)="setSizeFromMainUnit(detail); getAvailableQuantity(detail)">
+                              <option *ngFor="let unit of gtSelectedUnits(detail)" [value]="unit.Id">
+                                {{ unit.Name }}
+                              </option>
+                            </select>
+                          </div>
+                        </td>
+                        <td class="quantity">
+                          <div class="item">
+                            {{ detail.StockAvailableQuantity }}
+                          </div>
+                        </td>
+                        <td class="quantity">
+                          <div class="item">
+                            <select
+                              name="kitchen{{ i }}"
+                              id="{{ i }}"
+                              class="form-control"
+                              required
+                              [disabled]="disableControlEdit"
+                              (change)="getAvailableQuantity(detail); checkDuplication(detail)"
+                              [(ngModel)]="detail.StockId">
+                              <option
+                                *ngFor="let kitchen of kitchens"
+                                [value]="kitchen.DocumentId"
+                                class="form-control qty">
+                                {{ kitchen.Name }}
+                              </option>
+                            </select>
+                          </div>
+                        </td>
+                        <td class="quantity">
+                          <div class="item">
+                            {{ detail.KitchenAvailableQuantity }}
+                          </div>
+                        </td>
+                        <td class="quantity">
+                          <div class="item">
+                            <input
+                              name="qty{{ i }}"
+                              type="number"
+                              class="form-control"
+                              (change)="calcGItemQuantity(detail); checkQuantity(detail)"
+                              [(ngModel)]="detail.Quantity"
+                              [disabled]="responseobj.Sent || disableControlEdit" />
+                          </div>
+                        </td>
+                        <td class="type">
+                          <div class="">
+                            <select
+                              name="gitemselect{{ i }}"
+                              id="{{ i }}"
+                              class="form-control"
+                              required
+                              disabled
+                              [(ngModel)]="detail.GItemId">
+                              <option *ngFor="let item of GItems" [value]="item.Id" class="form-control">
+                                {{ item.Name }}
+                              </option>
+                            </select>
+                          </div>
+                        </td>
+                        <td class="quantity">
+                          <div class="item">
+                            {{ calcGItemQuantity(detail) }}
+                          </div>
+                        </td>
+                        <td class="action" *ngIf="!responseobj.Sent && !disableControlEdit">
+                          <div class="d-flex align-items-center">
+                            <!-- <i class="far fa-edit  " style="font-size: 1.3rem; color:red;" data-placement="bottom"
+                            data-toggle="tooltip" role="presentation" title='{{"pagetransactions.Edit"| translate}}'></i> -->
+                            <i
+                              class="far fa-trash-alt"
+                              style="font-size: 1.3rem; color: red"
+                              role="presentation"
+                              (click)="deleteRow(i)"></i>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+        <!-- End List Details -->
+        <!--forms-->
+        <form>
+          <script>
+            // Hide Placeholder On Form Focus
+
+            $("[placeholder]")
+              .focus(function () {
+                $(this).attr("data-text", $(this).attr("placeholder"));
+
+                $(this).attr("placeholder", "");
+              })
+              .blur(function () {
+                $(this).attr("placeholder", $(this).attr("data-text"));
+              });
+          </script>
+          <!-- <button  [popoverOnHover]="true"  [popover]="myPopover" class="btn btn-primary"   >إلغاء</button> -->
+        </form>
+        <!-- End forms-->
+      </div>
+
+      <!-- end left Details   -->
+    </div>
+  </div>
+</form>

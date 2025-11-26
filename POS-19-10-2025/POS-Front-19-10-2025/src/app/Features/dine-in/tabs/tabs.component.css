@@ -1,0 +1,161 @@
+/* start tabs */
+.tabs {
+  position: fixed;
+  z-index: 999;
+  background-color: #fff;
+  width: 100%;
+  top: 0;
+  left: 0px;
+  padding: 0 5px;
+  list-style: none;
+  border-bottom: #ddd solid 1px;
+  margin: 0;
+  padding-top: 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.tabs .tab {
+  display: inline-block;
+  padding: 5px 18px;
+  margin: 0 5px;
+  font-family: sans-serif;
+  border-radius: 7px 7px 0 0;
+  background: #e4e3e8;
+  font-size: 1rem;
+  color: gray;
+  font-weight: bold;
+  cursor: pointer;
+}
+.tabs .tab.active {
+  background: #ff0018;
+  color: #fff !important;
+}
+/* end tabs */
+
+/* start contents */
+.contents {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+.contents .content {
+  z-index: -99;
+  position: absolute;
+  background: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: scale(0);
+}
+.contents .content.active {
+  z-index: 99;
+  transform: scale(1);
+}
+/* end contents */
+
+/* start popup */
+.addTab {
+  width: 30px;
+  height: 30px;
+  line-height: 28px;
+  background: #444;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 100%;
+  text-align: center;
+  border: 1px solid #fefefe;
+}
+.addTab:hover {
+  background: #333;
+  color: #fff;
+  border-color: #444;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.65);
+  width: 100vw;
+  height: 100vh;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.popup .close-popup {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+.popup .close-popup i {
+  padding: 10px;
+  color: #ccc;
+  cursor: pointer;
+}
+.popup .close-popup i:hover {
+  color: #fff;
+}
+.popup .field {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px 25px 35px 25px;
+  width: 100%;
+  max-width: 400px;
+  font-family: sans-serif;
+}
+.popup .field h3 {
+  text-transform: capitalize;
+  font-size: 22px;
+  color: #333;
+  margin: 0;
+  font-weight: normal;
+}
+.popup .field .nameTab {
+  width: 100%;
+  height: 50px;
+  line-height: 55px;
+  color: #333;
+  font-weight: bold;
+  border: 1px solid #aaa;
+  border-radius: 7px;
+  text-indent: 15px;
+  /* margin-top: 25px; */
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+.popup .field .nameTab:focus {
+  outline-color: orange;
+}
+.popup .field .done-name {
+  background: orange;
+  color: #fff;
+  font-size: 20px;
+  margin: 25px 0 0;
+  float: right;
+  display: block;
+  width: 175px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px;
+}
+/* end popup */

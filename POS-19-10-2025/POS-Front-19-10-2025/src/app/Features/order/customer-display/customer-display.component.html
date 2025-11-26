@@ -1,0 +1,237 @@
+<section class="customer">
+  <!-- First Model -->
+  <div class="row" *ngIf="settings && settings.CustomerScreenModel != 2">
+    <div class="col-6">
+      <div class="view-order">
+        <div class="row">
+          <div class="col-md-12">
+            <span class="order-title">{{ "Shared.order-details" | translate }}</span>
+          </div>
+        </div>
+        <div class="table-1">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{ "Reports.productName" | translate }}</th>
+                <th>{{ "Reports.Quantity" | translate }}</th>
+                <th>{{ "Shared.Price" | translate }}</th>
+                <th class="col-md-1">
+                  <button (click)="openFullscreen()" class="btn btn-dark editBBtN">
+                    <i class="fas fa-compress menu-icon"></i>
+                  </button>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="tbody-content">
+              <tr *ngFor="let detail of order.OrderDetails">
+                <td>
+                  {{ detail.ProductName }}
+                  <small class="desc d-block small text-white" style="line-height: 16px">
+                    {{ detail.Product?.Description }}
+                  </small>
+                  <p *ngIf="detail.OrderDetailSubItems && detail.OrderDetailSubItems.length" class="m-0 text-muted">
+                    <span *ngFor="let side of detail.OrderDetailSubItems" class="side-dish">
+                      - {{ side.ProductSubItemName }}
+                    </span>
+                  </p>
+                </td>
+                <td>{{ detail.ProductQuantity }}</td>
+                <td>
+                  {{ detail.ProductPrice * detail.ProductQuantity | currency : " " : "symbol" : fraction }}
+                  <span *ngIf="detail.OrderDetailSubItems && detail.OrderDetailSubItems.length" class="desc side-dish">
+                    <br />{{ detail.SideDishesValue | currency : " " : "symbol" : fraction }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-2">
+          <table class="table">
+            <tbody>
+              <tr *ngIf="order.TotalTaxAmount || order.ServiceChargeValue">
+                <td colspan="2">
+                  <span class="tax-text" *ngIf="order.TotalTaxAmount">{{ "Reports.TotalTax" | translate }}</span>
+                  <br *ngIf="order.DiscountAmount || order.DetailsDiscount" />
+                  <span class="tax-text" *ngIf="order.DiscountAmount || order.DetailsDiscount">{{
+                    "Shared.Discount" | translate
+                  }}</span>
+                  <br *ngIf="order.RoundingFraction" />
+                  <span class="tax-text" *ngIf="order.RoundingFraction">{{ "Reports.rounding" | translate }}</span>
+                  <br *ngIf="order.ServiceChargeValue" />
+                  <span class="tax-text" *ngIf="order.ServiceChargeValue">{{ "Shared.Services" | translate }}</span>
+                </td>
+                <td class="td-value">
+                  <span class="tax-text" *ngIf="order.TotalTaxAmount">{{
+                    order.TotalTaxAmount | currency : " " : "symbol" : fraction
+                  }}</span>
+                  <br *ngIf="order.DiscountAmount || order.DetailsDiscount" />
+                  <span class="tax-text" *ngIf="order.DiscountAmount || order.DetailsDiscount">{{
+                    order.DiscountAmount + order.DetailsDiscount | currency : " " : "symbol" : fraction
+                  }}</span>
+                  <br *ngIf="order.RoundingFraction" />
+                  <span class="tax-text" *ngIf="order.RoundingFraction">{{
+                    order.RoundingFraction | currency : " " : "symbol" : fraction
+                  }}</span>
+                  <br *ngIf="order.ServiceChargeValue" />
+                  <span class="tax-text" *ngIf="order.ServiceChargeValue">{{
+                    order.ServiceChargeValue | currency : " " : "symbol" : fraction
+                  }}</span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <h5>{{ "Reports.GrandTotal" | translate }}</h5>
+                </td>
+                <td class="td-value">
+                  <h5>
+                    {{ order.SubTotal + order.DeliveryPersonDeliveryPrice | currency : " " : "symbol" : fraction }}
+                  </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="container-fluid">
+        <div class="image-display row">
+          <div class="col-12">
+            <div
+            class="logo-content justify-content-end">
+            <div class="logo-spinner">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+            <div class="slideshow-container">
+              <carousel [itemsPerSlide]="1" [interval]="3000" [isAnimated]="true">
+                <slide class="slide d-flex justify-content-center" *ngFor="let img of imagePathes">
+                  <img class="carousel-picture" [src]="localImgURL + img" />
+                </slide>
+              </carousel>
+            </div>
+            <div class="suggestions-carousel w-100 position-absolute d-flex justify-content-end " *ngIf="suggestedProducts.length > 0">
+              <div>
+                <carousel
+                  [itemsPerSlide]="itemsPerSlide"
+                  [singleSlideOffset]="true"
+                  [noWrap]="true"
+                  [showIndicators]="false"
+                  [interval]="cycleInterval"
+                  [isAnimated]="true">
+                  <slide *ngFor="let suggestion of suggestedProducts; let index = index">
+                    <img
+                      [src]="suggestion.PicturePath ? imgURL + suggestion.PicturePath : defaultIm"
+                      alt="{{ suggestion.Name }}" />
+                    <div class="carousel-caption">
+                      <div class="product-name">{{ suggestion.Name }}</div>
+                      <div class="product-price">{{ suggestion.Price }}</div>
+                    </div>
+                  </slide>
+                </carousel>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Model -->
+  <div *ngIf="settings && settings.CustomerScreenModel == 2" class="logo-version">
+    <div class="container-fluid">
+      <div class="total-cost">
+        <span>{{ "Reports.GrandTotal" | translate }}</span> :
+        <span class="px-2">{{
+          order.SubTotal + order.DeliveryPersonDeliveryPrice | currency : " " : "symbol" : fraction
+        }}</span>
+        <img src="assets/images/icons.png" alt="" />
+      </div>
+      <div class="view-order">
+        <div class="content">
+          <div class="table-1">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>{{ "Reports.productName" | translate }}</th>
+                  <th>{{ "Reports.Quantity" | translate }}</th>
+                  <th>{{ "Shared.Price" | translate }}</th>
+                  <th class="col-md-1">
+                    <button (click)="openFullscreen()" class="btn btn-dark editBBtN">
+                      <i class="fas fa-compress menu-icon"></i>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="tbody-content">
+                <tr *ngFor="let detail of order.OrderDetails">
+                  <td>
+                    {{ detail.ProductName }}
+                    <small class="desc d-block small text-white" style="line-height: 16px">
+                      {{ detail.Product?.Description }}
+                    </small>
+                    <p *ngIf="detail.OrderDetailSubItems && detail.OrderDetailSubItems.length" class="m-0 text-muted">
+                      <span *ngFor="let side of detail.OrderDetailSubItems" class="side-dish">
+                        - {{ side.ProductSubItemName }}
+                      </span>
+                    </p>
+                  </td>
+                  <td class="desc">{{ detail.ProductQuantity }}</td>
+                  <td class="desc">
+                    {{ detail.ProductPrice * detail.ProductQuantity | currency : " " : "symbol" : fraction }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-2">
+            <table class="table">
+              <tbody>
+                <tr *ngIf="order.TotalTaxAmount">
+                  <td colspan="2">
+                    <span class="tax-text" *ngIf="order.TotalTaxAmount">{{ "Reports.TotalTax" | translate }}</span>
+                    <br *ngIf="order.DiscountAmount || order.DetailsDiscount" />
+                    <span class="tax-text" *ngIf="order.DiscountAmount || order.DetailsDiscount">{{
+                      "Shared.Discount" | translate
+                    }}</span>
+                    <br *ngIf="order.RoundingFraction" />
+                    <span class="tax-text" *ngIf="order.RoundingFraction">{{ "Reports.rounding" | translate }}</span>
+                  </td>
+                  <td class="td-value">
+                    <span class="tax-text" *ngIf="order.TotalTaxAmount">{{
+                      order.TotalTaxAmount | currency : " " : "symbol" : fraction
+                    }}</span>
+                    <br *ngIf="order.DiscountAmount || order.DetailsDiscount" />
+                    <span class="tax-text" *ngIf="order.DiscountAmount || order.DetailsDiscount">{{
+                      order.DiscountAmount + order.DetailsDiscount | currency : " " : "symbol" : fraction
+                    }}</span>
+                    <br *ngIf="order.RoundingFraction" />
+                    <span class="tax-text" *ngIf="order.RoundingFraction">{{
+                      order.RoundingFraction | currency : " " : "symbol" : fraction
+                    }}</span>
+                  </td>
+                </tr>
+                <!-- <tr>
+                <td colspan="2">
+                  <h5>{{'Reports.GrandTotal'|translate}}</h5>
+                </td>
+                <td class="td-value">
+                  <h5>
+                    {{( order.SubTotal + order.DeliveryPersonDeliveryPrice) | currency:' ':'symbol':fraction}}
+                  </h5>
+              </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

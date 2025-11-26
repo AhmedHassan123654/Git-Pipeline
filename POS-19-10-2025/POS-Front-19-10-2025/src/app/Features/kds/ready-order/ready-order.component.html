@@ -1,0 +1,133 @@
+<div class="container-fluid kds readyOrder" style="background-color: #f0f0fe; height: 100vh">
+  <div class="kds">
+    <div class="row">
+      <div class="col-xl-12 col-md-12">
+        <div class="ms-panel ms-widget ms-email-widget mb-2">
+          <div class="ms-panel-header p-2">
+            <div class="media">
+              <div class="d-flex align-items-center">
+                <div class="mr-3 align-self-center">
+                  <img src="assets/images/cooking.svg" class="ms-img-small ms-img-round" alt="people" />
+                </div>
+                <div class="media-body">
+                  <h4 class="restaurantName4 m-0 p-0 orangeColor">Ready Orders</h4>
+                </div>
+              </div>
+
+              <div>
+                <ul class="ms-email-options d-xs-block">
+                  <li>
+                    <a class="text-disabled"> <span>07</span> Orders </a>
+                  </li>
+                  <li>
+                    <a class="text-disabled"> <span>08</span> KOT </a>
+                  </li>
+                  <li>
+                    <a (click)="openFullscreen()" class="FullScreen">
+                      <i class="fas fa-expand" style="font-size: 1.2rem"></i
+                    ></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 readyOrder">
+        <div class="editGrid2 containerhh">
+          <div *ngFor="let item of masonryItems" class="ms-card itemhh mb-2">
+            <div class="">
+              <i class="popubtn fa fa-expand"></i>
+              <div class="ms-card-header ms-card-header_yellow py-3 d-flex justify-content-between align-items-center">
+                <span>#1</span>
+                <h6 class="px-2">TakeAway</h6>
+              </div>
+              <div class="ms-card-body py-1">
+                <ul class="ms-list ms-task-block">
+                  <li class="ms-list-item ms-to-do-task ms-deletable py-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex">
+                        <button type="button" class="ms-btn-icon btn-success" name="button">
+                          <i class="material-icons">check</i>
+                        </button>
+                        <p class="px-1">Chiken Burger</p>
+                      </div>
+                      <span> 1 </span>
+                    </div>
+                    <ul class="editulStyle pl-4">
+                      <li class="d-flex sideDishesLi justify-content-between align-items-center">
+                        <span> Black tea </span>
+                        <span>2</span>
+                      </li>
+                      <li
+                        *ngFor="let ww of item.weekdays"
+                        class="d-flex sideDishesLi justify-content-between align-items-center">
+                        <span> {{ ww }}</span>
+                        <span>2</span>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="ms-list-item ms-to-do-task ms-deletable py-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex">
+                        <button type="button" class="ms-btn-icon btn-success" name="button">
+                          <i class="material-icons">check</i>
+                        </button>
+                        <p class="px-1">Chiken Burger</p>
+                      </div>
+                      <span> 1 </span>
+                    </div>
+                  </li>
+                  <li class="ms-list-item ms-to-do-task ms-deletable py-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex">
+                        <button type="button" class="ms-btn-icon btn-success" name="button">
+                          <i class="material-icons">check</i>
+                        </button>
+                        <p class="px-1">Chiken Burger</p>
+                      </div>
+                      <span> 1 </span>
+                    </div>
+                  </li>
+                  <li class="ms-list-item ms-to-do-task ms-deletable py-1">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex">
+                        <button type="button" class="ms-btn-icon btn-success" name="button">
+                          <i class="material-icons">check</i>
+                        </button>
+                        <p class="px-1">Chiken Burger</p>
+                      </div>
+                      <span> 1 </span>
+                    </div>
+                    <ul class="editulStyle pl-4">
+                      <li class="d-flex sideDishesLi justify-content-between align-items-center">
+                        <span> Black tea </span>
+                        <span>2</span>
+                      </li>
+                      <li class="d-flex sideDishesLi justify-content-between align-items-center">
+                        <span> Black tea</span>
+                        <span>2</span>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div class="ms-card-footer p-2 text-center justify-content-between align-items-center d-flex">
+                <button class="link_blue btn btnEdit m-0">Ready</button>
+                <button class="btn link_blue btnEdit m-0">close</button>
+              </div>
+            </div>
+          </div>
+
+          <span class="itemhh breakhh"></span>
+          <span class="itemhh breakhh"></span>
+          <span class="itemhh breakhh"></span>
+          <span class="itemhh breakhh"></span>
+          <span class="itemhh breakhh"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

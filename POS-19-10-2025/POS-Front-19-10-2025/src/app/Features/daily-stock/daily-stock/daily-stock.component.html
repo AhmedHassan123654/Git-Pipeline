@@ -1,0 +1,472 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="cashreceiptform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    (copyStockDetails)="copyStockDetails($event)"
+    (disableAlert)="disableAlert($event)"
+    (displaySelectedDailyStockDetails)="displaySelectedDailyStockDetails($event)"
+    (isGridFlag)="isGridFlag($event)"
+    [stocks]="stocks"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"
+    [stockDetailsSelected]="stockDetailsSelected">
+    <!-- Custom navigation item -->
+    <ng-container custom-nav-item>
+      <li class="nav-item">
+        <button 
+          #refreshButton
+          type="button" 
+          [disabled]="gridFlage"
+          class="btn btn-outline-primary btnNav"
+          (click)="refresh()"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          [title]="'Shared.Refresh' | translate">
+          <i class="fa fa-rotate-right"></i>
+        </button>
+      </li>
+    </ng-container>
+  </app-pagetransactions>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-5">
+        <div class="presentaion-section">
+          <div class="product-groups col-lg-12 col-xs-12">
+            <perfect-scrollbar>
+              <div class="container-fluid">
+                <ul
+                  id="ItemsNav"
+                  class="row nav nav-tabs d-flex has-gap nav-justified nav-tabs-editM groupsUl align-items-center group-section-item"
+                  role="tablist">
+                  <li class="col-lg-2" role="presentation" *ngFor="let group of ProductGroups; let i = index">
+                    <a
+                      [ngClass]="{
+                        active: i === 0 && gridFlage,
+                        'text-white': i === 0 && gridFlage,
+                        disabled: !gridFlage,
+                        'text-dark': !gridFlage
+                      }"
+                      (click)="selectedGroup = group"
+                      aria-controls="tab4"
+                      role="tab"
+                      data-toggle="tab"
+                      class="rounded">
+                      {{ group.Name }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </perfect-scrollbar>
+          </div>
+          <div class="col-lg-12 col-md-12 col-xs-12">
+            <input
+              [disabled]="!gridFlage"
+              type="text"
+              name="searchTerm"
+              class="form-control"
+              [(ngModel)]="searchTerm" />
+          </div>
+          <div class="products col-lg-12 col-xs-12">
+            <perfect-scrollbar>
+              <div class="container-fluid">
+                <ul
+                  id="ItemsNav"
+                  class="row nav nav-tabs d-flex has-gap nav-justified nav-tabs-editM groupsUl align-items-center group-section-item"
+                  role="tablist">
+                  <li
+                    class="col-lg-2"
+                    role="presentation"
+                    *ngFor="let product of selectProductGroup(selectedGroup, searchTerm); let i = index">
+                    <a
+                      [ngClass]="{
+                        active: i === 0 && gridFlage,
+                        'text-white': i === 0 && gridFlage,
+                        disabled: !gridFlage,
+                        'text-dark': !gridFlage
+                      }"
+                      (click)="gridFlage === true ? pushProduct(product) : ''"
+                      aria-controls="tab4"
+                      role="tab"
+                      data-toggle="tab"
+                      class="rounded">
+                      {{ product.Name }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </perfect-scrollbar>
+          </div>
+        </div>
+      </div>
+      <div class="px-0 col-md-7">
+        <div class="ms-panel-fh">
+          <div class="cont">
+            <div class="ms-panel-body-1 clearfix">
+              <div class="tab-content">
+                <div role="tabpanel">
+                  <div class="col-xl-12 col-md-12 col-xs-12">
+                    <div class="ms-panel rounded">
+                      <div class="ms-panel-body">
+                        <div
+                          *ngIf="isAlert"
+                          class="alert alert-primary qty-alert d-flex align-items-center justify-content-center m-auto"
+                          role="alert">
+                          {{ "stock.checkQty" | translate }}
+                        </div>
+                        <div class="needs-validation clearfix" novalidate>
+                          <!--1-->
+
+                          <div class="form-row pt-3">
+                            <div class="col-md-6 mb-3">
+                              <div class="row pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19">
+                                    {{ "Reports.SerialNumber" | translate }}
+                                    :</label
+                                  >
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <div class="input-group">
+                                        <div class="input-group positionEdit">
+                                          <input
+                                            name="SerialNumber"
+                                            #SerialNumber="ngModel"
+                                            [(ngModel)]="responseobj.SerialNumber"
+                                            id="SerialNumber_id"
+                                            class="form-control borderRadius"
+                                            readonly />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                              <div class="row pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19"> {{ "Reports.Fromdate" | translate }} :</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <ejs-datepicker
+                                        class="pAsolute absolutePosition"
+                                        format="dd/MM/yyyy"
+                                        name="FromDate"
+                                        #FromDate="ngModel"
+                                        [(ngModel)]="responseobj.FromDate"
+                                        [ngClass]="{
+                                          'is-invalid': frmRef.submitted && FromDate.invalid
+                                        }"
+                                        class="form-control borderRadius Prelative"
+                                        id="FromDate"
+                                        placeholder="mm/dd/yyyy"
+                                        [enabled]="false"
+                                        [required]="isRequired"></ejs-datepicker>
+                                    </div>
+
+                                    <div
+                                      *ngIf="(frmRef.submitted && FromDate.invalid) || (FromDate.invalid && FromDate.touched)"
+                                      class="">
+                                      <div class="alert alert-danger editAlert" *ngIf="FromDate.errors.required">
+                                        {{ "ExtraExpenses.DateIsRequired" | translate }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- toDate -->
+                            <div class="col-md-6 mb-3">
+                              <div class="row pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19"> {{ "Reports.Todate" | translate }} :</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <ejs-datepicker
+                                        class="pAsolute absolutePosition"
+                                        format="dd/MM/yyyy"
+                                        name="ToDate"
+                                        #ToDate="ngModel"
+                                        [(ngModel)]="responseobj.ToDate"
+                                        [ngClass]="{
+                                          'is-invalid': frmRef.submitted && ToDate.invalid
+                                        }"
+                                        class="form-control borderRadius Prelative"
+                                        id="ToDate"
+                                        placeholder="mm/dd/yyyy"
+                                        [enabled]="false"
+                                        [required]="isRequired"></ejs-datepicker>
+                                    </div>
+
+                                    <div
+                                      *ngIf="(frmRef.submitted && ToDate.invalid) || (ToDate.invalid && ToDate.touched)"
+                                      class="">
+                                      <div class="alert alert-danger editAlert" *ngIf="ToDate.errors.required">
+                                        {{ "ExtraExpenses.DateIsRequired" | translate }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                              <div class="row pr-xs-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="validationCustom19"> {{ "Shared.StockName" | translate }} :</label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <div class="input-group-addon">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="input-group">
+                                      <div class="input-group">
+                                        <div class="input-group positionEdit">
+                                          <input
+                                            name="StockName"
+                                            #StockName="ngModel"
+                                            [(ngModel)]="responseobj.StockName"
+                                            id="stockName_id"
+                                            class="form-control borderRadius"
+                                            readonly />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                              <div class="row pl-xs-0 pl-sm-0">
+                                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                  <label for="exampleFormControlTextarea1">
+                                    {{ "CashReceipt.lbldescription" | translate }} :
+                                  </label>
+                                </div>
+                                <div class="col-md-8 paddingLeftz">
+                                  <div class="input-group editInputGroup">
+                                    <textarea
+                                      name="Notes"
+                                      #Notes="ngModel"
+                                      [(ngModel)]="responseobj.Notes"
+                                      class="form-control borderRadius"
+                                      id="notes_id"
+                                      disabled></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                              <div class="input-group editInputGroup">
+                                <button class="btn btn-primary mt-0" 
+                                  type="button"
+                                  id="SelectAllProducts_id"
+                                  (click)="selectAllProduct()"
+                                  [disabled]="!gridFlage">
+                                  {{ "Shared.SelectAllProducts" | translate }} 
+                                  <i class="bi bi-arrow-down-circle"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <!-- <div class="ms-panel-header px-2 py-3">
+                                <h6>{{ "Shared.Products" | translate }}</h6>
+                              </div> -->
+                              <div class="ms-panel-body p-2">
+                                <div class="row justify-content-center">
+                                  <!-- Products -->
+
+                                  <!-- grid-->
+                                  <table class="table table-bordered mb-0 table-responsive">
+                                    <thead class="bg-maingreen text-center">
+                                      <tr>
+                                        <th scope="col">
+                                          {{ "products.Product" | translate }}
+                                        </th>
+                                        <!-- <th scope="col">
+                                          {{ "Shared.CurrentQuantity" | translate }}
+                                        </th> -->
+                                        <th scope="col" (click)="sortData('CurrentQuantity')">
+                                          {{ "Shared.CurrentQuantity" | translate }}
+                                          <span *ngIf="sortColumn === 'CurrentQuantity' && sortDirection === 'asc'">▲</span>
+                                          <span *ngIf="sortColumn === 'CurrentQuantity' && sortDirection === 'desc'">▼</span>
+                                        </th>
+                                        <th scope="col">
+                                          {{ "Shared.SalesQuantity" | translate }}
+                                        </th>
+                                        <th scope="col">
+                                          {{ "Shared.LastQuantity" | translate }}
+                                        </th>
+                                        <th scope="col">
+                                          {{ "delivery.Actions" | translate }}
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="text-center editTd">
+                                      <tr *ngFor="let II of responseobj.dailyStockDetails; let i = index">
+                                        <td>
+                                          <input
+                                            name="productName{{ i }}"
+                                            #productName="ngModel"
+                                            [(ngModel)]="II.productName"
+                                            required
+                                            [appDuplicateValidator]="{
+                                              stockData: responseobj.dailyStockDetails,
+                                              index: i
+                                            }"
+                                            class="border-0 text-center bg-transparent"
+                                            id="productName{{ i }}_id"
+                                            [disabled]="!gridFlage"
+                                            readonly />
+                                          <div *ngIf="productName.errors" class="">
+                                            <div
+                                              class="alert alert-danger my-1"
+                                              role="alert"
+                                              *ngIf="productName.errors.duplicated">
+                                              {{ "ExtraExpenses.itemDuplicated" | translate }}
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <div class="d-flex align-items-center justify-content-between">
+                                            <button
+                                              [style]="
+                                                !gridFlage
+                                                  ? 'background-color: transparent !important; border: 0 !important;'
+                                                  : ''
+                                              "
+                                              [disabled]="!gridFlage"
+                                              (click)="plusMinusCurrentQuantity('-', II)"
+                                              class="add-btn btn btn-outline-danger d-flex align-items-center justify-content-center">
+                                              <i class="p-1 fa fa-minus mr-0"></i>
+                                            </button>
+                                            <input
+                                              id="CurrentQuantity{{ i }}"
+                                              [numbersOnly]="II.CurrentQuantity"
+                                              [allowDecimals]="true"
+                                              name="CurrentQuantity{{ i }}"
+                                              class="form-control qty-inputs"
+                                              [(ngModel)]="II.CurrentQuantity"
+                                              #CurrentQuantity="ngModel"
+                                              [disabled]="!gridFlage"
+                                              required
+                                              type="number"
+                                              [appValidateRequired]="II.CurrentQuantity" />
+                                            <!-- min="1" -->
+                                            <button
+                                              [disabled]="!gridFlage"
+                                              [style]="
+                                                !gridFlage
+                                                  ? 'background-color: transparent !important; border: 0 !important;'
+                                                  : ''
+                                              "
+                                              (click)="plusMinusCurrentQuantity('+', II)"
+                                              class="add-btn btn btn-outline-success d-flex align-items-center justify-content-center">
+                                              <i class="p-1 fa fa-plus mr-0"></i>
+                                            </button>
+                                          </div>
+                                          <!-- <div *ngIf="CurrentQuantity.errors" class="">
+                                              <div
+                                                class="alert alert-danger my-1"
+                                                role="alert"
+                                                *ngIf="CurrentQuantity.errors.min">
+                                                {{ "ExtraExpenses.zeroValue" | translate }}
+                                              </div>
+                                            </div> -->
+                                        </td>
+                                        <td>
+                                          <input
+                                            id="SalesQuantity{{ i }}"
+                                            [numbersOnly]="II.SalesQuantity"
+                                            [allowDecimals]="true"
+                                            name="SalesQuantity{{ i }}"
+                                            class="form-control qty-inputs"
+                                            [(ngModel)]="II.SalesQuantity"
+                                            disabled="true"
+                                            #SalesQuantity="ngModel" />
+                                        </td>
+                                        <td>
+                                          <input
+                                            id="LastQuantity{{ i }}"
+                                            [numbersOnly]="II.LastQuantity"
+                                            [allowDecimals]="true"
+                                            name="LastQuantity{{ i }}"
+                                            class="form-control qty-inputs"
+                                            [(ngModel)]="II.LastQuantity"
+                                            disabled="true"
+                                            #LastQuantity="ngModel" />
+                                        </td>
+                                        <td>
+                                          <button
+                                            (click)="delete(i)"
+                                            class="btn btn-count far fa-trash-alt text-crosss p-0 bg-transparent"
+                                            style="
+                                              background-color: transparent !important;
+                                              border-color: transparent !important;
+                                            "
+                                            [disabled]="!gridFlage"></button>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <!--end grid-->
+                                </div>
+                              </div>
+                              <!-- <div class="ms-panel BlueBg">
+                              </div> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

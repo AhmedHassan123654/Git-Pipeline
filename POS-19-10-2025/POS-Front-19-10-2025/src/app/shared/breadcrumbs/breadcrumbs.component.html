@@ -1,0 +1,29 @@
+<div class="col-md-12">
+  <div class="row mx-1 shadow-sm mb-2 bg-white rounded align-items-center">
+    <div class="col-md-12 col-sm-12">
+      <ol class="breadcrumb bg-white my-0 breadcrumb-arrow-sep">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="styleAll"
+            ><i class="material-icons" style="font-size: 1.2rem">home</i>
+            {{ "ReturnOrder.Home" | translate }}
+          </a>
+        </li>
+
+        <!-- <li class="breadcrumb-item"  routerLinkActive="router-link-active" aria-current="page"></li> -->
+
+        <li (click)="clickedRoute(i)" *ngFor="let it of AllRetrunRoutes; let i = index" class="breadcrumb-item">
+          <a [ngClass]="{ active: currentroutes == it }" class="styleAll"
+            ><i class="material-icons" style="font-size: 1.2rem"></i>
+            {{ getTranslationName("Shared", it) | translate }}
+          </a>
+          
+          <a *ngIf="currentroutes == it" [href]="helpPath" target="_blank"  class="mr-2 cursorPointer active">
+            <i class="fa fa-question-circle pl-1" aria-hidden="true"></i>
+          </a>
+
+        </li>
+
+      </ol>
+    </div>
+  </div>
+</div>

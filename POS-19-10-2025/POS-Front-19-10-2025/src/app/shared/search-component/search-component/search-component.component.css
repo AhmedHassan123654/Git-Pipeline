@@ -1,0 +1,71 @@
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50em;
+  background: url("../../../../assets/images/times-circle.svg") no-repeat 50% 50%;
+  background-size: contain;
+  opacity: 0;
+  pointer-events: none;
+}
+
+input[type="search"]:focus::-webkit-search-cancel-button {
+  opacity: 0.3;
+  pointer-events: all;
+}
+
+#formSearch,
+#formSearch2,
+#formSearch3 {
+  position: relative;
+  width: 500px;
+  max-width: 100%;
+}
+#formSearch input,
+#formSearch2 input,
+#formSearch3 input {
+  border: 1px solid #09a561;
+  border-radius: 50px;
+  font-size: 16px;
+  padding: 10px 30px;
+  width: 100%;
+  height: calc(2.25rem + 3px) !important;
+}
+#formSearch button,
+#formSearch2 button,
+#formSearch3 button {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  background-color: #09a561;
+  border: 0;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 30px;
+  cursor: pointer;
+}
+#formSearch button:active,
+#formSearch2 button:active,
+#formSearch3 button:active {
+  transform: scale(0.95);
+}
+#formSearch input:focus,
+#formSearch button:focus,
+#formSearch2 input:focus,
+#formSearch2 button:focus,
+#formSearch3 input:focus,
+#formSearch3 button:focus {
+  outline: none;
+}
+
+.fa-search {
+  background: #4f8dca;
+  padding: 6px 8px;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.searchInputForm {
+  margin: 5px 0px 11px;
+} /*# sourceMappingURL=search-component.component.css.map */

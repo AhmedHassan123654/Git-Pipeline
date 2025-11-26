@@ -1,0 +1,152 @@
+.ms-panel.ms-panel-fh22 {
+  height: calc(100vh - 16rem) !important;
+}
+.ms-panel.ms-panel-fh2 {
+  height: calc(100vh - 17rem);
+}
+.group-section {
+  background: #b0bcd9;
+  padding: 4px;
+  box-shadow: 0 1px 6px 1px rgba(176, 188, 217, 0.53);
+  max-height: 32vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  .group-section-item {
+    .col-lg-2 {
+      width: 100%;
+      padding-left: 0px;
+      padding-right: 0px;
+      a {
+        font-size: 11px !important;
+        height: 58px;
+        width: 95%;
+        font-weight: 100;
+        background-color: #fff;
+      }
+    }
+  }
+}
+/**/
+.presentaion-section {
+  background: #2a3549;
+  padding: 4px;
+  box-shadow: 0 1px 6px 1px #2a35497d;
+  max-height: 45vh;
+  min-height: 45vh;
+  overflow-y: scroll;
+  ul {
+    li {
+      width: 100%;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
+  .nav-tabs-editM {
+    li {
+      a {
+        font-size: 13px !important;
+        height: 58px;
+        width: 97%;
+        font-weight: 200;
+        cursor: pointer;
+        overflow: hidden;
+      }
+    }
+  }
+  #ItemsNav {
+    li {
+      margin: 0px !important;
+    }
+  }
+  .col-lg-12 {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
+}
+.masterStyle {
+  background: #cce0f6;
+  padding: 12px;
+  border-radius: 6px;
+  .lable {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+.table {
+  .quantiy {
+    width: 62px;
+    text-align: center;
+    .form-control {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+  .desc {
+    width: 95px;
+  }
+  .fa-edit {
+    font-size: 17px !important;
+    color: #1a9f3d;
+    font-weight: 700;
+  }
+  .fa-trash-alt {
+    color: red;
+    font-weight: 600;
+    font-size: 17px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #edeaea;
+  transition: all 0.8s ease-in-out;
+}
+// input[type="search"]::-webkit-search-cancel-button {
+//   -webkit-appearance: none;
+//   height: 1em;
+//   width: 1em;
+//   border-radius: 50em;
+//   background: url('../../../../assets/images/times-circle.svg') no-repeat 50% 50%;
+//   background-size: contain;
+//   opacity: 0;
+//   pointer-events: none;
+// }
+
+// input[type="search"]:focus::-webkit-search-cancel-button {
+//   opacity: .3;
+//   pointer-events: all;
+// }
+
+// input[type="search"].dark::-webkit-search-cancel-button {
+//   filter: invert(1);
+// }
+
+// .has-search .form-control-feedback {
+//   position: absolute;
+//   display: block;
+//   width: 2.375rem;
+//   height: 2.375rem;
+//   line-height: 2.375rem;
+//   text-align: center;
+//   color: #fff;
+//   background: #000;
+//   border-radius: 0 5px 5px 0;
+//   right: -13%;
+// }

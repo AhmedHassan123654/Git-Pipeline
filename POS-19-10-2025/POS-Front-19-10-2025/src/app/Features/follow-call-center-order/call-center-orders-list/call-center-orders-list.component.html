@@ -1,0 +1,554 @@
+<div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+  <div class="col-xl-12 col-md-12 col-xs-12">
+    <div class="ms-panel-header p-2">
+      <div class="col-md-12">
+        <div class="row editBorder justify-content-around align-items-center">
+          <div class="">
+            <div class="d-flex row justify-content-start align-items-center">
+              <div class="col-md-4 d-flex justify-content-start align-items-center">
+                <label for="FromDate">
+                  {{ "CashReceipt.Date" | translate }}
+                </label>
+              </div>
+
+              <div class="col-md-8">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <ejs-datepicker
+                    class="pAsolute absolutePosition"
+                    format="dd/MM/yyyy"
+                    name="Date"
+                    #Date="ngModel"
+                    [(ngModel)]="responseobj.Date"
+                    class="form-control borderRadius Prelative"
+                    id="Date"
+                    placeholder="mm/dd/yyyy"></ejs-datepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="d-flex row justify-content-start align-items-center">
+              <div class="col-md-4 d-flex justify-content-start align-items-center">
+                <label for="validationCustom19">
+                  {{ "Shared.customer" | translate }}
+                </label>
+              </div>
+              <div class="col-md-8">
+                <div class="input-group editInputGroup">
+                  <div class="input-group-addon">
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  </div>
+                  <div class="input-group">
+                    <ejs-combobox
+                      name=""
+                      #CustomerId="ngModel"
+                      [(ngModel)]="responseobj.CustomerId"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="CustomerList"
+                      placeholder=""
+                      [fields]="CustomerFlds"
+                      class="form-control borderRadius"
+                      id="Customer_Id"></ejs-combobox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center p-1">
+            <button
+              style="padding: 0.4rem 0.3rem !important"
+              type="button"
+              class="btn btn-secondary btnEdit"
+              (click)="GetOrders()">
+              {{ "ReturnOrder.Search" | translate }}
+            </button>
+            &nbsp;
+            <button
+              style="padding: 0.4rem 0.3rem !important"
+              class="btn btn-secondary btnEdit"
+              data-toggle="modal"
+              data-target="#modal-101">
+              {{ "Shared.setting" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ms-panel-body" *ngIf="showgrid">
+      <ejs-grid
+        (queryCellInfo)="customiseCell($event)"
+        #grid
+        id="grid"
+        [dataSource]="Orders"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        (rowSelected)="onRowSelected($event)">
+        <e-columns>
+          <!--   <e-column width='120' field='IsSelected'  headerText='{{"Shared.Ischecked"|translate}}' editType='booleanedit'  type="boolean" [allowFiltering]='false' [allowSorting]='false'>
+              <ng-template #template let-data>
+                <div>
+                    <ejs-checkbox  #checkbox (change)="onRowSelected(data)" [checked]='data.IsSelected'></ejs-checkbox> 
+                </div>
+            </ng-template>
+            </e-column> -->
+          <e-column
+            field="OrderNumber"
+            headerText="{{ 'ReturnOrder.OrderNumber' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="Customer.Name"
+            [visible]="Properties.CustomerName"
+            headerText="{{ 'returninsurance.CustomerName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="Customer.Phone"
+            [visible]="Properties.CustomerPhone"
+            headerText="{{ 'Shared.customerPhone' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="CustomerAddress.Description"
+            [visible]="Properties.CustomerAddress"
+            headerText="{{ 'returninsurance.CustomerAddress' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="SubTotal"
+            [visible]="Properties.SubTotal"
+            headerText="{{ 'delivery.Subtotal' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="StatusValue"
+            [visible]="Properties.DeliveryStatus"
+            headerText="{{ 'Shared.status' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="CreationTime"
+            [visible]="Properties.CreationDate"
+            headerText="{{ 'ExtraExpenses.Date' | translate }}"
+            type="date"
+            [format]="orderDateFormat"
+            textAlign="center"></e-column>
+          <e-column
+            field="DeliveryAssignTime"
+            [visible]="Properties.DeliveryAssignTime"
+            headerText="{{ 'ExtraExpenses.AssignTime' | translate }}"
+            type="dateTime"
+            [format]="DateFormat"
+            textAlign="center"
+            [allowFiltering]="false"
+            [allowSorting]="false"></e-column>
+          <e-column
+            field="DeliveryBackTime"
+            [visible]="Properties.DeliveryBackTime"
+            headerText="{{ 'ExtraExpenses.BackTime' | translate }}"
+            type="dateTime"
+            [format]="DateFormat"
+            textAlign="center"
+            [allowFiltering]="false"
+            [allowSorting]="false"></e-column>
+          <e-column
+            field="DeliveryExitTime"
+            [visible]="Properties.DeliveryExitTime"
+            headerText="{{ 'ExtraExpenses.ExitTime' | translate }}"
+            type="dateTime"
+            [format]="DateFormat"
+            textAlign="center"
+            [allowFiltering]="false"
+            [allowSorting]="false"></e-column>
+          <e-column
+            field="DriverName"
+            [visible]="Properties.DriverName"
+            headerText="{{ 'delivery.DriverName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="DriverPhone"
+            [visible]="Properties.DriverPhone"
+            headerText="{{ 'delivery.DriverPhone' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="AllOrderPaymentNames"
+            [visible]="Properties.OrderPayTypeName"
+            headerText="{{ 'ReturnOrder.OrderPayTypeName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="CaptainName"
+            [visible]="Properties.CaptainName"
+            headerText="{{ 'ReturnOrder.CaptainName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="PointOfSaleName"
+            [visible]="Properties.PointOfSaleName"
+            headerText="{{ 'ReturnOrder.PointOfSaleName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="BranchName"
+            [visible]="Properties.BranchName"
+            headerText="{{ 'pointofsale.BranchName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="NoteForOrder"
+            [visible]="Properties.NoteForOrder"
+            headerText="{{ 'ReturnOrder.NoteForOrder' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="ReferenceId"
+            [visible]="Properties.ReferenceId"
+            headerText="{{ 'ReturnOrder.ReferenceId' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="HostName"
+            [visible]="Properties.HostName"
+            headerText="{{ 'ReturnOrder.HostName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="WorkTimeName"
+            [visible]="Properties.WorkTimeName"
+            headerText="{{ 'Shared.WorkTimeName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="EmployeeName"
+            [visible]="Properties.EmployeeName"
+            headerText="{{ 'delivery.EmployeeName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="TotalInsuranceAmount"
+            [visible]="Properties.TotalInsuranceAmount"
+            headerText="{{ 'Reports.TotalInsuranceAmount' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="OrderTypeName"
+            [visible]="Properties.OrderTypeName"
+            headerText="{{ 'Shared.OrderTypeName' | translate }}"
+            textAlign="center"></e-column>
+          <e-column headerText="{{ 'delivery.Actions' | translate }}" textAlign="center">
+            <ng-template #template let-data>
+              <div class="center d-flex align-items-center">
+                <button
+                  style="min-width: 90px"
+                  type="button"
+                  (click)="PrintPerview(data)"
+                  class="btn btn-pill btn-success p-1 has-icon my-0 mx-1">
+                  <i class="fas fa-print"></i> {{ "Order.show" | translate }}
+                </button>
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>
+<!--modal 101 -->
+<div class="modal fade" id="modal-101" tabindex="-1" role="dialog" aria-labelledby="modal-101">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header py-3 d-flex align-items-center">
+        <h5 class="modal-title">
+          <img style="width: 2rem; height: 2rem" src="assets/images/settings.png" alt="" />
+          {{ "Shared.setting" | translate }}
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="SubTotal" #SubTotal="ngModel" [(ngModel)]="Properties.SubTotal" />
+                  {{ "delivery.Subtotal" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="TotalInsuranceAmount"
+                    #TotalInsuranceAmount="ngModel"
+                    [(ngModel)]="Properties.TotalInsuranceAmount" />
+                  {{ "Reports.TotalInsuranceAmount" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="EmployeeName"
+                    #EmployeeName="ngModel"
+                    [(ngModel)]="Properties.EmployeeName" />
+                  {{ "delivery.EmployeeName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CreationDate"
+                    #CreationDate="ngModel"
+                    [(ngModel)]="Properties.CreationDate" />
+                  {{ "ExtraExpenses.Date" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryStatus"
+                    #DeliveryStatus="ngModel"
+                    [(ngModel)]="Properties.DeliveryStatus" />
+                  {{ "Shared.status" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="WorkTimeName"
+                    #WorkTimeName="ngModel"
+                    [(ngModel)]="Properties.WorkTimeName" />
+                  {{ "Shared.WorkTimeName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="HostName" #HostName="ngModel" [(ngModel)]="Properties.HostName" />
+                  {{ "ReturnOrder.HostName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="ReferenceId"
+                    #ReferenceId="ngModel"
+                    [(ngModel)]="Properties.ReferenceId" />
+                  {{ "ReturnOrder.ReferenceId" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="NoteForOrder"
+                    #NoteForOrder="ngModel"
+                    [(ngModel)]="Properties.NoteForOrder" />
+                  {{ "ReturnOrder.NoteForOrder" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="BranchName" #BranchName="ngModel" [(ngModel)]="Properties.BranchName" />
+                  {{ "pointofsale.BranchName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="PointOfSaleName"
+                    #PointOfSaleName="ngModel"
+                    [(ngModel)]="Properties.PointOfSaleName" />
+                  {{ "ReturnOrder.PointOfSaleName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CaptainName"
+                    #CaptainName="ngModel"
+                    [(ngModel)]="Properties.CaptainName" />
+                  {{ "ReturnOrder.CaptainName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="OrderPayTypeName"
+                    #OrderPayTypeName="ngModel"
+                    [(ngModel)]="Properties.OrderPayTypeName" />
+                  {{ "ReturnOrder.OrderPayTypeName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CustomerName"
+                    #CustomerName="ngModel"
+                    [(ngModel)]="Properties.CustomerName" />
+                  {{ "returninsurance.CustomerName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CustomerPhone"
+                    #CustomerPhone="ngModel"
+                    [(ngModel)]="Properties.CustomerPhone" />
+                  {{ "Shared.customerPhone" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="CustomerAddress"
+                    #CustomerAddress="ngModel"
+                    [(ngModel)]="Properties.CustomerAddress" />
+                  {{ "returninsurance.CustomerAddress" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input type="checkbox" name="DriverName" #DriverName="ngModel" [(ngModel)]="Properties.DriverName" />
+                  {{ "delivery.DriverName" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DriverPhone"
+                    #DriverPhone="ngModel"
+                    [(ngModel)]="Properties.DriverPhone" />
+                  {{ "delivery.DriverPhone" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryAssignTime"
+                    #DeliveryAssignTime="ngModel"
+                    [(ngModel)]="Properties.DeliveryAssignTime" />
+                  {{ "ExtraExpenses.AssignTime" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryBackTime"
+                    #DeliveryBackTime="ngModel"
+                    [(ngModel)]="Properties.DeliveryBackTime" />
+                  {{ "ExtraExpenses.BackTime" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 py-1">
+            <div class="d-flex align-items-center justify-content-start">
+              <div class="d-flex justify-content-center align-items-center">
+                <label class="m-0">
+                  <input
+                    type="checkbox"
+                    name="DeliveryExitTime"
+                    #DeliveryExitTime="ngModel"
+                    [(ngModel)]="Properties.DeliveryExitTime" />
+                  {{ "ExtraExpenses.ExitTime" | translate }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ms-panel-footer d-flex justify-content-end">
+        <button class="btn btn-secondary" id="close-popup" (click)="SaveFollowOrderSetting()">save</button>
+      </div>
+    </div>
+  </div>
+</div>

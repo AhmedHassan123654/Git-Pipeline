@@ -1,0 +1,203 @@
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6 preparing">
+        <h2 class="d-flex">Preparing</h2>
+        <div class="content m-0">
+          <!-- <div class="container-fluid"> -->
+            <div class="mb-0 ml-1 pb-0 row">
+              <div *ngFor="let O of PreparingOrders; index as i">
+
+                <ng-container *ngTemplateOutlet="orderTemplate; context: { $implicit: O ,type:1}"></ng-container>
+                <!-- <a
+                  class="order"
+                  data-toggle="modal"
+                  data-target="#orderDetails"
+                  title="view order details"
+                  (click)="GetOrderDetails(O)">
+                  <span>{{ O.OrderNumber }}</span>
+                </a> -->
+
+              </div>
+            </div>
+          <!-- </div> -->
+        </div>
+      </div>
+      <div class="col-6 ready">
+        <div class="row">
+          <div class="col-6"><h2 class="d-flex">Ready</h2></div>
+          <div class="col-6">
+            <input type="number" class="form-control mt-4" [(ngModel)]="searchOrderNumber" (ngModelChange)="searchForOrderNumber()"
+              (keyup.enter)="selectOrderNumber()" placeholder="{{'products.SearchWithOrderNumber' | translate}}..." aria-label="Search">
+          </div>
+        </div>
+        <div class="content m-0">
+          <!-- <div class="container-fluid"> -->
+            <div class="row mb-0 ml-1 pb-0">
+              <div *ngFor="let obj of ReadyOrders; index as i">
+                <ng-container *ngTemplateOutlet="orderTemplate; context: { $implicit: obj ,type:2}"></ng-container>
+
+
+                <!-- <a class="order" (click)="orderIsReceived(obj)">
+                  <span>{{ obj.OrderNumber }}</span>
+                </a> -->
+              </div>
+            </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="orderDetails" tabindex="-1" aria-labelledby="orderDetailsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="orderDetailsLabel">
+          {{"Reports.OrderNumber"| translate}}<span class="px-2">{{ CurrentOrder.OrderNumber }}</span>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="widget">
+              <div class="d-flex justify-content-between item">
+                <span class="item-title">{{"Reports.BranchName" | translate}}</span>
+                <span class="value">{{ CurrentOrder.BranchName }}</span>
+              </div>
+              <div class="d-flex justify-content-between item">
+                <span class="item-title">{{"Reports.Date" | translate}}</span>
+                <span class="value">{{ CurrentOrder.Creationdate }}</span>
+              </div>
+              <div class="d-flex justify-content-between item">
+                <span class="item-title">{{"Reports.OrderType" | translate}}</span>
+                <span class="value">{{ CurrentOrder.OrderTypeName }}</span>
+              </div>
+              <div class="d-flex justify-content-between item">
+                <span class="item-title">{{ CurrentOrder.AllOrderPaymentNames }}</span>
+                <span class="value">{{ CurrentOrder.CashierName }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="widget">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">{{"Reports.Product" | translate}}</th>
+                    <th scope="col">{{"Reports.Price" | translate}}</th>
+                    <th scope="col">{{"Reports.Quantity" | translate}}</th>
+                    <th scope="col">{{"Reports.Note" | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let detail of OrderDetails; index as i">
+                    <td>{{ detail.ProductName }}</td>
+                    <td>{{ detail.RealPrice }}</td>
+                    <td>{{ detail.ProductQuantity }}</td>
+                    <td>{{ detail.AllNotes }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="mt-3">
+              <div class="d-flex justify-content-between total">
+                <span class="total-title">{{"Reports.Total" | translate}}</span>
+                <span class="fs-18">{{ CurrentOrder.SubTotal }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{"Shared.Cancel" | translate}}</button>
+        <button type="button" class="btn btn-success" (click)="MoveToReady(CurrentOrder)">{{"Shared.Ready" | translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- order template -->
+
+<ng-template #orderTemplate let-order let-type="type">
+  <div #childRef class="itemh ms-card ml-1">
+    <div>
+      <!-- <i class="popubtn fa fa-expand"></i> -->
+      <div class="ms-card-header p-2 d-flex justify-content-between align-items-center {{ order.class }}">
+        <div class="d-flex flex-column getName">
+          <span class="py-1"># {{ order.OrderNumber }}</span>
+            <div class="d-flex">
+              <span> {{ order.OrderTypeName }}</span>
+              <span class="ml-1" *ngIf="order.TableName">
+                -{{ order.TableName }}
+              </span>
+              <span
+                  *ngIf="isDelayed(order.ModificationTime)&&settingobj.DefaultOrderPreparationTimeInMinutes"
+                  class="badge badge-pill badge_danger py-2"
+                >
+                  ⚠️ {{ "kds.orderlate" | translate }}
+              </span>
+            </div>
+          </div>
+          
+        <!-- <div class="d-flex flex-column">
+          <span *ngIf="order.CustomerName">
+            {{ order.CustomerName }}
+          </span>
+        </div> -->
+      </div>
+
+      <!-- <perfect-scrollbar [ngStyle]="{ height: '2rem'}"> -->
+      <perfect-scrollbar [ngStyle]="{ height: '5rem'}">
+        <div class="ms-card-body py-1">
+          <ul class="ms-list ms-task-block">
+            <ng-container *ngFor="let detail of order.OrderDetails">
+              <li
+                *ngIf="(type == 2 || !detail.ProductDone) && detail.ProductQuantity > 0"
+                class="ms-list-item ms-to-do-task ms-deletable py-1">
+                <div class="d-flex justify-content-between align-items-center">
+                  <p>{{ detail.Product?.Name }}</p>
+                  <span>{{ detail.ProductQuantity }}</span>
+                </div>
+                <ul class="editulStyle">
+                  <li
+                    *ngFor="let subItem of detail.OrderDetailSubItems"
+                    class="d-flex sideDishesLi justify-content-between align-items-center">
+                    <span><img src="assets/images/nachos.svg" /> {{ subItem.ProductSubItemName }}</span>
+                    <span>{{ subItem.Quantity }}</span>
+                  </li>
+                  <li *ngFor="let note of detail.OrderDetailNotes" class="note">
+                    <img src="assets/images/notes.svg" />
+                    {{ note.NoteName }}
+                  </li>
+                </ul>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+        <span *ngIf="order.WaiterName">{{ "manageorder.Waiter" | translate }} : {{ order.WaiterName }}</span>
+      </perfect-scrollbar>
+
+      <div class="ms-card-footer p-2 text-center">
+        <a *ngIf="type == 1" (click)="MoveToReady(order)" class="btn btn-success link_blue btn-block m-0">{{ "Shared.Ready" | translate }}</a>
+        <a *ngIf="type == 2" (click)="orderIsReceived(order)" class="btn btn-success link_blue btn-block m-0">{{ "Shared.Ready" | translate }}</a>
+      </div>
+      <div class="text-center">
+        <h5 *ngIf="order.NoteForOrder" style="color: #d9534f !important">
+          {{ order.NoteForOrder }}
+        </h5>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+

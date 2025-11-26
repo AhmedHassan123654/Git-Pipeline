@@ -1,0 +1,325 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="SalesTargetform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel rounded">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <!--1-->
+
+                      <div class="form-row pt-3">
+                        <!-- SerialNumber-->
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mb-3">
+                          <label for="validationCustom19"> {{ "Reports.SerialNumber" | translate }} :</label>
+                          <div class="input-group editInputGroup">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </div>
+                            <div class="input-group">
+                              <input
+                                type="number"
+                                placeholder=""
+                                [(ngModel)]="responseobj.SerialNumber"
+                                name="SerialNumber"
+                                #SerialNumber="ngModel"
+                                id="SerialNumber_id"
+                                readonly
+                                class="form-control borderRadius" />
+                            </div>
+                          </div>
+                          <!-- <div class="row pr-xs-0 ">
+                              <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                                <label for="validationCustom19">  {{'Reports.SerialNumber'|translate}} :</label>
+                              </div>
+                          
+                            </div> -->
+                        </div>
+                        <!-- Date-->
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mb-3">
+                          <label for="validationCustom19"> {{ "CashReceipt.Date" | translate }} :</label>
+
+                          <div class="input-group editInputGroup">
+                            <div class="input-group-addon">
+                              <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </div>
+                            <div class="input-group">
+                              <ejs-datepicker
+                                class="pAsolute absolutePosition"
+                                format="dd/MM/yyyy"
+                                name="date"
+                                #date="ngModel"
+                                [(ngModel)]="responseobj.Date"
+                                [ngClass]="{
+                                  'is-invalid': frmRef.submitted && date.invalid
+                                }"
+                                class="form-control borderRadius Prelative"
+                                id="date"
+                                placeholder="mm/dd/yyyy"
+                                [enabled]="false"
+                                [required]="isRequired"></ejs-datepicker>
+                            </div>
+
+                            <div *ngIf="(frmRef.submitted && date.invalid) || (date.invalid && date.touched)" class="">
+                              <div class="alert alert-danger editAlert" *ngIf="date.errors.required">
+                                {{ "ExtraExpenses.DateIsRequired" | translate }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 mb-3 paddingLeftz">
+                          <label for="exampleFormControlTextarea1">
+                            {{ "CashReceipt.lbldescription" | translate }} :
+                          </label>
+                          <div class="input-group editInputGroup">
+                            <textarea
+                              name="Description"
+                              #Description="ngModel"
+                              [(ngModel)]="responseobj.Description"
+                              class="form-control borderRadius"
+                              id="description_id"
+                              disabled></textarea>
+                            <div
+                              class="editAlertCash"
+                              *ngIf="
+                                (frmRef.submitted && Description.invalid) ||
+                                (Description.invalid && Description.touched)
+                              "></div>
+                          </div>
+                          <!-- <div class="row pl-xs-0 pl-sm-0 ">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="exampleFormControlTextarea1">
+                              {{'CashReceipt.lbldescription'|translate}} :
+                              </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              
+                                <div class="input-group editInputGroup">
+                                  <textarea name="Description" #Description="ngModel"
+                                    [(ngModel)]="responseobj.Description" class="form-control borderRadius"
+                                    id="description_id" disabled ></textarea>
+                                  <div class="editAlertCash" *ngIf="
+                                      (frmRef.submitted &&
+                                        Description.invalid) ||
+                                      (Description.invalid &&
+                                        Description.touched)
+                                    ">
+                              
+                                  </div>
+                                </div>
+                              
+                            </div>
+                          </div> -->
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-12">
+                          <div class="d-flex justify-content-end">
+                            <div class="add-row mb-3">
+                              <button
+                                type="button"
+                                class="btn btn-success"
+                                (click)="AddRow()"
+                                [disabled]="disableflage">
+                                <i class="fa bi bi-plus-lg"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="table-responsive">
+                            <table class="table table-bordered text-center BottomTableReturnOrder border-radius-5">
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">
+                                    {{ "Shared.productName" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "Shared.TargetProductQuntity" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "stock.Actions" | translate }}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  *ngFor="let p of responseobj.SalesTargetDetails; let i = index"
+                                  data-dismiss="modal">
+                                  <th scope="row">{{ i + 1 }}</th>
+                                  <td>
+                                    <ejs-combobox
+                                      name="ProductDocumentId{{ i }}"
+                                      #ProductDocumentId="ngModel"
+                                      [(ngModel)]="p.ProductDocumentId"
+                                      [allowFiltering]="true"
+                                      [autofill]="true"
+                                      [dataSource]="Products"
+                                      placeholder="{{ 'Shared.Products' | translate }}"
+                                      [fields]="Flds"
+                                      class="form-control borderRadius"
+                                      id="ProductDocumentId{{ i }}_id"
+                                      [enabled]="!disableflage"
+                                      [required]="isRequired"></ejs-combobox>
+                                    <div
+                                      class=""
+                                      *ngIf="
+                                        (frmRef.submitted && ProductDocumentId.invalid) ||
+                                        (ProductDocumentId.invalid && ProductDocumentId.touched)
+                                      ">
+                                      <div
+                                        class="alert alert-danger editAlertCash"
+                                        *ngIf="ProductDocumentId.errors.required">
+                                        {{ "Shared.productNameIsRequired" | translate }}
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      [numbersOnly]="p.ProductQuentity"
+                                      [allowDecimals]="false"
+                                      #ProductQuentity
+                                      name="ProductQuentity{{ i }}"
+                                      [(ngModel)]="p.ProductQuentity"
+                                      [disabled]="disableflage" />
+                                  </td>
+                                  <td>
+                                    <a class="delete-row" (click)="DeleteRow(i)">
+                                      <i class="fa bi bi-trash-fill"></i>
+                                    </a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Report modal -->
+<div class="modal fade" id="modal-5" tabindex="-1" role="dialog" aria-labelledby="modal-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header borderb">
+        <h5 class="modal-title has-icon ms-icon-round orangeColor restaurantName4">
+          <svg
+            width="28px"
+            height="27px"
+            version="1.1"
+            id="Layer_1"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style="enable-background: new 0 0 512 512"
+            xml:space="preserve">
+            <g>
+              <g>
+                <path
+                  d="M324.267,366.933H187.733c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h136.533
+        c5.12,0,8.533-3.413,8.533-8.533S329.387,366.933,324.267,366.933z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M349.867,409.6H162.133c-5.12,0-8.533,3.413-8.533,8.533s3.413,8.533,8.533,8.533h187.733c5.12,0,8.533-3.413,8.533-8.533
+        S354.987,409.6,349.867,409.6z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M375.467,452.267H136.533c-5.12,0-8.533,3.413-8.533,8.533c0,5.12,3.413,8.533,8.533,8.533h238.933
+        c5.12,0,8.533-3.413,8.533-8.533C384,455.68,380.587,452.267,375.467,452.267z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M0,307.2v93.867c0,14.507,11.093,25.6,25.6,25.6h58.027l-12.8,64.853c-0.853,5.12,0,10.24,3.413,14.507
+        S81.92,512,87.04,512h337.92c5.12,0,10.24-2.56,12.8-5.973c3.413-4.267,4.267-9.387,3.413-14.507l-12.8-64.853H486.4
+        c14.507,0,25.6-11.093,25.6-25.6V307.2H0z M87.04,494.933l15.36-75.093l15.36-78.507h276.48l15.36,78.507l15.36,75.093H87.04z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M486.4,85.333h-59.733v102.4c0,23.893-18.773,42.667-42.667,42.667H128c-23.893,0-42.667-18.773-42.667-42.667v-102.4
+        H25.6c-14.507,0-25.6,11.093-25.6,25.6v179.2h512v-179.2C512,96.427,500.907,85.333,486.4,85.333z" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <rect x="290.133px" y="145.067px" width="85.333px" height="34.133px" />
+              </g>
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M401.067,85.333V17.067C401.067,7.68,393.387,0,384,0H128c-9.387,0-17.067,7.68-17.067,17.067v68.267H102.4v102.4
+        c0,14.507,11.093,25.6,25.6,25.6h256c14.507,0,25.6-11.093,25.6-25.6v-102.4H401.067z M128,17.067h256v68.267H128V17.067z
+          M392.533,187.733c0,5.12-3.413,8.533-8.533,8.533H281.6c-5.12,0-8.533-3.413-8.533-8.533v-51.2c0-5.12,3.413-8.533,8.533-8.533
+        H384c5.12,0,8.533,3.413,8.533,8.533V187.733z" />
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+          <span class="px-2"> Printer Setting</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-10 py-2">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-md-3 d-flex justify-content-start align-items-center label1"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div id="myviewer"></div>
+
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>

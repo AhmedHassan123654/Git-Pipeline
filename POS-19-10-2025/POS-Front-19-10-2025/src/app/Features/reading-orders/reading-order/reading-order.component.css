@@ -1,0 +1,46 @@
+section {
+  width: 100%;
+  overflow-y: scroll;
+  height: 100vh;
+}
+section .perpare-section,
+section .ready-section {
+  width: 50%;
+  text-align: center;
+  color: #fff;
+}
+section .perpare-section h1,
+section .ready-section h1 {
+  padding: 18px 4px;
+  margin-bottom: 12px;
+  font-size: 40px;
+}
+section .perpare-section .num,
+section .ready-section .num {
+  text-shadow: 0px 3px #40403f;
+  font-weight: 600;
+  font-size: 85px;
+}
+section .perpare-section .row > .col-3,
+section .ready-section .row > .col-3 {
+  margin: 10px 0px;
+}
+section .perpare-section {
+  background: #05488c;
+}
+section .perpare-section .fa-fire {
+  color: #ffb302;
+}
+section .ready-section {
+  background: #000;
+}
+section .ready-section .fa-utensils {
+  color: #0dc30d;
+}
+section .ready-section img {
+  height: 81px;
+  position: relative;
+  top: -17px;
+  -webkit-padding-end: 8px;
+  padding-inline-end: 8px;
+} /*# sourceMappingURL=reading-order.component.css.map */

@@ -1,0 +1,313 @@
+<!--reload-->
+<div *ngIf="requestStarted" id="preloader-wrap">
+  <div class="col-md-9 d-flex justify-content-center align-items-center">
+    <!-- <div class="spinner spinner-7 text-center p-0 m-0 w-100">
+      <img src="assets/images/new-logo-nobg.png"   class="" alt="spinner img" srcset="" width="150px" height="100px" />      <br />
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div> -->
+    <div class="new-spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<app-breadcrumbs></app-breadcrumbs>
+
+<form name="printform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions
+    (afterPag)="afterPag($event)"
+    (quickEvents)="quickEvents($event)"
+    [request]="request"
+    [form]="frmRef"
+    [service]="service"
+    [formobj]="responseobj"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel rounded">
+                  <div class="ms-panel-body">
+                    <div class="needs-validation clearfix" novalidate>
+                      <!--1-->
+
+                      <div class="form-row pt-3">
+                        <!--Select Printer-->
+                        <div *ngIf="settings && !settings.IsCloud && !IsMainServer" class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "Layout.Printers" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <!--  [enabled]="false" -->
+                                  <ejs-combobox
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    [allowFiltering]="true"
+                                    [autofill]="true"
+                                    [dataSource]="responseobj.PrintersList"
+                                    placeholder="Select Printer"
+                                    [fields]="PrintFlds"
+                                    class="form-control borderRadius"
+                                    id="Name_id"
+                                    [enabled]="false"
+                                    [required]="responseobj.IsChief == false"></ejs-combobox>
+                                </div>
+
+                                <div
+                                  class=""
+                                  *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                    {{ "pointofsale.NameIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--Select Printer-->
+                        <div *ngIf="(settings && settings.IsCloud) || IsMainServer == true" class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "Layout.Printers" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input
+                                    name="Name"
+                                    #Name="ngModel"
+                                    [(ngModel)]="responseobj.Name"
+                                    id="Name_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="responseobj.IsChief == false" />
+                                </div>
+                                <div
+                                  class=""
+                                  *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                    {{ "pointofsale.NameIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--VirtualName-->
+
+                        <div class="col-md-6 mb-3">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom18"> {{ "Shared.VirtualName" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <img src="assets/images/amount (2).png" alt="" srcset="" />
+                                </div>
+
+                                <div class="input-group positionEdit">
+                                  <input
+                                    name="VirtualName"
+                                    #VirtualName="ngModel"
+                                    [(ngModel)]="responseobj.VirtualName"
+                                    id="VirtualName_id"
+                                    class="form-control borderRadius"
+                                    disabled
+                                    [required]="isRequired" />
+
+                                  <div
+                                    *ngIf="
+                                      (frmRef.submitted && VirtualName.invalid) ||
+                                      (VirtualName.invalid && VirtualName.touched)
+                                    ">
+                                    <div class="alert alert-danger editAlertCash" *ngIf="VirtualName.errors.required">
+                                      {{ "Shared.VirtualNameisrequired" | translate }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--IsChief-->
+                        <div class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "Shared.IsChief" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      type="checkbox"
+                                      name="IsChief"
+                                      #IsChief="ngModel"
+                                      [(ngModel)]="responseobj.IsChief"
+                                      id="IsChief_id"
+                                      class="form-control borderRadius"
+                                      disabled />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--Password-->
+                        <div class="col-md-6 mb-3" *ngIf="responseobj.IsChief">
+                          <div class="row pl-xs-0 pl-sm-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="exampleFormControlTextarea1"> {{ "Shared.Password" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <input
+                                  type="password"
+                                  name="ChiefPassword"
+                                  #ChiefPassword="ngModel"
+                                  [(ngModel)]="responseobj.ChiefPassword"
+                                  id="ChiefPassword_id"
+                                  class="form-control borderRadius"
+                                  [disabled]="!enableChiled" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+<!--KDSOrderTypeList'-->
+<div class="col-md-6" *ngIf="responseobj.IsChief && OrderTypeList">
+  <div class="row">
+    <div class="col-md-3 d-flex justify-content-start align-items-center label1">
+      <label for="validationCustom19"> {{ "Shared.effectedForOrderTypes" | translate }} : </label>
+    </div>
+    <div class="col-md-8 paddingLeftz">
+      <div class="input-group editInputGroup">
+        <div class="input-group-addon">
+          <i class="bi bi-credit-card-2-back-fill"></i>
+        </div>
+        <div class="input-group">
+          <ejs-multiselect
+            name="KDSOrderTypeList"
+            #KDSOrderTypeList="ngModel"
+            [(ngModel)]="responseobj.KDSOrderTypeList"
+            [dataSource]="OrderTypeList"
+            [fields]="orderTypeFlds"
+            class="form-control"
+            placeholder=""
+            [enabled]="enableChiled">
+          </ejs-multiselect>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                        <!--OrderNumbersInKitchen-->
+                        <div *ngIf="responseobj.IsChief" class="col-md-6 mb-3">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label> {{ "Printer.OrderNumbersInKitchen" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user" aria-hidden="true"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-combobox
+                                  name="OrderNumbersInKitchen" #OrderNumbersInKitchen="ngModel"
+                                  [(ngModel)]="responseobj.OrderNumbersInKitchen"
+                                  [allowFiltering]="true" [autofill]="true" [fields]="flds"
+                                  [dataSource]="orderNumbersInKitchenList"
+                                  class="form-control borderRadius"id="OrderNumbersInKitchen_id"
+                                  [enabled]="enableChiled" [required]="responseobj.IsChief"></ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--PrintProductSeparately-->
+                        <div class="col-md-6 mb-3" *ngIf="!responseobj.IsChief">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "Layout.PrintProductSeparately" | translate }}:</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      type="checkbox"
+                                      name="PrintProductSeparately"
+                                      #PrintProductSeparately="ngModel"
+                                      [(ngModel)]="responseobj.PrintProductSeparately"
+                                      id="PrintProductSeparately_id"
+                                      class="form-control borderRadius"
+                                      [disabled]="!enableChiled" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--PrintNewProductsOnlyInBundeled-->
+                        <div class="col-md-6 mb-3" *ngIf="!responseobj.IsChief">
+                          <div class="row pr-xs-0">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "Layout.PrintNewProductsOnlyInBundeled" | translate }} :</label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <div class="input-group positionEdit">
+                                    <input
+                                      type="checkbox"
+                                      name="PrintNewProductsOnlyInBundeled"
+                                      #PrintNewProductsOnlyInBundeled="ngModel"
+                                      [(ngModel)]="responseobj.PrintNewProductsOnlyInBundeled"
+                                      id="PrintNewProductsOnlyInBundeled_id"
+                                      class="form-control borderRadius"
+                                      [disabled]="!enableChiled" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

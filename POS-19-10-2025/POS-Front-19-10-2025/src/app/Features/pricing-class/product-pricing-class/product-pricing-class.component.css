@@ -1,0 +1,10 @@
+.table-section {
+  background: #fff;
+  border-radius: 5px;
+}
+.table-section thead {
+  background: #cce0f6;
+  height: 6vh;
+  line-height: 2;
+  font-size: 17px;
+} /*# sourceMappingURL=product-pricing-class.component.css.map */

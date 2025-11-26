@@ -1,0 +1,179 @@
+<div class="col-md-12">
+  <div class="row mx-1 shadow-sm mb-2 bg-white rounded align-items-center">
+    <div class="col-md-6 col-sm-12">
+      <!-- breadcrumbs -->
+      <ol class="breadcrumb bg-white my-0 breadcrumb-arrow-sep">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="styleAll"
+            ><i class="material-icons" style="font-size: 1.2rem">home</i>
+            {{ "ReturnOrder.Home" | translate }}
+          </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ "stock.Stocks" | translate }}
+        </li>
+
+        <li class="breadcrumb-item">
+          <a class="styleAll" [routerLink]="['stocklist']" routerLinkActive="router-link-active"
+            ><i class="material-icons" style="font-size: 1.2rem"></i>
+            {{ "ReturnOrder.All" | translate }}
+          </a>
+        </li>
+      </ol>
+    </div>
+    <div class="col-md-6 col-sm-12 d-flex">
+      <!-- Search form -->
+      <!-- <form class="form-inline d-flex justify-content-center searchInputForm">
+        <input class="form-control searchInput2 form-control-sm mr-3 w-75" type="text" placeholder=" {{
+              'ReturnOrder.Search' | translate
+            }}  " aria-label="Search" />
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </form> -->
+    </div>
+  </div>
+</div>
+
+<form name="stockform" class="needs-validation clearfix" (ngSubmit)="(frmRef.form.valid)" #frmRef="ngForm" novalidate>
+  <app-pagetransactions
+    (returnobjEvent)="returnobjEvent($event)"
+    (clearobjEvent)="clearobject()"
+    [form]="frmRef"
+    [service]="stockSer"
+    [formobj]="stock"
+    [pagename]="pagename"
+    [pageNumber]="pageNumber"></app-pagetransactions>
+  <!-- [hideEditDelete]="stock.IsSync"  [showedit]="CheckEdit() "  (NewEvent)="NewEvent()"-->
+
+  <div class="px-0 col-md-12">
+    <div class="ms-panel-fh">
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab13">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="ms-panel">
+                  <div class="ms-panel-body">
+                    <div class="form-row pt-3">
+                      <!-- Name -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label>
+                              {{ "Shared.Name" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  name="grname"
+                                  type="text"
+                                  class="form-control"
+                                  [(ngModel)]="stock.Name"
+                                  required />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- foreign name -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label>
+                              {{ "Shared.ForeignName" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                              </div>
+                              <div class="input-group">
+                                <input
+                                  name="ForeignName"
+                                  type="text"
+                                  class="form-control"
+                                  [(ngModel)]="stock.ForeignName"
+                                  required />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Cost Centers  -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom20">{{ "stock.CostCenters" | translate }} :</label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user"></i>
+                              </div>
+                              <div class="input-group positionEdit">
+                                <ejs-combobox
+                                  name="stockTypeId"
+                                  #stockTypeId="ngModel"
+                                  [(ngModel)]="stock.CostCenterId"
+                                  [allowFiltering]="true"
+                                  [autofill]="true"
+                                  [dataSource]="stock.CostCenters"
+                                  placeholder="{{ 'stock.CostCenters' | translate }}"
+                                  [fields]="comboboxfields"
+                                  class="form-control borderRadius"
+                                  id="stockType_id"
+                                  [(value)]="comboval"
+                                  required></ejs-combobox>
+                                <div
+                                  class=""
+                                  *ngIf="
+                                    (frmRef.submitted && stockTypeId.invalid) ||
+                                    (stockTypeId.invalid && stockTypeId.touched)
+                                  ">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="stockTypeId.errors.required">
+                                    {{ "stock.ValidstockType" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- stoped -->
+                      <div class="col-md-6 mb-3">
+                        <div class="row pr-xs-0">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label>
+                              {{ "stock.Stoped" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <label class="ms-checkbox-wrap ms-todo-complete m-0">
+                                <input
+                                  type="checkbox"
+                                  class="form-control borderRadius"
+                                  name="stoped"
+                                  [(ngModel)]="stock.InActive" />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

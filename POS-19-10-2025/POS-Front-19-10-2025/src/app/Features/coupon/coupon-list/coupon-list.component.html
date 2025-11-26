@@ -1,0 +1,39 @@
+<app-breadcrumbs></app-breadcrumbs>
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #Grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        (rowSelected)="onRowSelected($event)"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions">
+        <e-columns>
+          <!-- <e-column field='DocumentId' headerText='CashReciept ID' [isPrimaryKey]='true' textAlign='center'></e-column> -->
+          <e-column
+            field="Description"
+            headerText="{{ 'Shared.Description' | translate }}"
+            textAlign="center"></e-column>
+          <e-column
+            field="ExpireDayNum"
+            headerText="{{ 'Shared.expiresindayes' | translate }}"
+            textAlign="left"></e-column>
+
+          <e-column field="CouponDate" headerText="{{ 'Shared.CouponDate' | translate }}" textAlign="left"></e-column>
+          <e-column field="ExpireDate" headerText="{{ 'Shared.ExpireDate' | translate }}" textAlign="left"></e-column>
+          <e-column field="Value" headerText="{{ 'Shared.Value' | translate }}" textAlign="left"></e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

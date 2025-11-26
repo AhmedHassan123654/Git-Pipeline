@@ -1,0 +1,59 @@
+<!-- Body Content Wrapper -->
+
+<app-breadcrumbs></app-breadcrumbs>
+
+<div class="col-lg-12">
+  <div class="ms-card">
+    <div class="ms-card-body">
+      <ejs-grid
+        #grid
+        id="Grid"
+        [dataSource]="responseobj.List"
+        [allowPaging]="true"
+        [pageSettings]="pageSettings"
+        [allowSorting]="true"
+        [allowFiltering]="true"
+        [filterSettings]="filterOptions"
+        [toolbar]="toolbarOptions"
+        (rowSelected)="onRowSelected($event)"
+        [allowGrouping]="true"
+        [allowPdfExport]="true"
+        [allowExcelExport]="true"
+        (toolbarClick)="toolbarClick($event)"
+        [editSettings]="editOptions">
+        <e-columns>
+          <!-- <e-column field='DocumentId' headerText='CashReciept ID' [isPrimaryKey]='true' textAlign='center'></e-column> -->
+          <e-column field="FullName" headerText="{{ 'Shared.fullName' | translate }}" textAlign="center"></e-column>
+          <e-column field="Phone" headerText="{{ 'UserProfile.PhoneNumber' | translate }}" textAlign="left"></e-column>
+          <e-column
+            field="Address"
+            headerText="{{ 'Order.Address' | translate }}"
+            format="yMd"
+            textAlign="left"></e-column>
+          <e-column
+            field="Description"
+            headerText="{{ 'delivery.description' | translate }}"
+            textAlign="left"></e-column>
+          <e-column
+            field="ShouldHaveMeal"
+            headerText="{{ 'Shared.canHaveMeal' | translate }}"
+            editType="booleanedit"
+            type="boolean"
+            [allowFiltering]="false"
+            [allowSorting]="false">
+            <ng-template #template let-data>
+              <div>
+                <input
+                  type="checkbox"
+                  disabled
+                  name="ShouldHaveMeal"
+                  id="ShouldHaveMeal"
+                  [checked]="data.ShouldHaveMeal" />
+              </div>
+            </ng-template>
+          </e-column>
+        </e-columns>
+      </ejs-grid>
+    </div>
+  </div>
+</div>

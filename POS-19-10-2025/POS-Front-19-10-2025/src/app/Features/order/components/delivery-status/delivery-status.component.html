@@ -1,0 +1,108 @@
+<ng-container [ngSwitch]="status">
+  <ng-container
+    *ngSwitchCase="0"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Unapproved' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="1"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Preparing' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="2"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Delivered' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="3"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.NotDelivered' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="4"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Finished' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="5"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Acknowledged' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="6"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.FoodReady' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="7"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Completed' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="8"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Canceled' | translate,
+      badgeClass: 'delivery-status-danger'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="9"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Canceled' | translate,
+      badgeClass: 'delivery-status-danger'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="10"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.AssignToDriver' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="11"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.OnDelivery' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+  <ng-container
+    *ngSwitchCase="12"
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Cooked' | translate,
+      badgeClass: 'delivery-status-primary'
+    }"></ng-container>
+
+  <ng-container
+    *ngSwitchDefault
+    [ngTemplateOutlet]="statusTemplate"
+    [ngTemplateOutletContext]="{
+      label: 'delivery.Unknown' | translate,
+      badgeClass: 'delivery-status-unknown'
+    }"></ng-container>
+</ng-container>
+
+<ng-template #statusTemplate let-label="label" let-badgeClass="badgeClass">
+  <ng-container *ngIf="onlyText">{{ label }}</ng-container>
+  <div *ngIf="!onlyText" class="p-1 rounded text-white" [ngClass]="badgeClass ? badgeClass : 'delivery-status-primary'">
+    {{ label }}
+  </div>
+</ng-template>

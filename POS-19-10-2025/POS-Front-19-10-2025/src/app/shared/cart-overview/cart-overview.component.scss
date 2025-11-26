@@ -1,0 +1,147 @@
+.headerCart {
+  flex-flow: row wrap;
+  box-sizing: border-box;
+  display: flex;
+  place-content: center space-between;
+  align-items: center;
+}
+.mat-icon-button .mat-icon.mat-icon-lg,
+.mat-icon.mat-icon-lg {
+  font-size: 36px;
+  line-height: 36px;
+  height: 36px;
+  width: 36px;
+  vertical-align: middle;
+}
+
+.mat-list.cart-items.mat-list-base .mat-list-item {
+  height: auto;
+  .mat-list-item-content {
+    padding: 8px 0px;
+  }
+}
+
+.cartFooter {
+  flex-flow: row wrap;
+  box-sizing: border-box;
+  display: flex;
+  place-content: center space-between;
+  align-items: center;
+  .innerDiv {
+    flex-flow: row wrap;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center flex-end;
+    align-items: center;
+  }
+}
+
+.divider {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.w-100 {
+  width: 100% !important;
+}
+.mat-list-item-content {
+  padding: 8px 0px !important;
+}
+.redBtn {
+  background: #c62828 !important;
+}
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+.scroll {
+  width: 200px;
+  height: 400px;
+  background: red;
+  overflow: scroll;
+}
+.scroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.mat-icon.mat-primary {
+  color: #c62828 !important;
+}
+
+.ProductQuantity {
+  width: 36px;
+  height: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+button.ProductQuantitybtn {
+  width: 18px;
+  height: 18px;
+  background: rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  display: flex;
+  line-height: 0;
+  align-items: center;
+  place-content: center;
+  outline: none;
+  cursor: pointer;
+  mat-icon {
+    font-size: 24px;
+  }
+}
+
+.quantity-counter {
+  display: flex;
+  align-items: center;
+  input[type="text"] {
+    width: 60px;
+    height: 36px;
+    outline: none;
+    text-align: center;
+    background: transparent;
+    color: inherit;
+    box-sizing: border-box;
+    border-left: none;
+    border-right: none;
+    margin: 0 -1px;
+    position: relative;
+  }
+  button {
+    display: flex;
+    line-height: 0;
+    // width: 36px;
+    // height: 36px;
+    align-items: center;
+    place-content: center;
+    // background: transparent;
+    // border: 0;
+    outline: none;
+    cursor: pointer;
+  }
+  &.sm {
+    input[type="text"] {
+      width: 36px;
+      height: 18px;
+    }
+    button {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// .quantity-counter{
+//     button , input {
+//         background: rgba(0, 0, 0, 0.12);
+//         border: 1px solid rgba(0, 0, 0, 0.12);
+//     }
+// }
+.flexAuto {
+  flex: auto;
+  align-items: flex-start;
+}
+.secondary-font {
+  font-family: "Lora";
+}

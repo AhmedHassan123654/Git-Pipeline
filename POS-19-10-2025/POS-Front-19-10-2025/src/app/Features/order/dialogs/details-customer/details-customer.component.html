@@ -1,0 +1,206 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">
+    {{ "manageorder.Customers" | translate }}
+  </h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form (ngSubmit)="submitCustomerDetail(frmDetailsCustomer)" #frmDetailsCustomer="ngForm" id="addCustomerModalForm">
+    <div *ngIf="customerToAdd" class="col-md-12">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-3">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="phoneCustomer">
+                {{ "Reports.Telephone" | translate }}
+              </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="material-icons fs-16">input</i>
+                </div>
+                <div class="input-group">
+                  <input
+                    id="phoneCustomer"
+                    autocomplete="off"
+                    type="text"
+                    class="form-control"
+                    name="CustomerPhone"
+                    required
+                    [(ngModel)]="customerToAdd.Phone"
+                    #CustomerPhone="ngModel"
+                    placeholder="{{ 'Reports.Telephone' | translate }}" />
+                  <div
+                    class=""
+                    *ngIf="
+                      (frmDetailsCustomer.submitted && CustomerPhone.invalid) ||
+                      (CustomerPhone.invalid && CustomerPhone.touched)
+                    ">
+                    <div class="alert alert-danger editAlertCash" *ngIf="CustomerPhone.errors.required">
+                      {{ "delivery.TelephoneIsRequired" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="phoneCustomer2"> {{ "Reports.Telephone" | translate }} 2 </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="material-icons fs-16">input</i>
+                </div>
+                <div class="input-group">
+                  <input
+                    id="phoneCustomer2"
+                    autocomplete="off"
+                    type="text"
+                    class="form-control"
+                    name="CustomerPhone2"
+                    [(ngModel)]="customerToAdd.Phone2"
+                    #CustomerPhone2="ngModel"
+                    placeholder="{{ 'Reports.Telephone' | translate }} 2" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="CustomerPhone3"> {{ "Reports.Telephone" | translate }} 3 </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="material-icons fs-16">input</i>
+                </div>
+                <div class="input-group">
+                  <input
+                    id="phoneCustomer3"
+                    autocomplete="off"
+                    type="text"
+                    class="form-control"
+                    name="CustomerPhone3"
+                    [(ngModel)]="customerToAdd.Phone3"
+                    #CustomerPhone3="ngModel"
+                    placeholder="{{ 'Reports.Telephone' | translate }} 3" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="nameCustomer">
+                {{ "returninsurance.CustomerName" | translate }}
+              </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="material-icons fs-16">input</i>
+                </div>
+                <div class="input-group">
+                  <input
+                    id="nameCustomer"
+                    required
+                    type="text"
+                    class="form-control"
+                    name="CustomerName"
+                    [(ngModel)]="customerToAdd.Name"
+                    #CustomerName="ngModel"
+                    placeholder="{{ 'returninsurance.CustomerName' | translate }}" />
+                  <div
+                    class=""
+                    *ngIf="
+                      (frmDetailsCustomer.submitted && CustomerName.invalid) ||
+                      (CustomerName.invalid && CustomerName.touched)
+                    ">
+                    <div class="alert alert-danger editAlertCash" *ngIf="CustomerName.errors.required">
+                      {{ "pointofsale.NameIsRequired" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="TaxNo">
+                {{ "Shared.Taxnumber" | translate }}
+              </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="material-icons fs-16">input</i>
+                </div>
+                <div class="input-group">
+                  <input
+                    id="TaxNo"
+                    type="text"
+                    class="form-control"
+                    name="TaxNo"
+                    [(ngModel)]="customerToAdd.TaxNo"
+                    #TaxNo="ngModel"
+                    placeholder="{{ 'Shared.Taxnumber' | translate }}" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+              <label for="CustomerBarcode">
+                {{ "products.Barcode" | translate }}
+              </label>
+            </div>
+            <div class="col-md-8 paddingLeftz">
+              <div class="input-group editInputGroup">
+                <div class="input-group-addon">
+                  <i class="material-icons fs-16">input</i>
+                </div>
+                <div class="input-group">
+                  <input
+                    id="CustomerBarcode"
+                    type="text"
+                    class="form-control"
+                    name="CustomerBarcode"
+                    [(ngModel)]="customerToAdd.CustomerBarcode"
+                    #CustomerBarcode="ngModel"
+                    placeholder="{{ 'products.Barcode' | translate }}" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">
+    {{ "Shared.Close" | translate }}
+  </button>
+  <button type="submit" class="btn btn-primary" form="addCustomerModalForm">
+    {{ "Shared.Save" | translate }}
+  </button>
+</div>

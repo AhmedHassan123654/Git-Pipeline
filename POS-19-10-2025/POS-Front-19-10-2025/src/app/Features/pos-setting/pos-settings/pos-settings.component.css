@@ -1,0 +1,18 @@
+.ms-checkbox-wrap input[type="checkbox"] {
+  opacity: 1;
+  width: 25px;
+  height: 25px;
+}
+.required-asterisk {
+  color: red !important;
+}
+span {
+  color: #333 !important;
+}
+i {
+  font-size: 18px !important;
+}
+.pb-1,
+.py-1 {
+  font-weight: bold;
+}

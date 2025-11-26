@@ -1,0 +1,1813 @@
+<!--customer select Model -> payment-->
+<div
+  class="modal fade"
+  id="modal-40444"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modal-40444" style="overflow-y: auto;"
+
+  data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog my-1 customSelected modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="orderSer.showDeliveryPopup">
+      <div class="modal-body deliveryCustomer">
+        <nav class="d-flex justify-content-between ">
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a
+              *ngIf="!_orderobj.IsDriver"
+              class="nav-link active d-flex"
+              id="nav-home-tab"
+              data-toggle="tab"
+              href="#nav-home"
+              role="tab"
+              aria-controls="nav-home"
+              aria-selected="true">
+              <img width="28px" height="29.2px" src="assets/images/customerRestaurant.png" alt="" srcset="" />
+              <p style="margin: 0.5rem 0.3rem 0rem" class="restaurantName3">
+                {{ "manageorder.Customers" | translate }}
+              </p>
+            </a>
+            <a
+              *ngIf="_orderobj.OrderType && _orderobj.OrderType.Value == 2"
+              [ngClass]="_orderobj.IsDriver ? 'active ' : ''"
+              class="nav-link d-flex"
+              id="nav-profile-tab"
+              data-toggle="tab"
+              (click)="getDrivers()"
+              href="#nav-profile"
+              role="tab"
+              aria-controls="nav-profile"
+              aria-selected="false">
+              <img width="33px" height="33px" src="assets/images/delivery-man.png" alt="" srcset="" />
+              <p style="margin: 0.5rem 0.3rem 0rem" class="restaurantName3">
+                {{ "delivery.drivers" | translate }}
+              </p>
+            </a>
+            <a
+              *ngIf="!_orderobj.IsDriver"
+              class="nav-link d-flex"
+              data-toggle="tab"
+              href="#nav-orders-tab"
+              role="tab"
+              (click)="getCustomersBalance()"
+              aria-controls="nav-orders-tab"
+              aria-selected="false">
+              <img width="33px" height="33px" src="assets/images/to-do-list.png" alt="" srcset="" />
+              <p style="margin: 0.5rem 0.3rem 0rem" class="restaurantName3">
+                {{ "Shared.customerorders" | translate }}
+              </p>
+            </a>
+          </div>
+          <button type="button" class="close" (click)="hideDeliveryModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </nav>
+        <div class="tab-content pt-2" id="nav-tabContent">
+          <!-- First Tab -->
+          <div
+            *ngIf="!_orderobj.IsDriver"
+            class="tab-pane fade show active"
+            id="nav-home"
+            role="tabpanel"
+            aria-labelledby="nav-home-tab">
+            <div class="row">
+              <div class="col-md-4">
+                <perfect-scrollbar style="height: 38rem">
+                  <form class="row pl-3">
+                    <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                      <label for="phoneCustomer"> {{ "Reports.Telephone" | translate }}</label>
+                      <input
+                        id="phoneCustomer"
+                        autocomplete="off"
+                        type="text"
+                        class="form-control"
+                        name="phone"
+                        [(ngModel)]="_orderobj.Customer.Phone"
+                        #phone="ngModel"
+                        placeholder="{{ 'Reports.Telephone' | translate }}"
+                        readonly />
+                    </div>
+                    <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                      <label for="NameCustomer">{{ "returninsurance.CustomerName" | translate }}</label>
+                      <input
+                        id="NameCustomer"
+                        type="text"
+                        class="form-control"
+                        name="Name"
+                        (keyup)="customerChanged = true"
+                        [(ngModel)]="_orderobj.Customer.Name"
+                        #Name="ngModel" disabled
+                        placeholder="{{ 'returninsurance.CustomerName' | translate }}" />
+                    </div>
+                    <div
+                      class="col-sm-12"
+                      *ngIf="
+                        _orderobj.CustomerAddress &&
+                        (_orderobj.CustomerAddress.Id || _orderobj.CustomerAddress.DocumentId)
+                      ">
+                      <div class="row">
+                        <!--row start-->
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="customerAddress">{{ "delivery.addressDetails" | translate }}</label>
+                          <input
+                            id="customerAddress"
+                            type="text"
+                            class="form-control"
+                            name="Description"
+                            [(ngModel)]="_orderobj.CustomerAddress.Description"
+                            #Description="ngModel"
+                            placeholder="Address Description" />
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="BuildingNumber">{{ "delivery.Building" | translate }}</label>
+                          <input
+                            id="BuildingNumber"
+                            type="text"
+                            class="form-control"
+                            name="BuildingNumber"
+                            [(ngModel)]="_orderobj.CustomerAddress.BuildingNumber"
+                            #BuildingNumber="ngModel"
+                            placeholder="Building" />
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="StreetNumber">{{ "delivery.street" | translate }}</label>
+                          <input
+                            id="StreetNumber"
+                            type="text"
+                            class="form-control"
+                            name="StreetNumber"
+                            [(ngModel)]="_orderobj.CustomerAddress.StreetNumber"
+                            #StreetNumber="ngModel"
+                            placeholder="Street" />
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="Apartment">{{ "delivery.Apartment" | translate }}</label>
+                          <input
+                            id="Apartment"
+                            type="text"
+                            class="form-control"
+                            name="Apartment"
+                            [(ngModel)]="_orderobj.CustomerAddress.Apartment"
+                            #Apartment="ngModel"
+                            placeholder="Apartment" />
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="Floor">{{ "delivery.Floor" | translate }}</label>
+                          <input
+                            id="Floor"
+                            type="text"
+                            class="form-control"
+                            name="Floor"
+                            [(ngModel)]="_orderobj.CustomerAddress.Floor"
+                            #Floor="ngModel"
+                            placeholder="Floor" />
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="GPSLocation">{{ "Reports.GPSLocation" | translate }}</label>
+                          <input
+                            id="GPSLocation"
+                            type="text"
+                            class="form-control"
+                            name="GpsLocation"
+                            [(ngModel)]="_orderobj.CustomerAddress.GpsLocation"
+                            #GpsLocation="ngModel"
+                            placeholder="GPSLocation" />
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="Floor">{{ "delivery.region" | translate }}</label>
+                          <ejs-combobox
+                            id="Region"
+                            name="Region"
+                            #Region="ngModel"
+                            [(ngModel)]="_orderobj.CustomerAddress.RegionId"
+                            [(value)]="_orderobj.CustomerAddress.RegionId"
+                            [allowFiltering]="true"
+                            [autofill]="true"
+                            [dataSource]="regionList"
+                            placeholder="Region"
+                            [fields]="comboboxRegionFields"
+                            class="form-control borderRadius"
+                            id="RegionId"
+                            (focusout)="checkRegion(_orderobj.CustomerAddress.RegionId)"
+                            (change)="selectRegion(_orderobj.CustomerAddress.RegionId)">
+                          </ejs-combobox>
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="DeliveryPrice">{{ "Shared.RegionDeliveryPrice" | translate }}</label>
+                          <input
+                            [attr.disabled]="!validationList['CanChangeDeliveryPrice'] || _orderobj.Driver?.NotIncludedInTotal  ? '' : null"
+                            id="DeliveryPrice"
+                            type="number"
+                            class="form-control"
+                            name="RegionsDeliveryPrice"
+                            (keyup)="_orderobj = recalculateOrderObject(_orderobj)"
+                            [(ngModel)]="_orderobj.DeliveryPrice"
+                            #RegionsDeliveryPrice="ngModel"
+                            placeholder="Regions Delivery Price" />
+                        </div>
+                        <div class="input-group d-flex flex-column col-sm-12 mb-1">
+                          <label for="DeliveryPersonDeliveryPrice">{{
+                            "Shared.RegionPersonDeliveryPrice" | translate
+                          }}</label>
+                          <input
+                            [attr.disabled]="!validationList['CanChangeDeliveryPrice'] ? '' : null"
+                            id="DeliveryPersonDeliveryPrice"
+                            type="number"
+                            class="form-control"
+                            name="RegionDeliveryPersonDeliveryPrice"
+                            (keyup)="_orderobj = recalculateOrderObject(_orderobj)"
+                            [(ngModel)]="_orderobj.DeliveryPersonDeliveryPrice"
+                            #RegionDeliveryPersonDeliveryPrice="ngModel"
+                            placeholder="Regions Delivery Person Price" />
+                        </div>
+                        <div class="input-group col-sm-12 mb-1">
+                          <button class="btn btn-warning m-0 p-1" (click)="EditAddress()">
+                            {{ "pagetransactions.Edit" | translate }}
+                          </button>
+                          <!--row end-->
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </perfect-scrollbar>
+              </div>
+              <div class="col-md-8 borderLeftEdit">
+                <div class="mb-3">
+                  <div class="alert alert-info">
+                    <div class="p-2">{{ "Shared.typeFourOrMore" | translate }}</div>
+                  </div>
+                </div>
+                <!--form-->
+                <form name="form" (ngSubmit)="f.form.valid && onSubmit($event)" #f="ngForm" class="row">
+                  <div class="form-group input-group col-sm-6 mb-4">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-phone"></i>
+                      </div>
+                      <div class="input-group positionEdit">
+                        <input id="search_PhoneNumber"
+                          placeholder="Phone Number"
+                          autocomplete="off"
+                          name="phone"
+                          class="form-control borderRadius"
+                          [(ngModel)]="model.Phone"
+                          #phone="ngModel"
+                          required
+                          minlength="3"
+                          (input)="inputChanged('phone')"
+                          [numbersOnly]="model.Phone" />
+                        <div *ngIf="(!phone.valid && phone.touched) || (f.submitted && phone.invalid)">
+                          <div class="alert alert-danger editAlertCash p-1" *ngIf="phone.errors.required">
+                            {{ "delivery.DriverNameIsRequired" | translate }}
+                          </div>
+                          <div class="alert alert-danger editAlertCash p-1" *ngIf="phone.errors.minlength">
+                            {{ "Shared.Phonemustbeatleast6characters" | translate }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group input-group col-sm-6 mb-4">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-search"></i>
+                      </div>
+                      <div class="input-group positionEdit">
+                        <input
+                          type="text"
+                          class="form-control borderRadius"
+                          placeholder="Search By Name"
+                          type="text"
+                          name="Name"
+                          class="form-control"
+                          [(ngModel)]="model.Name"
+                          #Name="ngModel"
+                          required
+                          (input)="inputChanged('name')" />
+                        <div *ngIf="(!Name.valid && Name.touched) || (f.submitted && Name.invalid)">
+                          <div class="alert alert-danger editAlertCash p-1" *ngIf="Name.errors.required"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group input-group col-sm-6 mb-4">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-barcode"></i>
+                      </div>
+                      <div class="input-group positionEdit">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Search By Code"
+                          name="Code"
+                          class="form-control borderRadius"
+                          [(ngModel)]="model.CustomerBarcode"
+                          #Code="ngModel"
+                          (input)="inputChanged('code')" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group input-group col-sm-6 mb-4">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-balance-scale"></i>
+                      </div>
+                      <div class="input-group positionEdit">
+                        <input type="text" class="form-control borderRadius" placeholder="Customer Balance" readonly />
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <button class="btn btn-success mx-3 p-1 mb-2" name="AddCustomer" [disabled]="!validationList['CanAddCustomer']">
+                  {{'Shared.AddCustomer'|translate}}
+                </button> -->
+                  <button
+                    type="button"
+                    class="btn btn-success mx-3 p-1 mb-2"
+                    *ngIf="!_orderobj.CustomerDocumentId"
+                    (click)="openAddCustomer()"
+                    [disabled]="!validationList['CanAddCustomer']">
+                    {{ "Shared.AddCustomer" | translate }}
+                  </button>
+                  <button
+                    class="btn btn-success mx-3 p-1 mb-2"
+                    *ngIf="_orderobj.Customer && _orderobj.CustomerDocumentId"
+                    name="OpenCustomerPOPUp2"
+                    (click)="getCustomerGroupList()"
+                    data-toggle="modal"
+                    data-target="#DetailsCustomer">
+                    {{ "pagetransactions.Edit" | translate }}
+                    {{ "manageorder.Customer" | translate }}
+                  </button>
+
+
+
+
+ <!-- Reservation Order -->
+ <div class="row col-md-12 ml-0">
+  <div class="col-md-2 mb-3 pr-0">
+    <div class="row justify-content-start align-items-center">
+      <div class="col-md-8 p-0"> <label > {{ "Reports.CustomerOrderReservation" | translate }}: </label></div>
+      <div class="col-md-4 p-0">
+        <label class="ms-checkbox-wrap ms-todo-complete ">
+          <input type="checkbox" class="form-control borderRadius" name="IsCustomerOrder"
+            #IsCustomerOrder="ngModel" [(ngModel)]="_orderobj.IsCustomerOrder" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+  <!--received Date-->
+  <div *ngIf="_orderobj.IsCustomerOrder" class="col-md-5 mb-3">
+    <div class="row justify-content-start align-items-center">
+      <div class="col-md-2"> <label for="validationCustom19"> {{ "CustomerOrder.ReceivedDate" | translate }}: </label> </div>
+      <div class="col-md-10">
+        <div class="input-group editInputGroup">
+          <div class="input-group-addon"> <i class="fa fa-calendar" aria-hidden="true"></i> </div>
+          <div class="input-group">
+            <ejs-datepicker class="pAsolute absolutePosition form-control borderRadius"
+              format="dd/MM/yyyy" name="ReceivedDate" #ReceivedDate="ngModel"
+              [(ngModel)]="_orderobj.ReservationInfo.ReceivedDate" class="form-control borderRadius Prelative"
+              id="ReceivedDate" placeholder="mm/dd/yyyy"></ejs-datepicker>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--received Time-->
+  <div *ngIf="_orderobj.IsCustomerOrder" class="col-md-5 mb-3">
+    <div class="row justify-content-start align-items-center">
+      <div class="col-md-2"> <label for="receivedTime"> {{ "CustomerOrder.ReceivedTime" | translate }}: </label></div>
+      <div class="col-md-10">
+        <div class="input-group editInputGroup">
+          <div class="input-group-addon"> <i class="fas fa-clock" aria-hidden="true"></i> </div>
+          <div class="input-group">
+            <input type="time" [(ngModel)]="_orderobj.ReservationInfo.ReceivedTime" name="ReceivedTime"
+              ngDefaultControl id="ReceivedTime" class="form-control borderRadius">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+
+<!-- End Reservation Order -->
+
+
+
+
+
+
+                </form>
+                <!--end form-->
+                <!--table-->
+                <div class="row">
+                  <perfect-scrollbar style="height: 22rem" [config]="config" class="col-md-12">
+                    <table class="table table-bordered text-center mb-0">
+                      <thead class="bg-maingreen">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">{{ "Shared.Name" | translate }}</th>
+                          <th scope="col">
+                            {{ "Reports.Telephone" | translate }}
+                          </th>
+                          <th scope="col">{{ "stock.Actions" | translate }}</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        class="styleTr"
+                        id="accordion"
+                        *ngFor="let Customer of orderSer.customerList?.slice(0, 20); let i = index">
+                        <tr
+                          [ngStyle]="{
+                            background: Customer.isCollapse ? '#cce0f6' : '#fff'
+                          }"
+                          (click)="getCustomerAddress(Customer, i)">
+                          <th scope="row" id="{{ i }}">
+                            <button
+                              class="btn p-0 m-0 btnPLus btn-link"
+                              data-toggle="collapse"
+                              data-target="#collapseOne_@i"
+                              aria-expanded="true"
+                              aria-controls="#collapseOne_@i">
+                              <i *ngIf="!Customer.isCollapse" class="fas fa-plus maingreen"></i>
+                              <i *ngIf="Customer.isCollapse" class="fas fa-minus maingreen"></i>
+                            </button>
+                          </th>
+                          <td>{{ Customer.Name }}
+                              <!-- Show warning badge if blacklisted -->
+                               <span
+                                *ngIf="Customer.IsBlackListed || Customer.Notes"
+                                [ngClass]="Customer.IsBlackListed ? 'bg-danger' : 'bg-dark'"
+                                class="text-white p-1 ms-2 border border-white rounded"
+                                title="Blacklisted"
+                                >
+                                ⚠️ {{ Customer.Notes ?  Customer.Notes : 'Shared.BlackList' | translate }}
+                              </span>
+                          </td>
+                          <td>{{ Customer.Phone }}</td>
+                          <td>
+                            <button
+                              class="btn btn-success p-1 m-0"
+                              data-toggle="modal"
+                              data-target="#modal-40404"
+                              (click)="openAddress(Customer)"
+                              *ngIf="_isDelivery">
+                              {{ "Shared.AddAddress" | translate }}
+                            </button>
+                          </td>
+                          <td></td>
+                        </tr>
+                        <!--1#Address info-->
+
+                        <tr id="collapseOne_@i" [hidden]="!Customer.isCollapse">
+                          <th scope="col">
+                            {{ "delivery.Floor" | translate }}
+                          </th>
+                          <th scope="col">
+                            {{ "delivery.Apartment" | translate }}
+                          </th>
+                          <th scope="col">
+                            {{ "delivery.Building" | translate }}
+                          </th>
+                          <th scope="col">
+                            {{ "delivery.addressDetails" | translate }}
+                          </th>
+                          <th></th>
+                        </tr>
+
+                        <tr
+                          [ngStyle]="{
+                            background: Address.IsSelected ? '#cce0f6' : '#fff'
+                          }"
+                          *ngFor="let Address of orderSer.customerAddressList"
+                          id="collapseOne_@i"
+                          [hidden]="!Customer.isCollapse">
+                          <td>{{ Address.Floor }}</td>
+                          <td>{{ Address.Apartment }}</td>
+                          <td>{{ Address.BuildingNumber }}</td>
+                          <td style="max-width: 100px !important; overflow: hidden">
+                            {{ Address.Description }}
+                          </td>
+                          <td>
+                            <button
+                              *ngIf="!Address.IsSelected"
+                              class="btn btn-success p-1 m-0"
+                              (click)="custAddress(Address)">
+                              {{ "Shared.Select" | translate }}
+                            </button>
+                            <button
+                              *ngIf="Address.IsSelected"
+                              class="btn btn-success p-1 m-0"
+                              (click)="unSelectAddress(Address)">
+                              {{ "Shared.UnSelect" | translate }}
+                            </button>
+                          </td>
+                        </tr>
+
+                        <!--end first customer-->
+                      </tbody>
+                    </table>
+                  </perfect-scrollbar>
+                  <div class="col-3 d-flex justify-content-end ml-auto">
+                    <button type="button" class="btn btn-light mt-0" data-dismiss="modal" (click)="cancel()">
+                      {{ "Shared.Close" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Second Tab -->
+          <div
+            [ngClass]="_orderobj.IsDriver ? 'show active ' : ''"
+            class="tab-pane fade"
+            id="nav-profile"
+            role="tabpanel"
+            aria-labelledby="nav-profile-tab">
+            <div class="row">
+              <div class="col-md-12">
+                <!--form-->
+                <form name="form" (ngSubmit)="f.form.valid && onSubmit($event)" #f="ngForm" class="row">
+                  <div class="form-group input-group col-sm-6 mb-4">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="fas fa-search"></i>
+                      </div>
+                      <div class="input-group positionEdit">
+                        <input
+                          type="text"
+                          class="form-control borderRadius"
+                          placeholder="Search By Name"
+                          type="text"
+                          name="Name"
+                          class="form-control"
+                          [(ngModel)]="driverName"
+                          #Name="ngModel"
+                          required
+                          (input)="getDrivers()" />
+                        <div *ngIf="(!Name.valid && Name.touched) || (f.submitted && Name.invalid)">
+                          <div class="alert alert-danger editAlertCash p-1" *ngIf="Name.errors.required">
+                            {{ "Shared.Nameisrequired" | translate }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <!--end form-->
+                <!--table-->
+                <div class="row">
+                  <perfect-scrollbar style="height: 22rem" class="col-md-12">
+                    <table class="table table-bordered text-center mb-0">
+                      <thead class="bg-maingreen">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">{{ "Shared.Name" | translate }}</th>
+                          <th scope="col">
+                            {{ "Reports.Telephone" | translate }}
+                          </th>
+                          <th scope="col">{{ "stock.Actions" | translate }}</th>
+                        </tr>
+                      </thead>
+                      <tbody
+                        class="styleTr"
+                        id="accordion"
+                        *ngFor="let driver of driverList?.slice(0, 20); let i = index">
+                        <tr id="{{ i }}" (click)="selectDriver(driver)">
+                          <th scope="row" id="{{ i }}">
+                            {{ i + 1 }}
+                          </th>
+                          <td>{{ driver.DriverName }}</td>
+                          <td>{{ driver.TelephoneNumber }}</td>
+                          <td>
+                            <button class="btn btn-success p-1 m-0">
+                              <span *ngIf="!driver.IsSelected">{{ "Shared.Select" | translate }}</span>
+                              <span *ngIf="driver.IsSelected">{{ "Shared.UnSelect" | translate }}</span>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </perfect-scrollbar>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Third Tab -->
+          <div
+            *ngIf="!_orderobj.IsDriver"
+            class="tab-pane fade"
+            id="nav-orders-tab"
+            role="tabpanel"
+            aria-labelledby="nav-orders-tab">
+            <div class="row">
+              <div class="col-md-4">
+                <perfect-scrollbar style="height: 35rem">
+                  <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-maingreen">
+                      <tr>
+                        <th scope="col">
+                          {{ "Reports.productName" | translate }}
+                        </th>
+                        <th scope="col">
+                          {{ "Shared.ProductQuantity" | translate }}
+                        </th>
+                        <th scope="col">
+                          {{ "Reports.ProductPrice" | translate }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="styleTr">
+                      <tr *ngFor="let SelectOrder of SelctedOrderDetails">
+                        <td>
+                          {{ SelectOrder.ProductName }}
+                        </td>
+                        <td>
+                          {{ SelectOrder.ProductQuantity }}
+                        </td>
+                        <td>
+                          {{ SelectOrder.ProductPrice | currency : " " : "symbol" : fraction}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Total Customer Balance Block -->
+                  <div class="card bg-light text-right mt-3">
+                    <div class="card-body">
+                      <h5 class="card-title">💰 {{"Shared.customerbalance" | translate}}</h5>
+                      <p class="card-text font-weight-bold" id="totalBalance">{{customerBalance | currency : " " : "symbol" : fraction }}</p>
+                    </div>
+                  </div>
+
+                </perfect-scrollbar>
+                <button
+                  type="button" [disabled]="orderTypeForGrid == 2"
+                  *ngIf="SelctedOrderDetails && SelctedOrderDetails.length > 0"
+                  (click)="SelectOrder()"
+                  class="btn btn-success has-icon p-1 m-0">
+                  <i class="bi bi-eye-fill"></i>
+                  {{ "Shared.Select" | translate }}
+                </button>
+              </div>
+              <div class="col-md-8 borderLeftEdit">
+                <!-- Customer Orders and Reservations tabs -->
+                <div class="mt-2">
+                  <ul class="nav nav-tabs editMainTab d-flex nav-justified pb-0" role="tablist">
+                    <li class="px-2" role="presentation" (click)="setOrderTypeForGrid(1)">
+                      <a href="#orderstab" aria-controls="orderstab" class="active basic-info" role="tab" data-toggle="tab">
+                        {{ "Shared.customerorders" | translate }}
+                      </a>
+                    </li>
+                    <li  class="px-2" role="presentation" (click)="getCustomerOrdersByCustomerId()">
+                      <a href="#reservationtab" aria-controls="reservationtab" role="tab" data-toggle="tab" class="basic-info">
+                        {{ "Order.reservationlist" | translate }}
+                        <!-- {{ "manageorder.Customer Reservation" | translate }} -->
+                      </a>
+                    </li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li>
+                    </li>
+                  </ul>
+                  
+                </div>
+
+                <!-- Customer Orders and Reservations Contents -->
+
+                <div class="cont">
+                  <div class="ms-panel-body-1 clearfix">
+                    <div style="background: #fff" class="tab-content">
+                      <!------------ first form ---------------->
+                      <div role="tabpanel" class="tab-pane active show fade in" id="orderstab">
+                        
+                        <div class="modal-body">
+                          <!--table-->
+                          <div class="row">
+                            <perfect-scrollbar style="height: 22rem" class="col-md-12">
+                              <table class="table table-bordered text-center mb-0">
+                                <thead class="bg-maingreen">
+                                  <tr>
+                                    <th scope="col">
+                                      {{ "CashReceipt.Date" | translate }}
+                                    </th>
+                                    <th scope="col">{{ "setting.Time" | translate }}</th>
+                                    <th scope="col">
+                                      {{ "ReturnOrder.OrderNumber" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "manageorder.Customer" | translate }}
+                                    </th>
+                                    <th scope="col">
+                                      {{ "ReturnOrder.PaymentName" | translate }}
+                                    </th>
+                                    <th scope="col">{{ "Shared.Total" | translate }}</th>
+                                    <th scope="col">
+                                      {{ "delivery.details" | translate }}
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody class="styleTr">
+                                  <tr *ngFor="let CustomerOrder of CustomerOrders">
+                                    <td>
+                                      {{ CustomerOrder.Closedate }}
+                                    </td>
+                                    <td>
+                                      {{ CustomerOrder.CloseTime }}
+                                    </td>
+                                    <td>
+                                      {{ CustomerOrder.OrderNumber }}
+                                    </td>
+                                    <td>
+                                      {{ CustomerOrder.CustomerName }}
+                                    </td>
+                                    <td>
+                                      {{ CustomerOrder.AllOrderPaymentNames }}
+                                    </td>
+                                    <td>
+                                      {{ CustomerOrder.SubTotal | currency : " " : "symbol" : fraction }}
+                                    </td>
+                                    <td>
+                                      <button
+                                        type="button"
+                                        class="btn btn-success btnFit has-icon p-1 m-0"
+                                        (click)="showOrderDetailOfCustomer(CustomerOrder)">
+                                        <i class="bi bi-eye-fill"></i>
+                                        {{ "Shared.Show" | translate }}
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </perfect-scrollbar>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <!------------ second form ---------------->
+                      <div class="tab-pane fade" id="reservationtab">
+                        <div class="modal-body">
+                          <div class="table-responsive">
+                            <table class="table table-bordered thead-primary text-center mb-0">
+                              <thead>
+                                <tr>
+                                  <th scope="col">
+                                    {{ "delivery.Subtotal" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "CustomerOrder.ReceivedDate" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "CustomerOrder.ReceivedTime" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "Reports.Customer" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "UserProfile.PhoneNumber" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "manageorder.Pay Amount" | translate }}
+                                  </th>
+                                  <th scope="col">
+                                    {{ "delivery.details" | translate }}
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let reservationOrder of customrReservationOrders; let i = index">
+                                  <td> {{ reservationOrder.SubTotal | currency : " " : "symbol" : fraction : priceLang }} </td>
+                                  <td>{{ reservationOrder.Date }}</td>
+                                  <td>{{ reservationOrder.Time }}</td>
+                                  <td>{{ reservationOrder.CustomerName }}</td>
+                                  <td> {{ reservationOrder.ReceiverPhone ? reservationOrder.ReceiverPhone : reservationOrder.CustomerPhone }} </td>
+                                  <td> {{ reservationOrder.PayedAmountReservation | currency : " " : "symbol" : fraction : priceLang }} </td>
+                                  <td>  
+                                    <button  type="button" class="btn btn-success btnFit has-icon p-1 m-0"
+                                      (click)="showOrderDetailOfCustomer(reservationOrder)">
+                                      <i class="bi bi-eye-fill"></i> {{ "Shared.Show" | translate }} </button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+<!--end customer select model -> payment-->
+<!--address Model-->
+<div class="modal modalPinCode fade" id="modal-40404" tabindex="-1" role="dialog" aria-labelledby="modal-40404">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="orderSer.showDeliveryPopup">
+      <div class="modal-body">
+        <form (ngSubmit)="frmAddress.form.valid && submitAddress($event)" #frmAddress="ngForm" class="row">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <!--phone-->
+                <div class="form-group">
+                  <label for="examplePhoneN">{{ "Reports.Telephone" | translate }}</label>
+                  <input
+                    type=""
+                    class="form-control"
+                    id="examplePhoneN"
+                    name="Phone"
+                    [(ngModel)]="_orderobj.Customer.Phone"
+                    #Phone="ngModel"
+                    placeholder=""
+                    readonly />
+                </div>
+                <!--address description-->
+                <div class="form-group">
+                  <label class="importantInsert" for="exampleAddressD">{{
+                    "delivery.addressDetails" | translate
+                  }}</label>
+                  <textarea
+                    class="form-control"
+                    id="exampleAddressD"
+                    cols=""
+                    rows=""
+                    name="Description"
+                    [(ngModel)]="customerAddress.Description"
+                    #Description="ngModel"
+                    required>
+                  </textarea>
+                  <div
+                    class="alert text-danger p-1"
+                    *ngIf="
+                      (!Description.valid && Description.touched) || (frmAddress.submitted && Description.invalid)
+                    ">
+                    <div class="alert-danger p-1" *ngIf="Description.errors.required">
+                      {{ "CashReceipt.validdescription" | translate }}
+                    </div>
+                  </div>
+                </div>
+                <!--street-->
+                <div class="form-group">
+                  <label for="exampleStreet">{{ "delivery.street" | translate }}</label>
+                  <input
+                    type=""
+                    class="form-control"
+                    id="exampleStreet"
+                    name="StreetNumber"
+                    [(ngModel)]="customerAddress.StreetNumber"
+                    #StreetNumber="ngModel"
+                    placeholder=""
+                    value="" />
+                </div>
+                <!--Floor-->
+                <div class="form-group">
+                  <label for="examplefloor">{{ "delivery.Floor" | translate }}</label>
+                  <input
+                    type=""
+                    class="form-control"
+                    id="examplefloor"
+                    name="Floor"
+                    [(ngModel)]="customerAddress.Floor"
+                    #Floor="ngModel"
+                    placeholder=""
+                    value="" />
+                </div>
+                <!--region delivery-->
+                <div class="form-group">
+                  <label for="exampleDeliveryPrice">{{ "Shared.RegionDeliveryPrice" | translate }}</label>
+                  <div class="d-flex">
+                    <input
+                      type=""
+                      class="form-control"
+                      name="DeliveryPrice"
+                      #DeliveryPrice="ngModel"
+                      [(ngModel)]="_orderobj.DeliveryPrice"
+                      id="DeliveryPrice"
+                      placeholder=""
+                      value=""
+                      [readonly]="isReadonyPrice" />
+                    <button
+                      type="button"
+                      class="btn btn-success dispalyInline mx-1 p-1 my-0"
+                      data-toggle="modal"
+                      [disabled]="true"
+                      data-target="#modal-PinCode"
+                      (click)="clearPinCode()">
+                      {{ "Shared.Change" | translate }}
+                    </button>
+                  </div>
+                </div>
+                <!--Delivery Person Delivery Price -->
+                <div class="form-group">
+                  <label for="exampleDeliveryPrice">{{ "Shared.RegionPersonDeliveryPrice" | translate }} </label>
+                  <input
+                    type=""
+                    class="form-control"
+                    name="DeliveryPersonDeliveryPrice"
+                    #DeliveryPersonDeliveryPrice="ngModel"
+                    [(ngModel)]="_orderobj.DeliveryPersonDeliveryPrice"
+                    id="exampleDeliveryPrice"
+                    placeholder=""
+                    value="" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <!--name-->
+                <div class="form-group">
+                  <label for="exampleCustN">{{ "returninsurance.CustomerName" | translate }}</label>
+                  <input
+                    type=""
+                    class="form-control"
+                    id="CustomerName"
+                    name="Name"
+                    [(ngModel)]="selectCustomer.Name"
+                    #Name="ngModel"
+                    placeholder=""
+                    readonly />
+                </div>
+                <!--building-->
+                <div class="form-group">
+                  <label for="exampleBuilding">{{ "delivery.Building" | translate }}</label>
+                  <input
+                    type=""
+                    class="form-control"
+                    id="exampleBuilding"
+                    name="BuildingNumber"
+                    [(ngModel)]="customerAddress.BuildingNumber"
+                    #BuildingNumber="ngModel"
+                    placeholder=""
+                    value="" />
+                </div>
+                <!--Apartment-->
+                <div class="form-group">
+                  <label for="exampleApart">{{ "delivery.Apartment" | translate }}</label>
+                  <input
+                    type=""
+                    class="form-control"
+                    id="exampleApart"
+                    name="Apartment"
+                    [(ngModel)]="customerAddress.Apartment"
+                    #Apartment="ngModel"
+                    placeholder=""
+                    value="" />
+                </div>
+                <!--region-->
+                <div class="form-group">
+                  <label for="exampleRegion">{{ "delivery.region" | translate }}</label>
+                  <div class="d-flex">
+                    <ejs-combobox
+                      name="Region"
+                      #Region="ngModel"
+                      [(ngModel)]="customerAddress.RegionId"
+                      [(value)]="customerAddress.RegionId"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="regionList"
+                      placeholder="Region"
+                      [fields]="comboboxRegionFields?.value === null ? RegionFieldsDocumentId : comboboxRegionFields"
+                      class="form-control borderRadius"
+                      id="RegionId"
+                      (focusout)="checkRegion(customerAddress.RegionId)"
+                      (change)="selectRegion(customerAddress.RegionId)">
+                    </ejs-combobox>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="modal-footer p-1">
+                  <button type="button" class="btn btn-light" data-dismiss="modal">
+                    {{ "Shared.Close" | translate }}
+                  </button>
+                  <button type="submit" name="AddAddress" class="btn btn-primary shadow-none">
+                    {{ "Shared.AddAddress" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--end Address Model-->
+<!--Pin Code Model-->
+<div class="modal fade modalPinCode" id="modal-PinCode" tabindex="-1" role="dialog" aria-labelledby="modal-PinCode">
+  <div style="transform: translate(20%, -10%)" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" *ngIf="orderSer.showDeliveryPopup" style="width: 50%">
+      <div class="modal-body px-5">
+        <form (ngSubmit)="frmPinCode.form.valid && submitPinCode($event)" #frmPinCode="ngForm" class="row">
+          <div class="form-group col-md-12">
+            <label for="PinCode">{{ "Shared.Pin" | translate }}</label>
+            <input
+              type=""
+              class="form-control"
+              id="PinCode"
+              name="Code"
+              [(ngModel)]="PinCode"
+              #Code="ngModel"
+              placeholder="Pin Code"
+              required />
+            <div
+              class="alert text-danger"
+              *ngIf="(!Code.valid && Code.touched) || (frmPinCode.submitted && Code.invalid)">
+              <div class="alert-danger p-1" *ngIf="Code.errors.required">Pin Code is required</div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer p-1">
+        <button type="button" class="btn btn-light btnEdit mt-0" data-dismiss="modal">
+          {{ "Shared.Close" | translate }}
+        </button>
+        <button type="submit" name="CheckPinCode" class="btn btn-primary shadow-none mt-0 btnEdit">
+          {{ "Shared.Save" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--End Pin Code-->
+<!--DetailsCustomer-->
+<!-- add edit customer -->
+<div
+  class="modal fade"
+  id="DetailsCustomer"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="DetailsCustomer"
+  aria-hidden="true"
+  data-backdrop="static"
+  data-keyboard="false">
+  <div class="modal-dialog customSelected" *ngIf="orderSer.showDeliveryPopup" role="document">
+    <form (ngSubmit)="submitCustomer(frmDetailsCustomer)" #frmDetailsCustomer="ngForm" class="row">
+      <div class="modal-content modal-content DetailsCustomer">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            {{ "manageorder.Customers" | translate }}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19">
+                    {{ "Reports.Telephone" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="phoneCustomer1"
+                        autocomplete="off"
+                        [numbersOnly]="_orderobj.Customer.Phone"
+                        class="form-control"
+                        name="CustomerPhone"
+                        required
+                        [(ngModel)]="_orderobj.Customer.Phone"
+                        #CustomerPhone="ngModel"
+                        placeholder="{{ 'Reports.Telephone' | translate }}"
+                        [disabled]="_orderobj.CustomerDocumentId" />
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && CustomerPhone.invalid) ||
+                          (CustomerPhone.invalid && CustomerPhone.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="CustomerPhone.errors.required">
+                          {{ "delivery.TelephoneIsRequired" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19"> {{ "Reports.Telephone" | translate }} 2 </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="phoneCustomer2"
+                        autocomplete="off"
+                        [numbersOnly]="_orderobj.Customer.Phone2"
+                        class="form-control"
+                        name="CustomerPhone2"
+                        [(ngModel)]="_orderobj.Customer.Phone2"
+                        #CustomerPhone2="ngModel"
+                        placeholder="{{ 'Reports.Telephone' | translate }} 2" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19"> {{ "Reports.Telephone" | translate }} 3 </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="phoneCustomer3"
+                        autocomplete="off"
+                        [numbersOnly]="_orderobj.Customer.Phone3"
+                        class="form-control"
+                        name="CustomerPhone3"
+                        [(ngModel)]="_orderobj.Customer.Phone3"
+                        #CustomerPhone3="ngModel"
+                        placeholder="{{ 'Reports.Telephone' | translate }} 3" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19">
+                    {{ "returninsurance.CustomerName" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="NameCustomer2"
+                        required
+                        type="text"
+                        class="form-control"
+                        name="CustomerName"
+                        (keyup)="customerChanged = true"
+                        [(ngModel)]="_orderobj.Customer.Name"
+                        #CustomerName="ngModel"
+                        placeholder="{{ 'returninsurance.CustomerName' | translate }}" />
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && CustomerName.invalid) ||
+                          (CustomerName.invalid && CustomerName.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="CustomerName.errors.required">
+                          {{ "pointofsale.NameIsRequired" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                  <label for="validationCustom19">
+                    {{ "products.Barcode" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="material-icons fs-16">input</i>
+                    </div>
+                    <div class="input-group">
+                      <input
+                        id="CustomerBarcode"
+                        type="text"
+                        class="form-control"
+                        name="CustomerBarcode"
+                        (keyup)="customerChanged = true"
+                        [(ngModel)]="_orderobj.Customer.CustomerBarcode"
+                        #CustomerBarcode="ngModel"
+                        placeholder="{{ 'products.Barcode' | translate }}" />
+                      <!-- <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                            {{ "pointofsale.NameIsRequired"| translate }}
+                          </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- add customer address for adding new customer i=only -->
+            <ng-container *ngIf="!_orderobj.CustomerDocumentId && _orderobj.Customer.OneAddress">
+              <!--row start-->
+
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "delivery.addressDetails" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Description"
+                          #Description="ngModel"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.Description"
+                          placeholder="{{ 'delivery.addressDetails' | translate }}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "delivery.Building" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="BuildingNumber"
+                          #BuildingNumber="ngModel"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.BuildingNumber"
+                          placeholder="{{ 'delivery.Building' | translate }}" 
+                          [required]="_orderobj.Customer.UseTaxNumber"/>
+                    </div>
+                    <div *ngIf=" (frmDetailsCustomer.submitted && BuildingNumber.invalid) || (BuildingNumber.invalid && BuildingNumber.touched) ">
+                      <div class="alert alert-danger editAlertCash" *ngIf="BuildingNumber.errors?.required">
+                        {{ "Shared.Required" | translate }}
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "delivery.street" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="StreetNumber"
+                          #StreetNumber="ngModel"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.StreetNumber"
+                          placeholder="{{ 'delivery.street' | translate }}" 
+                          [required]="_orderobj.Customer.UseTaxNumber"/>
+                      </div>
+                      <div *ngIf=" (frmDetailsCustomer.submitted && StreetNumber.invalid) || (StreetNumber.invalid && StreetNumber.touched) ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="StreetNumber.errors?.required">
+                          {{ "Shared.Required" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "delivery.Apartment" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Apartment"
+                          #Apartment="ngModel"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.Apartment"
+                          placeholder="{{ 'delivery.Apartment' | translate }}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "delivery.Floor" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Floor"
+                          #Floor="ngModel"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.Floor"
+                          placeholder="{{ 'delivery.Floor' | translate }}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Reports.GPSLocation" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="GpsLocation"
+                          #GpsLocation="ngModel"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.GpsLocation"
+                          placeholder="{{ 'Reports.GPSLocation' | translate }}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "delivery.region" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <ejs-combobox
+                          class="form-control borderRadius"
+                          id="RegionId"
+                          id="Region"
+                          name="Region"
+                          #Region="ngModel"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.RegionId"
+                          [(value)]="_orderobj.Customer.OneAddress.RegionId"
+                          [allowFiltering]="true"
+                          [autofill]="true"
+                          [dataSource]="regionList"
+                          placeholder="Region"
+                          [fields]="comboboxRegionFields">
+                        </ejs-combobox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+            <!--Select Customer Group-->
+            <div class="col-md-6 mb-3">
+              <div class="row">
+                <div class="col-md-4 d-flex justify-content-start align-items-start label1">
+                  <label for="validationCustom19">
+                    {{ "Shared.Selectcustomergroup" | translate }}
+                  </label>
+                </div>
+                <div class="col-md-8 paddingLeftz">
+                  <div class="input-group editInputGroup">
+                    <div class="input-group-addon">
+                      <i class="fas fa-user" aria-hidden="true"></i>
+                    </div>
+                    <div class="input-group">
+                      <ejs-combobox
+                      name="CustomerGroupDocumentId"
+                      #CustomerGroupDocumentId="ngModel"
+                      [(ngModel)]="_orderobj.Customer.CustomerGroupDocumentId"
+                      [allowFiltering]="true"
+                      [autofill]="true"
+                      [dataSource]="CustomerGroupList"
+                      placeholder="{{ 'Shared.Selectcustomergroup' | translate }}"
+                      [fields]="Flds"
+                      class="form-control borderRadius"
+                      id="CustomerGroupDocumentId_id"></ejs-combobox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CustomerNotes -->
+            <div class="col-md-12">
+              <div class="col-md-6 mb-3 pl-0" >
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Shared.CustomerNotes" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Notes"
+                          #Notes="ngModel"
+                          [(ngModel)]="_orderobj.Customer.Notes"
+                          [required]="_orderobj.Customer.IsBlackListed"
+                          placeholder="{{ 'Shared.CustomerNotes' | translate }}" />
+                      </div>
+                      <div *ngIf=" (frmDetailsCustomer.submitted && Notes.invalid) || (Notes.invalid && Notes.touched) ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="Notes.errors?.required">
+                          {{ "Shared.Required" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 row">
+              
+              <!-- Is Credit -->
+              <div class="col-md-4 mb-3 pl-0" *ngIf="validationList['CanAddCreditCustomer'] && settingobj && settingobj.FinancialSystem !== 4">
+                <div class="row">
+                  <div class="col-md-6 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Shared.AllowCreditSales" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-6 paddingLeftz">
+                    <div class="ms-switch input-group editInputGroup">
+                      <label >
+                        <input
+                          type="checkbox"
+                          class="form-control borderRadius"
+                          name="UseCredit"
+                          #UseCredit="ngModel"
+                          [(ngModel)]="_orderobj.Customer.UseCredit" />
+                          <span class="ms-switch-slider round" style="width: 3.5rem" [ngStyle]="{
+                          'background-color': _orderobj.Customer.UseCredit ? 'rgb(87 208 99)' : 'rgb(207 211 216)'
+                            }"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- IsBlackListed -->
+              <div class="col-md-4 mb-3">
+                <div class="row pl-xs-0 pl-sm-0">
+                  <label class="col-xs-6 col-md-6 mb-2 justify-content-start align-items-center label1">
+                    {{ "Shared.BlackList" | translate }} :</label>
+                  <div class="ms-switch col-md-2 mx-3">
+                    <label>
+                      <input type="checkbox" class="form-control" name="IsBlackListed" #IsBlackListed="ngModel"
+                        [(ngModel)]="_orderobj.Customer.IsBlackListed"/>
+                      <span class="ms-switch-slider round" style="width: 3.5rem" [ngStyle]="{
+                          'background-color': _orderobj.Customer.IsBlackListed ? 'rgb(87 208 99)' : 'rgb(207 211 216)'
+                        }"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <!-- Use Tax Number toggle -->
+              <div class="col-md-4 mb-3">
+                <div class="row">
+                  <div class="col-md-6 d-flex justify-content-start align-items-center label1">
+                    <label> {{ "Reports.useTaxNumber" | translate }} </label>
+                  </div>
+                  <div class="col-md-6 paddingLeftz">
+                    <div class="ms-switch input-group editInputGroup">
+                      <label>
+                        <input
+                        type="checkbox"
+                          class="form-control borderRadius"
+                          name="UseTaxNumber"
+                          #UseTaxNumber="ngModel"
+                          [(ngModel)]="_orderobj.Customer.UseTaxNumber" />
+                          <span class="ms-switch-slider round" style="width: 3.5rem" [ngStyle]="{
+                          'background-color': _orderobj.Customer.UseTaxNumber ? 'rgb(87 208 99)' : 'rgb(207 211 216)'
+                            }"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+                  
+            </div>
+
+            <!--  العنوان الوطني-->
+            <ng-container *ngIf="_orderobj.Customer.UseTaxNumber">
+              <div class="col-md-6 mb-3" >
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="validationCustom19">
+                      {{ "Shared.Taxnumber" | translate }}
+                    </label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">input</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          id="TaxNo"
+                          type="text"
+                          class="form-control"
+                          name="TaxNo"
+                          (keyup)="customerChanged = true"
+                          [(ngModel)]="_orderobj.Customer.TaxNo" [numbersOnly]="_orderobj.Customer.TaxNo"
+                          #TaxNo="ngModel"
+                          [required]="_orderobj.Customer.UseTaxNumber"
+                          placeholder="{{ 'Shared.Taxnumber' | translate }}" />
+                      </div>
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && TaxNo.invalid) ||
+                          (TaxNo.invalid && TaxNo.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="TaxNo.errors?.required">
+                          {{ "Shared.Required" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Country -->
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="Country">{{ "Shared.Country" | translate }}</label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">public</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          id="Country"
+                          type="text"
+                          class="form-control"
+                          name="Country"
+                          [(ngModel)]="_orderobj.Customer.Country"
+                          #Country="ngModel"
+                          [required]="_orderobj.Customer.UseTaxNumber"
+                          placeholder="{{ 'Shared.Country' | translate }}" />
+                      </div>
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && Country.invalid) ||
+                          (Country.invalid && Country.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="Country.errors?.required">
+                          {{ "Shared.Required" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Postal Code -->
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="PostalCode">{{ "Shared.PostalZone" | translate }}</label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">markunread_mailbox</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          id="PostalCode"
+                          type="text"
+                          class="form-control"
+                          name="PostalCode"
+                          [(ngModel)]="_orderobj.Customer.PostalCode"
+                          #PostalCode="ngModel"[numbersOnly]="_orderobj.Customer.PostalCode"
+                          [required]="_orderobj.Customer.UseTaxNumber"
+                          [placeholder]="'Shared.PostalZone' | translate" />
+                      </div>
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && PostalCode.invalid) ||
+                          (PostalCode.invalid && PostalCode.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="PostalCode.errors?.required">
+                          {{ "Shared.Required" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- City -->
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="City">{{ "Shared.City" | translate }}</label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">location_city</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          id="City"
+                          type="text"
+                          class="form-control"
+                          name="City"
+                          [(ngModel)]="_orderobj.Customer.City"
+                          #City="ngModel"
+                          [required]="_orderobj.Customer.UseTaxNumber"
+                          placeholder="{{ 'Shared.City' | translate }}" />
+                      </div>
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && City.invalid) ||
+                          (City.invalid && City.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="City.errors?.required">
+                          {{ "Shared.Required" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Zone -->
+              <div class="col-md-6 mb-3" *ngIf="_orderobj.Customer.OneAddress">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="Zone">{{ "Shared.District" | translate }}</label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">location_city</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          id="Zone"
+                          type="text"
+                          class="form-control"
+                          name="Zone"
+                          [(ngModel)]="_orderobj.Customer.OneAddress.Zone"
+                          #Zone="ngModel"
+                          [required]="_orderobj.Customer.UseTaxNumber"
+                          placeholder="{{ 'Shared.District' | translate }}" />
+                      </div>
+                      <div
+                        class=""
+                        *ngIf="
+                          (frmDetailsCustomer.submitted && Zone.invalid) ||
+                          (Zone.invalid && Zone.touched)
+                        ">
+                        <div class="alert alert-danger editAlertCash" *ngIf="Zone.errors?.required">
+                          {{ "Shared.Required" | translate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Sub Number -->
+              <div class="col-md-6 mb-3">
+                <div class="row">
+                  <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                    <label for="SubNumber">{{ "Shared.SubNumber" | translate }}</label>
+                  </div>
+                  <div class="col-md-8 paddingLeftz">
+                    <div class="input-group editInputGroup">
+                      <div class="input-group-addon">
+                        <i class="material-icons fs-16">house</i>
+                      </div>
+                      <div class="input-group">
+                        <input
+                          id="SubNumber"
+                          type="text"
+                          class="form-control"
+                          name="SubNumber"
+                          [(ngModel)]="_orderobj.Customer.SubNumber" [numbersOnly]="_orderobj.Customer.SubNumber"
+                          #SubNumber="ngModel"
+                          placeholder="{{ 'Shared.SubNumber' | translate }}" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!--  العنوان الوطني-->
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            {{ "Shared.Close" | translate }}
+          </button>
+          <button type="submit" class="btn btn-primary">
+            {{ "Shared.Save" | translate }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- end DetailsCustomer-->

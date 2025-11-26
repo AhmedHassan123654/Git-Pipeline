@@ -1,0 +1,222 @@
+<app-breadcrumbs></app-breadcrumbs>
+<form name="pricingclassesform" class="" #frmRef="ngForm" (ngSubmit)="(frmRef.form.valid)" novalidate>
+  <app-pagetransactions (afterPag)="afterPag($event)" (quickEvents)="quickEvents($event)" [request]="request"
+    [form]="frmRef" [service]="service" [formobj]="responseobj" [pagename]="pagename" [pageNumber]="pageNumber">
+  </app-pagetransactions>
+
+  <div class="col-md-12">
+    <div class="ms-panel-fh">
+      <div class=""></div>
+      <div class="cont">
+        <div class="ms-panel-body-1 clearfix">
+          <div style="background: #fff" class="tab-content ms-panel">
+            <!------------ first form ---------------->
+            <div role="tabpanel" class="tab-pane active show fade in" id="tab133">
+              <div class="col-xl-12 col-md-12 col-xs-12">
+                <div class="p-2 row">
+                  <div class="col-md-12">
+                    <div class="row align-items-center">
+                      <!--username-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19">
+                              {{ "Shared.Name" | translate }}
+                            </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input type="text" placeholder="" name="Name" #Name="ngModel"
+                                  [(ngModel)]="responseobj.Name" id="name_id" class="form-control borderRadius" disabled
+                                  [required]="true" />
+                                <div *ngIf="(frmRef.submitted && Name.invalid) || (Name.invalid && Name.touched)">
+                                  <div class="alert alert-danger editAlertCash" *ngIf="Name.errors.required">
+                                    {{ "pointofsale.NameIsRequired" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--ForeignName-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "customer.ForeignName" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input type="text" placeholder="" name="ForeignName" #ForeignName="ngModel"
+                                  [(ngModel)]="responseobj.ForeignName" id="ForeignName_id" disabled
+                                  class="form-control borderRadius" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--PaymentType-->
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "customer.PaymentType" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <ejs-combobox name="PayType" #PayType="ngModel" [(ngModel)]="responseobj.PayType"
+                                  [allowFiltering]="true" [autofill]="true" [dataSource]="responseobj.PayTypeList"
+                                  placeholder="Select Payment Type" [fields]="Flds" class="form-control borderRadius"
+                                  id="PayType_id" [enabled]="false" [required]="true"></ejs-combobox>
+                              </div>
+                              <div class=""
+                                *ngIf="(frmRef.submitted && PayType.invalid) || (PayType.invalid && PayType.touched)">
+                                <div class="alert alert-danger editAlertCash" *ngIf="PayType.errors.required">
+                                  Payment Type is required
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--Percentage-->
+                      <div *ngIf="responseobj.PayType == 50" class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "CustomerOrder.DiscountPer" | translate }} %: </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group-addon">
+                                <i class="fas fa-user fs-16"></i>
+                              </div>
+                              <div class="input-group">
+                                <input type="number" name="Percentage" disabled #Percentage="ngModel" max="100"
+                                  [(ngModel)]="responseobj.Percentage" id="Percentage_id"
+                                  class="form-control borderRadius" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <div *ngIf="responseobj.PayType == 30"> -->
+                        <!--HasCommission -->
+                        <!-- <div class="col-md-6 mb-3" *ngIf="responseobj.PayType == 30">
+                          <div class="row">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label> {{ "CustomerOrder.HasCommission" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group">
+                                  <input type="checkbox" name="HasCommission" #HasCommission="ngModel"
+                                    [(ngModel)]="responseobj.HasCommission" class="form-control borderRadius" [disabled]="!enableChiled" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+
+                        <!--CommissionAmount -->
+                        <!-- <div class="col-md-6 mb-3" *ngIf="responseobj.PayType == 30 && responseobj.HasCommission">
+                          <div class="row">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for> {{ "CustomerOrder.CommissionAmount" | translate }} % </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user fs-16"></i>
+                                </div>
+                                <div class="input-group">
+                                  <input type="number" name="CommissionAmount" [disabled]="!enableChiled" #CommissionAmount="ngModel" 
+                                    [(ngModel)]="responseobj.CommissionAmount" id="CommissionAmount_id" max="100" min="0"
+                                    class="form-control borderRadius" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+
+                        <!--CommissionAmount -->
+                        <!-- <div class="col-md-6 mb-3" *ngIf="responseobj.PayType == 30 && responseobj.HasCommission">
+                          <div class="row">
+
+                            <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                              <label for="validationCustom19"> {{ "CustomerOrder.CarryCommissionOn" | translate }} : </label>
+                            </div>
+                            <div class="col-md-8 paddingLeftz">
+                              <div class="input-group editInputGroup">
+                                <div class="input-group-addon">
+                                  <i class="fas fa-user fs-16"></i>
+                                </div>
+                                <div class="input-group">
+                                  <ejs-combobox name="CarryCommissionOn" #CarryCommissionOn="ngModel" [(ngModel)]="responseobj.CarryCommissionOn"
+                                    [dataSource]="carryCommissionTypes" [fields]="Flds" class="form-control borderRadius"
+                                    [allowFiltering]="true" [autofill]="true" id="CarryCommissionOn_id" [enabled]="enableChiled"></ejs-combobox>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div> -->
+
+                      <!-- </div> -->
+
+
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "messages.NoteIsRequiredForPayment" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <input type="checkbox" name="NoteIsRequired" #NoteIsRequired="ngModel"
+                                  [(ngModel)]="responseobj.NoteIsRequired" class="form-control borderRadius" disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-start align-items-center label1">
+                            <label for="validationCustom19"> {{ "Shared.IsStopped" | translate }} : </label>
+                          </div>
+                          <div class="col-md-8 paddingLeftz">
+                            <div class="input-group editInputGroup">
+                              <div class="input-group">
+                                <input type="checkbox" name="IsStopped" #IsStopped="ngModel"
+                                  [(ngModel)]="responseobj.IsStopped" class="form-control borderRadius" disabled />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

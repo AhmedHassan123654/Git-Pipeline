@@ -1,0 +1,92 @@
+.ms-card-img {
+  position: relative;
+}
+.ms-card-img .badge-pill {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  pointer-events: none;
+  border: white !important;
+  color: #fff !important;
+}
+
+.dots {
+  width: 100%;
+  margin: 10px 4px 0;
+}
+
+.new.meta {
+  border-top: 1px dotted rgba(0, 0, 0, 0.3);
+}
+
+.mainName {
+  font-family: "lora", serif;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.8705882353);
+  font-weight: bold;
+}
+.mainName a {
+  letter-spacing: 0.1px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.8705882353);
+}
+
+.redIcon {
+  color: #c62828;
+  font-size: 18px;
+  line-height: 18px;
+  height: 18px;
+  width: 18px;
+  vertical-align: middle;
+  margin: 0 0.2rem;
+}
+
+.features p {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: center flex-start;
+  align-items: center;
+}
+.features p .Type {
+  white-space: nowrap;
+}
+.features p .dots {
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.12);
+  width: 100%;
+  margin: 10px 4px 0;
+}
+.features p .fw-500 {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.8705882353);
+  white-space: nowrap;
+}
+
+.customerReview {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.bs-rating-star.active {
+  font-size: 20px;
+  color: #fbc02d !important;
+}
+
+.new.meta h3 {
+  color: #c62828 !important;
+}
+.new.meta button {
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  margin: 0;
+  background-color: transparent;
+}
+.new.meta button i {
+  font-size: 19px;
+}
+
+img {
+  max-height: 300px;
+  height: 300px;
+  width: 100%;
+} /*# sourceMappingURL=menu-item.component.css.map */

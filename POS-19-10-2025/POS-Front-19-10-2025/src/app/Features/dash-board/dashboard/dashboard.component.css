@@ -1,0 +1,10 @@
+.DestoryTooltip {
+  opacity: 0 !important;
+}
+
+.indicators li {
+  text-indent: 999px !important;
+}
+.control-section {
+  min-height: 450px;
+}
