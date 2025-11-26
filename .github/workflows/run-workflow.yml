@@ -68,13 +68,11 @@ jobs:
           # حذف الملفات القديمة لضمان تثبيت نظيف
           rm -rf node_modules package-lock.json
 
-          # تثبيت الإصدار الصحيح والمتوافق مع Angular 12
+          # تثبيت الإصدارات الصحيحة التي عثرنا عليها
           npm install @coreui/angular@2.12.0 --save-exact
-
-          # تثبيت الإصدار المتوافق من @auth0/angular-jwt
           npm install @auth0/angular-jwt@5.0.2 --save-exact
 
-          # تثبيت باقي الحزم مع تجاهل أي تعارضات طفيفة متبقية
+          # تثبيت كل شيء مع تجاهل التعارضات المتبقية (مثل @material-extended/mde)
           npm install --legacy-peer-deps
 
           nohup npm start > frontend.log 2>&1 &
