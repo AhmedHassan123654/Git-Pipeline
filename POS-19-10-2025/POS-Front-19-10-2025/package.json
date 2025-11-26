@@ -4,8 +4,8 @@
   "main": "main.js",
   "scripts": {
     "ng": "ng",
-    "start": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng serve",
-    "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build",
+    "start": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve",
+    "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build",
     "test": "ng test",
     "lint": "tsc --noEmit && eslint . --ext js,ts,json --quiet --fix",
     "e2e": "ng e2e",
