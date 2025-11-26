@@ -1,7 +1,5 @@
 name: E2E Regression Test
 
-env:
-  NODE_OPTIONS: --openssl-legacy-provider
 
 on:
   push:
