@@ -68,18 +68,40 @@ jobs:
           # حذف الملفات القديمة لضمان تثبيت نظيف
           rm -rf node_modules package-lock.json
 
-        
-          # تثبيت كل شيء مع تجاهل أي تعارضات طفيفة متبقية
-          npm install --force
+          # --- تعديل ملف package.json مباشرة لتحديد الإصدارات الصحيحة ---
+          sed -i 's/"@coreui\/angular": "\^2.11.0"/"@coreui\/angular": "2.12.0"/' package.json
+          sed -i 's/"@auth0\/angular-jwt": "\^5.0.2"/"@auth0\/angular-jwt": "5.0.2"/' package.json
+          sed -i '/"@material-extended\/mde/d' package.json
+          sed -i '/"ngx-loading-bar/d' package.json
 
+          # تثبيت الحزم الجديدة
+          npm install @ngx-loading-bar/core@5.1.2 @ngx-loading-bar/router@5.1.2 --save-exact
+
+          # تثبيت كل الاعتماديات
+          npm install --legacy-peer-deps
+
+          # تشغيل الواجهة الأمامية في الخلفية
           nohup npm start > frontend.log 2>&1 &
+
+          echo "Waiting for frontend to be ready..."
+          FRONTEND_READY=false
           for i in {1..60}; do
-            if curl -s http://localhost:4200/login >/dev/null; then
-              echo "Frontend ready!"
+            # التحقق من الصفحة الرئيسية بدلاً من مسار معين
+            if curl -s http://localhost:4200 >/dev/null; then
+              echo "Frontend is ready!"
+              FRONTEND_READY=true
               break
             fi
+            echo "Frontend not ready yet... ($i/60)"
             sleep 2
           done
+
+          # طباعة السجلات للتشخيص إذا لم يكن التطبيق جاهزاً
+          if [ "$FRONTEND_READY" = false ]; then
+            echo "Frontend failed to start within 120 seconds. Here are the logs:"
+            cat frontend.log
+            exit 1 # إنهاء التنفيذ بخطأ
+          fi
 
       # 8️⃣ تحميل مشروع B (Regression Tests)
       - name: Checkout Project B
