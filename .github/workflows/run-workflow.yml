@@ -73,9 +73,10 @@ jobs:
           sed -i 's/"@auth0\/angular-jwt": "\^5.0.2"/"@auth0\/angular-jwt": "5.0.2"/' package.json
           sed -i 's/"ngx-masonry": "\^11.0.2"/"ngx-masonry": "12.0.0"/' package.json
 
-          # إزالة الحزم القديمة وغير المتوافقة تماماً
+          # إزالة جميع الحزم القديمة وغير المتوافقة تماماً
           sed -i '/"@material-extended\/mde/d' package.json
           sed -i '/"ngx-loading-bar/d' package.json
+          sed -i '/"ngx-smart-popover/d' package.json
 
           # تثبيت الحزم الجديدة التي أضفناها كبديل
           npm install @ngx-loading-bar/core@5.1.2 @ngx-loading-bar/router@5.1.2 --save-exact
