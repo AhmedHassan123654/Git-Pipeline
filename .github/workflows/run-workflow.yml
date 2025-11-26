@@ -68,11 +68,14 @@ jobs:
           # حذف الملفات القديمة لضمان تثبيت نظيف
           rm -rf node_modules package-lock.json
 
+          # تعديل ملف package.json لإزالة الحزمة المسببة للمشكلة
+          sed -i '/@material-extended\/mde/d' package.json
+
           # تثبيت الإصدارات الصحيحة التي عثرنا عليها
           npm install @coreui/angular@2.12.0 --save-exact
           npm install @auth0/angular-jwt@5.0.2 --save-exact
 
-          # تثبيت كل شيء مع تجاهل التعارضات المتبقية (مثل @material-extended/mde)
+          # تثبيت كل شيء مع تجاهل التعارضات المتبقية
           npm install --legacy-peer-deps
 
           nohup npm start > frontend.log 2>&1 &
