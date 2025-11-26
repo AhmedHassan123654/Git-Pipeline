@@ -30,15 +30,13 @@ jobs:
           sudo rm -f /usr/bin/google-chrome
           sudo ln -s /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
 
-
-
-# 4️⃣ تثبيت ChromeDriver 128 المتوافق
+      # 4️⃣ تثبيت ChromeDriver 128 المتوافق
       - name: Install ChromeDriver 128
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
-            sudo chmod +x /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
 
       # 5️⃣ تثبيت Java + Maven
       - name: Set up Maven
@@ -48,8 +46,7 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-
-            # 6️⃣ تشغيل Backend (.NET Core)
+      # 6️⃣ تشغيل Backend (.NET Core)
       - name: Run Backend
         run: |
           cd POS-19-10-2025/POS-BackPublish
@@ -63,40 +60,35 @@ jobs:
             sleep 2
           done
 
+      # 7️⃣ تشغيل Frontend
       - name: Run Frontend
         run: |
-            cd POS-19-10-2025/POS-Front-19-10-2025
-           # تحديث @auth0/angular-jwt لإصدار متوافق مع Angular 12
-            npm install @auth0/angular-jwt@5.0.2 --save
-            npm install
-            nohup npm start > frontend.log 2>&1 &
-            for i in {1..60}; do
+          cd POS-19-10-2025/POS-Front-19-10-2025
+          # تحديث @auth0/angular-jwt لإصدار متوافق مع Angular 12
+          npm install @auth0/angular-jwt@5.0.2 --save
+          npm install
+          nohup npm start > frontend.log 2>&1 &
+          for i in {1..60}; do
             if curl -s http://localhost:4200/login >/dev/null; then
-            echo "Frontend ready!"
-            break
+              echo "Frontend ready!"
+              break
             fi
             sleep 2
-            done
-      
-      
-      
-      
-      
-      
+          done
 
-      # 6️⃣ تحميل مشروع B (Regression Tests)
+      # 8️⃣ تحميل مشروع B (Regression Tests)
       - name: Checkout Project B
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
-      # 7️⃣ تشغيل الاختبارات
+      # 9️⃣ تشغيل الاختبارات
       - name: Run Regression Tests (project B)
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
 
-      # 8️⃣ رفع التقرير كأرتيفاكت
+      # 🔟 رفع التقرير كأرتيفاكت
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         with:
