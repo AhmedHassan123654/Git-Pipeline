@@ -66,6 +66,8 @@ jobs:
           cd POS-19-10-2025/POS-Front-19-10-2025
           # تحديث @auth0/angular-jwt لإصدار متوافق مع Angular 12
           npm install @auth0/angular-jwt@5.0.2 --save
+          # تثبيت إصدار متوافق من @coreui/angular مع Angular 12
+          npm install @coreui/angular@2.11.0 --save
           npm install
           nohup npm start > frontend.log 2>&1 &
           for i in {1..60}; do
