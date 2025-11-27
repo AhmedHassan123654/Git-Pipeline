@@ -23,7 +23,7 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
+          sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd jq
 
       # 3) Install Chrome
       - name: Install Chrome
@@ -85,10 +85,13 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           echo "Installing Angular dependencies..."
-          npm install --legacy-peer-deps
+          npm ci
 
           echo "Building Angular..."
           npm run build
+
+          echo "Checking dist folder..."
+          ls -al ./dist/
 
           echo "Installing serve..."
           npm install -g serve
