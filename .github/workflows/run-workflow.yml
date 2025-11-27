@@ -91,7 +91,7 @@ jobs:
 
       - name: Checkout Project B
         run: |
-          git clone https://github.com/AhmedHassan123654/FirstProjectFERP.git projectB
+          git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
