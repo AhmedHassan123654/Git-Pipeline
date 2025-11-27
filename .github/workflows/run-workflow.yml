@@ -8,66 +8,73 @@ on:
 jobs:
   regression-tests:
     runs-on: ubuntu-latest
+    env:
+      BACKEND_DIR: POS-19-10-2025/POS-BackPublish
+      FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
+      BACKEND_URL: http://localhost:56740
+      FRONTEND_URL: http://localhost:4200
+      CHROME_VERSION: 128.0.6613.137
+      NODE_VERSION: 16
+      JAVA_VERSION: 17
+      DOTNET_VERSION: 3.1.x
 
     steps:
-      # 1. Checkout backend + frontend
+      # 1️⃣ Checkout Project A
       - name: Checkout Project A
         uses: actions/checkout@v4
 
-      # 2. Install system dependencies
+      # 2️⃣ Install System Dependencies
       - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
-      
 
-      # 3. Install Chrome 128 LTS
-      - name: Install Chrome 128 LTS
+      # 3️⃣ Install Chrome
+      - name: Install Chrome ${{ env.CHROME_VERSION }}
         run: |
-          wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chrome-linux64.zip
+          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip
           unzip chrome-linux64.zip
-          sudo mv chrome-linux64 /usr/local/share/chrome-128
-          sudo ln -sf /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
+          sudo mv chrome-linux64 /usr/local/share/chrome-${CHROME_VERSION}
+          sudo ln -sf /usr/local/share/chrome-${CHROME_VERSION}/chrome /usr/bin/google-chrome
 
-      # 4. Install ChromeDriver 128
-      - name: Install ChromeDriver 128
+      # 4️⃣ Install ChromeDriver
+      - name: Install ChromeDriver ${{ env.CHROME_VERSION }}
         run: |
-          wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
+          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-      # 5. Setup Java + Maven
-      - name: Setup Java 17 + Maven
+      # 5️⃣ Setup Java + Maven
+      - name: Setup Java ${{ env.JAVA_VERSION }} + Maven
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 17
+          java-version: ${{ env.JAVA_VERSION }}
           cache: maven
 
-      # 6. Setup Node 16
-      - name: Setup Node 16
+      # 6️⃣ Setup Node
+      - name: Setup Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: ${{ env.NODE_VERSION }}
 
-      # 7. Setup .NET 3.1
-      - name: Setup .NET 3.1
+      # 7️⃣ Setup .NET
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 3.1.x
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      # 8. Verify backend folder exists
+      # 8️⃣ Verify backend folder
       - name: Check Backend Folder
-        run: ls -al POS-19-10-2025/POS-BackPublish || echo "Folder not found"
+        run: ls -al ${{ env.BACKEND_DIR }} || echo "Folder not found"
 
-      # 9. Run backend in background
+      # 9️⃣ Start Backend
       - name: Start Backend
-        working-directory: POS-19-10-2025/POS-BackPublish
+        working-directory: ${{ env.BACKEND_DIR }}
         run: |
           echo "Starting Backend..."
-          nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
-          # Wait until backend is ready
+          nohup dotnet POS.Web.dll --urls=${BACKEND_URL} > backend.log 2>&1 &
           for i in {1..60}; do
             if nc -z localhost 56740; then
               echo "✅ Backend ready!"
@@ -77,18 +84,17 @@ jobs:
             sleep 2
           done
 
-      # 10. Build and start frontend
+      # 🔟 Build & Start Frontend
       - name: Build & Start Frontend
-        working-directory: POS-19-10-2025/POS-Front-19-10-2025
+        working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           npm install
           npm run build
           npm install -g serve
           nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
-          # Wait until frontend is ready
           FRONTEND_READY=false
           for i in {1..120}; do
-            if curl -s http://localhost:4200/login >/dev/null; then
+            if curl -s ${FRONTEND_URL}/login >/dev/null; then
               FRONTEND_READY=true
               echo "✅ Frontend ready!"
               break
@@ -101,19 +107,19 @@ jobs:
             exit 1
           fi
 
-      # 11. Checkout Project B (tests)
+      # 1️⃣1️⃣ Checkout Project B (tests)
       - name: Checkout Project B
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
-      # 12. Run regression tests
+      # 1️⃣2️⃣ Run Regression Tests
       - name: Run Regression Tests
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
-      # 13. Upload test reports
+      # 1️⃣3️⃣ Upload Test Reports
       - name: Upload Test Reports
         uses: actions/upload-artifact@v5
         with:
