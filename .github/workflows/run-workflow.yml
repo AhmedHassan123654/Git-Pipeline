@@ -92,13 +92,26 @@ jobs:
           npm install @coreui/angular@2.12.1 @coreui/icons-angular@2.0.1
 
       # 1️⃣1️⃣ Build & Start Frontend
+      # 🔟 Build & Start Frontend (fixed dependency issues)
       - name: Build & Start Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          npm install
+          echo "🔹 Fix CoreUI dependencies"
+          npm uninstall @coreui/angular @coreui/icons-angular || true
+          npm install @coreui/angular@2.12.1 @coreui/icons-angular@2.0.1 --legacy-peer-deps
+
+          echo "🔹 Install remaining dependencies"
+          npm install --legacy-peer-deps
+
+          echo "🔹 Build frontend"
           npm run build
+
+          echo "🔹 Install serve globally"
           npm install -g serve
+
+          echo "🔹 Start frontend server"
           nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
+
           FRONTEND_READY=false
           for i in {1..120}; do
             if curl -s ${FRONTEND_URL}/login >/dev/null; then
@@ -108,11 +121,13 @@ jobs:
             fi
             sleep 2
           done
+
           if [ "$FRONTEND_READY" = false ]; then
             echo "❌ Frontend failed to start!"
             cat frontend.log
             exit 1
           fi
+      
 
       # 1️⃣2️⃣ Checkout Project B (tests)
       - name: Checkout Project B
