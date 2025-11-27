@@ -46,41 +46,48 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Run Backend
+      - name: Start Backend (Production)
         run: |
-          cd POS-19-10-2025/POS-BackPublish
-          echo "Running Backend on http://0.0.0.0:56740"
-          nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
-
-          echo "Waiting for backend to start..."
-          for i in {1..60}; do
-            if nc -z localhost 56740; then
-              echo "Backend ready!"
-              break
-            fi
-            sleep 2
-          done
-
-      - name: Run Frontend (Prebuilt Production Build)
-        run: |
-           cd POS-19-10-2025/POS-Front-19-10-2025
-          
-            echo "Starting Frontend (Serving Production Build)..."
-            npm install -g http-server
-            http-server ./dist/POS-Front-19-10-2025 -p 4200 --silent &
+            cd POS-19-10-2025/POS-BackPublish
+            echo "Starting Backend (Production)..."
+            nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
             
-            echo "Waiting for Frontend to be ready..."
+            echo "Waiting for Backend to be ready..."
             for i in {1..60}; do
-              if curl -s http://localhost:4200 >/dev/null; then
-                echo "Frontend is UP!"
-                exit 0
-              fi
-              echo "Frontend not ready yet... ($i/60)"
-              sleep 2
+            if nc -z localhost 56740; then
+             echo "✅ Backend ready!"
+             break
+            fi
+            echo "Backend not ready yet ($i/60)"
+            sleep 2
             done
             
-            echo "❌ Frontend failed to start"
-            exit 1
+            # Frontend
+      - name: Start Frontend (Production)
+        run: |
+                cd POS-19-10-2025/POS-Front-19-10-2025
+                echo "Starting Frontend (Production)..."
+                npm install -g http-server
+                http-server ./dist/POS-Front-19-10-2025 -p 4200 --silent &
+                
+                echo "Waiting for Frontend to be ready..."
+                FRONTEND_READY=false
+                for i in {1..120}; do
+                  if curl -s http://localhost:4200/login >/dev/null; then
+                    echo "✅ Frontend ready!"
+                    FRONTEND_READY=true
+                    break
+                  fi
+                  echo "Frontend not ready yet ($i/120)"
+                  sleep 2
+                done
+                
+                if [ "$FRONTEND_READY" = false ]; then
+                  echo "❌ Frontend failed to start in 4 minutes!"
+                  cat frontend.log || true
+                  exit 1
+                fi
+      
 
       - name: Checkout Project B
         run: |
