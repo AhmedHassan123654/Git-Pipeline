@@ -11,25 +11,22 @@ jobs:
 
     steps:
 
-      # ⬇ سحب المشروع الأساسي (الذي يحتوي على الـ Backend + Frontend المبنيين مسبقًا)
       - name: Checkout project A
         uses: actions/checkout@v4
 
-      # ⬇ تثبيت المتطلبات الأساسية
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
+          sudo apt-get install -y wget unzip curl xvfb git
 
-      # ⬇ تثبيت Chrome 128 LTS
       - name: Install Chrome 128 LTS
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chrome-linux64.zip
           unzip chrome-linux64.zip
           sudo mv chrome-linux64 /usr/local/share/chrome-128
-          sudo ln -sf /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
+          sudo rm -f /usr/bin/google-chrome
+          sudo ln -s /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
 
-      # ⬇ تثبيت ChromeDriver 128
       - name: Install ChromeDriver 128
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
@@ -37,7 +34,6 @@ jobs:
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-      # ⬇ تثبيت Java + Maven
       - name: Set up Maven
         uses: actions/setup-java@v5
         with:
@@ -45,78 +41,58 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      # ⬇ استخدام Node 16 فقط لتشغيل السيرفر، بدون Build
       - name: Use Node 16
         uses: actions/setup-node@v4
         with:
           node-version: '16'
 
-      # ----------------------------------------------------------------------
-      # 🚀 Backend
-      # ملاحظة: الـ Backend عبارة عن نسخة Production منشورة مسبقًا
-      # لذلك لا يتم عمل build بل فقط تشغيل النسخة الجاهزة
-      # ----------------------------------------------------------------------
-      - name: Run Backend (Published Production Build)
+      - name: Run Backend
         run: |
           cd POS-19-10-2025/POS-BackPublish
-
-          echo "Starting Backend (Production Publish Build)..."
+          echo "Running Backend on http://0.0.0.0:56740"
           nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
 
-          echo "Waiting for Backend to be ready..."
+          echo "Waiting for backend to start..."
           for i in {1..60}; do
             if nc -z localhost 56740; then
-              echo "Backend is UP!"
-              exit 0
+              echo "Backend ready!"
+              break
             fi
-            echo "Backend not ready yet... ($i/60)"
             sleep 2
           done
 
-          echo "❌ Backend failed to start"
-          exit 1
-
-      # ----------------------------------------------------------------------
-      # 🚀 Frontend
-      # ملاحظة: الـ Frontend مبني مسبقًا (Angular Production Build)
-      # موجود داخل dist/ لذلك لا نعمل build أو npm install
-      # نستخدم http-server فقط لعرض المشروع الجاهز
-      # ----------------------------------------------------------------------
       - name: Run Frontend (Prebuilt Production Build)
         run: |
-          cd POS-19-10-2025/POS-Front-19-10-2025
+           cd POS-19-10-2025/POS-Front-19-10-2025
+          
+            echo "Starting Frontend (Serving Production Build)..."
+            npm install -g http-server
+            http-server ./dist/POS-Front-19-10-2025 -p 4200 --silent &
+            
+            echo "Waiting for Frontend to be ready..."
+            for i in {1..60}; do
+              if curl -s http://localhost:4200 >/dev/null; then
+                echo "Frontend is UP!"
+                exit 0
+              fi
+              echo "Frontend not ready yet... ($i/60)"
+              sleep 2
+            done
+            
+            echo "❌ Frontend failed to start"
+            exit 1
 
-          echo "Starting Frontend (Serving Production Build)..."
-          npm install -g http-server
-          http-server ./dist/POS-Front-19-10-2025 -p 4200 --silent &
-
-          echo "Waiting for Frontend to be ready..."
-          for i in {1..60}; do
-            if curl -s http://localhost:4200 >/dev/null; then
-              echo "Frontend is UP!"
-              exit 0
-            fi
-            echo "Frontend not ready yet... ($i/60)"
-            sleep 2
-          done
-
-          echo "❌ Frontend failed to start"
-          exit 1
-
-      # ----------------------------------------------------------------------
-      # 🟦 Project B - Regression Tests
-      # ----------------------------------------------------------------------
-      - name: Checkout Project B (Testing Project)
+      - name: Checkout Project B
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
-      - name: Run Regression Tests from Project B
+      - name: Run Regression Tests (project B)
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
 
-      - name: Upload Test Reports
+      - name: Upload test reports
         uses: actions/upload-artifact@v5
         with:
           name: test-reports
