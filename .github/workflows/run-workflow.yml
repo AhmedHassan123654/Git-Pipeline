@@ -84,32 +84,20 @@ jobs:
             sleep 2
           done
 
-      # 🔟 Prepare Frontend (fix CoreUI / Angular 12 issue)
-      - name: Fix CoreUI / Angular Dependency
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          npm uninstall @coreui/angular @coreui/icons-angular || true
-          npm install @coreui/angular@2.12.1 @coreui/icons-angular@2.0.1
-
-      # 1️⃣1️⃣ Build & Start Frontend
-      # 🔟 Build & Start Frontend (fixed dependency issues)
+      # 🔟 Build & Start Frontend (skip peer dependency issues)
       - name: Build & Start Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "🔹 Fix CoreUI dependencies"
-          npm uninstall @coreui/angular @coreui/icons-angular || true
-          npm install @coreui/angular@2.12.1 @coreui/icons-angular@2.0.1 --legacy-peer-deps
-
-          echo "🔹 Install remaining dependencies"
+          echo "Installing frontend dependencies (bypass peer dependency issues)..."
           npm install --legacy-peer-deps
 
-          echo "🔹 Build frontend"
+          echo "Building frontend..."
           npm run build
 
-          echo "🔹 Install serve globally"
+          echo "Installing serve globally..."
           npm install -g serve
 
-          echo "🔹 Start frontend server"
+          echo "Starting frontend server..."
           nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
 
           FRONTEND_READY=false
@@ -127,21 +115,20 @@ jobs:
             cat frontend.log
             exit 1
           fi
-      
 
-      # 1️⃣2️⃣ Checkout Project B (tests)
+      # 1️⃣1️⃣ Checkout Project B (tests)
       - name: Checkout Project B
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
-      # 1️⃣3️⃣ Run Regression Tests
+      # 1️⃣2️⃣ Run Regression Tests
       - name: Run Regression Tests
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
-      # 1️⃣4️⃣ Upload Test Reports
+      # 1️⃣3️⃣ Upload Test Reports
       - name: Upload Test Reports
         uses: actions/upload-artifact@v5
         with:
