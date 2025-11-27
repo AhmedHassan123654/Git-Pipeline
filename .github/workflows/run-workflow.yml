@@ -97,7 +97,8 @@ jobs:
 
       - name: Run Regression Tests (project B)
         working-directory: projectB
-        run: mvn clean test -DbrowserType="Chrome" -Dmaven.test.failure.ignore=true
+        run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
+
 
       - name: Upload test reports
         uses: actions/upload-artifact@v5
