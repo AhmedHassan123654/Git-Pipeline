@@ -10,16 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
+      # 1. Checkout project A (backend + frontend)
       - name: Checkout project A
         uses: actions/checkout@v4
 
+      # 2. Install dependencies
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
-      
+          sudo apt-get install -y wget unzip curl xvfb git
 
+      # 3. Install Chrome 128 LTS
       - name: Install Chrome 128 LTS
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chrome-linux64.zip
@@ -28,6 +29,7 @@ jobs:
           sudo rm -f /usr/bin/google-chrome
           sudo ln -s /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
 
+      # 4. Install ChromeDriver 128
       - name: Install ChromeDriver 128
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chromedriver-linux64.zip
@@ -35,6 +37,7 @@ jobs:
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
+      # 5. Setup Java + Maven
       - name: Set up Maven
         uses: actions/setup-java@v5
         with:
@@ -42,64 +45,75 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
+      # 6. Setup Node 16
       - name: Use Node 16
         uses: actions/setup-node@v4
         with:
           node-version: '16'
 
-      - name: Start Backend (Production)
+      # 7. Build backend
+      - name: Build Backend
         run: |
           cd POS-19-10-2025/POS-BackPublish
-          echo "Starting Backend (Production)..."
-          nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
+          dotnet restore
+          dotnet build --configuration Release
 
-          echo "Waiting for Backend to be ready..."
+      # 8. Start backend
+      - name: Start Backend
+        run: |
+          cd POS-19-10-2025/POS-BackPublish
+          nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
+          echo "Waiting for backend..."
           for i in {1..60}; do
             if nc -z localhost 56740; then
               echo "✅ Backend ready!"
               break
             fi
-            echo "Backend not ready yet ($i/60)"
             sleep 2
           done
 
-      - name: Start Frontend (Production)
+      # 9. Build frontend
+      - name: Build Frontend
+        run: |
+          cd POS-19-10-2025/POS-Front-19-10-2025
+          npm install
+          npm run build
+
+      # 10. Start frontend
+      - name: Start Frontend
         run: |
           cd POS-19-10-2025/POS-Front-19-10-2025
           npm install -g serve
           serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
-
-          echo "Waiting for Frontend to be ready..."
+          echo "Waiting for frontend..."
           FRONTEND_READY=false
-          for i in {1..150}; do
+          for i in {1..120}; do
             if curl -s http://localhost:4200/login >/dev/null; then
-              echo "✅ Frontend ready!"
               FRONTEND_READY=true
+              echo "✅ Frontend ready!"
               break
             fi
-            echo "Frontend not ready yet ($i/150)"
             sleep 2
           done
-
           if [ "$FRONTEND_READY" = false ]; then
             echo "❌ Frontend failed to start!"
             cat frontend.log
             exit 1
-          else
-            echo "Frontend started successfully!"
-            tail -n 20 frontend.log
           fi
 
+      # 11. Checkout Project B (test project)
       - name: Checkout Project B
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
-      - name: Run Regression Tests (project B)
+      # 12. Run regression tests
+      - name: Run Regression Tests
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
+      # 13. Upload test reports
       - name: Upload test reports
         uses: actions/upload-artifact@v5
         with:
