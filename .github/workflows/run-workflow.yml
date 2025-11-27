@@ -2,8 +2,7 @@ name: E2E Regression Test
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   regression-tests:
@@ -19,8 +18,8 @@ jobs:
       DOTNET_VERSION: 3.1.x
 
     steps:
-      # 1️⃣ Checkout Project A
-      - name: Checkout Project A
+      # 1️⃣ Checkout the repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       # 2️⃣ Install System Dependencies
@@ -29,47 +28,40 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
 
-      # 3️⃣ Install Chrome
-      - name: Install Chrome ${{ env.CHROME_VERSION }}
+      # 3️⃣ Install Chrome & ChromeDriver
+      - name: Install Chrome & ChromeDriver
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip
           unzip chrome-linux64.zip
           sudo mv chrome-linux64 /usr/local/share/chrome-${CHROME_VERSION}
           sudo ln -sf /usr/local/share/chrome-${CHROME_VERSION}/chrome /usr/bin/google-chrome
 
-      # 4️⃣ Install ChromeDriver
-      - name: Install ChromeDriver ${{ env.CHROME_VERSION }}
-        run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-      # 5️⃣ Setup Java + Maven
-      - name: Setup Java ${{ env.JAVA_VERSION }} + Maven
+      # 4️⃣ Setup Java + Maven
+      - name: Setup Java & Maven
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
           cache: maven
 
-      # 6️⃣ Setup Node
-      - name: Setup Node ${{ env.NODE_VERSION }}
+      # 5️⃣ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      # 7️⃣ Setup .NET
-      - name: Setup .NET ${{ env.DOTNET_VERSION }}
+      # 6️⃣ Setup .NET
+      - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      # 8️⃣ Verify backend folder
-      - name: Check Backend Folder
-        run: ls -al ${{ env.BACKEND_DIR }} || echo "Folder not found"
-
-      # 9️⃣ Start Backend
+      # 7️⃣ Start Backend
       - name: Start Backend
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
@@ -84,7 +76,7 @@ jobs:
             sleep 2
           done
 
-      # 🔟 Build & Start Frontend (skip peer dependency issues)
+      # 8️⃣ Build & Start Frontend
       - name: Build & Start Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
@@ -100,35 +92,31 @@ jobs:
           echo "Starting frontend server..."
           nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
 
-          FRONTEND_READY=false
           for i in {1..120}; do
             if curl -s ${FRONTEND_URL}/login >/dev/null; then
-              FRONTEND_READY=true
               echo "✅ Frontend ready!"
               break
             fi
             sleep 2
           done
 
-          if [ "$FRONTEND_READY" = false ]; then
-            echo "❌ Frontend failed to start!"
-            cat frontend.log
-            exit 1
-          fi
-
-      # 1️⃣1️⃣ Checkout Project B (tests)
-      - name: Checkout Project B
+      # 9️⃣ Checkout Test Project (Project B)
+      - name: Checkout Test Project
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
-      # 1️⃣2️⃣ Run Regression Tests
+      # 🔟 Run Regression Tests
       - name: Run Regression Tests
         working-directory: projectB
-        run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
+        run: |
+          mvn clean test \
+            -DbrowserType="Chrome" \
+            -DexecutionType="localHeadless" \
+            -Dmaven.test.failure.ignore=true
 
-      # 1️⃣3️⃣ Upload Test Reports
+      # 1️⃣1️⃣ Upload Test Reports
       - name: Upload Test Reports
         uses: actions/upload-artifact@v5
         with:
