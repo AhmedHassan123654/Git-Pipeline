@@ -2,24 +2,26 @@ name: E2E Regression Test
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   regression-tests:
     runs-on: ubuntu-latest
+
     env:
       BACKEND_DIR: POS-19-10-2025/POS-BackPublish
       FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
       BACKEND_URL: http://localhost:56740
       FRONTEND_URL: http://localhost:4200
       CHROME_VERSION: 128.0.6613.137
-      NODE_VERSION: 16
+      NODE_VERSION: 16.14
       JAVA_VERSION: 17
       DOTNET_VERSION: 3.1.x
 
     steps:
-      # 1️⃣ Checkout the repository
-      - name: Checkout Repository
+      # 1️⃣ Checkout Project
+      - name: Checkout Project
         uses: actions/checkout@v4
 
       # 2️⃣ Install System Dependencies
@@ -28,95 +30,98 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
 
-      # 3️⃣ Install Chrome & ChromeDriver
-      - name: Install Chrome & ChromeDriver
+      # 3️⃣ Install Chrome
+      - name: Install Chrome
         run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip
           unzip chrome-linux64.zip
           sudo mv chrome-linux64 /usr/local/share/chrome-${CHROME_VERSION}
           sudo ln -sf /usr/local/share/chrome-${CHROME_VERSION}/chrome /usr/bin/google-chrome
 
+      # 4️⃣ Install ChromeDriver
+      - name: Install ChromeDriver
+        run: |
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
 
-      # 4️⃣ Setup Java + Maven
-      - name: Setup Java & Maven
+      # 5️⃣ Setup Java + Maven
+      - name: Setup Java + Maven
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
           cache: maven
 
-      # 5️⃣ Setup Node.js
-      - name: Setup Node.js
+      # 6️⃣ Setup Node 16.14 (compatible with Angular 14)
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      # 6️⃣ Setup .NET
+      # 7️⃣ Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      # 7️⃣ Start Backend
+      # 8️⃣ Verify backend exists
+      - name: Check Backend Folder
+        run: ls -al ${{ env.BACKEND_DIR }}
+
+      # 9️⃣ Start Backend
       - name: Start Backend
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
-          echo "Starting Backend..."
+          echo "Starting backend..."
           nohup dotnet POS.Web.dll --urls=${BACKEND_URL} > backend.log 2>&1 &
           for i in {1..60}; do
             if nc -z localhost 56740; then
-              echo "✅ Backend ready!"
+              echo "Backend is ready!"
               break
             fi
-            echo "Waiting for backend ($i/60)..."
+            echo "Waiting for backend... ($i/60)"
             sleep 2
           done
 
-      # 8️⃣ Build & Start Frontend
-      - name: Build & Start Frontend
+      # 🔟 Install & Build Angular 14 (no ngcc)
+      - name: Build Frontend (Angular 14)
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Installing frontend dependencies (bypass peer dependency issues)..."
-          npm install --legacy-peer-deps
+          echo "Installing Angular dependencies..."
+          npm install --force
 
-          echo "Building frontend..."
-          npm run build
+          echo "Building Angular..."
+          npm run build --if-present
 
-          echo "Installing serve globally..."
+          echo "Installing serve..."
           npm install -g serve
 
-          echo "Starting frontend server..."
+          echo "Starting frontend..."
           nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
 
           for i in {1..120}; do
             if curl -s ${FRONTEND_URL}/login >/dev/null; then
-              echo "✅ Frontend ready!"
+              echo "Frontend ready!"
               break
             fi
             sleep 2
           done
 
-      # 9️⃣ Checkout Test Project (Project B)
+      # 1️⃣1️⃣ Download Selenium Tests Project
       - name: Checkout Test Project
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           cd projectB
           git checkout main
 
-      # 🔟 Run Regression Tests
+      # 1️⃣2️⃣ Run Selenium Regression Tests
       - name: Run Regression Tests
         working-directory: projectB
-        run: |
-          mvn clean test \
-            -DbrowserType="Chrome" \
-            -DexecutionType="localHeadless" \
-            -Dmaven.test.failure.ignore=true
+        run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
-      # 1️⃣1️⃣ Upload Test Reports
+      # 1️⃣3️⃣ Upload Test Reports
       - name: Upload Test Reports
         uses: actions/upload-artifact@v5
         with:
