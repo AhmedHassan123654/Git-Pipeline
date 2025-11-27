@@ -15,23 +15,19 @@ jobs:
       FRONTEND_URL: http://localhost:4200
 
     steps:
-      # 1) Checkout Project
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 2) Install Linux Dependencies
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd jq
+          sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
 
-      # 3) Install Chrome
       - name: Install Chrome
         run: |
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-      # 4) Install ChromeDriver (auto-match)
       - name: Install ChromeDriver
         run: |
           CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //')
@@ -41,7 +37,6 @@ jobs:
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-      # 5) Setup Java
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
@@ -49,83 +44,47 @@ jobs:
           java-version: 17
           cache: maven
 
-      # 6) Setup Node 18
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 7) Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 3.1.x
 
-      # 8) Verify backend folder
       - name: Verify Backend Directory
         run: ls -al "${BACKEND_DIR}"
 
-      # 9) Start Backend
       - name: Start Backend API
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
-          echo "Starting Backend..."
           nohup dotnet POS.Web.dll --urls=${BACKEND_URL} > backend.log 2>&1 &
           for i in {1..60}; do
-            if nc -z localhost 56740; then
-              echo "Backend is running!"
-              break
-            fi
-            echo "Waiting for Backend ($i/60)..."
+            if nc -z localhost 56740; then break; fi
             sleep 2
           done
 
-      # 10) Build & Start Angular Frontend
       - name: Build Angular Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Installing Angular dependencies..."
           npm install --legacy-peer-deps
-
-          echo "Building Angular..."
           npm run build
-
-          echo "Checking dist folder..."
-          ls -al ./dist/
-
-          echo "Installing serve..."
           npm install -g serve
-
-          echo "Starting Frontend..."
           nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
-
-          FRONT_READY=false
           for i in {1..120}; do
-            if curl -s ${FRONTEND_URL}/login >/dev/null; then
-              FRONT_READY=true
-              echo "Frontend is Ready!"
-              break
-            fi
+            if curl -s ${FRONTEND_URL}/login >/dev/null; then break; fi
             sleep 2
           done
 
-          if [ "$FRONT_READY" = false ]; then
-            echo "Frontend failed to start!"
-            cat frontend.log
-            exit 1
-          fi
-
-      # 11) Checkout the E2E Test Repository
       - name: Checkout E2E Project
-        run: |
-          git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
+        run: git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
 
-      # 12) Run Selenium Test Cases
       - name: Run E2E Tests
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
-      # 13) Upload E2E Test Reports
       - name: Upload Test Reports
         uses: actions/upload-artifact@v5
         with:
