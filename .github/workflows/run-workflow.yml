@@ -60,18 +60,22 @@ jobs:
 
 
       # 8. Start backend
-      - name: Start Backend
+      - name: Start Backend (Production)
         run: |
           cd POS-19-10-2025/POS-BackPublish
-          nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
-          echo "Waiting for backend..."
+          echo "Starting Backend (Production)..."
+          nohup dotnet POS.Web.csproj --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
+
+          echo "Waiting for Backend to be ready..."
           for i in {1..60}; do
             if nc -z localhost 56740; then
               echo "✅ Backend ready!"
               break
             fi
+            echo "Backend not ready yet ($i/60)"
             sleep 2
           done
+      
 
       # 9. Build frontend
       - name: Build Frontend
