@@ -1,9 +1,8 @@
-name: E2E Regression Test
+name: Full POS CI + E2E Regression Test
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   regression-tests:
@@ -14,116 +13,118 @@ jobs:
       FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
       BACKEND_URL: http://localhost:56740
       FRONTEND_URL: http://localhost:4200
-      CHROME_VERSION: 128.0.6613.137
-      NODE_VERSION: 16.14
-      JAVA_VERSION: 17
-      DOTNET_VERSION: 3.1.x
 
     steps:
-      # 1️⃣ Checkout Project
-      - name: Checkout Project
+      # 1) Checkout Project
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Install System Dependencies
+      # 2) Install Linux Dependencies
       - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd
 
-      # 3️⃣ Install Chrome
+      # 3) Install Chrome
       - name: Install Chrome
         run: |
-          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip
-          unzip chrome-linux64.zip
-          sudo mv chrome-linux64 /usr/local/share/chrome-${CHROME_VERSION}
-          sudo ln -sf /usr/local/share/chrome-${CHROME_VERSION}/chrome /usr/bin/google-chrome
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-      # 4️⃣ Install ChromeDriver
+      # 4) Install ChromeDriver (auto-match)
       - name: Install ChromeDriver
         run: |
-          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip
+          CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //')
+          DRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json" | jq -r ".versions[] | select(.version|startswith(\"${CHROME_VERSION%.*}\")) | .version" | head -1)
+          wget "https://storage.googleapis.com/chrome-for-testing-public/$DRIVER_VERSION/linux64/chromedriver-linux64.zip"
           unzip chromedriver-linux64.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-      # 5️⃣ Setup Java + Maven
-      - name: Setup Java + Maven
+      # 5) Setup Java
+      - name: Setup Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: ${{ env.JAVA_VERSION }}
+          java-version: 17
           cache: maven
 
-      # 6️⃣ Setup Node 16.14 (compatible with Angular 14)
+      # 6) Setup Node 18
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: 18
 
-      # 7️⃣ Setup .NET
+      # 7) Setup .NET
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: 3.1.x
 
-      # 8️⃣ Verify backend exists
-      - name: Check Backend Folder
-        run: ls -al ${{ env.BACKEND_DIR }}
+      # 8) Verify backend folder
+      - name: Verify Backend Directory
+        run: ls -al "${BACKEND_DIR}"
 
-      # 9️⃣ Start Backend
-      - name: Start Backend
+      # 9) Start Backend
+      - name: Start Backend API
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
-          echo "Starting backend..."
+          echo "Starting Backend..."
           nohup dotnet POS.Web.dll --urls=${BACKEND_URL} > backend.log 2>&1 &
           for i in {1..60}; do
             if nc -z localhost 56740; then
-              echo "Backend is ready!"
+              echo "Backend is running!"
               break
             fi
-            echo "Waiting for backend... ($i/60)"
+            echo "Waiting for Backend ($i/60)..."
             sleep 2
           done
 
-      # 🔟 Install & Build Angular 14 (no ngcc)
-      - name: Build Frontend (Angular 14)
+      # 10) Build & Start Angular Frontend
+      - name: Build Angular Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           echo "Installing Angular dependencies..."
-          npm install --force
+          npm install --legacy-peer-deps
 
           echo "Building Angular..."
-          npm run build --if-present
+          npm run build
 
           echo "Installing serve..."
           npm install -g serve
 
-          echo "Starting frontend..."
+          echo "Starting Frontend..."
           nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
 
+          FRONT_READY=false
           for i in {1..120}; do
             if curl -s ${FRONTEND_URL}/login >/dev/null; then
-              echo "Frontend ready!"
+              FRONT_READY=true
+              echo "Frontend is Ready!"
               break
             fi
             sleep 2
           done
 
-      # 1️⃣1️⃣ Download Selenium Tests Project
-      - name: Checkout Test Project
+          if [ "$FRONT_READY" = false ]; then
+            echo "Frontend failed to start!"
+            cat frontend.log
+            exit 1
+          fi
+
+      # 11) Checkout the E2E Test Repository
+      - name: Checkout E2E Project
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
-          cd projectB
-          git checkout main
 
-      # 1️⃣2️⃣ Run Selenium Regression Tests
-      - name: Run Regression Tests
+      # 12) Run Selenium Test Cases
+      - name: Run E2E Tests
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
-      # 1️⃣3️⃣ Upload Test Reports
+      # 13) Upload E2E Test Reports
       - name: Upload Test Reports
         uses: actions/upload-artifact@v5
         with:
-          name: test-reports
+          name: regression-reports
           path: projectB/test-output/reports/**/*.html
