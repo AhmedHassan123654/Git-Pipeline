@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git
+          sudo apt-get install -y wget unzip curl xvfb git netcat
 
       - name: Install Chrome 128 LTS
         run: |
@@ -48,47 +48,46 @@ jobs:
 
       - name: Start Backend (Production)
         run: |
-            cd POS-19-10-2025/POS-BackPublish
-            echo "Starting Backend (Production)..."
-            nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
-            
-            echo "Waiting for Backend to be ready..."
-            for i in {1..60}; do
+          cd POS-19-10-2025/POS-BackPublish
+          echo "Starting Backend (Production)..."
+          nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
+
+          echo "Waiting for Backend to be ready..."
+          for i in {1..60}; do
             if nc -z localhost 56740; then
-             echo "✅ Backend ready!"
-             break
+              echo "✅ Backend ready!"
+              break
             fi
             echo "Backend not ready yet ($i/60)"
             sleep 2
-            done
-            
-            # Frontend
+          done
+
       - name: Start Frontend (Production)
         run: |
           cd POS-19-10-2025/POS-Front-19-10-2025
-          echo "Starting Frontend (Production)..."
-          npm install -g http-server
-          http-server ./dist/POS-Front-19-10-2025 -p 4200 > frontend.log 2>&1 &
+          npm install -g serve
+          serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
 
           echo "Waiting for Frontend to be ready..."
           FRONTEND_READY=false
-          for i in {1..120}; do
-            if curl -s http://localhost:4200/ >/dev/null; then
+          for i in {1..150}; do
+            if curl -s http://localhost:4200/login >/dev/null; then
               echo "✅ Frontend ready!"
               FRONTEND_READY=true
               break
             fi
-            echo "Frontend not ready yet ($i/120)"
+            echo "Frontend not ready yet ($i/150)"
             sleep 2
           done
 
           if [ "$FRONTEND_READY" = false ]; then
-            echo "❌ Frontend failed to start in 4 minutes!"
+            echo "❌ Frontend failed to start!"
             cat frontend.log
             exit 1
+          else
+            echo "Frontend started successfully!"
+            tail -n 20 frontend.log
           fi
-      
-      
 
       - name: Checkout Project B
         run: |
@@ -99,7 +98,6 @@ jobs:
       - name: Run Regression Tests (project B)
         working-directory: projectB
         run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
-
 
       - name: Upload test reports
         uses: actions/upload-artifact@v5
