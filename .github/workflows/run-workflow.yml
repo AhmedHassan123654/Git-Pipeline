@@ -65,8 +65,10 @@ jobs:
         run: |
           cd POS-19-10-2025/POS-Front-19-10-2025
 
+          echo "Cleaning old modules..."
           rm -rf node_modules package-lock.json
 
+          echo "Fixing package versions..."
           sed -i 's/"@coreui\/angular": "\^2.11.0"/"@coreui\/angular": "2.12.0"/' package.json
           sed -i 's/"@auth0\/angular-jwt": "\^5.0.2"/"@auth0\/angular-jwt": "5.0.2"/' package.json
           sed -i 's/"ngx-masonry": "\^11.0.2"/"ngx-masonry": "12.0.0"/' package.json
@@ -74,16 +76,24 @@ jobs:
           sed -i 's/"jasmine-core": "\~3.6.0"/"jasmine-core": "3.8.0"/' package.json
           sed -i 's/"protractor": "\^3.3.0"/"protractor": "7.0.0"/' package.json
 
+          # Remove incompatible packages
           sed -i '/"@material-extended\/mde/d' package.json
           sed -i '/"ngx-loading-bar/d' package.json
           sed -i '/"ngx-smart-popover/d' package.json
           sed -i '/"stimulsoft-viewer-angular/d' package.json
 
+          echo "Installing required loading bar..."
           npm install @ngx-loading-bar/core@5.1.2 @ngx-loading-bar/router@5.1.2 --save-exact
 
+          echo "Installing dependencies..."
           npm install --legacy-peer-deps
 
-          nohup npm start > frontend.log 2>&1 &
+          echo "Building Angular app..."
+          npm run build --prod
+
+          echo "Starting production server..."
+          npm install -g http-server
+          http-server ./dist/POS-Front-19-10-2025 -p 4200 --silent &
 
           echo "Waiting for frontend to be ready..."
           FRONTEND_READY=false
@@ -98,10 +108,10 @@ jobs:
           done
 
           if [ "$FRONTEND_READY" = false ]; then
-            echo "Frontend failed to start within 120 seconds. Here are the logs:"
-            cat frontend.log
+            echo "❌ Frontend failed to start within 120 seconds."
             exit 1
           fi
+      
 
       - name: Checkout Project B
         run: |
