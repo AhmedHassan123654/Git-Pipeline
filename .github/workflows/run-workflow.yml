@@ -85,7 +85,7 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           echo "Installing Angular dependencies..."
-          npm ci
+          npm install --legacy-peer-deps
 
           echo "Building Angular..."
           npm run build
