@@ -10,15 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout project A (backend + frontend)
-      - name: Checkout project A
+      # 1. Checkout backend + frontend
+      - name: Checkout Project A
         uses: actions/checkout@v4
 
-      # 2. Install dependencies
-      - name: Install dependencies
+      # 2. Install system dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git
+          sudo apt-get install -y wget unzip curl xvfb git netcat
 
       # 3. Install Chrome 128 LTS
       - name: Install Chrome 128 LTS
@@ -26,8 +26,7 @@ jobs:
           wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.137/linux64/chrome-linux64.zip
           unzip chrome-linux64.zip
           sudo mv chrome-linux64 /usr/local/share/chrome-128
-          sudo rm -f /usr/bin/google-chrome
-          sudo ln -s /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
+          sudo ln -sf /usr/local/share/chrome-128/chrome /usr/bin/google-chrome
 
       # 4. Install ChromeDriver 128
       - name: Install ChromeDriver 128
@@ -38,72 +37,54 @@ jobs:
           sudo chmod +x /usr/local/bin/chromedriver
 
       # 5. Setup Java + Maven
-      - name: Set up Maven
+      - name: Setup Java 17 + Maven
         uses: actions/setup-java@v5
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
-
+          distribution: temurin
+          java-version: 17
+          cache: maven
 
       # 6. Setup Node 16
-      - name: Use Node 16
+      - name: Setup Node 16
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: 16
 
+      # 7. Setup .NET 3.1
       - name: Setup .NET 3.1
         uses: actions/setup-dotnet@v3
         with:
-         dotnet-version: '3.1.x'
+          dotnet-version: 3.1.x
 
+      # 8. Verify backend folder exists
+      - name: Check Backend Folder
+        run: ls -al POS-19-10-2025/POS-BackPublish || echo "Folder not found"
 
-
-      - name: Check backend folder
+      # 9. Run backend in background
+      - name: Start Backend
+        working-directory: POS-19-10-2025/POS-BackPublish
         run: |
-                ls -al POS-19-10-2025/POS-BackPublish || echo "Folder not found"
-
-
-      # 7. Build backend
-      - name: Run Backend
-        run: |
-          cd POS-19-10-2025/POS-BackPublish
-          dotnet POS.Web.dll --urls=http://0.0.0.0:56740
-      
-      
-
-      # 8. Start backend
-      - name: Start Backend (Production)
-        run: |
-          cd POS-19-10-2025/POS-BackPublish
-          echo "Starting Backend (Production)..."
-          nohup dotnet POS.Web.csproj --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
-
-          echo "Waiting for Backend to be ready..."
+          echo "Starting Backend..."
+          nohup dotnet POS.Web.dll --urls=http://0.0.0.0:56740 > backend.log 2>&1 &
+          # Wait until backend is ready
           for i in {1..60}; do
             if nc -z localhost 56740; then
               echo "✅ Backend ready!"
               break
             fi
-            echo "Backend not ready yet ($i/60)"
+            echo "Waiting for backend ($i/60)..."
             sleep 2
           done
-      
 
-      # 9. Build frontend
-      - name: Build Frontend
+      # 10. Build and start frontend
+      - name: Build & Start Frontend
+        working-directory: POS-19-10-2025/POS-Front-19-10-2025
         run: |
-          cd POS-19-10-2025/POS-Front-19-10-2025
           npm install
           npm run build
-
-      # 10. Start frontend
-      - name: Start Frontend
-        run: |
-          cd POS-19-10-2025/POS-Front-19-10-2025
           npm install -g serve
-          serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
-          echo "Waiting for frontend..."
+          nohup serve -s ./dist/POS-Front-19-10-2025 -l 4200 > frontend.log 2>&1 &
+          # Wait until frontend is ready
           FRONTEND_READY=false
           for i in {1..120}; do
             if curl -s http://localhost:4200/login >/dev/null; then
@@ -119,7 +100,7 @@ jobs:
             exit 1
           fi
 
-      # 11. Checkout Project B (test project)
+      # 11. Checkout Project B (tests)
       - name: Checkout Project B
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
@@ -132,7 +113,7 @@ jobs:
         run: mvn clean test -DbrowserType="Chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
       # 13. Upload test reports
-      - name: Upload test reports
+      - name: Upload Test Reports
         uses: actions/upload-artifact@v5
         with:
           name: test-reports
