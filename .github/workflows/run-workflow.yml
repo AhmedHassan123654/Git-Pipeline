@@ -51,6 +51,12 @@ jobs:
         with:
           node-version: '16'
 
+
+      - name: Check backend folder
+        run: |
+                ls -al POS-19-10-2025/POS-BackPublish || echo "Folder not found"
+
+
       # 7. Build backend
       - name: Build Backend
         run: |
@@ -105,12 +111,6 @@ jobs:
             cat frontend.log
             exit 1
           fi
-
-      - name: List backend files
-        run: |
-               cd POS-19-10-2025/POS-BackPublish
-                ls -al
-
 
       # 11. Checkout Project B (test project)
       - name: Checkout Project B
