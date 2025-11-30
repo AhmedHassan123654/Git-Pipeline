@@ -62,49 +62,32 @@ jobs:
             Start-Sleep -Seconds 2
           }
 
-      - name: Fix Angular Build Issues
+      - name: Force Fix TypeScript and Build
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Fixing Angular build issues..."
+          echo "Force fixing TypeScript and building Angular..."
           
-          # تحديث TypeScript إلى إصدار متوافق
-          npm install --save-dev typescript@~5.9.0
+          # تنظيف كامل
+          Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
+          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
           
-          # تعليق ملفات الـ styles المسببة للمشاكل مؤقتاً
-          if (Test-Path "src/custom-theme.scss") {
-            Move-Item "src/custom-theme.scss" "src/custom-theme.scss.backup" -Force
-            echo "Temporarily disabled custom-theme.scss"
-          }
+          # تحديث package.json مباشرة
+          (Get-Content "package.json" -Raw) -replace '"typescript": "[^"]*"', '"typescript": "5.9.0"' | Set-Content "package.json"
           
-          if (Test-Path "src/assets/css/globalCss.css") {
-            Move-Item "src/assets/css/globalCss.css" "src/assets/css/globalCss.css.backup" -Force
-            echo "Temporarily disabled globalCss.css"
-          }
-          
-          # تثبيت dependencies
+          # إعادة التثبيت
           npm install --legacy-peer-deps --no-audit --force
-
-      - name: Build Angular Application
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          echo "Building Angular application..."
+          
+          # التحقق من الإصدار
+          echo "TypeScript version:"
+          npx tsc --version
           
           # البناء
           ng build --configuration production --output-path=dist/POS
           
-          # استعادة الملفات
-          if (Test-Path "src/custom-theme.scss.backup") {
-            Move-Item "src/custom-theme.scss.backup" "src/custom-theme.scss" -Force
-          }
-          
-          if (Test-Path "src/assets/css/globalCss.css.backup") {
-            Move-Item "src/assets/css/globalCss.css.backup" "src/assets/css/globalCss.css" -Force
-          }
-          
           if (Test-Path "dist/POS/index.html") {
-            echo "✅ Angular build completed successfully!"
+            echo "✅ Angular build successful!"
           } else {
-            echo "❌ Angular build failed"
+            echo "❌ Build failed"
             exit 1
           }
 
