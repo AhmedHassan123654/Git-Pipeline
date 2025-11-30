@@ -62,26 +62,31 @@ jobs:
             Start-Sleep -Seconds 2
           }
 
-      - name: Force Fix TypeScript and Build
+      - name: Fix TypeScript Correctly
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Force fixing TypeScript and building Angular..."
+          echo "Fixing TypeScript with correct version..."
           
-          # تنظيف كامل
+          # تنظيف
           Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
           Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
           
-          # تحديث package.json مباشرة
-          (Get-Content "package.json" -Raw) -replace '"typescript": "[^"]*"', '"typescript": "5.9.0"' | Set-Content "package.json"
+          # استخدام إصدار TypeScript محدد ومتوفر
+          (Get-Content "package.json" -Raw) -replace '"typescript": "[^"]*"', '"typescript": "5.9.3"' | Set-Content "package.json"
           
-          # إعادة التثبيت
-          npm install --legacy-peer-deps --no-audit --force
+          echo "Package.json updated successfully"
           
-          # التحقق من الإصدار
-          echo "TypeScript version:"
-          npx tsc --version
+          # التثبيت
+          npm install --legacy-peer-deps --no-audit
           
-          # البناء
+          # التحقق
+          echo "TypeScript version check:"
+          npm list typescript
+
+      - name: Build Angular Application
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: |
+          echo "Building Angular application..."
           ng build --configuration production --output-path=dist/POS
           
           if (Test-Path "dist/POS/index.html") {
