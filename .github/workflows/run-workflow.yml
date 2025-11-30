@@ -6,7 +6,7 @@ on:
 
 jobs:
   regression-tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # استخدام Windows بدلاً من Ubuntu
 
     env:
       BACKEND_DIR: POS-19-10-2025/POS-BackPublish
@@ -18,12 +18,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install System Dependencies
+      - name: Install System Dependencies (Windows)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip curl xvfb git netcat-openbsd libnss3 libatk-bridge2.0-0 libgtk-3-0
-          sudo apt-get install -y libssl-dev libkrb5-dev
-          sudo apt-get install -y ca-certificates
+          # تثبيت المتطلبات على Windows
+          echo "Installing Chrome..."
+          choco install googlechrome -y --no-progress || echo "Chrome installation failed or already installed"
 
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
@@ -39,101 +38,69 @@ jobs:
           java-version: 17
           cache: maven
 
-      - name: Setup .NET Core 3.1 with Dependencies
+      - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-            dotnet-version: |
-              3.1.x
-            include-prerelease: false
+          dotnet-version: |
+            3.1.x
+            6.0.x
 
       - name: Install Angular CLI globally
         run: |
           npm install -g @angular/cli@21
           ng version
 
-      - name: Verify .NET Installation
-        run: |
-          dotnet --info
-          dotnet --list-sdks
-          dotnet --list-runtimes
-
       - name: Verify Directories Structure
         run: |
           echo "=== Checking Project Structure ==="
-          find . -name "package.json" -type f | head -10
-          echo "Backend directory:"
-          ls -la "${{ env.BACKEND_DIR }}" || echo "Backend directory not found"
-          echo "Frontend directory:"
-          ls -la "${{ env.FRONTEND_DIR }}" || echo "Frontend directory not found"
-          if [ -d "${{ env.FRONTEND_DIR }}" ]; then
-            echo "Frontend package.json:"
-            cat "${{ env.FRONTEND_DIR }}/package.json" | grep -A 10 -B 5 "scripts"
-          fi
+          dir "${{ env.BACKEND_DIR }}" || echo "Backend directory not found"
+          dir "${{ env.FRONTEND_DIR }}" || echo "Frontend directory not found"
 
-      - name: Start Backend API
+      - name: Start Backend API (Windows)
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
-            echo "Starting backend..."
-            echo "Current directory: $(pwd)"
-            echo "Files in directory:"
-            ls -la
-            
-            # فحص إذا كان التطبيق مبني لنظام Linux
-            echo "Checking application type:"
-            file POS.Web.dll 2>/dev/null || echo "Cannot check file type"
-            
-            # تشغيل الـ Backend مع معالجة أفضل للأخطاء
-            echo "Starting backend process..."
-            dotnet POS.Web.dll --urls=${{ env.BACKEND_URL }} > backend.log 2>&1 &
-            BACKEND_PID=$!
-            echo "Backend process started with PID: $BACKEND_PID"
-            
-            # انتظار حتى يكون Backend جاهزاً
-            echo "Waiting for backend to start..."
-            for i in {1..30}; do
-              # فحص إذا كانت العملية لا تزال تعمل
-              if ! kill -0 $BACKEND_PID 2>/dev/null; then
-                echo "Backend process died! Check logs below:"
-                cat backend.log
-                exit 1
-              fi
-            
-              # فحص إذا كان الـ Backend يستمع على البورت
-              if netstat -tuln | grep -q ":56740"; then
-                echo "Backend is listening on port 56740!"
+          echo "Starting backend on Windows..."
+          echo "Current directory: $(pwd)"
+          echo "Files in directory:"
+          dir
+          
+          # تشغيل الـ Backend على Windows
+          Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll", "--urls=${{ env.BACKEND_URL }}" -RedirectStandardOutput "backend.log" -RedirectStandardError "backend_error.log"
+          
+          echo "Backend process started..."
+          
+          # انتظار حتى يكون Backend جاهزاً
+          echo "Waiting for backend to start..."
+          for ($i = 1; $i -le 30; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "${{ env.BACKEND_URL }}" -UseBasicParsing -ErrorAction SilentlyContinue
+              if ($response.StatusCode -eq 200) {
+                echo "Backend is ready after $($i*2) seconds!"
                 break
-              fi
-            
-              echo "Waiting for backend... ($i/30)"
-              sleep 2
-            done
-            
-            # فحص إضافي باستخدام curl
-            for i in {1..10}; do
-              if curl -f -s ${{ env.BACKEND_URL }} >/dev/null 2>&1; then
-                echo "Backend is fully ready and responding to HTTP requests!"
-                break
-              fi
-              echo "Waiting for HTTP response... ($i/10)"
-              sleep 2
-            done
-            
-            # فحص نهائي
-            if curl -f -s ${{ env.BACKEND_URL }} >/dev/null 2>&1; then
-              echo "✅ Backend is running successfully!"
-              echo "Backend logs (first 50 lines):"
-              head -50 backend.log
-            else
-              echo "❌ Backend failed to start properly"
-              echo "Full backend logs:"
-              cat backend.log
-              echo "Network status:"
-              netstat -tuln | grep ":56740" || echo "Port 56740 not found in netstat"
-              echo "Process status:"
-              ps aux | grep dotnet
-              exit 1
-            fi
-      
+              }
+            } catch {
+              # تجاهل الأخطاء ومحاولة مرة أخرى
+            }
+            echo "Waiting for backend... ($i/30)"
+            Start-Sleep -Seconds 2
+          }
+          
+          # فحص نهائي
+          try {
+            $response = Invoke-WebRequest -Uri "${{ env.BACKEND_URL }}" -UseBasicParsing
+            echo "✅ Backend is running successfully!"
+            echo "Backend logs (first 20 lines):"
+            Get-Content "backend.log" -Head 20
+          } catch {
+            echo "❌ Backend failed to start"
+            echo "Backend logs:"
+            Get-Content "backend.log" -ErrorAction SilentlyContinue
+            echo "Backend error logs:"
+            Get-Content "backend_error.log" -ErrorAction SilentlyContinue
+            echo "Process list:"
+            Get-Process -Name "dotnet" -ErrorAction SilentlyContinue
+            exit 1
+          }
 
       - name: Install Frontend Dependencies
         working-directory: ${{ env.FRONTEND_DIR }}
@@ -146,18 +113,7 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           echo "Building Angular application..."
-          # حلول متعددة لضمان نجاح البناء
-          if [ -f "./node_modules/.bin/ng" ]; then
-            echo "Using local ng binary"
-            chmod +x ./node_modules/.bin/ng
-            ./node_modules/.bin/ng build --configuration production --output-path=dist/POS
-          elif command -v ng &> /dev/null; then
-            echo "Using global ng command"
-            ng build --configuration production --output-path=dist/POS
-          else
-            echo "Using npx with angular cli"
-            npx -p @angular/cli@21 ng build --configuration production --output-path=dist/POS
-          fi
+          ng build --configuration production --output-path=dist/POS
           echo "Angular build completed successfully"
 
       - name: Install Serve and Start Frontend
@@ -167,49 +123,44 @@ jobs:
           npm install -g serve
           
           echo "Starting frontend server..."
-          nohup serve -s ./dist/POS -l 4200 > frontend.log 2>&1 &
-          echo "Frontend process started with PID: $!"
+          Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "serve", "-s", "dist/POS", "-l", "4200" -RedirectStandardOutput "frontend.log" -RedirectStandardError "frontend_error.log"
+          
+          echo "Frontend process started..."
           
           # انتظار حتى يكون Frontend جاهزاً
           echo "Waiting for frontend to start..."
-          for i in {1..30}; do
-            if curl -f -s ${{ env.FRONTEND_URL }} >/dev/null 2>&1; then
-              echo "Frontend is ready after $((i*2)) seconds!"
-              break
-            fi
+          for ($i = 1; $i -le 30; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "${{ env.FRONTEND_URL }}" -UseBasicParsing -ErrorAction SilentlyContinue
+              if ($response.StatusCode -eq 200) {
+                echo "Frontend is ready after $($i*2) seconds!"
+                break
+              }
+            } catch {
+              # تجاهل الأخطاء ومحاولة مرة أخرى
+            }
             echo "Waiting for frontend... ($i/30)"
-            sleep 2
-          done
+            Start-Sleep -Seconds 2
+          }
           
           # فحص إذا كان Frontend يعمل
-          if ! curl -f -s ${{ env.FRONTEND_URL }} >/dev/null 2>&1; then
-            echo "Frontend failed to start. Logs:"
-            cat frontend.log
-            echo "Checking serve process..."
-            ps aux | grep serve
+          try {
+            $response = Invoke-WebRequest -Uri "${{ env.FRONTEND_URL }}" -UseBasicParsing
+            echo "✅ Frontend is running successfully!"
+          } catch {
+            echo "❌ Frontend failed to start"
+            echo "Frontend logs:"
+            Get-Content "frontend.log" -ErrorAction SilentlyContinue
+            echo "Frontend error logs:"
+            Get-Content "frontend_error.log" -ErrorAction SilentlyContinue
             exit 1
-          else
-            echo "Frontend is running successfully!"
-          fi
-
-      - name: Verify Services Are Running
-        run: |
-          echo "=== Verifying All Services ==="
-          echo "Backend check:"
-          curl -f -s ${{ env.BACKEND_URL }} || echo "Backend not accessible via HTTP"
-          nc -z localhost 56740 && echo "Backend port is open" || echo "Backend port not open"
-          
-          echo "Frontend check:"
-          curl -f -s ${{ env.FRONTEND_URL }} && echo "Frontend is accessible" || echo "Frontend not accessible"
-          
-          echo "Process list:"
-          ps aux | grep -E "(dotnet|serve)" | grep -v grep
+          }
 
       - name: Checkout E2E Project
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
           echo "E2E project structure:"
-          ls -la projectB/
+          dir projectB
 
       - name: Run E2E Tests
         working-directory: projectB
@@ -218,8 +169,8 @@ jobs:
           FRONTEND_BASE_URL: ${{ env.FRONTEND_URL }}
         run: |
           echo "Running E2E tests with:"
-          echo "Backend: $BACKEND_BASE_URL"
-          echo "Frontend: $FRONTEND_BASE_URL"
+          echo "Backend: $env:BACKEND_BASE_URL"
+          echo "Frontend: $env:FRONTEND_BASE_URL"
           
           mvn clean test -DbrowserType="chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
@@ -239,13 +190,7 @@ jobs:
           name: application-logs
           path: |
             ${{ env.BACKEND_DIR }}/backend.log
+            ${{ env.BACKEND_DIR }}/backend_error.log
             ${{ env.FRONTEND_DIR }}/frontend.log
+            ${{ env.FRONTEND_DIR }}/frontend_error.log
           retention-days: 30
-
-      - name: Upload Build Artifacts
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: angular-build
-          path: ${{ env.FRONTEND_DIR }}/dist/**
-          retention-days: 7
