@@ -11,7 +11,7 @@ jobs:
     env:
       BACKEND_DIR: POS-19-10-2025/POS-BackPublish
       FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
-      BACKEND_URL: http://localhost:56740  # تغيير المنفذ إلى 5000
+      BACKEND_URL: http://localhost:5000  # تغيير المنفذ إلى 5000
       FRONTEND_URL: http://localhost:4200
 
     steps:
@@ -94,7 +94,7 @@ jobs:
           }
 
           # فحص نهائي
-          $listening = netstat -an | findstr ":56740" | findstr "LISTENING"
+          $listening = netstat -an | findstr ":5000" | findstr "LISTENING"
           if ($listening) {
             echo "✅ Backend is running successfully on port 56740!"
             echo "Backend logs (first 10 lines):"
@@ -106,7 +106,7 @@ jobs:
             echo "Backend error logs:"
             Get-Content "backend_error.log" -ErrorAction SilentlyContinue
             echo "Checking all listening ports:"
-            netstat -an | findstr "LISTENING" | findstr ":5000 :56740"
+            netstat -an | findstr "LISTENING" | findstr ":56740 :5000"
             echo "Process list:"
             Get-Process -Name "dotnet" -ErrorAction SilentlyContinue
             exit 1
