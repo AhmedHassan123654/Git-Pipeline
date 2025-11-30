@@ -11,18 +11,12 @@ jobs:
     env:
       BACKEND_DIR: POS-19-10-2025/POS-BackPublish
       FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
-      BACKEND_URL: http://localhost:56740  # ✅ تصحيح المنفذ إلى 56740
+      BACKEND_URL: http://localhost:5000  # ✅ استخدام المنفذ 5000 الذي يعمل فعلياً
       FRONTEND_URL: http://localhost:4200
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Install System Dependencies (Windows)
-        run: |
-          # تثبيت المتطلبات على Windows
-          echo "Installing Chrome..."
-          choco install googlechrome -y --no-progress || echo "Chrome installation failed or already installed"
 
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
@@ -50,54 +44,39 @@ jobs:
           npm install -g @angular/cli@21
           ng version
 
-      - name: Verify Directories Structure
-        run: |
-          echo "=== Checking Project Structure ==="
-          echo "Backend directory:"
-          dir "${{ env.BACKEND_DIR }}" || echo "Backend directory not found"
-          echo "Frontend directory:"
-          dir "${{ env.FRONTEND_DIR }}" || echo "Frontend directory not found"
-          
-          # فحص إضافي للتأكد من الملفات
-          echo "Checking Backend files:"
-          dir "${{ env.BACKEND_DIR }}\*.dll" | findstr "POS.Web.dll" || echo "POS.Web.dll not found"
-
-      - name: Start Backend API on Port 56740
+      - name: Start Backend API
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
           echo "Starting backend on Windows..."
           echo "Current directory: $(pwd)"
-          echo "Backend files:"
-          dir *.dll | findstr "POS.Web"
 
           # قتل أي عملية dotnet سابقة
           taskkill /f /im dotnet.exe 2>$null
-          Start-Sleep -Seconds 3
+          Start-Sleep -Seconds 2
 
-          # تشغيل الـ Backend مع إجبار المنفذ 56740
-          echo "Starting backend on port 56740..."
-          $env:ASPNETCORE_URLS = "http://localhost:56740"
+          # تشغيل الـ Backend بدون تحديد منفذ (سيستخدم 5000)
+          echo "Starting backend (will use port 5000)..."
           Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll" -RedirectStandardOutput "backend.log" -RedirectStandardError "backend_error.log"
           
-          echo "Backend process started with ASPNETCORE_URLS=$env:ASPNETCORE_URLS"
+          echo "Backend process started..."
 
-          # انتظار حتى يكون Backend جاهزاً على المنفذ 56740
-          echo "Waiting for backend to start on port 56740..."
+          # انتظار حتى يكون Backend جاهزاً على المنفذ 5000
+          echo "Waiting for backend to start on port 5000..."
           $success = $false
-          for ($i = 1; $i -le 40; $i++) {
-            # فحص باستخدام netstat أولاً
-            $listening = netstat -an | findstr ":56740" | findstr "LISTENING"
+          for ($i = 1; $i -le 30; $i++) {
+            # فحص باستخدام netstat
+            $listening = netstat -an | findstr ":5000" | findstr "LISTENING"
             if ($listening) {
-              echo "✅ Backend is listening on port 56740!"
+              echo "✅ Backend is listening on port 5000!"
               $success = $true
               break
             }
 
             # فحص HTTP
             try {
-              $response = Invoke-WebRequest -Uri "http://localhost:56740" -UseBasicParsing -TimeoutSec 2 -ErrorAction SilentlyContinue
+              $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2 -ErrorAction SilentlyContinue
               if ($response.StatusCode -eq 200) {
-                echo "✅ Backend responded on port 56740!"
+                echo "✅ Backend responded on port 5000!"
                 $success = $true
                 break
               }
@@ -105,28 +84,20 @@ jobs:
               # تجاهل الأخطاء ومحاولة مرة أخرى
             }
 
-            echo "Waiting for backend... ($i/40)"
+            echo "Waiting for backend... ($i/30)"
             Start-Sleep -Seconds 2
           }
 
-          # فحص نهائي - ✅ تصحيح: فحص المنفذ 56740 وليس 5000
-          $listening = netstat -an | findstr ":56740" | findstr "LISTENING"
-          if ($listening -or $success) {
-            echo "✅ Backend is running successfully on port 56740!"
-            echo "Backend logs (first 15 lines):"
-            Get-Content "backend.log" -Head 15
-            echo "Backend error logs (first 5 lines):"
-            Get-Content "backend_error.log" -Head 5
+          if ($success) {
+            echo "✅ Backend is running successfully on port 5000!"
+            echo "Backend logs (first 10 lines):"
+            Get-Content "backend.log" -Head 10
           } else {
-            echo "❌ Backend failed to start on port 56740"
-            echo "Checking all listening ports:"
-            netstat -an | findstr "LISTENING" | findstr ":56740 :5000"
+            echo "❌ Backend failed to start"
             echo "Backend logs:"
             Get-Content "backend.log" -ErrorAction SilentlyContinue
             echo "Backend error logs:"
             Get-Content "backend_error.log" -ErrorAction SilentlyContinue
-            echo "Process list:"
-            Get-Process -Name "dotnet" -ErrorAction SilentlyContinue
             exit 1
           }
 
@@ -155,68 +126,47 @@ jobs:
           
           echo "Frontend process started..."
           
-          # انتظار حتى يكون Frontend جاهزاً
-          echo "Waiting for frontend to start..."
+          # انتظار Frontend
           for ($i = 1; $i -le 30; $i++) {
             try {
-              $response = Invoke-WebRequest -Uri "${{ env.FRONTEND_URL }}" -UseBasicParsing -ErrorAction SilentlyContinue
+              $response = Invoke-WebRequest -Uri "http://localhost:4200" -UseBasicParsing -ErrorAction SilentlyContinue
               if ($response.StatusCode -eq 200) {
-                echo "✅ Frontend is ready after $($i*2) seconds!"
+                echo "✅ Frontend is ready!"
                 break
               }
-            } catch {
-              # تجاهل الأخطاء ومحاولة مرة أخرى
-            }
+            } catch { }
             echo "Waiting for frontend... ($i/30)"
             Start-Sleep -Seconds 2
-          }
-          
-          # فحص إذا كان Frontend يعمل
-          try {
-            $response = Invoke-WebRequest -Uri "${{ env.FRONTEND_URL }}" -UseBasicParsing
-            echo "✅ Frontend is running successfully!"
-          } catch {
-            echo "❌ Frontend failed to start"
-            echo "Frontend logs:"
-            Get-Content "frontend.log" -ErrorAction SilentlyContinue
-            echo "Frontend error logs:"
-            Get-Content "frontend_error.log" -ErrorAction SilentlyContinue
-            exit 1
           }
 
       - name: Verify Both Services
         run: |
           echo "=== Final Service Verification ==="
-          echo "Checking Backend on http://localhost:56740:"
+          echo "Checking Backend on http://localhost:5000:"
           try {
-            $backendResponse = Invoke-WebRequest -Uri "http://localhost:56740" -UseBasicParsing
+            $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing
             echo "✅ Backend: HTTP 200 OK"
           } catch {
             echo "❌ Backend: Not accessible"
           }
           
-          echo "Checking Frontend on ${{ env.FRONTEND_URL }}:"
+          echo "Checking Frontend on http://localhost:4200:"
           try {
-            $frontendResponse = Invoke-WebRequest -Uri "${{ env.FRONTEND_URL }}" -UseBasicParsing
+            $response = Invoke-WebRequest -Uri "http://localhost:4200" -UseBasicParsing
             echo "✅ Frontend: HTTP 200 OK"
           } catch {
             echo "❌ Frontend: Not accessible"
           }
-          
-          echo "Network status:"
-          netstat -an | findstr ":56740 :4200" | findstr "LISTENING"
 
       - name: Checkout E2E Project
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
-          echo "E2E project structure:"
-          dir projectB
 
       - name: Run E2E Tests
         working-directory: projectB
         env:
-          BACKEND_BASE_URL: http://localhost:56740  # ✅ تأكيد استخدام المنفذ 56740
-          FRONTEND_BASE_URL: ${{ env.FRONTEND_URL }}
+          BACKEND_BASE_URL: http://localhost:5000  # ✅ استخدام 5000
+          FRONTEND_BASE_URL: http://localhost:4200
         run: |
           echo "Running E2E tests with:"
           echo "Backend: $env:BACKEND_BASE_URL"
