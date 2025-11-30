@@ -18,10 +18,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: إعداد Node.js
+      - name: Setup Node.js Environment
         uses: actions/setup-node@v4
         with:
-            node-version: '18'
+            node-version: '18.20.x'
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -37,10 +37,8 @@ jobs:
             3.1.x
             6.0.x
 
-      - name: Install Angular CLI globally
-        run: |
-          npm install -g @angular/cli@21
-          ng version
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli@12.2.17
 
       - name: Start Backend API
         working-directory: ${{ env.BACKEND_DIR }}
@@ -60,79 +58,26 @@ jobs:
             Start-Sleep -Seconds 2
           }
 
-      - name: Clean Frontend Completely
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          echo "Deep cleaning frontend..."
-          Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
-          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
-          Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue
-          Remove-Item -Recurse -Force .angular -ErrorAction SilentlyContinue
-
-      - name: Install Dependencies with Fix
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          echo "Installing dependencies with compatibility fixes..."
-          
-          # تثبيت TypeScript أولاً
-          npm install typescript@~5.9.3 --save-dev --legacy-peer-deps
-          
-          # تثبيت باقي dependencies
-          npm install --legacy-peer-deps --no-audit --force
-          
-          echo "✅ Dependencies installed successfully"
-          echo "Versions check:"
-          npm list typescript @angular/core @angular/cli @angular/compiler-cli
-
-      - name: Create Critical Missing Files
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          echo "Creating critical missing files..."
-          
-          # إنشاء المجلدات الأساسية
-          New-Item -ItemType Directory -Force -Path "src/assets/css"
-          
-          # إنشاء الملفات الحرجة فقط
-          $emptyCss = "/* Auto-generated for build */"
-          
-          # الملفات المطلوبة لبناء ناجح
-          $criticalFiles = @(
-            "src/assets/css/globalCss.css",
-            "src/custom-theme.scss"
-          )
-          
-          foreach ($file in $criticalFiles) {
-            if (!(Test-Path $file)) {
-              $emptyCss | Set-Content $file
-              echo "Created: $file"
-            }
-          }
-          
-          echo "✅ Critical files check completed"
-
       - name: Build Frontend Application
-        working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Building frontend application..."
-          ng build --configuration production --output-path=dist/POS --aot --build-optimizer
-          echo "✅ Frontend build completed"
-        
+            cd POS-19-10-2025/POS-Front-19-10-2025
+            npm install --legacy-peer-deps --force
+            ng build --configuration=production --source-map=false
 
-      - name: Install Serve and Start Frontend
-        working-directory: ${{ env.FRONTEND_DIR }}
+      - name: Start Frontend Server (Port 4200)
         run: |
-          npm install -g serve
-          echo "Starting frontend server..."
-          
-          # إيقاف أي عمليات سابقة
-          taskkill /f /im node.exe 2>$null
-          Start-Sleep -Seconds 2
-          
-          # تشغيل الخادم
-          Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "serve", "-s", "dist/POS", "-l", "4200", "--single"
-          Start-Sleep -Seconds 10
-          
-          echo "Frontend server started on port 4200"
+               cd POS-19-10-2025/POS-Front-19-10-2025
+              echo "Starting frontend server on port 4200..."
+              start /B ng serve --port 4200 --host 0.0.0.0
+                timeout 60
+
+      - name: Verify Services Running
+        run: |
+          echo "Checking running services:"
+          echo "- Backend: http://localhost:5000"
+          echo "- Frontend: http://localhost:4200"
+          netstat -an | findstr ":5000" && echo "✅ Backend is running" || echo "❌ Backend not available"
+          netstat -an | findstr ":4200" && echo "✅ Frontend is running" || echo "❌ Frontend not available"    
 
       - name: Checkout E2E Project
         run: |
@@ -145,7 +90,7 @@ jobs:
           FRONTEND_BASE_URL: http://localhost:4200
         run: |
           echo "Starting E2E tests..."
-          mvn clean test -DbrowserType="chrome" -DexecutionType="local" -Dmaven.test.failure.ignore=true
+          mvn clean test -DbrowserType="chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v5
