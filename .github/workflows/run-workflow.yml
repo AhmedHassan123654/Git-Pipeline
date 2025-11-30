@@ -15,89 +15,119 @@ jobs:
       FRONTEND_URL: http://localhost:4200
 
     steps:
-      - name: Checkout Repository
+      - name: التحقق من المستودع
         uses: actions/checkout@v4
 
-      - name: Setup Node.js Environment
+      - name: إعداد بيئة Node.js
         uses: actions/setup-node@v4
         with:
-            node-version: '18.20.x'
+          node-version: '18.20.x'
 
-      - name: Setup Java
+      - name: إعداد Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
           cache: maven
 
-      - name: Setup .NET
+      - name: إعداد .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
             3.1.x
             6.0.x
 
-      - name: Install Angular CLI
+      - name: تثبيت Angular CLI
         run: npm install -g @angular/cli@12.2.17
 
-      - name: Start Backend API
+      - name: بناء Frontend أولاً
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: |
+          echo "جاري بناء الـ Frontend..."
+          npm install --legacy-peer-deps --force
+          ng build --configuration=production --source-map=false
+
+      - name: تشغيل Backend API
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
-          echo "Starting backend..."
+          echo "بدء تشغيل الـ Backend..."
           taskkill /f /im dotnet.exe 2>$null
           Start-Sleep -Seconds 2
+          echo "تشغيل تطبيق الـ Backend..."
           Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll" -RedirectStandardOutput "backend.log" -RedirectStandardError "backend_error.log"
           
+          # الانتظار حتى يكون الـ Backend جاهزاً
           for ($i = 1; $i -le 30; $i++) {
             $listening = netstat -an | findstr ":5000" | findstr "LISTENING"
             if ($listening) {
-              echo "✅ Backend is listening on port 5000!"
+              echo "✅ الـ Backend يعمل على المنفذ 5000!"
               break
             }
-            echo "Waiting for backend... ($i/30)"
+            echo "في انتظار الـ Backend... ($i/30)"
             Start-Sleep -Seconds 2
           }
+          
+          # التحقق النهائي
+          if (!(netstat -an | findstr ":5000" | findstr "LISTENING")) {
+            echo "❌ فشل في تشغيل الـ Backend"
+            Get-Content backend_error.log -ErrorAction SilentlyContinue
+            exit 1
+          }
 
-      - name: Build Frontend Application
+      - name: تشغيل Frontend Server
+        working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-            cd POS-19-10-2025/POS-Front-19-10-2025
-            npm install --legacy-peer-deps --force
-            ng build --configuration=production --source-map=false
+          echo "بدء تشغيل الـ Frontend على المنفذ 4200..."
+          start /B ng serve --port 4200 --host 0.0.0.0
+          
+          # الانتظار حتى يكون الـ Frontend جاهزاً
+          for ($i = 1; $i -le 20; $i++) {
+            $listening = netstat -an | findstr ":4200" | findstr "LISTENING"
+            if ($listening) {
+              echo "✅ الـ Frontend يعمل على المنفذ 4200!"
+              break
+            }
+            echo "في انتظار الـ Frontend... ($i/20)"
+            Start-Sleep -Seconds 3
+          }
 
-      - name: Start Frontend Server (Port 4200)
+      - name: التحقق من الخدمات قيد التشغيل
         run: |
-               cd POS-19-10-2025/POS-Front-19-10-2025
-              echo "Starting frontend server on port 4200..."
-              start /B ng serve --port 4200 --host 0.0.0.0
-                timeout 60
-
-      - name: Verify Services Running
-        run: |
-          echo "Checking running services:"
+          echo "التحقق من الخدمات النشطة:"
           echo "- Backend: http://localhost:5000"
           echo "- Frontend: http://localhost:4200"
-          netstat -an | findstr ":5000" && echo "✅ Backend is running" || echo "❌ Backend not available"
-          netstat -an | findstr ":4200" && echo "✅ Frontend is running" || echo "❌ Frontend not available"    
+          netstat -an | findstr ":5000" && echo "✅ الـ Backend يعمل" || echo "❌ الـ Backend غير متاح"
+          netstat -an | findstr ":4200" && echo "✅ الـ Frontend يعمل" || echo "❌ الـ Frontend غير متاح"
 
-      - name: Checkout E2E Project
+      - name: التحقق من مشروع E2E
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
 
-      - name: Run E2E Tests
+      - name: تشغيل اختبارات E2E
         working-directory: projectB
         env:
           BACKEND_BASE_URL: http://localhost:5000
           FRONTEND_BASE_URL: http://localhost:4200
         run: |
-          echo "Starting E2E tests..."
+          echo "بدء اختبارات E2E..."
+          echo "رابط الـ Backend: $env:BACKEND_BASE_URL"
+          echo "رابط الـ Frontend: $env:FRONTEND_BASE_URL"
           mvn clean test -DbrowserType="chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
-      - name: Upload Artifacts
+      - name: رفع النتائج والملفات
         uses: actions/upload-artifact@v5
+        if: always()
         with:
           name: test-results
           path: |
-            projectB/test-output/reports/**/*
+            projectB/target/surefire-reports/**/*
             ${{ env.BACKEND_DIR }}/backend.log
-            ${{ env.FRONTEND_DIR }}/dist/POS/
+            ${{ env.BACKEND_DIR }}/backend_error.log
+            ${{ env.FRONTEND_DIR }}/dist/
           retention-days: 30
+
+      - name: عرض ملخص التنفيذ
+        if: always()
+        run: |
+          echo "🎯 تم الانتهاء من تنفيذ الاختبارات"
+          echo "📊 التقارير متاحة في قسم Artifacts"
