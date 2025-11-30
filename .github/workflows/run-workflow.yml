@@ -18,22 +18,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Verify Build Output Structure
-        run: |
-          echo "🔍 Checking build output structure..."
-          echo "Backend directory content:"
-          if (Test-Path "${{ env.BACKEND_DIR }}") {
-            Get-ChildItem "${{ env.BACKEND_DIR }}" -Recurse | Select-Object Name, Length, FullName | Format-Table -AutoSize
-          } else {
-            echo "❌ Backend directory not found: ${{ env.BACKEND_DIR }}"
-          }
-          
-          echo "Frontend directory content:"
-          if (Test-Path "${{ env.FRONTEND_DIR }}") {
-            Get-ChildItem "${{ env.FRONTEND_DIR }}" -Recurse | Select-Object Name, Length, FullName | Format-Table -AutoSize
-          } else {
-            echo "❌ Frontend directory not found: ${{ env.FRONTEND_DIR }}"
-          }
+      - name: Setup .NET Core 3.1
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '3.1.x'
 
       - name: Setup Java for E2E Tests
         uses: actions/setup-java@v5
@@ -42,61 +30,82 @@ jobs:
           java-version: 17
           cache: maven
 
-      - name: Start Backend Server from Build Output
+      - name: Verify .NET Installation
         run: |
-          echo "🚀 Starting Backend from build output..."
+          echo "🔍 Checking .NET versions..."
+          dotnet --version
+          dotnet --list-sdks
+          dotnet --list-runtimes
+
+      - name: Build Frontend Application
+        run: |
+          echo "🏗️ Building Frontend Application..."
+          Set-Location "${{ env.FRONTEND_DIR }}"
+          
+          # Install Angular CLI and dependencies
+          npm install -g @angular/cli@12.2.17
+          npm install --legacy-peer-deps --force
+          
+          # Build the frontend
+          ng build --configuration=production --source-map=false
+          
+          # Verify build output
+          if (Test-Path "dist") {
+            echo "✅ Frontend built successfully!"
+            Get-ChildItem "dist" -Recurse | Select-Object Name, Length | Format-Table -AutoSize
+          } else {
+            echo "❌ Frontend build failed - no dist directory created"
+            exit 1
+          }
+
+      - name: Start Backend Server
+        run: |
+          echo "🚀 Starting Backend Server..."
           Set-Location "${{ env.BACKEND_DIR }}"
           echo "Current directory: $(Get-Location)"
           
-          # Check for common backend executable patterns
-          $backendFiles = @("POS.Web.dll", "POS.Web.exe", "app.dll", "app.exe")
-          $foundFile = $null
+          # Verify .NET 3.1 is available for the backend
+          echo "Checking .NET runtime for backend..."
+          dotnet --list-runtimes | findstr "3.1"
           
-          foreach ($file in $backendFiles) {
-            if (Test-Path $file) {
-              $foundFile = $file
-              echo "✅ Found backend file: $foundFile"
-              break
-            }
-          }
+          # Check for backend files
+          $backendFiles = Get-ChildItem -File
+          echo "Available backend files:"
+          $backendFiles | Select-Object Name, Length | Format-Table -AutoSize
           
-          if (!$foundFile) {
-            echo "❌ No backend executable found. Available files:"
-            Get-ChildItem -File | Select-Object Name, Length | Format-Table -AutoSize
-            exit 1
-          }
-          
-          # Try different ways to start the backend
-          echo "Starting backend with file: $foundFile"
-          
-          if ($foundFile -like "*.dll") {
-            # .NET Core application
-            Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "$foundFile --urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
-          } elseif ($foundFile -like "*.exe") {
-            # Windows executable
-            Start-Process -NoNewWindow -FilePath ".\$foundFile" -ArgumentList "--urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
-          }
+          # Start the backend
+          echo "Starting backend application..."
+          Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll --urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
           
           # Wait for backend to start
-          for ($i = 1; $i -le 30; $i++) {
+          for ($i = 1; $i -le 40; $i++) {
             try {
-              $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2
+              $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 3
               if ($response.StatusCode -eq 200) {
                 echo "✅ Backend is responding on port 5000!"
                 break
               }
             } catch {
               if ($i -eq 1) {
-                echo "Backend starting..."
+                echo "Backend starting... (this may take a while for .NET 3.1)"
+              }
+              if ($i % 10 -eq 0) {
+                echo "Still waiting for backend... ($i/40)"
+                # Check if process is running
+                $dotnetProcess = Get-Process -Name "dotnet" -ErrorAction SilentlyContinue
+                if ($dotnetProcess) {
+                  echo "Dotnet process is running..."
+                }
               }
               Start-Sleep -Seconds 2
             }
-            if ($i -eq 30) {
-              echo "❌ Backend failed to start within 60 seconds"
+            if ($i -eq 40) {
+              echo "❌ Backend failed to start within 80 seconds"
               if (Test-Path "backend_error.log") {
                 echo "Backend error log:"
                 Get-Content "backend_error.log"
               }
+              exit 1
             }
           }
 
@@ -106,35 +115,46 @@ jobs:
           Set-Location "${{ env.FRONTEND_DIR }}"
           echo "Current directory: $(Get-Location)"
           
-          # Check for built frontend files
-          $distDirs = @("dist", "build", "output", "wwwroot")
-          $foundDist = $null
-          
-          foreach ($dir in $distDirs) {
-            if (Test-Path $dir) {
-              $foundDist = $dir
-              echo "✅ Found frontend build directory: $foundDist"
-              break
-            }
-          }
-          
-          if (!$foundDist) {
-            echo "❌ No frontend build directory found. Available directories:"
+          # Verify dist directory exists after build
+          if (!(Test-Path "dist")) {
+            echo "❌ Frontend dist directory not found after build!"
+            echo "Available directories:"
             Get-ChildItem -Directory | Select-Object Name | Format-Table -AutoSize
             exit 1
+          }
+          
+          # Find the actual distribution folder (could be dist/project-name)
+          $distPath = "dist"
+          $subDirs = Get-ChildItem "dist" -Directory
+          if ($subDirs.Count -eq 1) {
+            $distPath = "dist/$($subDirs[0].Name)"
+            echo "Using distribution folder: $distPath"
           }
           
           # Install and use a simple HTTP server to serve the built files
           npm install -g http-server
           echo "Starting HTTP server for frontend on port 4200..."
-          Start-Process -NoNewWindow -FilePath "http-server" -ArgumentList "$foundDist -p 4200 -a 0.0.0.0" -RedirectStandardOutput "frontend_output.log"
-
-      - name: Wait for Services to Be Ready
-        run: |
-          echo "⏳ Waiting for services to be fully ready..."
-          Start-Sleep -Seconds 10
+          Start-Process -NoNewWindow -FilePath "http-server" -ArgumentList "$distPath -p 4200 -a 0.0.0.0 -c-1" -RedirectStandardOutput "frontend_output.log"
           
-          echo "📊 Service Status:"
+          # Wait for frontend to start
+          for ($i = 1; $i -le 20; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "http://localhost:4200" -UseBasicParsing -TimeoutSec 2
+              if ($response.StatusCode -eq 200) {
+                echo "✅ Frontend is responding on port 4200!"
+                break
+              }
+            } catch {
+              if ($i -eq 1) {
+                echo "Frontend starting..."
+              }
+              Start-Sleep -Seconds 2
+            }
+          }
+
+      - name: Verify Services Running
+        run: |
+          echo "📊 Final Service Status Check:"
           echo "Backend: http://localhost:5000"
           echo "Frontend: http://localhost:4200"
           
@@ -180,10 +200,12 @@ jobs:
         with:
           name: e2e-test-results
           path: |
-            C:\Users\pc\IdeaProjects\FirstProjectFERP\test-output\reports
+            C:\Users\pc\IdeaProjects\FirstProjectFERP\test-output\reports.html
+            C:\Users\pc\IdeaProjects\FirstProjectFERP\test-output\screenshots
             ${{ env.BACKEND_DIR }}/backend_output.log
             ${{ env.BACKEND_DIR }}/backend_error.log
             ${{ env.FRONTEND_DIR }}/frontend_output.log
+            ${{ env.FRONTEND_DIR }}/dist/
           retention-days: 30
 
       - name: Final Status Report
