@@ -61,50 +61,51 @@ jobs:
         run: |
           echo "Starting backend on Windows..."
           echo "Current directory: $(pwd)"
-          
-          # تشغيل الـ Backend على Windows بدون تحديد منفذ (سيستخدم المنفذ الافتراضي 5000)
-          Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll" -RedirectStandardOutput "backend.log" -RedirectStandardError "backend_error.log"
-          
-          echo "Backend process started..."
-          
-          # انتظار حتى يكون Backend جاهزاً على المنفذ 5000
-          echo "Waiting for backend to start on port 5000..."
+
+          # تشغيل الـ Backend مع إجبار المنفذ 56740
+          Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll", "--urls=http://localhost:56740" -RedirectStandardOutput "backend.log" -RedirectStandardError "backend_error.log"
+
+          echo "Backend process started on port 56740..."
+
+          # انتظار حتى يكون Backend جاهزاً على المنفذ 56740
+          echo "Waiting for backend to start on port 56740..."
           for ($i = 1; $i -le 30; $i++) {
+            # فحص باستخدام netstat أولاً
+            $listening = netstat -an | findstr ":56740" | findstr "LISTENING"
+            if ($listening) {
+              echo "✅ Backend is listening on port 56740!"
+              break
+            }
+
+            # فحص HTTP
             try {
-              $response = Invoke-WebRequest -Uri "${{ env.BACKEND_URL }}" -UseBasicParsing -ErrorAction SilentlyContinue
+              $response = Invoke-WebRequest -Uri "http://localhost:56740" -UseBasicParsing -TimeoutSec 2 -ErrorAction SilentlyContinue
               if ($response.StatusCode -eq 200) {
                 echo "✅ Backend is ready after $($i*2) seconds!"
-                echo "Backend is running on: ${{ env.BACKEND_URL }}"
+                echo "Backend is running on: http://localhost:56740"
                 break
-            }
+              }
             } catch {
               # تجاهل الأخطاء ومحاولة مرة أخرى
             }
-          
-            # فحص إضافي باستخدام netstat
-            $listening = netstat -an | findstr ":5000" | findstr "LISTENING"
-            if ($listening) {
-              echo "✅ Backend is listening on port 5000!"
-              break
-            }
-          
+
             echo "Waiting for backend... ($i/30)"
             Start-Sleep -Seconds 2
           }
-          
+
           # فحص نهائي
-          try {
-            $response = Invoke-WebRequest -Uri "${{ env.BACKEND_URL }}" -UseBasicParsing
-            echo "✅ Backend is running successfully on ${{ env.BACKEND_URL }}!"
+          $listening = netstat -an | findstr ":56740" | findstr "LISTENING"
+          if ($listening) {
+            echo "✅ Backend is running successfully on port 56740!"
             echo "Backend logs (first 10 lines):"
             Get-Content "backend.log" -Head 10
-          } catch {
-            echo "❌ Backend failed to start on ${{ env.BACKEND_URL }}"
+          } else {
+            echo "❌ Backend failed to start on port 56740"
             echo "Backend logs:"
             Get-Content "backend.log" -ErrorAction SilentlyContinue
             echo "Backend error logs:"
             Get-Content "backend_error.log" -ErrorAction SilentlyContinue
-            echo "Checking if backend is listening on any port:"
+            echo "Checking all listening ports:"
             netstat -an | findstr "LISTENING" | findstr ":5000 :56740"
             echo "Process list:"
             Get-Process -Name "dotnet" -ErrorAction SilentlyContinue
