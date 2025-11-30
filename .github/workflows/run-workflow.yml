@@ -22,9 +22,18 @@ jobs:
         run: |
           echo "🔍 Checking build output structure..."
           echo "Backend directory content:"
-          dir "${{ env.BACKEND_DIR }}" /s
+          if (Test-Path "${{ env.BACKEND_DIR }}") {
+            Get-ChildItem "${{ env.BACKEND_DIR }}" -Recurse | Select-Object Name, Length, FullName | Format-Table -AutoSize
+          } else {
+            echo "❌ Backend directory not found: ${{ env.BACKEND_DIR }}"
+          }
+          
           echo "Frontend directory content:"
-          dir "${{ env.FRONTEND_DIR }}" /s
+          if (Test-Path "${{ env.FRONTEND_DIR }}") {
+            Get-ChildItem "${{ env.FRONTEND_DIR }}" -Recurse | Select-Object Name, Length, FullName | Format-Table -AutoSize
+          } else {
+            echo "❌ Frontend directory not found: ${{ env.FRONTEND_DIR }}"
+          }
 
       - name: Setup Java for E2E Tests
         uses: actions/setup-java@v5
@@ -36,7 +45,8 @@ jobs:
       - name: Start Backend Server from Build Output
         run: |
           echo "🚀 Starting Backend from build output..."
-          cd "${{ env.BACKEND_DIR }}"
+          Set-Location "${{ env.BACKEND_DIR }}"
+          echo "Current directory: $(Get-Location)"
           
           # Check for common backend executable patterns
           $backendFiles = @("POS.Web.dll", "POS.Web.exe", "app.dll", "app.exe")
@@ -52,7 +62,7 @@ jobs:
           
           if (!$foundFile) {
             echo "❌ No backend executable found. Available files:"
-            Get-ChildItem -File | Format-Table Name, Length
+            Get-ChildItem -File | Select-Object Name, Length | Format-Table -AutoSize
             exit 1
           }
           
@@ -93,7 +103,8 @@ jobs:
       - name: Serve Frontend from Build Output
         run: |
           echo "🌐 Serving Frontend from build output..."
-          cd "${{ env.FRONTEND_DIR }}"
+          Set-Location "${{ env.FRONTEND_DIR }}"
+          echo "Current directory: $(Get-Location)"
           
           # Check for built frontend files
           $distDirs = @("dist", "build", "output", "wwwroot")
@@ -109,7 +120,7 @@ jobs:
           
           if (!$foundDist) {
             echo "❌ No frontend build directory found. Available directories:"
-            Get-ChildItem -Directory | Format-Table Name
+            Get-ChildItem -Directory | Select-Object Name | Format-Table -AutoSize
             exit 1
           }
           
