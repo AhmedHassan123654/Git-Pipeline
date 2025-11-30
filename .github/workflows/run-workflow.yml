@@ -3,8 +3,6 @@ name: CI Pipeline
 on:
   push:
     branches: [master, main]
-  pull_request:
-    branches: [master, main]
 
 jobs:
   build:
@@ -13,35 +11,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Detect and Build Project
+      - name: Debug - Check Secret
         run: |
-          echo "جاري اكتشاف نوع المشروع والبناء..."
-          
-          if [ -f "pom.xml" ]; then
-            echo "مشروع Maven - جاري البناء..."
-            mvn clean compile -q
-          elif [ -f "package.json" ]; then
-            echo "مشروع Node.js - جاري البناء..."
-            npm install
-            if grep -q "\"build\"" package.json; then
-              npm run build
-            fi
-          elif [ -f "requirements.txt" ]; then
-            echo "مشروع Python - جاري تثبيت المتطلبات..."
-            pip install -r requirements.txt
+          echo "🔍 Checking if PAT secret is available..."
+          if [ -n "${{ secrets.PROJECT_B_PAT }}" ]; then
+            echo "✅ PAT secret is available"
           else
-            echo "مشروع بسيط - التحقق من الملفات الأساسية..."
-            ls -la
+            echo "❌ PAT secret is MISSING"
           fi
-          
-          echo "✅ البناء اكتمل بنجاح!"
 
       - name: Trigger Project B
         run: |
-          curl -L \
+          echo "🚀 Attempting to trigger Project B..."
+          response=$(curl -s -L -w "%{http_code}" \
             -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: Bearer ${{ secrets.PROJECT_B_PAT }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/teamtester60-code/Full-Test-Case/dispatches \
-            -d '{"event_type":"project-a-trigger"}'
+            -d '{"event_type":"project-a-trigger"}' \
+            -o response_body.txt)
+          
+          echo "Response Code: $response"
+          echo "Response Body:"
+          cat response_body.txt
