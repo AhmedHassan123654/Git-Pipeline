@@ -18,12 +18,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20
+      - name: إعداد Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
-          cache-dependency-path: ${{ env.FRONTEND_DIR }}/package-lock.json
+            node-version: '18'
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -112,50 +110,13 @@ jobs:
           
           echo "✅ Critical files check completed"
 
-      - name: Try Angular Build with Different Approaches
+      - name: Build Frontend Application
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Attempting Angular build..."
-          
-          # المحاولة الأولى: بناء عادي
-          echo "1. Trying normal build..."
-          ng build --configuration production --output-path=dist/POS || (
-            echo "❌ Normal build failed, trying with stricter TypeScript..."
-            # المحاولة الثانية: مع تعطيل بعض فحوصات TypeScript
-            ng build --configuration production --output-path=dist/POS --no-strict
-          )
-          
-          # التحقق من النجاح
-          if (Test-Path "dist/POS/index.html") {
-            echo "✅ Angular build successful!"
-            echo "Build output:"
-            Get-ChildItem "dist/POS" -Recurse | Format-Table Name, Length
-          } else {
-            echo "❌ All build attempts failed"
-            echo "Available files:"
-            Get-ChildItem . -Recurse -Include *.json, *.ts, *.js | Format-Table Name, Length
-            exit 1
-          }
-
-      - name: Alternative Build Approach
-        working-directory: ${{ env.FRONTEND_DIR }}
-        if: failure()
-        run: |
-          echo "Trying alternative build approach..."
-          
-          # تنظيف شامل
-          Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue
-          Remove-Item -Recurse -Force .angular -ErrorAction SilentlyContinue
-          
-          # بناء مع إعدادات أكثر تساهلاً
-          npx ng build --configuration production --output-path=dist/POS --source-map=false --optimization=false
-          
-          if (Test-Path "dist/POS/index.html") {
-            echo "✅ Alternative build successful!"
-          } else {
-            echo "❌ Alternative build also failed"
-            exit 1
-          }
+          echo "Building frontend application..."
+          ng build --configuration production --output-path=dist/POS --aot --build-optimizer
+          echo "✅ Frontend build completed"
+        
 
       - name: Install Serve and Start Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
