@@ -11,7 +11,7 @@ jobs:
     env:
       BACKEND_DIR: POS-19-10-2025/POS-BackPublish
       FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
-      BACKEND_URL: http://localhost:5000  # تغيير المنفذ إلى 5000
+      BACKEND_URL: http://localhost:56740  # تغيير المنفذ إلى 5000
       FRONTEND_URL: http://localhost:4200
 
     steps:
