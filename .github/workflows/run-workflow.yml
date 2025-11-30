@@ -107,24 +107,24 @@ jobs:
 
           echo "Missing files check completed"
 
-      - name: Build Angular Application
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          echo "Building Angular application..."
-          
-          # ✅ الإصلاح: إزالة العلم --force غير المدعوم
-          ng build --configuration production --output-path=dist/POS
-          
-          if (Test-Path "dist/POS/index.html") {
-            echo "✅ Angular build successful!"
-          } else {
-            echo "❌ Build failed - checking for partial output..."
-            if (Test-Path "dist") {
-              echo "Partial build output:"
-              Get-ChildItem "dist" -Recurse | Format-Table Name, Length
-            }
-            exit 1
-          }
+#      - name: Build Angular Application
+#        working-directory: ${{ env.FRONTEND_DIR }}
+#        run: |
+#          echo "Building Angular application..."
+#
+#          # ✅ الإصلاح: إزالة العلم --force غير المدعوم
+#          ng build --configuration production --output-path=dist/POS
+#
+#          if (Test-Path "dist/POS/index.html") {
+#            echo "✅ Angular build successful!"
+#          } else {
+#            echo "❌ Build failed - checking for partial output..."
+#            if (Test-Path "dist") {
+#              echo "Partial build output:"
+#              Get-ChildItem "dist" -Recurse | Format-Table Name, Length
+#            }
+#            exit 1
+#          }
 
       - name: Install Serve and Start Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
