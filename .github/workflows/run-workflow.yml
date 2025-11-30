@@ -34,52 +34,61 @@ jobs:
           cache: maven
 
       - name: Start Backend Server from Build Output
-        working-directory: $env:BACKEND_DIR
         run: |
-          echo "🚀 Starting Backend from build output..."
-          
-          # Check for common backend executable patterns
-          $backendFiles = @("POS.Web.dll", "POS.Web.exe", "app.dll", "app.exe", "*.dll", "*.exe")
-          $foundFile = $null
-          
-          foreach ($file in $backendFiles) {
-            if (Test-Path $file) {
-              $foundFile = (Get-ChildItem $file).Name
-              echo "✅ Found backend file: $foundFile"
-              break
-            }
-          }
-          
-          if (!$foundFile) {
-            echo "❌ No backend executable found. Available files:"
-            Get-ChildItem -Recurse | Format-Table Name, Length
-            exit 1
-          }
-          
-          # Try different ways to start the backend
-          echo "Starting backend with file: $foundFile"
-          
-          if ($foundFile -like "*.dll") {
-            # .NET Core application
-            dotnet $foundFile --urls="http://localhost:5000" 2>&1 | Tee-Object -FilePath "backend_output.log"
-          } elseif ($foundFile -like "*.exe") {
-            # Windows executable
-            Start-Process -NoNewWindow -FilePath ".\$foundFile" -ArgumentList "--urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
-          }
-          
-          # Wait for backend to start
-          for ($i = 1; $i -le 30; $i++) {
-            try {
-              $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2
-              if ($response.StatusCode -eq 200) {
-                echo "✅ Backend is responding on port 5000!"
+            echo "🚀 Starting Backend from build output..."
+            cd ${{ env.BACKEND_DIR }}
+            
+            # Check for common backend executable patterns
+            $backendFiles = @("POS.Web.dll", "POS.Web.exe", "app.dll", "app.exe", "*.dll", "*.exe")
+            $foundFile = $null
+            
+            foreach ($file in $backendFiles) {
+              if (Test-Path $file) {
+                $foundFile = (Get-ChildItem $file).Name
+                echo "✅ Found backend file: $foundFile"
                 break
               }
-            } catch {
-              echo "Waiting for backend... ($i/30)"
-              Start-Sleep -Seconds 2
             }
-          }
+            
+            if (!$foundFile) {
+              echo "❌ No backend executable found. Available files:"
+              Get-ChildItem -Recurse | Format-Table Name, Length
+              exit 1
+            }
+            
+            # Try different ways to start the backend
+            echo "Starting backend with file: $foundFile"
+            
+            if ($foundFile -like "*.dll") {
+              # .NET Core application
+              Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "$foundFile --urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
+            } elseif ($foundFile -like "*.exe") {
+              # Windows executable
+              Start-Process -NoNewWindow -FilePath ".\$foundFile" -ArgumentList "--urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
+            }
+            
+            # Wait for backend to start
+            for ($i = 1; $i -le 30; $i++) {
+              try {
+                $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2
+                if ($response.StatusCode -eq 200) {
+                  echo "✅ Backend is responding on port 5000!"
+                  break
+                }
+              } catch {
+                if ($i -eq 1) {
+                  echo "Backend starting..."
+                }
+                Start-Sleep -Seconds 2
+              }
+              if ($i -eq 30) {
+                echo "❌ Backend failed to start within 60 seconds"
+                if (Test-Path "backend_error.log") {
+                  echo "Backend error log:"
+                  Get-Content "backend_error.log"
+                }
+              }
+            }
 
       - name: Serve Frontend from Build Output
         working-directory: $env:FRONTEND_DIR
