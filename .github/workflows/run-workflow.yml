@@ -105,7 +105,13 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           echo "Installing frontend dependencies..."
-          npm ci --legacy-peer-deps --no-audit
+
+          # تنظيف أي تثبيت سابق
+          Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
+          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
+
+          # تثبيت dependencies مع تجاهل أخطاء peer dependencies
+          npm install --legacy-peer-deps --no-audit --force
           echo "Dependencies installed successfully"
 
       - name: Build Angular Application
