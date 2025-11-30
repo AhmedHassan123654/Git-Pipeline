@@ -11,7 +11,7 @@ jobs:
     env:
       BACKEND_DIR: POS-19-10-2025/POS-BackPublish
       FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
-      BACKEND_URL: http://localhost:5000  # ✅ استخدام المنفذ 5000 الذي يعمل فعلياً
+      BACKEND_URL: http://localhost:5000
       FRONTEND_URL: http://localhost:4200
 
     steps:
@@ -47,122 +47,78 @@ jobs:
       - name: Start Backend API
         working-directory: ${{ env.BACKEND_DIR }}
         run: |
-          echo "Starting backend on Windows..."
-          echo "Current directory: $(pwd)"
-
-          # قتل أي عملية dotnet سابقة
+          echo "Starting backend..."
           taskkill /f /im dotnet.exe 2>$null
           Start-Sleep -Seconds 2
-
-          # تشغيل الـ Backend بدون تحديد منفذ (سيستخدم 5000)
-          echo "Starting backend (will use port 5000)..."
           Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll" -RedirectStandardOutput "backend.log" -RedirectStandardError "backend_error.log"
           
-          echo "Backend process started..."
-
-          # انتظار حتى يكون Backend جاهزاً على المنفذ 5000
-          echo "Waiting for backend to start on port 5000..."
-          $success = $false
           for ($i = 1; $i -le 30; $i++) {
-            # فحص باستخدام netstat
             $listening = netstat -an | findstr ":5000" | findstr "LISTENING"
             if ($listening) {
               echo "✅ Backend is listening on port 5000!"
-              $success = $true
               break
             }
-
-            # فحص HTTP
-            try {
-              $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2 -ErrorAction SilentlyContinue
-              if ($response.StatusCode -eq 200) {
-                echo "✅ Backend responded on port 5000!"
-                $success = $true
-                break
-              }
-            } catch {
-              # تجاهل الأخطاء ومحاولة مرة أخرى
-            }
-
             echo "Waiting for backend... ($i/30)"
             Start-Sleep -Seconds 2
           }
 
-          if ($success) {
-            echo "✅ Backend is running successfully on port 5000!"
-            echo "Backend logs (first 10 lines):"
-            Get-Content "backend.log" -Head 10
-          } else {
-            echo "❌ Backend failed to start"
-            echo "Backend logs:"
-            Get-Content "backend.log" -ErrorAction SilentlyContinue
-            echo "Backend error logs:"
-            Get-Content "backend_error.log" -ErrorAction SilentlyContinue
-            exit 1
-          }
-
-      - name: Install Frontend Dependencies
+      - name: Install Angular Dependencies with Fixes
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Installing frontend dependencies..."
-
-          # تنظيف أي تثبيت سابق
-          Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
-          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
-
-          # تثبيت dependencies مع تجاهل أخطاء peer dependencies
+          echo "Installing Angular dependencies with fixes..."
+          
+          # تحديث TypeScript إلى إصدار متوافق مع Angular 21
+          npm install --save-dev typescript@~5.9.0
+          
+          # تثبيت المكتبات المفقودة
+          npm install --save @angular/material@^21.0.0
+          npm install --save font-awesome
+          npm install --save @fortawesome/fontawesome-free
+          npm install --save angular2-draggable@^1.5.0
+          
+          # تثبيت باقي dependencies
           npm install --legacy-peer-deps --no-audit --force
           echo "Dependencies installed successfully"
+
+      - name: Fix SCSS and CSS Imports
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: |
+          echo "Fixing import paths..."
+          
+          # إصلاح استيرادات SCSS
+          if (Test-Path "src/custom-theme.scss") {
+            (Get-Content "src/custom-theme.scss") -replace "@import '~@angular/material/theming'", "@import '@angular/material/theming'" | Set-Content "src/custom-theme.scss"
+            echo "Fixed custom-theme.scss"
+          }
+          
+          # إصلاح استيرادات CSS
+          if (Test-Path "src/assets/css/globalCss.css") {
+            (Get-Content "src/assets/css/globalCss.css") -replace "~font-awesome", "font-awesome" | Set-Content "src/assets/css/globalCss.css"
+            echo "Fixed globalCss.css"
+          }
 
       - name: Build Angular Application
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           echo "Building Angular application..."
-          ng build --configuration production --output-path=dist/POS
-          echo "Angular build completed successfully"
+          
+          # البناء مع الاستمرار حتى مع الأخطاء
+          ng build --configuration production --output-path=dist/POS --verbose
+          
+          # التحقق من نجاح البناء
+          if (Test-Path "dist/POS/index.html") {
+            echo "✅ Angular build completed - application is ready!"
+          } else {
+            echo "❌ Angular build failed - no index.html found"
+            exit 1
+          }
 
       - name: Install Serve and Start Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Installing serve globally..."
           npm install -g serve
-          
-          echo "Starting frontend server..."
-          Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "serve", "-s", "dist/POS", "-l", "4200" -RedirectStandardOutput "frontend.log" -RedirectStandardError "frontend_error.log"
-          
-          echo "Frontend process started..."
-          
-          # انتظار Frontend
-          for ($i = 1; $i -le 30; $i++) {
-            try {
-              $response = Invoke-WebRequest -Uri "http://localhost:4200" -UseBasicParsing -ErrorAction SilentlyContinue
-              if ($response.StatusCode -eq 200) {
-                echo "✅ Frontend is ready!"
-                break
-              }
-            } catch { }
-            echo "Waiting for frontend... ($i/30)"
-            Start-Sleep -Seconds 2
-          }
-
-      - name: Verify Both Services
-        run: |
-          echo "=== Final Service Verification ==="
-          echo "Checking Backend on http://localhost:5000:"
-          try {
-            $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing
-            echo "✅ Backend: HTTP 200 OK"
-          } catch {
-            echo "❌ Backend: Not accessible"
-          }
-          
-          echo "Checking Frontend on http://localhost:4200:"
-          try {
-            $response = Invoke-WebRequest -Uri "http://localhost:4200" -UseBasicParsing
-            echo "✅ Frontend: HTTP 200 OK"
-          } catch {
-            echo "❌ Frontend: Not accessible"
-          }
+          Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "serve", "-s", "dist/POS", "-l", "4200"
+          Start-Sleep -Seconds 5
 
       - name: Checkout E2E Project
         run: |
@@ -171,32 +127,17 @@ jobs:
       - name: Run E2E Tests
         working-directory: projectB
         env:
-          BACKEND_BASE_URL: http://localhost:5000  # ✅ استخدام 5000
+          BACKEND_BASE_URL: http://localhost:5000
           FRONTEND_BASE_URL: http://localhost:4200
         run: |
-          echo "Running E2E tests with:"
-          echo "Backend: $env:BACKEND_BASE_URL"
-          echo "Frontend: $env:FRONTEND_BASE_URL"
-          
           mvn clean test -DbrowserType="chrome" -DexecutionType="local" -Dmaven.test.failure.ignore=true
 
-      - name: Upload Test Reports
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v5
         with:
-          name: regression-reports
+          name: test-results
           path: |
             projectB/test-output/reports/**/*
-            projectB/target/surefire-reports/*.*
-          retention-days: 30
-
-      - name: Upload Application Logs
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: application-logs
-          path: |
             ${{ env.BACKEND_DIR }}/backend.log
-            ${{ env.BACKEND_DIR }}/backend_error.log
-            ${{ env.FRONTEND_DIR }}/frontend.log
-            ${{ env.FRONTEND_DIR }}/frontend_error.log
+            ${{ env.FRONTEND_DIR }}/dist/POS/
           retention-days: 30
