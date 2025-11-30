@@ -15,119 +15,158 @@ jobs:
       FRONTEND_URL: http://localhost:4200
 
     steps:
-      - name: التحقق من المستودع
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: إعداد بيئة Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.20.x'
+      - name: Verify Build Output Structure
+        run: |
+          echo "🔍 Checking build output structure..."
+          echo "Backend directory content:"
+          Get-ChildItem $env:BACKEND_DIR -Recurse | Select-Object Name, Length | Format-Table
+          echo "Frontend directory content:"
+          Get-ChildItem $env:FRONTEND_DIR -Recurse | Select-Object Name, Length | Format-Table
 
-      - name: إعداد Java
+      - name: Setup Java for E2E Tests
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
           cache: maven
 
-      - name: إعداد .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: |
-            3.1.x
-            6.0.x
-
-      - name: تثبيت Angular CLI
-        run: npm install -g @angular/cli@12.2.17
-
-      - name: بناء Frontend أولاً
-        working-directory: ${{ env.FRONTEND_DIR }}
+      - name: Start Backend Server from Build Output
+        working-directory: $env:BACKEND_DIR
         run: |
-          echo "جاري بناء الـ Frontend..."
-          npm install --legacy-peer-deps --force
-          ng build --configuration=production --source-map=false
-
-      - name: تشغيل Backend API
-        working-directory: ${{ env.BACKEND_DIR }}
-        run: |
-          echo "بدء تشغيل الـ Backend..."
-          taskkill /f /im dotnet.exe 2>$null
-          Start-Sleep -Seconds 2
-          echo "تشغيل تطبيق الـ Backend..."
-          Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll" -RedirectStandardOutput "backend.log" -RedirectStandardError "backend_error.log"
+          echo "🚀 Starting Backend from build output..."
           
-          # الانتظار حتى يكون الـ Backend جاهزاً
-          for ($i = 1; $i -le 30; $i++) {
-            $listening = netstat -an | findstr ":5000" | findstr "LISTENING"
-            if ($listening) {
-              echo "✅ الـ Backend يعمل على المنفذ 5000!"
+          # Check for common backend executable patterns
+          $backendFiles = @("POS.Web.dll", "POS.Web.exe", "app.dll", "app.exe", "*.dll", "*.exe")
+          $foundFile = $null
+          
+          foreach ($file in $backendFiles) {
+            if (Test-Path $file) {
+              $foundFile = (Get-ChildItem $file).Name
+              echo "✅ Found backend file: $foundFile"
               break
             }
-            echo "في انتظار الـ Backend... ($i/30)"
-            Start-Sleep -Seconds 2
           }
           
-          # التحقق النهائي
-          if (!(netstat -an | findstr ":5000" | findstr "LISTENING")) {
-            echo "❌ فشل في تشغيل الـ Backend"
-            Get-Content backend_error.log -ErrorAction SilentlyContinue
+          if (!$foundFile) {
+            echo "❌ No backend executable found. Available files:"
+            Get-ChildItem -Recurse | Format-Table Name, Length
             exit 1
           }
-
-      - name: تشغيل Frontend Server
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          echo "بدء تشغيل الـ Frontend على المنفذ 4200..."
-          start /B ng serve --port 4200 --host 0.0.0.0
           
-          # الانتظار حتى يكون الـ Frontend جاهزاً
-          for ($i = 1; $i -le 20; $i++) {
-            $listening = netstat -an | findstr ":4200" | findstr "LISTENING"
-            if ($listening) {
-              echo "✅ الـ Frontend يعمل على المنفذ 4200!"
-              break
+          # Try different ways to start the backend
+          echo "Starting backend with file: $foundFile"
+          
+          if ($foundFile -like "*.dll") {
+            # .NET Core application
+            dotnet $foundFile --urls="http://localhost:5000" 2>&1 | Tee-Object -FilePath "backend_output.log"
+          } elseif ($foundFile -like "*.exe") {
+            # Windows executable
+            Start-Process -NoNewWindow -FilePath ".\$foundFile" -ArgumentList "--urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
+          }
+          
+          # Wait for backend to start
+          for ($i = 1; $i -le 30; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2
+              if ($response.StatusCode -eq 200) {
+                echo "✅ Backend is responding on port 5000!"
+                break
+              }
+            } catch {
+              echo "Waiting for backend... ($i/30)"
+              Start-Sleep -Seconds 2
             }
-            echo "في انتظار الـ Frontend... ($i/20)"
-            Start-Sleep -Seconds 3
           }
 
-      - name: التحقق من الخدمات قيد التشغيل
+      - name: Serve Frontend from Build Output
+        working-directory: $env:FRONTEND_DIR
         run: |
-          echo "التحقق من الخدمات النشطة:"
-          echo "- Backend: http://localhost:5000"
-          echo "- Frontend: http://localhost:4200"
-          netstat -an | findstr ":5000" && echo "✅ الـ Backend يعمل" || echo "❌ الـ Backend غير متاح"
-          netstat -an | findstr ":4200" && echo "✅ الـ Frontend يعمل" || echo "❌ الـ Frontend غير متاح"
+          echo "🌐 Serving Frontend from build output..."
+          
+          # Check for built frontend files
+          $distDirs = @("dist", "build", "output", "wwwroot")
+          $foundDist = $null
+          
+          foreach ($dir in $distDirs) {
+            if (Test-Path $dir) {
+              $foundDist = $dir
+              echo "✅ Found frontend build directory: $foundDist"
+              break
+            }
+          }
+          
+          if (!$foundDist) {
+            echo "❌ No frontend build directory found. Available directories:"
+            Get-ChildItem -Directory | Format-Table Name
+            exit 1
+          }
+          
+          # Install and use a simple HTTP server to serve the built files
+          npm install -g http-server
+          echo "Starting HTTP server for frontend on port 4200..."
+          Start-Process -NoNewWindow -FilePath "http-server" -ArgumentList "$foundDist -p 4200 -a 0.0.0.0" -RedirectStandardOutput "frontend_output.log"
 
-      - name: التحقق من مشروع E2E
+      - name: Wait for Services to Be Ready
+        run: |
+          echo "⏳ Waiting for services to be fully ready..."
+          Start-Sleep -Seconds 10
+          
+          echo "📊 Service Status:"
+          echo "Backend: http://localhost:5000"
+          echo "Frontend: http://localhost:4200"
+          
+          netstat -an | findstr ":5000" && echo "✅ Backend port 5000 is listening" || echo "❌ Backend port not listening"
+          netstat -an | findstr ":4200" && echo "✅ Frontend port 4200 is listening" || echo "❌ Frontend port not listening"
+
+      - name: Clone E2E Test Project
         run: |
           git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
 
-      - name: تشغيل اختبارات E2E
+      - name: Run E2E Tests
         working-directory: projectB
         env:
           BACKEND_BASE_URL: http://localhost:5000
           FRONTEND_BASE_URL: http://localhost:4200
         run: |
-          echo "بدء اختبارات E2E..."
-          echo "رابط الـ Backend: $env:BACKEND_BASE_URL"
-          echo "رابط الـ Frontend: $env:FRONTEND_BASE_URL"
+          echo "🧪 Starting E2E Tests..."
+          echo "Backend URL: $env:BACKEND_BASE_URL"
+          echo "Frontend URL: $env:FRONTEND_BASE_URL"
+          
+          # Test service connectivity before running tests
+          try {
+            $backendTest = Invoke-WebRequest -Uri "$env:BACKEND_BASE_URL" -UseBasicParsing -TimeoutSec 5
+            echo "✅ Backend is accessible"
+          } catch {
+            echo "❌ Backend is not accessible: $($_.Exception.Message)"
+          }
+          
+          try {
+            $frontendTest = Invoke-WebRequest -Uri "$env:FRONTEND_BASE_URL" -UseBasicParsing -TimeoutSec 5
+            echo "✅ Frontend is accessible"
+          } catch {
+            echo "❌ Frontend is not accessible: $($_.Exception.Message)"
+          }
+          
+          # Run E2E tests
           mvn clean test -DbrowserType="chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
-      - name: رفع النتائج والملفات
+      - name: Upload Test Results and Logs
         uses: actions/upload-artifact@v5
         if: always()
         with:
-          name: test-results
+          name: e2e-test-results
           path: |
             projectB/target/surefire-reports/**/*
-            ${{ env.BACKEND_DIR }}/backend.log
-            ${{ env.BACKEND_DIR }}/backend_error.log
-            ${{ env.FRONTEND_DIR }}/dist/
+            $env:BACKEND_DIR/backend_output.log
+            $env:BACKEND_DIR/backend_error.log
+            $env:FRONTEND_DIR/frontend_output.log
           retention-days: 30
 
-      - name: عرض ملخص التنفيذ
+      - name: Final Status Report
         if: always()
         run: |
-          echo "🎯 تم الانتهاء من تنفيذ الاختبارات"
-          echo "📊 التقارير متاحة في قسم Artifacts"
+          echo "🎯 E2E Test Pipeline Execution Completed"
+          echo "📁 Test reports uploaded as artifact: e2e-test-results"
