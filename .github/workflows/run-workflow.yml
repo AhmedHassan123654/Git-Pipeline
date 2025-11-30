@@ -62,89 +62,63 @@ jobs:
             Start-Sleep -Seconds 2
           }
 
-      - name: Fix TypeScript Correctly
+      - name: Clean and Prepare Frontend
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Fixing TypeScript with correct version..."
-          
-          # تنظيف
-          Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
-          Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
-          
-          # استخدام إصدار TypeScript محدد ومتوفر
-          (Get-Content "package.json" -Raw) -replace '"typescript": "[^"]*"', '"typescript": "5.9.3"' | Set-Content "package.json"
-          
-          echo "Package.json updated successfully"
-          
-          # التثبيت
-          npm install --legacy-peer-deps --no-audit
-          
-          # التحقق
-          echo "TypeScript version check:"
-          npm list typescript
-
-      - name: Complete Angular Fix
-        working-directory: ${{ env.FRONTEND_DIR }}
-        run: |
-          echo "Performing complete Angular fix..."
-
-          # تنظيف كامل
+          echo "Cleaning frontend dependencies..."
           Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
           Remove-Item -Force package-lock.json -ErrorAction SilentlyContinue
 
-          # تحديث package.json يدوياً
-          $packageJson = Get-Content "package.json" -Raw | ConvertFrom-Json
-          $packageJson.devDependencies.typescript = "5.9.3"
-          $packageJson | ConvertTo-Json -Depth 20 | Set-Content "package.json"
-
-          echo "Updated package.json with TypeScript 5.9.3"
+      - name: Update TypeScript Version
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: |
+          echo "Updating TypeScript to compatible version..."
+          npm install typescript@~5.9.3 --save-dev --legacy-peer-deps
 
       - name: Install Dependencies
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Installing dependencies..."
+          echo "Installing dependencies with legacy peer deps..."
           npm install --legacy-peer-deps --no-audit
-
-          # التحقق من الإصدارات
-          echo "TypeScript version:"
-          npm list typescript
-          echo "Angular version:"
-          ng version
+          
+          echo "Dependency versions:"
+          npm list typescript @angular/core @angular/cli
 
       - name: Create Missing Files
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
-          echo "Creating all missing required files..."
+          echo "Creating missing required files..."
 
-          # إنشاء المجلدات المفقودة
+          # إنشاء المجلدات المطلوبة
           New-Item -ItemType Directory -Force -Path "src/assets/css"
-          New-Item -ItemType Directory -Force -Path "node_modules/@fortawesome/fontawesome-free/css"
-          New-Item -ItemType Directory -Force -Path "node_modules/@syncfusion/ej2-base/styles"
-          New-Item -ItemType Directory -Force -Path "node_modules/angular2-draggable/css"
+          New-Item -ItemType Directory -Force -Path "node_modules/@fortawesome/fontawesome-free/css" -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path "node_modules/@syncfusion/ej2-base/styles" -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path "node_modules/angular2-draggable/css" -ErrorAction SilentlyContinue
 
-          # إنشاء ملفات CSS فارغة
+          # إنشاء ملفات CSS فارغة إذا كانت مفقودة
           $emptyContent = "/* Empty file for successful build */"
-          $emptyContent | Set-Content "src/assets/css/globalCss.css"
-          $emptyContent | Set-Content "src/custom-theme.scss"
-          $emptyContent | Set-Content "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-          $emptyContent | Set-Content "node_modules/@syncfusion/ej2-base/styles/material.css"
-          $emptyContent | Set-Content "node_modules/angular2-draggable/css/resizable.min.css"
+          
+          if (!(Test-Path "src/assets/css/globalCss.css")) {
+              $emptyContent | Set-Content "src/assets/css/globalCss.css"
+          }
+          if (!(Test-Path "src/custom-theme.scss")) {
+              $emptyContent | Set-Content "src/custom-theme.scss"
+          }
 
-          echo "All missing files created"
+          echo "Missing files check completed"
 
       - name: Build Angular Application
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           echo "Building Angular application..."
-
-          # البناء مع الاستمرار رغم الأخطاء
-          ng build --configuration production --output-path=dist/POS --force
-
+          
+          # ✅ الإصلاح: إزالة العلم --force غير المدعوم
+          ng build --configuration production --output-path=dist/POS
+          
           if (Test-Path "dist/POS/index.html") {
             echo "✅ Angular build successful!"
           } else {
             echo "❌ Build failed - checking for partial output..."
-            # التحقق من أي ملفات تم بناؤها
             if (Test-Path "dist") {
               echo "Partial build output:"
               Get-ChildItem "dist" -Recurse | Format-Table Name, Length
@@ -156,8 +130,17 @@ jobs:
         working-directory: ${{ env.FRONTEND_DIR }}
         run: |
           npm install -g serve
+          echo "Starting frontend server..."
           Start-Process -NoNewWindow -FilePath "npx" -ArgumentList "serve", "-s", "dist/POS", "-l", "4200"
-          Start-Sleep -Seconds 5
+          Start-Sleep -Seconds 10
+          
+          # التحقق من أن الواجهة الأمامية تعمل
+          $response = Invoke-WebRequest -Uri "http://localhost:4200" -UseBasicParsing -ErrorAction SilentlyContinue
+          if ($response.StatusCode -eq 200) {
+              echo "✅ Frontend is running on port 4200!"
+          } else {
+              echo "⚠️ Frontend may not be fully ready"
+          }
 
       - name: Checkout E2E Project
         run: |
