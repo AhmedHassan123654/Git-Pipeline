@@ -22,9 +22,9 @@ jobs:
         run: |
           echo "🔍 Checking build output structure..."
           echo "Backend directory content:"
-          Get-ChildItem $env:BACKEND_DIR -Recurse | Select-Object Name, Length | Format-Table
+          dir "${{ env.BACKEND_DIR }}" /s
           echo "Frontend directory content:"
-          Get-ChildItem $env:FRONTEND_DIR -Recurse | Select-Object Name, Length | Format-Table
+          dir "${{ env.FRONTEND_DIR }}" /s
 
       - name: Setup Java for E2E Tests
         uses: actions/setup-java@v5
@@ -35,65 +35,65 @@ jobs:
 
       - name: Start Backend Server from Build Output
         run: |
-            echo "🚀 Starting Backend from build output..."
-            cd ${{ env.BACKEND_DIR }}
-            
-            # Check for common backend executable patterns
-            $backendFiles = @("POS.Web.dll", "POS.Web.exe", "app.dll", "app.exe", "*.dll", "*.exe")
-            $foundFile = $null
-            
-            foreach ($file in $backendFiles) {
-              if (Test-Path $file) {
-                $foundFile = (Get-ChildItem $file).Name
-                echo "✅ Found backend file: $foundFile"
+          echo "🚀 Starting Backend from build output..."
+          cd "${{ env.BACKEND_DIR }}"
+          
+          # Check for common backend executable patterns
+          $backendFiles = @("POS.Web.dll", "POS.Web.exe", "app.dll", "app.exe")
+          $foundFile = $null
+          
+          foreach ($file in $backendFiles) {
+            if (Test-Path $file) {
+              $foundFile = $file
+              echo "✅ Found backend file: $foundFile"
+              break
+            }
+          }
+          
+          if (!$foundFile) {
+            echo "❌ No backend executable found. Available files:"
+            Get-ChildItem -File | Format-Table Name, Length
+            exit 1
+          }
+          
+          # Try different ways to start the backend
+          echo "Starting backend with file: $foundFile"
+          
+          if ($foundFile -like "*.dll") {
+            # .NET Core application
+            Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "$foundFile --urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
+          } elseif ($foundFile -like "*.exe") {
+            # Windows executable
+            Start-Process -NoNewWindow -FilePath ".\$foundFile" -ArgumentList "--urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
+          }
+          
+          # Wait for backend to start
+          for ($i = 1; $i -le 30; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2
+              if ($response.StatusCode -eq 200) {
+                echo "✅ Backend is responding on port 5000!"
                 break
               }
-            }
-            
-            if (!$foundFile) {
-              echo "❌ No backend executable found. Available files:"
-              Get-ChildItem -Recurse | Format-Table Name, Length
-              exit 1
-            }
-            
-            # Try different ways to start the backend
-            echo "Starting backend with file: $foundFile"
-            
-            if ($foundFile -like "*.dll") {
-              # .NET Core application
-              Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "$foundFile --urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
-            } elseif ($foundFile -like "*.exe") {
-              # Windows executable
-              Start-Process -NoNewWindow -FilePath ".\$foundFile" -ArgumentList "--urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
-            }
-            
-            # Wait for backend to start
-            for ($i = 1; $i -le 30; $i++) {
-              try {
-                $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 2
-                if ($response.StatusCode -eq 200) {
-                  echo "✅ Backend is responding on port 5000!"
-                  break
-                }
-              } catch {
-                if ($i -eq 1) {
-                  echo "Backend starting..."
-                }
-                Start-Sleep -Seconds 2
+            } catch {
+              if ($i -eq 1) {
+                echo "Backend starting..."
               }
-              if ($i -eq 30) {
-                echo "❌ Backend failed to start within 60 seconds"
-                if (Test-Path "backend_error.log") {
-                  echo "Backend error log:"
-                  Get-Content "backend_error.log"
-                }
+              Start-Sleep -Seconds 2
+            }
+            if ($i -eq 30) {
+              echo "❌ Backend failed to start within 60 seconds"
+              if (Test-Path "backend_error.log") {
+                echo "Backend error log:"
+                Get-Content "backend_error.log"
               }
             }
+          }
 
       - name: Serve Frontend from Build Output
-        working-directory: $env:FRONTEND_DIR
         run: |
           echo "🌐 Serving Frontend from build output..."
+          cd "${{ env.FRONTEND_DIR }}"
           
           # Check for built frontend files
           $distDirs = @("dist", "build", "output", "wwwroot")
@@ -149,17 +149,18 @@ jobs:
             $backendTest = Invoke-WebRequest -Uri "$env:BACKEND_BASE_URL" -UseBasicParsing -TimeoutSec 5
             echo "✅ Backend is accessible"
           } catch {
-            echo "❌ Backend is not accessible: $($_.Exception.Message)"
+            echo "⚠️ Backend may not be fully ready: $($_.Exception.Message)"
           }
           
           try {
             $frontendTest = Invoke-WebRequest -Uri "$env:FRONTEND_BASE_URL" -UseBasicParsing -TimeoutSec 5
             echo "✅ Frontend is accessible"
           } catch {
-            echo "❌ Frontend is not accessible: $($_.Exception.Message)"
+            echo "⚠️ Frontend may not be fully ready: $($_.Exception.Message)"
           }
           
           # Run E2E tests
+          echo "Running E2E tests..."
           mvn clean test -DbrowserType="chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
 
       - name: Upload Test Results and Logs
@@ -168,10 +169,10 @@ jobs:
         with:
           name: e2e-test-results
           path: |
-            projectB/target/surefire-reports/**/*
-            $env:BACKEND_DIR/backend_output.log
-            $env:BACKEND_DIR/backend_error.log
-            $env:FRONTEND_DIR/frontend_output.log
+            C:\Users\pc\IdeaProjects\FirstProjectFERP\test-output\reports
+            ${{ env.BACKEND_DIR }}/backend_output.log
+            ${{ env.BACKEND_DIR }}/backend_error.log
+            ${{ env.FRONTEND_DIR }}/frontend_output.log
           retention-days: 30
 
       - name: Final Status Report
