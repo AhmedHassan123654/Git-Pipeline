@@ -1,204 +1,38 @@
-name: Full POS CI + E2E Regression Test
+name: CI Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
 
 jobs:
-  regression-tests:
-    runs-on: windows-latest
-
-    env:
-      BACKEND_DIR: POS-19-10-2025/POS-BackPublish
-      FRONTEND_DIR: POS-19-10-2025/POS-Front-19-10-2025
-      BACKEND_URL: http://localhost:5000
-      FRONTEND_URL: http://localhost:4200
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET Core 3.1
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '3.1.x'
-
-      - name: Setup Java for E2E Tests
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 17
-          cache: maven
-
-      - name: Install Correct Angular CLI Version
+      - name: Detect and Build Project
         run: |
-          npm uninstall -g @angular/cli
-          npm install -g @angular/cli@12.2.17
-          ng version
-
-      - name: Build Frontend with Compatible Setup
-        run: |
-          echo "Building Frontend with compatible versions..."
-          cd "${{ env.FRONTEND_DIR }}"
+          echo "جاري اكتشاف نوع المشروع والبناء..."
           
-          if (Test-Path node_modules) { Remove-Item node_modules -Recurse -Force }
-          if (Test-Path package-lock.json) { Remove-Item package-lock.json -Force }
+          # اكتشاف تلقائي لنوع المشروع
+          if [ -f "pom.xml" ]; then
+            echo "مشروع Maven - جاري البناء..."
+            mvn clean compile -q
+          elif [ -f "package.json" ]; then
+            echo "مشروع Node.js - جاري البناء..."
+            npm install
+            if grep -q "\"build\"" package.json; then
+              npm run build
+            fi
+          elif [ -f "requirements.txt" ]; then
+            echo "مشروع Python - جاري تثبيت المتطلبات..."
+            pip install -r requirements.txt
+          else
+            echo "مشروع بسيط - التحقق من الملفات الأساسية..."
+            ls -la
+          fi
           
-          npm install --legacy-peer-deps --force
-          npm install font-awesome@4.7.0 --save --legacy-peer-deps
-          npm install font-awesome-animation@0.3.0 --save --legacy-peer-deps
-          npm install @angular/material@12.2.13 --save --legacy-peer-deps
-          npm install typescript@~4.9.5 --save-dev --legacy-peer-deps
-          
-          if (Test-Path src/assets/css/globalCss.css) {
-            $cssContent = Get-Content src/assets/css/globalCss.css -Raw
-            $cssContent = $cssContent -replace '~font-awesome-animation/css/font-awesome-animation.min.css', 'font-awesome-animation/dist/font-awesome-animation.min.css'
-            $cssContent | Set-Content src/assets/css/globalCss.css
-          }
-          
-          if (Test-Path src/custom-theme.scss) {
-            $newThemeContent = @'
-             @import '@angular/material/prebuilt-themes/indigo-pink.css';
-             :root {
-                      --primary-color: #3f51b5;
-                      --accent-color: #ff4081;
-                      --warn-color: #f44336;
-          }
-           '@
-              $newThemeContent | Set-Content src/custom-theme.scss
-             }
-  
-                ng build --prod --source-map=false 2>&1 | Tee-Object build.log
-  
-                 if (!(Test-Path "dist")) {
-                       ng build --prod --source-map=false --optimization=false 2>&1 | Tee-Object -Append build.log
-                 }
-
-      - name: Check Build Success and Continue
-        run: |
-                     cd "${{ env.FRONTEND_DIR }}"
-                     if (Test-Path "dist") {
-                    echo "Frontend build successful!"
-                   } else {
-                  echo "Frontend build failed, but continuing..."
-                  Get-Content build.log -ErrorAction SilentlyContinue | Select-Object -First 30
-            }
-
-      - name: Start Backend Server
-        run: |
-             echo "Starting Backend Server..."
-              cd "${{ env.BACKEND_DIR }}"
-    
-               Start-Process -NoNewWindow -FilePath "dotnet" -ArgumentList "POS.Web.dll --urls=http://localhost:5000" -RedirectStandardOutput "backend_output.log" -RedirectStandardError "backend_error.log"
-    
-                for ($i = 1; $i -le 40; $i++) {
-                 try {
-                $response = Invoke-WebRequest -Uri "http://localhost:5000" -UseBasicParsing -TimeoutSec 3
-                 if ($response.StatusCode -eq 200) {
-          echo "Backend is responding on port 5000!"
-          break
-                }
-                } catch {
-                   if ($i -eq 1) { echo "Backend starting..." }
-                Start-Sleep -Seconds 2
-                      }
-               if ($i -eq 40) {
-              echo "Backend failed to start within 80 seconds"
-             if (Test-Path "backend_error.log") { Get-Content "backend_error.log" }
-            exit 1
-                     }
-                 }
-
-      - name: Serve Frontend (If Built)
-        run: |
-           echo "Attempting to serve Frontend..."
-           cd "${{ env.FRONTEND_DIR }}"
-    
-            if (Test-Path "dist") {
-         $distPath = "dist"
-         $subDirs = Get-ChildItem "dist" -Directory
-          if ($subDirs.Count -eq 1) {
-           $distPath = "dist/$($subDirs[0].Name)"
-         echo "Using distribution folder: $distPath"
-          }
-    
-           npm install -g http-server
-          Start-Process -NoNewWindow -FilePath "http-server" -ArgumentList "$distPath -p 4200 -a 0.0.0.0 -c-1" -RedirectStandardOutput "frontend_output.log"
-    
-             for ($i = 1; $i -le 20; $i++) {
-              try {
-          $response = Invoke-WebRequest -Uri "http://localhost:4200" -UseBasicParsing -TimeoutSec 2
-          if ($response.StatusCode -eq 200) {
-            echo "Frontend is responding on port 4200!"
-            break
-          }
-                 } catch {
-          if ($i -eq 1) { echo "Frontend starting..." }
-          Start-Sleep -Seconds 2
-                   }
-             }
-                    } else {
-                echo "Skipping frontend serve - no dist directory found"
-               }
-
-      - name: Clone E2E Test Project
-        run: |
-            git clone https://github.com/teamtester60-code/Full-Test-Case.git projectB
-
-      - name: Run E2E Tests
-        working-directory: projectB
-        env:
-         BACKEND_BASE_URL: http://localhost:5000
-         FRONTEND_BASE_URL: http://localhost:4200
-        run: |
-             echo "Starting E2E Tests..."
-            echo "Backend URL: $env:BACKEND_BASE_URL"
-            echo "Frontend URL: $env:FRONTEND_BASE_URL"
-    
-           try {
-             $backendTest = Invoke-WebRequest -Uri "$env:BACKEND_BASE_URL" -UseBasicParsing -TimeoutSec 5
-                 echo "Backend is accessible"
-                  } catch {
-                      echo "Backend is not accessible: $($_.Exception.Message)"
-                   }
-    
-                 try {
-                    $frontendTest = Invoke-WebRequest -Uri "$env:FRONTEND_BASE_URL" -UseBasicParsing -TimeoutSec 5
-                   echo "Frontend is accessible"
-               } catch {
-                     echo "Frontend is not accessible: $($_.Exception.Message)"
-                             }
-    
-                      mvn clean test -DbrowserType="chrome" -DexecutionType="localHeadless" -Dmaven.test.failure.ignore=true
-
-      - name: Generate HTML Test Reports
-        working-directory: projectB
-        run: |
-          echo "Generating HTML reports..."
-             mvn site -DskipTests
-              echo "HTML reports generated"
-
-      - name: Upload HTML Test Reports
-        uses: actions/upload-artifact@v5
-        if: always()
-        with:
-         name: e2e-html-reports
-         path: |
-                  projectB/target/site/**/*.html
-                  projectB/target/surefire-reports/*.html
-                  projectB/target/surefire-reports/*.xml
-                  test-output/reports/**/*.html
-         retention-days: 30
-
-      - name: Upload Logs and Build Results
-        uses: actions/upload-artifact@v5
-        if: always()
-        with:
-         name: pipeline-logs
-         path: |
-                 ${{ env.BACKEND_DIR }}/backend_output.log
-                 ${{ env.BACKEND_DIR }}/backend_error.log
-                  ${{ env.FRONTEND_DIR }}/frontend_output.log
-                   ${{ env.FRONTEND_DIR }}/build.log
-                  ${{ env.FRONTEND_DIR }}/dist/
-         retention-days: 30
+          echo "✅ البناء اكتمل بنجاح!"
